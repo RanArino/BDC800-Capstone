@@ -7,6 +7,22 @@ Repository for "BDC800 - Capstone Project" in Seneca Polytechnic: RAG retrieval 
 - [Nipun Ravindu Fernando Warnakulasuriya]()
 - [Umer Aftab]()
 
+## 🚀� Resources
+
+### Project Documentation
+- [Google Drive: BDC800 - Capstone](https://drive.google.com/drive/folders/1jclLloZ07zzy-dRU02OAHqAbOkTywCYA?usp=sharing) - Project documentation storage
+  - Project Proposal
+  - Final Paper
+  - Presentation Slides
+  - Other submission materials
+
+### Knowledge Management
+- [Notion: Capstone Project Page](https://www.notion.so/Capstone-Project-Page-1755dbaba5c080dbae60fbb4eff2f8bf?pvs=4) - Literature database & note-taking
+  - Research papers and articles
+  - Meeting notes
+  - Project progress tracking
+  - Team collaboration workspace
+
 ## 🚀 Getting Started
 
 ### Clone Repository
