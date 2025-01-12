@@ -4,8 +4,8 @@ Repository for "BDC800 - Capstone Project" in Seneca Polytechnic: RAG retrieval 
 ## 👥 Collaborators
 
 - [Ran Arino](https://github.com/RanArino)
-- [Nipun Ravindu Fernando Warnakulasuriya]()
-- [Umer Aftab]()
+- [Nipun Ravindu Fernando Warnakulasuriya](https://github.com/Nipunfdo-git)
+- [Umer Aftab](https://github.com/uaftab101-git)
 
 ## 📚 Resources
 
