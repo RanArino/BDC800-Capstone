@@ -51,6 +51,13 @@
    - Status: Pre-downloaded
    - Model Card: https://ollama.com/library/phi4
 
+3. **Llama 3.1**
+   - Version: 8B
+   - Paper: https://arxiv.org/abs/2407.21783
+   - Use Case: Multilingual support and long context processing
+   - Status: Pre-downloaded
+   - Model Card: https://ollama.com/library/llama3.1
+
 ### Cloud Models
 1. **Gemini**
    - Version: 8B
