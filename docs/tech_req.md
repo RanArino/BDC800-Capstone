@@ -141,3 +141,17 @@
     - Timing data logging
     - Resource usage logging
     - Performance report generation
+
+## API Requirements
+
+1. **Google AI Studio**
+   - Required for: 
+     - Gemini API access
+     - Google Text Embeddings (model: text-embedding-005)
+   - Setup:
+     - Create project in Google AI Studio
+     - Generate API key
+     - Set as environment variable: `GOOGLE_API_KEY`
+   - Documentation: https://ai.google.dev/tutorials/setup
+   - Rate Limits & Pricing: https://ai.google.dev/pricing
+   - Documentation (Langchain): https://python.langchain.com/docs/integrations/text_embedding/google_generative_ai/
