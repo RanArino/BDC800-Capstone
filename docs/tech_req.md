@@ -91,3 +91,34 @@
   - Local persistence with save_local/load_local
   - Merging capability for multiple indexes
   - Full document content preservation
+
+## Performance Monitoring
+
+### Resource Tracking
+- psutil            # System and process utilities
+  - Use Case: Monitor overall system resource usage
+  - Features:
+    - Process memory consumption
+    - CPU utilization
+    - Disk I/O statistics
+
+### Time Profiling
+- time             # Built-in Python time module
+  - Use Case: Basic phase timing measurement
+  - Features:
+    - Wall-clock time tracking
+    - Simple start/end time calculation
+
+- timeit           # Built-in timing module
+  - Use Case: Function execution time measurement
+  - Features:
+    - Multiple execution averaging
+    - Microsecond precision timing
+
+### Performance Logging
+- logging          # Built-in logging module
+  - Use Case: Record performance metrics
+  - Features:
+    - Timing data logging
+    - Resource usage logging
+    - Performance report generation
