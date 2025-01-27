@@ -58,12 +58,31 @@
    - Status: Pre-downloaded
    - Model Card: https://ollama.com/library/llama3.1
 
-### Cloud Models
-1. **Gemini**
-   - Version: 8B
-   - API Integration: google-generativeai package
-   - Reference: https://ai.google.dev/gemini-api/docs#python
-   - Model Card: https://ai.google.dev/models/gemini
+## Embedding Models
+
+### Local Embeddings
+1. **Multi-QA-MPNet**
+   - Model: sentence-transformers/multi-qa-mpnet-base-cos-v1
+   - Paper: https://aclanthology.org/D19-1410/
+   - Dimensions: 768
+   - Features:
+     - Optimized for semantic search
+     - Trained on 215M question-answer pairs
+     - Mean pooling with cosine similarity
+     - Normalized embeddings
+   - Use Case: Primary embedding model for document chunks
+   - Model Card: https://huggingface.co/sentence-transformers/multi-qa-mpnet-base-cos-v1
+
+### Cloud Embeddings
+1. **Text Embedding 005**
+   - Provider: Google Generative AI
+   - Paper: https://arxiv.org/abs/2403.20327
+   - Features:
+     - State-of-the-art performance
+     - Multilingual support
+     - Context-aware embeddings
+   - Use Case: Alternative embedding model for high-accuracy requirements
+   - Documentation: https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings
 
 ## Vector Store Configuration
 
