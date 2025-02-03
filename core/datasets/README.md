@@ -14,7 +14,7 @@ These datasets focus on retrieving information from within a single document con
   - `documents.csv`: Contains Wikipedia article links
   - `qas.csv`: Question-answer pairs with document references
 - **Dataset Size**: 46,765 QA pairs
-- **Source**: [NarrativeQA Repository](https://github.com/google-deepmind/narrativeqa)
+- **Source**: [NarrativeQA Repository](https://github.com/google-deepmind/narrativeqa) and [HuggingFace](https://huggingface.co/datasets/deepmind/narrativeqa)
 
 #### Qasper (Dasigi et al., 2021)
 - **Description**: Question answering dataset focused on NLP research papers
@@ -37,7 +37,7 @@ These datasets require retrieving and synthesizing information across multiple d
 - **Structure**:
   - `corpus.json`: Web article collection
   - `MultiHopRAG.json`: QA pairs with article references
-- **Source**: [MultiHop-RAG Repository](https://github.com/yixuantt/MultiHop-RAG/)
+- **Source**: [MultiHop-RAG Repository](https://github.com/yixuantt/MultiHop-RAG/) and [HuggingFace](https://huggingface.co/datasets/yixuantt/MultiHopRAG)
 
 #### Fast, Fetch, and Reason (Krishna et al., 2025)
 - **Description**: End-to-end RAG system evaluation dataset
