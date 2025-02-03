@@ -3,8 +3,13 @@
 """
 Common schema definitions for all datasets.
 """
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 from pydantic import BaseModel, Field
+
+class WikipediaContent(BaseModel):
+    title: str
+    content: str
+    error: Optional[str] = None
 
 class Metadata(BaseModel):
     """Metadata for a document. Fields may vary by dataset source."""
