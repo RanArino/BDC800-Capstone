@@ -10,8 +10,10 @@ class Metadata(BaseModel):
     """Metadata for a document. Fields may vary by dataset source."""
     url: Optional[str] = None
     title: Optional[str] = None
-    # Allow additional fields
-    extra_fields: Dict[str, Any] = Field(default_factory=dict)
+    abstract: Optional[str] = None
+    summary: Optional[str] = None
+    category: Optional[str] = None
+    source: Optional[str] = None
 
 class Document(BaseModel):
     """A single document in the knowledge base."""
