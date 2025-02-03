@@ -27,6 +27,7 @@ pydantic==2.10.6
 pydantic_core==2.27.2
 Pygments==2.19.1
 python-dateutil==2.9.0.post0
+PyYAML==6.0.2
 pyzmq==26.2.1
 requests==2.32.3
 six==1.17.0
