@@ -1,3 +1,4 @@
+annotated-types==0.7.0
 appnope==0.1.4
 asttokens==3.0.0
 certifi==2025.1.31
@@ -22,6 +23,8 @@ prompt_toolkit==3.0.50
 psutil==6.1.1
 ptyprocess==0.7.0
 pure_eval==0.2.3
+pydantic==2.10.6
+pydantic_core==2.27.2
 Pygments==2.19.1
 python-dateutil==2.9.0.post0
 pyzmq==26.2.1
@@ -31,5 +34,6 @@ soupsieve==2.6
 stack-data==0.6.3
 tornado==6.4.2
 traitlets==5.14.3
+typing_extensions==4.12.2
 urllib3==2.3.0
 wcwidth==0.2.13
