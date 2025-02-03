@@ -21,8 +21,9 @@ class Document(BaseModel):
 
 class BaseQA(BaseModel):
     """Base class for question-answer pairs."""
-    q: str
-    a: str
+    q: str # question
+    a: str # answer
+    e: Optional[str] # evidence
 
 class IntraDocumentQA(BaseQA):
     """QA pair that references a single source document (e.g., NarrativeQA, Qasper)."""
