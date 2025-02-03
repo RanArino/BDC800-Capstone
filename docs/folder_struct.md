@@ -61,17 +61,15 @@ This document outlines the organization of our RAG framework codebase.
     ├── base.py       # Base dataset class and interfaces
     ├── loader.py     # Utilities for loading external datasets to local storage
     ├── schema.py     # Common schema for all datasets
-    ├── single_doc/   # Datasets for single document search
-    │   ├── narrativeqa/
-    │   │   ├── data.json    # QA pairs with single document context
-    │   │   └── README.md    # Dataset description
-    │   └── ... # other single-doc datasets
-    ├── multi_doc/    # Datasets for multi-document search
-    │   ├── ... 
-    │   └── ... 
-    └── custom/       # Our custom datasets
-        ├── ... 
-        └── ... 
+    └── data/         # Dataset implementations
+        ├── qasper/   # Example dataset with detailed structure
+        │   ├── processor.py    # Dataset-specific processing logic
+        │   ├── analysis.ipynb  # Dataset analysis and exploration
+        │   ├── test.json       # Test data sample
+        │   └── data.json       # Processed dataset (gitignored)
+        ├── narrativeqa/        # Question answering on narrative texts
+        ├── multihoprag/        # Multi-hop reasoning dataset
+        └── frames/             # Frames benchmark dataset
     
 ```
 
@@ -155,9 +153,11 @@ Framework-agnostic dataset management:
 - `base.py`: Base dataset class and interfaces
 - `loader.py`: Helper utilities to load datasets on local storage
 - `schema.py`: Common schema for all datasets
-- `custom/`: Our custom datasets
-- `single_doc/`: Datasets for single document search
-- `multi_doc/`: Datasets for multi-document search
+- `data/`: Dataset implementations
+  - `qasper/`: Intra-document QA dataset about scientific papers
+  - `narrativeqa/`:Intra-document QA on narrative texts
+  - `multihoprag/`: Multi-hop reasoning dataset
+  - `frames/`: Frames benchmark dataset
 
 ## Key Files
 - `constants.py`: Global constants used across operations
