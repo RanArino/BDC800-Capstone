@@ -4,12 +4,18 @@
 MultiHopRAG dataset processor
 """
 
-from datasets import load_dataset
-from tqdm import tqdm
-from core.datasets.base import BaseDataset
-from core.datasets.schema import Document, Metadata, InterDocumentQA, Dataset
 import hashlib
 from typing import Dict
+from tqdm import tqdm
+
+from core.utils import load_hf_dataset
+from core.datasets import (
+    BaseDataset, 
+    Document, 
+    Metadata, 
+    InterDocumentQA, 
+    Dataset
+)
 
 class MultiHopRAG(BaseDataset):
     def __init__(self):
@@ -17,8 +23,8 @@ class MultiHopRAG(BaseDataset):
     
     def _process_raw_data(self):
         """Process raw data from HuggingFace into our schema format"""
-        raw_data_corpus = load_dataset("yixuantt/MultiHopRAG", "corpus", split="train")
-        raw_data_qas = load_dataset("yixuantt/MultiHopRAG", "MultiHopRAG", split="train")
+        raw_data_corpus = load_hf_dataset("yixuantt/MultiHopRAG", "corpus", split="train")
+        raw_data_qas = load_hf_dataset("yixuantt/MultiHopRAG", "MultiHopRAG", split="train")
         
         total_corpus = len(raw_data_corpus)
         total_qas = len(raw_data_qas)
