@@ -1,3 +1,16 @@
+### Our gitignore
+
+# test files
+test.ipynb
+
+# locally generated files under datasets/data/ 
+core/datasets/data/**/data.json
+core/datasets/data/**/data_test.json
+
+# our notes
+notes/
+ToDo
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -169,6 +182,3 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
-notes/
-ToDo
