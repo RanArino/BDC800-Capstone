@@ -7,8 +7,8 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 class WikipediaContent(BaseModel):
-    title: str
-    content: str
+    title: Optional[str] = None
+    content: Optional[str] = None
     error: Optional[str] = None
 
 class Metadata(BaseModel):
