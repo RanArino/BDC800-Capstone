@@ -59,7 +59,6 @@ This document outlines the organization of our RAG framework codebase.
 └── datasets/         # Dataset management and storage (framework-agnostic)
     ├── __init__.py
     ├── base.py       # Base dataset class and interfaces
-    ├── loader.py     # Utilities for loading external datasets to local storage
     ├── schema.py     # Common schema for all datasets
     └── data/         # Dataset implementations
         ├── qasper/   # Example dataset with detailed structure
@@ -151,7 +150,6 @@ Framework-agnostic vector store operations:
 #### Datasets Module (datasets/)
 Framework-agnostic dataset management:
 - `base.py`: Base dataset class and interfaces
-- `loader.py`: Helper utilities to load datasets on local storage
 - `schema.py`: Common schema for all datasets
 - `data/`: Dataset implementations
   - `qasper/`: Intra-document QA dataset about scientific papers
