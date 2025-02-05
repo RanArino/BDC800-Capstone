@@ -1,0 +1,89 @@
+# core/configs/logging.yaml
+
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: '%(asctime)s | %(pathname)s:%(lineno)d | %(levelname)s | %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+  detailed:
+    format: '%(asctime)s | %(pathname)s:%(lineno)d | %(levelname)s | %(name)s | %(funcName)s | %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: standard
+    stream: ext://sys.stdout
+
+  datasets_file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: core/logger/logs/datasets.log
+    maxBytes: 10485760  # 10MB
+    backupCount: 5
+    encoding: utf8
+
+  retrieval_file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: core/logger/logs/retrieval.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf8
+
+  generation_file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: core/logger/logs/generation.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf8
+
+  evaluation_file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: core/logger/logs/evaluation.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf8
+
+  default_file:
+    class: logging.handlers.RotatingFileHandler
+    level: WARNING
+    formatter: detailed
+    filename: core/logger/logs/default.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf8
+
+loggers:
+  core.datasets:
+    level: INFO
+    handlers: [console, datasets_file]
+    propagate: false
+
+  core.retrieval:
+    level: INFO
+    handlers: [console, retrieval_file]
+    propagate: false
+
+  core.generation:
+    level: DEBUG
+    handlers: [console, generation_file]
+    propagate: false
+
+  core.evaluation:
+    level: INFO
+    handlers: [console, evaluation_file]
+    propagate: false
+
+root:
+  level: WARNING
+  handlers: [console, default_file]
