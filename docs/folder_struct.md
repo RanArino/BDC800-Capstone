@@ -27,7 +27,6 @@ This document outlines the organization of our RAG framework codebase.
 │   │   │
 │   │   ├── utils/       # Common utilities
 │   │   │   ├── __init__.py
-│   │   │   ├── logger.py    # Logging utilities
 │   │   │   ├── profiler.py  # Performance monitoring
 │   │   │   └── parser.py    # Document parsing utilities (PDF, DOCX to JSON)
 │   │   │
@@ -56,20 +55,25 @@ This document outlines the organization of our RAG framework codebase.
 │   ├── config.py     # FAISS-specific configurations
 │   └── storage/      # Physical storage for dataset indices
 │
-└── datasets/         # Dataset management and storage (framework-agnostic)
+├── datasets/         # Dataset management and storage (framework-agnostic)
+│   ├── __init__.py
+│   ├── base.py       # Base dataset class and interfaces
+│   ├── schema.py     # Common schema for all datasets
+│   └── data/         # Dataset implementations
+│       ├── qasper/   # Example dataset with detailed structure
+│       │   ├── processor.py    # Dataset-specific processing logic
+│       │   ├── analysis.ipynb  # Dataset analysis and exploration
+│       │   ├── test.json       # Test data sample
+│       │   └── data.json       # Processed dataset (gitignored)
+│       ├── narrativeqa/        # Question answering on narrative texts
+│       ├── multihoprag/        # Multi-hop reasoning dataset
+│       └── frames/             # Frames benchmark dataset
+│
+└── logger/          # Logging system
     ├── __init__.py
-    ├── base.py       # Base dataset class and interfaces
-    ├── schema.py     # Common schema for all datasets
-    └── data/         # Dataset implementations
-        ├── qasper/   # Example dataset with detailed structure
-        │   ├── processor.py    # Dataset-specific processing logic
-        │   ├── analysis.ipynb  # Dataset analysis and exploration
-        │   ├── test.json       # Test data sample
-        │   └── data.json       # Processed dataset (gitignored)
-        ├── narrativeqa/        # Question answering on narrative texts
-        ├── multihoprag/        # Multi-hop reasoning dataset
-        └── frames/             # Frames benchmark dataset
-    
+    ├── logger.py     # Main logging implementation
+    ├── example.py    # Example usage and configuration
+    └── logs/        # Log files storage
 ```
 
 ## Module Descriptions
@@ -112,6 +116,12 @@ Main script for running frameworks:
 - Evaluation execution
 - Results generation and visualization
 
+#### Logging System (logger/)
+Core logging operations:
+- `logger.py`: Main logging implementation
+- `example.py`: Example usage and configuration
+- `logs/`: Log files storage directory
+
 ### Core Operations (rag_core/)
 
 #### Indexing Operations
@@ -134,7 +144,6 @@ Independent LLM provider operations:
 
 #### Utils
 Common utilities:
-- `logger.py`: Logging utilities
 - `profiler.py`: Performance monitoring tools
 - `parser.py`: Document parsing utilities for preprocessing (PDF, DOCX to JSON)
 
