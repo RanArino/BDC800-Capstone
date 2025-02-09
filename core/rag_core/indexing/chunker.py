@@ -79,11 +79,32 @@ class Chunker:
         )
     
     def _add_metadata(self, chunks: List[LangChainDocument], source_doc: SchemaDocument) -> List[LangChainDocument]:
-        """Add additional metadata to chunks."""
+        """Add additional metadata to chunks including start and end indices."""
+        current_index = 0
         for i, chunk in enumerate(chunks):
+            # Calculate start and end indices
+            chunk_text = chunk.page_content
+            if i > 0:  # For chunks after the first one
+                # Find the start position in the source document after the previous end
+                start_idx = source_doc.content.find(chunk_text, current_index)
+            else:
+                # For the first chunk, start from the beginning
+                start_idx = source_doc.content.find(chunk_text)
+            
+            # If found, update indices
+            if start_idx != -1:
+                end_idx = start_idx + len(chunk_text)
+                current_index = end_idx
+            else:
+                # Fallback if exact match not found (e.g., due to whitespace differences)
+                start_idx = current_index
+                end_idx = start_idx + len(chunk_text)
+            
             chunk.metadata.update({
                 'chunk_index': i,
                 'source_doc_id': source_doc.id,
+                'start_idx': start_idx,
+                'end_idx': end_idx
             })
         return chunks
 
