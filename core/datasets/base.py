@@ -8,7 +8,7 @@ from typing import Dict, Any, Generator, Optional
 from pathlib import Path
 import json
 
-from core.datasets import Dataset, Document, IntraDocumentQA, InterDocumentQA
+from core.datasets.schema import Dataset, Document, IntraDocumentQA, InterDocumentQA
 from core.logger.logger import get_logger
 
 # Let Python automatically determine the module name
