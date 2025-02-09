@@ -59,6 +59,7 @@ python-dateutil==2.9.0.post0
 pytz==2025.1
 PyYAML==6.0.2
 pyzmq==26.2.1
+regex==2024.11.6
 requests==2.32.3
 requests-toolbelt==1.0.0
 six==1.17.0
@@ -67,6 +68,7 @@ soupsieve==2.6
 SQLAlchemy==2.0.38
 stack-data==0.6.3
 tenacity==9.0.0
+tiktoken==0.8.0
 tornado==6.4.2
 tqdm==4.67.1
 traitlets==5.14.3
