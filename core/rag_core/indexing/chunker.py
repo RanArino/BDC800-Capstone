@@ -101,8 +101,8 @@ class Chunker:
                 end_idx = start_idx + len(chunk_text)
             
             chunk.metadata.update({
-                'chunk_index': i,
-                'source_doc_id': source_doc.id,
+                'chunk_id': i,
+                'document_id': source_doc.id,
                 'start_idx': start_idx,
                 'end_idx': end_idx
             })
