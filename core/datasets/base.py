@@ -8,7 +8,7 @@ from typing import Dict, Any, Generator, Optional
 from pathlib import Path
 import json
 
-from core.datasets.schema import Dataset
+from core.datasets.schema import Dataset, Document, IntraDocumentQA, InterDocumentQA
 from core.logger.logger import get_logger
 
 # Let Python automatically determine the module name
@@ -45,7 +45,7 @@ class BaseDataset(ABC):
         else:
             logger.debug(f"Using existing data file: {self.data_file}")
 
-    def get_documents(self) -> Generator[Dict[str, Any], None, None]:
+    def get_documents(self) -> Generator[Document, None, None]:
         """Get documents one by one from the dataset."""
         logger.debug(f"Starting document iteration for {self.name} dataset")
         if not self.data_file.exists():
@@ -55,10 +55,10 @@ class BaseDataset(ABC):
         with open(self.data_file, 'r') as f:
             data = json.load(f)
             logger.info(f"Found documents in dataset")
-            for doc in data['documents']:
-                yield doc
+            for doc_dict in data['documents']:
+                yield Document.model_validate(doc_dict)
     
-    def get_queries(self) -> Generator[Dict[str, Any], None, None]:
+    def get_queries(self) -> Generator[IntraDocumentQA | InterDocumentQA, None, None]:
         """Get queries (QA pairs) one by one from the dataset."""
         logger.debug(f"Starting query iteration for {self.name} dataset")
         if not self.data_file.exists():
@@ -70,12 +70,12 @@ class BaseDataset(ABC):
             # Yield from whichever QA list is non-empty
             if data['intra_qas']:
                 logger.info(f"Found intra-document QA pairs")
-                for qa in data['intra_qas']:
-                    yield qa
+                for qa_dict in data['intra_qas']:
+                    yield IntraDocumentQA.model_validate(qa_dict)
             else:
                 logger.info(f"Found inter-document QA pairs")
-                for qa in data['inter_qas']:
-                    yield qa
+                for qa_dict in data['inter_qas']:
+                    yield InterDocumentQA.model_validate(qa_dict)
 
     @abstractmethod
     def _process_raw_data(self) -> Dataset:
