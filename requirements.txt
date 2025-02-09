@@ -49,6 +49,7 @@ langchain==0.3.18
 langchain-community==0.3.17
 langchain-core==0.3.34
 langchain-google-genai==2.0.9
+langchain-ollama==0.2.3
 langchain-text-splitters==0.3.6
 langsmith==0.3.7
 marshmallow==3.26.1
@@ -58,6 +59,7 @@ multiprocess==0.70.16
 mypy-extensions==1.0.0
 nest-asyncio==1.6.0
 numpy==2.2.2
+ollama==0.4.7
 orjson==3.10.15
 packaging==24.2
 pandas==2.2.3
