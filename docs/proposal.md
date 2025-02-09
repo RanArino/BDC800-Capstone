@@ -1,6 +1,6 @@
 # Methodology
 
-This research implements a hierarchical retrieval architecture through two main phases: the indexing phase and the searching phase. The proposed methodology aims to create and utilize a multi-level granularity structure that enables efficient and context-aware information retrieval.
+Our novel RAG framework, Semantic Clustered Abstractive Layers for Efficient Retrieval (SCALER), comprises two main phases: the indexing phase and the searching phase. The proposed methodology aims to create and utilize a multi-level granularity structure that enables efficient and context-aware information retrieval.
 
 ## Indexing Phase
 
