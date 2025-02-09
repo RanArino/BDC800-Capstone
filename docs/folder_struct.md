@@ -6,54 +6,59 @@ This document outlines the organization of our RAG framework codebase.
 
 ```
 ├── core/             # Core framework and operations
-│   ├── rag_core/    # Core reusable RAG operations
-│   │   ├── indexing/     # Independent indexing operations
-│   │   │   ├── __init__.py
-│   │   │   ├── chunker.py    # Document chunking operations
-│   │   │   ├── embedder.py   # Embedding generation operations
-│   │   │   ├── summarizer.py # Summary generation operations
-│   │   │   └── clusterer.py  # Clustering operations
-│   │   │
-│   │   ├── retrieval/    # Independent retrieval operations
-│   │   │   ├── __init__.py
-│   │   │   ├── processor.py  # Query processing operations
-│   │   │   └── search.py     # Search operations
-│   │   │
-│   │   ├── llm/         # LLM integration operations
-│   │   │   ├── __init__.py
-│   │   │   ├── base.py      # Abstract base class for LLM operations
-│   │   │   ├── gemini.py    # Gemini-specific operations
-│   │   │   └── ollama.py    # Ollama-specific operations
-│   │   │
-│   │   ├── utils/       # Common utilities
-│   │   │   ├── __init__.py
-│   │   │   ├── profiler.py  # Performance monitoring
-│   │   │   └── parser.py    # Document parsing utilities (PDF, DOCX to JSON)
-│   │   │
+│   ├── frameworks/           # All RAG implementations
 │   │   ├── __init__.py
-│   │   ├── constants.py    # Global constants
-│   │   └── exceptions.py   # Custom exceptions
+│   │   ├── base.py          # Base RAG framework
+│   │   ├── simple.py        # Basic vector search
+│   │   └── scaler.py        # Our full implementation
 │   │
-│   ├── frameworks/     # RAG framework implementations
+│   ├── rag_core/
+│   │   ├── indexing/        # Document processing
+│   │   │   ├── __init__.py
+│   │   │   ├── chunker.py       # Uses langchain
+│   │   │   └── summarizer.py    # Uses core.utils.llm
+│   │   │
+│   │   ├── retrieval/       # Search operations
+│   │   │   ├── __init__.py
+│   │   │   ├── search.py        # FAISS operations
+│   │   │   └── expander.py      # Optional query expansion, uses core.utils.llm
+│   │   │
+│   │   ├── clustering/      # Clustering operations
+│   │   │   ├── __init__.py
+│   │   │   ├── kmeans.py
+│   │   │   ├── gmm.py
+│   │   │   └── reduction/
+│   │   │       ├── __init__.py
+│   │   │       ├── pca.py
+│   │   │       └── umap.py
+│   │   │
+│   │   └── __init__.py
+│   │
+│   ├── utils/
 │   │   ├── __init__.py
-│   │   ├── simple.py     # Simple RAG implementation
-│   │   └── ...           # Other framework implementations
+│   │   ├── profiler.py      # Performance tracking
+│   │   ├── metrics.py       # Timing metrics collection
+│   │   └── llm.py           # Centralized LLM utility
 │   │
-│   ├── evaluation/    # Evaluation and visualization
+│   ├── evaluation/
 │   │   ├── __init__.py
-│   │   ├── metrics.py    # Performance metrics calculation
-│   │   └── viz.py        # Results visualization
+│   │   ├── metrics/
+│   │   │   ├── __init__.py
+│   │   │   ├── timing.py        # Processing time analysis
+│   │   │   ├── retrieval.py     # Retrieval quality
+│   │   │   └── generation.py    # LLM output quality
+│   │   └── viz/
+│   │       ├── __init__.py
+│   │       ├── performance.py    # Performance visualizations
+│   │       └── results.py        # Quality metric plots
 │   │
-│   ├── __init__.py
-│   ├── base.py        # Base RAG framework class and interfaces
-│   └── run.py         # Main entry point for framework selection and evaluation
-│
-├── vectorstore/      # Vector store operations (framework-agnostic)
-│   ├── __init__.py
-│   ├── base.py       # Base vector store configuration
-│   ├── store.py      # FAISS store implementation
-│   ├── config.py     # FAISS-specific configurations
-│   └── storage/      # Physical storage for dataset indices
+│   ├── configs/
+│   │   ├── __init__.py
+│   │   ├── rag_config.yaml      # Framework configurations
+│   │   └── logging.yaml         # Logging configurations
+│   │
+│   └── vectorstore/          # Physical storage for indices
+│       └── ...    
 │
 ├── datasets/         # Dataset management and storage (framework-agnostic)
 │   ├── __init__.py
@@ -80,81 +85,59 @@ This document outlines the organization of our RAG framework codebase.
 
 ### Core Framework (core/)
 
-#### Base Framework (`base.py`)
-- Defines base RAG framework class with required methods:
-  - `process_documents()`: Document processing pipeline
-  - `query()`: Query processing and retrieval
-  - `evaluate()`: Framework evaluation
-- Provides common utilities and interfaces
-
 #### Framework Implementations (frameworks/)
-Each framework in a single file:
-- `simple.py`: Simple RAG implementation
+- `base.py`: Base RAG framework with core interfaces
+- `simple.py`: Basic vector search implementation
+- `scaler.py`: Our full RAG implementation
 
-Each implementation inherits from base framework class and defines:
-- Framework-specific parameters
-- Document processing logic
-- Query processing logic
-- Custom methods if needed
+#### Core Operations (rag_core/)
 
-#### Evaluation and Visualization (evaluation/)
-Tools for measuring and visualizing performance:
-- `metrics.py`: Performance metrics calculation
-  - Retrieval accuracy
-  - Response quality
-  - Processing time
-  - Memory usage
-- `viz.py`: Results visualization
-  - Performance comparisons
-  - Metric plots
-  - Analysis tools
+##### Indexing Operations
+Document processing operations:
+- `chunker.py`: Document chunking using langchain
+- `summarizer.py`: Document summarization using core.utils.llm
 
-#### Execution Entry Point (`run.py`)
-Main script for running frameworks:
-- Framework selection
-- Dataset selection
-- Evaluation execution
-- Results generation and visualization
+##### Retrieval Operations
+Search and query operations:
+- `search.py`: FAISS-based search operations
+- `expander.py`: Optional query expansion using LLM
 
-#### Logging System (logger/)
-Core logging operations:
-- `logger.py`: Main logging implementation
-- `example.py`: Example usage and configuration
-- `logs/`: Log files storage directory
-
-### Core Operations (rag_core/)
-
-#### Indexing Operations
-Independent operations for document processing:
-- `chunker.py`: Document chunking operations
-- `embedder.py`: Vector embedding generation operations
-- `summarizer.py`: Document summary generation operations
-- `clusterer.py`: Semantic clustering operations
-
-#### Retrieval Operations
-Independent operations for retrieval:
-- `processor.py`: Query processing operations
-- `search.py`: Search strategy operations
-
-#### LLM Operations
-Independent LLM provider operations:
-- `base.py`: Abstract base class for LLM operations
-- `gemini.py`: Google Gemini operations
-- `ollama.py`: Local model operations
+##### Clustering Operations
+Document clustering and dimensionality reduction:
+- `kmeans.py`: K-means clustering implementation
+- `gmm.py`: Gaussian Mixture Model clustering
+- `reduction/`: Dimensionality reduction techniques
+  - `pca.py`: Principal Component Analysis
+  - `umap.py`: UMAP dimensionality reduction
 
 #### Utils
 Common utilities:
-- `profiler.py`: Performance monitoring tools
-- `parser.py`: Document parsing utilities for preprocessing (PDF, DOCX to JSON)
+- `profiler.py`: Performance tracking tools
+- `metrics.py`: Timing metrics collection
+- `llm.py`: Centralized LLM utility
+
+#### Evaluation
+Performance measurement and visualization:
+##### Metrics
+- `timing.py`: Processing time analysis
+- `retrieval.py`: Retrieval quality metrics
+- `generation.py`: LLM output quality assessment
+
+##### Visualization
+- `performance.py`: Performance visualization tools
+- `results.py`: Quality metric plotting
+
+#### Configuration
+Framework and system configurations:
+- `rag_config.yaml`: Framework-specific configurations
+- `logging.yaml`: Logging system configurations
+
+#### Vector Store (vectorstore/)
+Physical storage for indices and configurations:
+- Index storage and management
+- Vector database configurations
 
 ### Framework-Agnostic Components
-
-#### Vector Store Module (vectorstore/)
-Framework-agnostic vector store operations:
-- `base.py`: Base vector store configurations
-- `store.py`: FAISS store implementation
-- `config.py`: FAISS-specific configurations
-- `storage/`: Physical storage for dataset indices
 
 #### Datasets Module (datasets/)
 Framework-agnostic dataset management:
