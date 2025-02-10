@@ -20,6 +20,7 @@ class LLMController:
     ):
         self.llm_model = llm_model
         self.embedding_model = embedding_model
+        self.embedding_dim: int = None
 
         # Load config
         config_path = get_project_root() / "core/configs/models.yaml"
@@ -27,10 +28,10 @@ class LLMController:
             self.config: dict = yaml.safe_load(f)
 
         # Initialize LLM
-        self.llm = self._get_llm_models(llm_model)
-        self.embedding = self._get_embedding_models(embedding_model)
+        self.llm = self._init_llm_models(llm_model)
+        self.embedding = self._init_embedding_models(embedding_model)
 
-    def _get_llm_models(self, model_name: str) -> OllamaLLM:
+    def _init_llm_models(self, model_name: str) -> OllamaLLM:
         """Get the model config for a given model name
         
         Args:
@@ -42,7 +43,7 @@ class LLMController:
         model_config = self.config["llms"].get(model_name)
         return OllamaLLM(model=model_config)
     
-    def _get_embedding_models(self, model_name: str) -> HuggingFaceEmbeddings | GoogleGenerativeAIEmbeddings:
+    def _init_embedding_models(self, model_name: str) -> HuggingFaceEmbeddings | GoogleGenerativeAIEmbeddings:
         """Get the model config for a given model name
         
         Args:
@@ -51,13 +52,15 @@ class LLMController:
         Returns:
             Model config
         """
+        self.embedding_dim = self.config["embeddings"].get(model_name).get("dimension")
+            
         if model_name.startswith("huggingface"):
             return HuggingFaceEmbeddings(
-                model_name=self.config["embeddings"].get(model_name)
+                model_name=self.config["embeddings"].get(model_name).get("model_name"),
             )
         elif model_name.startswith("google"):
             return GoogleGenerativeAIEmbeddings(
-                model=self.config["embeddings"].get(model_name)
+                model=self.config["embeddings"].get(model_name).get("model_name")
             )
         else:
             raise ValueError(f"Invalid embedding model: {model_name}")
@@ -80,6 +83,14 @@ class LLMController:
         """
         return self.embedding
     
+    @property
+    def get_embedding_dim(self):
+        """Get the dimension of the embedding model
+        
+        Returns:
+            Dimension of the embedding model
+        """
+        return self.embedding_dim
 
     def generate_text(self, prompt: str) -> str:
         """Generate text using the LLM
