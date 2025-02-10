@@ -1,11 +1,11 @@
 
-# test/llm.py
+# test/llm_controller.py
 
 """
 LLM test
 Run the script to debug;
 ```
-python -m pdb test/llm.py
+python -m pdb test/llm_controller.py
 ```
 """
 
@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from core.utils import LLMController
+from core.rag_core.llm.controller import LLMController
 
 if __name__ == "__main__":
     # Sample configuration for testing
@@ -31,7 +31,11 @@ if __name__ == "__main__":
     llm_model = llm_controller.get_llm
     print(f"LLM Model: {llm_model}")
 
+    # Test get_embedding_dim method
+    embedding_dim = llm_controller.get_embedding_dim
+    print(f"Embedding Dimension: {embedding_dim}")
+
     # Test generate_text method
-    prompt = "What are the benefits of using renewable energy?"
+    prompt = "What are the benefits of using renewable energy? Tell me one line answer."
     generated_text = llm_controller.generate_text(prompt)
     print(f"Generated Text: {generated_text}")
