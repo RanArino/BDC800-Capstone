@@ -1,37 +1,37 @@
-# core/utils/llm.py
+# core/rag_core/llm/controller.py
 
 import yaml
-from pathlib import Path
-from typing import Literal, List
+from typing import Dict
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_ollama.llms import OllamaLLM
 
-from .path import get_project_root
+from core.utils.path import get_project_root
+from .schema import LLMConfig, EmbeddingConfig
 
 class LLMController:
     """Controller class for managing both LLM and embedding models"""
     
     def __init__(
         self,
-        llm_model: str,
-        embedding_model: str,
+        llm_id: str,
+        embedding_id: str,
     ):
-        self.llm_model = llm_model
-        self.embedding_model = embedding_model
-        self.embedding_dim: int = None
-
-        # Load config
+        # Load and parse configs
         config_path = get_project_root() / "core/configs/models.yaml"
         with open(config_path, "r") as f:
-            self.config: dict = yaml.safe_load(f)
+            raw_config = yaml.safe_load(f)
+            
+        # Parse into typed dictionaries
+        self.llm_config = LLMConfig (**raw_config["llms"].get(llm_id))
+        self.embedding_config = EmbeddingConfig (**raw_config["embeddings"].get(embedding_id))
 
-        # Initialize LLM
-        self.llm = self._init_llm_models(llm_model)
-        self.embedding = self._init_embedding_models(embedding_model)
+        # Initialize models
+        self.llm = self._init_llm_models()
+        self.embedding = self._init_embedding_models(embedding_id)
 
-    def _init_llm_models(self, model_name: str) -> OllamaLLM:
+    def _init_llm_models(self) -> OllamaLLM:
         """Get the model config for a given model name
         
         Args:
@@ -40,30 +40,27 @@ class LLMController:
         Returns:
             Model config
         """
-        model_config = self.config["llms"].get(model_name)
-        return OllamaLLM(model=model_config)
+        return OllamaLLM(model=self.llm_config.model_name)
     
-    def _init_embedding_models(self, model_name: str) -> HuggingFaceEmbeddings | GoogleGenerativeAIEmbeddings:
+    def _init_embedding_models(self, model_id: str) -> HuggingFaceEmbeddings | GoogleGenerativeAIEmbeddings:
         """Get the model config for a given model name
         
         Args:
-            model_name: Name of the model to get config for
+            model_id: Embedding model id to get config for (check core/configs/models.yaml)
             
         Returns:
             Model config
         """
-        self.embedding_dim = self.config["embeddings"].get(model_name).get("dimension")
-            
-        if model_name.startswith("huggingface"):
+        if model_id.startswith("huggingface"):
             return HuggingFaceEmbeddings(
-                model_name=self.config["embeddings"].get(model_name).get("model_name"),
+                model_name=self.embedding_config.model_name,
             )
-        elif model_name.startswith("google"):
+        elif model_id.startswith("google"):
             return GoogleGenerativeAIEmbeddings(
-                model=self.config["embeddings"].get(model_name).get("model_name")
+                model=self.embedding_config.model_name,
             )
         else:
-            raise ValueError(f"Invalid embedding model: {model_name}")
+            raise ValueError(f"Invalid embedding model: {model_id}")
 
     @property
     def get_llm(self):
@@ -90,7 +87,7 @@ class LLMController:
         Returns:
             Dimension of the embedding model
         """
-        return self.embedding_dim
+        return self.embedding_config.dimension
 
     def generate_text(self, prompt: str) -> str:
         """Generate text using the LLM
