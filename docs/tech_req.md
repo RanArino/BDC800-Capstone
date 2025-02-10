@@ -67,6 +67,7 @@
 1. **Multi-QA-MPNet**
    - Model: sentence-transformers/multi-qa-mpnet-base-cos-v1
    - Paper: https://aclanthology.org/D19-1410/
+   - Input Length: 512
    - Dimensions: 768
    - Features:
      - Optimized for semantic search
@@ -80,6 +81,8 @@
 1. **Text Embedding 005**
    - Provider: Google Generative AI
    - Paper: https://arxiv.org/abs/2403.20327
+   - Input Length: 2048
+   - Dimensions: 768
    - Features:
      - State-of-the-art performance
      - Multilingual support
