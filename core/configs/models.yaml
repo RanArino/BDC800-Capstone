@@ -1,0 +1,10 @@
+embeddings:
+  huggingface-multi-qa-mpnet: "sentence-transformers/multi-qa-mpnet-base-cos-v1"
+  google-gecko: "text-embedding-005"
+
+llms:
+  llama3.1: llama3.1:8b
+  phi4: phi4:latest
+  deepseek-r1-8b: deepseek-r1:8b
+  deepseek-r1-14b: deepseek-r1:14b
+
