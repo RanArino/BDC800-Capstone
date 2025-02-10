@@ -21,14 +21,15 @@
   - Docs: https://python.langchain.com/docs/integrations/vectorstores/faiss
 - sentence-transformers  # For text embeddings
   - Docs: https://www.sbert.net/docs/pretrained_models.html
+  - Langchain Docs (`HuggingFaceEmbeddings`): https://python.langchain.com/api_reference/huggingface/embeddings/langchain_huggingface.embeddings.huggingface.HuggingFaceEmbeddings.html
 
 ### LLM Integration
-- google-generativeai  # For Gemini integration
-  - Docs: https://ai.google.dev/tutorials/python_quickstart
-- ollama             # For local LLM deployment
-  - Docs: https://github.com/ollama/ollama
-- python-ollama      # Python SDK for Ollama
-  - Docs: https://github.com/ollama/ollama-python
+- google-generativeai  # For Google Generative AI integration
+  - Langchain Docs (`langchain-google-genai`): https://python.langchain.com/api_reference/google_genai/index.html
+  - Google Docs: https://ai.google.dev/tutorials/python_quickstart
+- ollama               # For local LLM deployment
+  - langchain Docs (`langchain-ollama`): https://python.langchain.com/docs/integrations/providers/ollama/
+  - Ollama GitHub: https://github.com/ollama/ollama
 
 ### Document Processing
 - langchain-document-loaders  # For PDF, DOCX, text file processing
@@ -66,6 +67,7 @@
 1. **Multi-QA-MPNet**
    - Model: sentence-transformers/multi-qa-mpnet-base-cos-v1
    - Paper: https://aclanthology.org/D19-1410/
+   - Input Length: 512
    - Dimensions: 768
    - Features:
      - Optimized for semantic search
@@ -79,6 +81,8 @@
 1. **Text Embedding 005**
    - Provider: Google Generative AI
    - Paper: https://arxiv.org/abs/2403.20327
+   - Input Length: 2048
+   - Dimensions: 768
    - Features:
      - State-of-the-art performance
      - Multilingual support

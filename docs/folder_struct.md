@@ -16,12 +16,17 @@ This document outlines the organization of our RAG framework codebase.
 │   │   ├── indexing/        # Document processing
 │   │   │   ├── __init__.py
 │   │   │   ├── chunker.py       # Uses langchain
-│   │   │   └── summarizer.py    # Uses core.utils.llm
+│   │   │   └── summarizer.py    # Uses rag_core.llm
+│   │   │
+│   │   ├── llm/            # LLM and embedding models management
+│   │   │   ├── __init__.py
+│   │   │   ├── controller.py    # LLM and embedding models controller
+│   │   │   └── schema.py        # LLM configurations schema
 │   │   │
 │   │   ├── retrieval/       # Search operations
 │   │   │   ├── __init__.py
 │   │   │   ├── search.py        # FAISS operations
-│   │   │   └── expander.py      # Optional query expansion, uses core.utils.llm
+│   │   │   └── expander.py      # Optional query expansion, uses \
 │   │   │
 │   │   ├── clustering/      # Clustering operations
 │   │   │   ├── __init__.py
@@ -37,8 +42,7 @@ This document outlines the organization of our RAG framework codebase.
 │   ├── utils/
 │   │   ├── __init__.py
 │   │   ├── profiler.py      # Performance tracking
-│   │   ├── metrics.py       # Timing metrics collection
-│   │   └── llm.py           # Centralized LLM utility
+│   │   └── metrics.py       # Timing metrics collection
 │   │
 │   ├── evaluation/
 │   │   ├── __init__.py
@@ -95,12 +99,12 @@ This document outlines the organization of our RAG framework codebase.
 ##### Indexing Operations
 Document processing operations:
 - `chunker.py`: Document chunking using langchain
-- `summarizer.py`: Document summarization using core.utils.llm
+- `summarizer.py`: Document summarization using rag_core.llm
 
 ##### Retrieval Operations
 Search and query operations:
 - `search.py`: FAISS-based search operations
-- `expander.py`: Optional query expansion using LLM
+- `expander.py`: Optional query expansion using rag_core.llm
 
 ##### Clustering Operations
 Document clustering and dimensionality reduction:
@@ -114,7 +118,6 @@ Document clustering and dimensionality reduction:
 Common utilities:
 - `profiler.py`: Performance tracking tools
 - `metrics.py`: Timing metrics collection
-- `llm.py`: Centralized LLM utility
 
 #### Evaluation
 Performance measurement and visualization:

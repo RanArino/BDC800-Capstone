@@ -1,0 +1,24 @@
+embeddings:
+  huggingface-multi-qa-mpnet: 
+    model_name: "sentence-transformers/multi-qa-mpnet-base-cos-v1"
+    input_length: 512
+    dimension: 768
+  google-gecko: 
+    model_name: "text-embedding-005"
+    input_length: 2048
+    dimension: 768
+
+llms:
+  llama3.1: 
+    model_name: "llama3.1:8b"
+    provider: "ollama"
+  phi4: 
+    model_name: "phi4:14b"
+    provider: "ollama"
+  deepseek-r1-8b: 
+    model_name: "deepseek-r1:8b"
+    provider: "ollama"
+  deepseek-r1-14b: 
+    model_name: "deepseek-r1:14b"
+    provider: "ollama"
+
