@@ -21,14 +21,15 @@
   - Docs: https://python.langchain.com/docs/integrations/vectorstores/faiss
 - sentence-transformers  # For text embeddings
   - Docs: https://www.sbert.net/docs/pretrained_models.html
+  - Langchain Docs (`HuggingFaceEmbeddings`): https://python.langchain.com/api_reference/huggingface/embeddings/langchain_huggingface.embeddings.huggingface.HuggingFaceEmbeddings.html
 
 ### LLM Integration
-- google-generativeai  # For Gemini integration
-  - Docs: https://ai.google.dev/tutorials/python_quickstart
-- ollama             # For local LLM deployment
-  - Docs: https://github.com/ollama/ollama
-- python-ollama      # Python SDK for Ollama
-  - Docs: https://github.com/ollama/ollama-python
+- google-generativeai  # For Google Generative AI integration
+  - Langchain Docs (`langchain-google-genai`): https://python.langchain.com/api_reference/google_genai/index.html
+  - Google Docs: https://ai.google.dev/tutorials/python_quickstart
+- ollama               # For local LLM deployment
+  - langchain Docs (`langchain-ollama`): https://python.langchain.com/docs/integrations/providers/ollama/
+  - Ollama GitHub: https://github.com/ollama/ollama
 
 ### Document Processing
 - langchain-document-loaders  # For PDF, DOCX, text file processing
