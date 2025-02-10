@@ -33,6 +33,8 @@
 ### Document Processing
 - langchain-document-loaders  # For PDF, DOCX, text file processing
   - Docs: https://python.langchain.com/docs/integrations/document_loaders/
+- syntok  # For sentence segmentation
+  - Docs: https://github.com/fnl/syntok
 
 ## LLM Models
 
