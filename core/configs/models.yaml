@@ -9,8 +9,16 @@ embeddings:
     dimension: 768
 
 llms:
-  llama3.1: llama3.1:8b
-  phi4: phi4:latest
-  deepseek-r1-8b: deepseek-r1:8b
-  deepseek-r1-14b: deepseek-r1:14b
+  llama3.1: 
+    model_name: "llama3.1:8b"
+    provider: "ollama"
+  phi4: 
+    model_name: "phi4:14b"
+    provider: "ollama"
+  deepseek-r1-8b: 
+    model_name: "deepseek-r1:8b"
+    provider: "ollama"
+  deepseek-r1-14b: 
+    model_name: "deepseek-r1:14b"
+    provider: "ollama"
 
