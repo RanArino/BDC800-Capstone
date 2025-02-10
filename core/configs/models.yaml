@@ -1,6 +1,12 @@
 embeddings:
-  huggingface-multi-qa-mpnet: "sentence-transformers/multi-qa-mpnet-base-cos-v1"
-  google-gecko: "text-embedding-005"
+  huggingface-multi-qa-mpnet: 
+    model_name: "sentence-transformers/multi-qa-mpnet-base-cos-v1"
+    input_length: 512
+    dimension: 768
+  google-gecko: 
+    model_name: "text-embedding-005"
+    input_length: 2048
+    dimension: 768
 
 llms:
   llama3.1: llama3.1:8b
