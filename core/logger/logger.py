@@ -6,6 +6,8 @@ import logging.config
 import yaml
 from pathlib import Path
 
+from core.utils import get_project_root
+
 class LoggerManager:
     """Centralized logger management for the core module."""
     
@@ -36,7 +38,7 @@ class LoggerManager:
             env_key (str): Environment variable that can override config path
         """
         # Create logs directory if it doesn't exist
-        log_dir = Path('core/logger/logs')
+        log_dir = get_project_root() / 'core/logger/logs'
         log_dir.mkdir(parents=True, exist_ok=True)
         
         path = os.getenv(env_key, default_path)
@@ -58,13 +60,14 @@ class LoggerManager:
     
     def _setup_default_logging(self, default_level):
         """Setup basic default logging if configuration fails."""
+        log_dir = get_project_root() / 'core/logger/logs'
         logging.basicConfig(
             level=default_level,
             format='%(asctime)s | %(pathname)s:%(lineno)d | %(levelname)s | %(name)s | %(funcName)s | %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S',
             handlers=[
                 logging.StreamHandler(),
-                logging.FileHandler('core/logger/logs/default.log')
+                logging.FileHandler(str(log_dir / 'default.log'))
             ]
         )
 
