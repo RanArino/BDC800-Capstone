@@ -1,12 +1,14 @@
 # core/frameworks/simple.py
 
-from typing import List, Dict, Any, Optional
+from typing import List, Optional
 import os
 import gc
 
 from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
 
 from .base import BaseRAGFramework
+from .schema import RAGResponse
 from core.datasets import Document as SchemaDocument
 
 class SimpleRAG(BaseRAGFramework):
@@ -69,7 +71,7 @@ class SimpleRAG(BaseRAGFramework):
             self.logger.error(f"Error during indexing: {str(e)}")
             raise
     
-    def retrieve(self, query: str, top_k: Optional[int] = None) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, top_k: Optional[int] = None) -> List[Document]:
         """Retrieve relevant documents using FAISS search."""
         try:
             self.logger.debug(f"Starting retrieval for query: {query}")
@@ -90,28 +92,9 @@ class SimpleRAG(BaseRAGFramework):
         except Exception as e:
             self.logger.error(f"Error during retrieval: {str(e)}")
             raise
-    
-    def run(self, query: str) -> Dict[str, Any]:
-        """Run the RAG pipeline on a query."""
-        try:
-            # Retrieve relevant documents
-            retrieved_docs = self.retrieve(query)
-            
-            # Generate answer
-            answer = self.generate(query, retrieved_docs)
-            
-            return {
-                "query": query,
-                "answer": answer,
-                "context": retrieved_docs
-            }
-            
-        except Exception as e:
-            self.logger.error(f"Error during RAG execution: {str(e)}")
-            raise
 
-    def generate(self, query: str, retrieved_docs: List[Dict[str, Any]]) -> str:
-        """Generate answer using LLM."""
+    def generate(self, query: str, retrieved_docs: List[Document]) -> RAGResponse:
+        """Generate answer using LLM with retrieved langchain documents as context."""
         try:
             self.logger.debug("Starting answer generation")
             
@@ -131,10 +114,14 @@ Answer:"""
             
             # Generate answer using LLM
             self.logger.debug("Generating answer using LLM")
-            answer = self.llm.generate_text(prompt)
+            llm_answer = self.llm.generate_text(prompt)
             self.logger.info("Answer generated successfully")
             
-            return answer
+            return RAGResponse(
+                query=query,
+                llm_answer=llm_answer,
+                context=retrieved_docs
+            )
             
         except Exception as e:
             self.logger.error(f"Error during answer generation: {str(e)}")
