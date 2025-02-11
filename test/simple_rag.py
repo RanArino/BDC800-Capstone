@@ -17,7 +17,7 @@ import logging
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from core.frameworks import SimpleRAG
-from core.datasets import Qasper
+from core.datasets import Qasper, IntraDocumentQA
 from core.logger.logger import get_logger
 
 # Set up logging
@@ -42,9 +42,9 @@ def main():
         logger.info("Indexing completed")
         
         # Test retrieval and generation
-        query = "What is this document about?"
-        logger.info(f"Testing RAG with query: {query}")
-        result = simple_rag.run(query)
+        qa = list(dataset.get_queries())[0]
+        logger.info(f"Testing RAG with query: {qa.q}")
+        result = simple_rag.run(qa)
         logger.info("RAG test completed")
         logger.info(f"Result: {result}")
 
