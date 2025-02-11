@@ -10,7 +10,8 @@ This document outlines the organization of our RAG framework codebase.
 │   │   ├── __init__.py
 │   │   ├── base.py          # Base RAG framework
 │   │   ├── simple.py        # Basic vector search
-│   │   └── scaler.py        # Our full implementation
+│   │   ├── scaler.py        # Our full implementation
+│   │   └── schema.py        # Configuration schemas
 │   │
 │   ├── rag_core/
 │   │   ├── indexing/        # Document processing
@@ -93,6 +94,8 @@ This document outlines the organization of our RAG framework codebase.
 - `base.py`: Base RAG framework with core interfaces
 - `simple.py`: Basic vector search implementation
 - `scaler.py`: Our full RAG implementation
+- `schema.py`: Configuration schemas and data models for RAG frameworks
+
 
 #### Core Operations (rag_core/)
 
