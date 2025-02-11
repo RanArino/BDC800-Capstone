@@ -1,7 +1,9 @@
 # core/frameworks/schema.py
 
-from typing import Optional, Literal
+from typing import Optional, Literal, List, Dict, Any
 from pydantic import BaseModel, Field, PositiveInt
+
+from langchain_core.documents import Document
 
 # Available Models
 AVAILABLE_LLM_ID = Literal["llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14b"]
@@ -45,4 +47,14 @@ class RAGConfig(BaseModel):
     dataset: DatasetConfig = Field(..., description="Dataset configuration")
     chunker: ChunkerConfig = Field(..., description="Text chunking configuration")
     model: ModelConfig = Field(..., description="Model configuration")
-    retrieval: RetrievalConfig = Field(..., description="Retrieval configuration") 
+    retrieval: RetrievalConfig = Field(..., description="Retrieval configuration")
+
+class RAGResponse(BaseModel):
+    """Schema for the RAG pipeline response."""
+    query: str = Field(..., description="The original query string")
+    llm_answer: str = Field(..., description="The generated answer from the LLM")
+    context: List[Document] = Field(..., description="The retrieved documents used as context")
+
+    class Config:
+        """Pydantic config"""
+        arbitrary_types_allowed = True  # To allow Document objects in context 
