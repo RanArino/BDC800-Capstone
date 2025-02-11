@@ -61,7 +61,12 @@ class BaseRAGFramework(ABC):
     def load_index(self, index_path: str):
         """Load the index from the given path."""
         self.logger.debug("Loading vector store from: %s", index_path)
-        self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
+        self.vector_store = FAISS.load_local(
+           index_path, 
+           self.llm.get_embedding, 
+           allow_dangerous_deserialization=True
+       )
+        # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
         self.logger.info("Vector store loaded successfully")
 
     @abstractmethod
