@@ -49,7 +49,7 @@ class BaseRAGFramework(ABC):
         )
         self.logger.info("BaseRAGFramework initialization completed")
 
-    def run(self, qa: IntraDocumentQA|InterDocumentQA):
+    def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
         """Run the RAG pipeline on a query."""
         try:
             # Retrieve relevant documents
@@ -58,7 +58,7 @@ class BaseRAGFramework(ABC):
             # Generate answer
             llm_answer = self.generate(qa.q, retrieved_docs)
             
-            return 
+            return llm_answer
             
             
         except Exception as e:
