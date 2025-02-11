@@ -130,21 +130,3 @@ Answer:"""
     def evaluate(self, dataset):
         # To be implemented later
         pass
-    
-    def cleanup(self):
-        """Explicitly clean up resources."""
-        try:
-            self.logger.debug("Starting cleanup")
-            if self.vector_store:
-                self.logger.debug("Cleaning up vector store")
-                del self.vector_store
-                self.vector_store = None
-            if self.faiss_index:
-                self.logger.debug("Cleaning up FAISS index")
-                del self.faiss_index
-                self.faiss_index = None
-            gc.collect()
-            self.logger.info("Cleanup completed successfully")
-        except Exception as e:
-            self.logger.error(f"Error during cleanup: {str(e)}")
-            raise
