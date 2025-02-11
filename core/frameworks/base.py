@@ -1,8 +1,10 @@
 # core/frameworks/base.py
 
 from abc import ABC, abstractmethod
+from typing import List, Optional
 from datetime import datetime
 from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
 import yaml
 # from core.utils.profiler import Profiler
 # from core.utils.metrics import TimingMetrics
@@ -10,7 +12,8 @@ import yaml
 from core.utils import get_project_root
 from core.rag_core import LLMController, Chunker
 from core.logger.logger import get_logger
-from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig
+from core.datasets import IntraDocumentQA, InterDocumentQA, Document as SchemaDocument
+from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig, RAGResponse
 
 logger = get_logger(__name__)
 
@@ -46,17 +49,21 @@ class BaseRAGFramework(ABC):
         )
         self.logger.info("BaseRAGFramework initialization completed")
 
-    def run(self, query):
-        self.logger.debug("Processing query: %s", query)
-        retrieved_docs = self.retrieve(query)
-        self.logger.debug("Retrieved %d documents", len(retrieved_docs))
-        generated_text = self.generate(query, retrieved_docs)
-        self.logger.info("Generated response")
-        return {
-            "answer": generated_text,
-            "context": retrieved_docs,
-            # "timing": self.profiler.get_metrics(),
-        }
+    def run(self, qa: IntraDocumentQA|InterDocumentQA):
+        """Run the RAG pipeline on a query."""
+        try:
+            # Retrieve relevant documents
+            retrieved_docs = self.retrieve(qa.q)
+            
+            # Generate answer
+            llm_answer = self.generate(qa.q, retrieved_docs)
+            
+            return 
+            
+            
+        except Exception as e:
+            self.logger.error(f"Error during RAG execution: {str(e)}")
+            raise
     
     def load_index(self, index_path: str):
         """Load the index from the given path."""
@@ -70,15 +77,15 @@ class BaseRAGFramework(ABC):
         self.logger.info("Vector store loaded successfully")
 
     @abstractmethod
-    def index(self, documents):
+    def index(self, documents: List[SchemaDocument]):
         pass
 
     @abstractmethod
-    def retrieve(self, query):
+    def retrieve(self, query: str, top_k: Optional[int] = None):
         pass
 
     @abstractmethod
-    def generate(self, query, retrieved_docs):
+    def generate(self, query: str, retrieved_docs: List[Document]) -> RAGResponse:
         pass
 
     @abstractmethod
