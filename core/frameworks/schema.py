@@ -14,6 +14,8 @@ class DatasetConfig(BaseModel):
     """Configuration for the dataset component."""
     name: str = Field(..., description="Name of the dataset to use")
     number_of_docs: Optional[PositiveInt] = Field(None, description="Number of documents to use from the dataset")
+    number_of_qas: Optional[PositiveInt] = Field(None, description="Number of question-answer pairs to use from the dataset")
+    selection_mode: Optional[Literal["sequential", "random"]] = Field(..., description="Selection mode for the dataset")
 
 class ChunkerConfig(BaseModel):
     """Configuration for the text chunking component."""
