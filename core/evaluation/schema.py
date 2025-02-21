@@ -7,7 +7,7 @@ Schema for evaluation metrics
 from pydantic import BaseModel, model_validator
 from typing import Optional, Literal
 
-
+RougeType = Literal['rouge1', 'rouge2', 'rougeL']
 RougeMetricType = Literal['precision', 'recall', 'fmeasure']
 
 class RougeMetrics(BaseModel):
