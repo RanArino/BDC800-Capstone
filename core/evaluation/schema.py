@@ -17,7 +17,7 @@ class RougeMetrics(BaseModel):
 
     @model_validator(mode='after')
     def check_at_least_one_metric(self) -> 'RougeMetrics':
-        if not any([self.precision, self.recall, self.fmeasure]):
+        if all(metric is None for metric in [self.precision, self.recall, self.fmeasure]):
             raise ValueError("At least one metric (precision, recall, or fmeasure) must be provided")
         return self
 
