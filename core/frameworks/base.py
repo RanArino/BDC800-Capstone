@@ -27,14 +27,16 @@ class BaseRAGFramework(ABC):
         self.config_name = config_name
         self.config_path = config_path
 
-        self.vector_store = None
-        self.faiss_index = None
-        
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
         # self.profiler = Profiler().            # Performance Profiler
         # self.timing_metrics = TimingMetrics()  # Timing Metrics
 
+        # Initialize variables that are defined in index() method
+        self.vector_store = None
+        self.faiss_index = None
+        self.dataset = None   
+        
         # Initialize LLMController
         self.logger.info("Initializing LLMController with models: %s (LLM), %s (Embedding)", 
                         self.model_config.llm_id, self.model_config.embedding_id)
@@ -70,6 +72,11 @@ class BaseRAGFramework(ABC):
 
     def index(self, documents: List[SchemaDocument]):
         """Index the documents using FAISS index"""
+
+        # Load dataset
+        self._load_dataset()
+
+        # Index documents
         try:
             self.logger.debug("Starting document indexing")
             
@@ -181,6 +188,10 @@ class BaseRAGFramework(ABC):
        )
         # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
         self.logger.info("Vector store loaded successfully")
+
+    def _load_dataset(self):
+        """Load the dataset from the given path."""
+        pass
 
     @property
     def dataset_config(self) -> DatasetConfig:
