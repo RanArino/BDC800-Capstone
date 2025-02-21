@@ -14,6 +14,13 @@ from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
 
+# Initialize sentence transformer model
+try:
+    sentence_model = SentenceTransformer('sentence-transformers/multi-qa-mpnet-base-cos-v1')
+except Exception as e:
+    logger.error(f"Error loading sentence transformer model: {e}")
+    sentence_model = None
+
 # ROUGE scores
 def calculate_rouge_scores(
         generated_text: str, 
@@ -80,3 +87,37 @@ def calculate_bleu_score(
     except Exception as e:
         logger.error(f"Error calculating BLEU score: {e}")
         return 0.0
+
+def calculate_cosine_similarity(generated_text: str,
+                              reference_text: str) -> float:
+    """
+    Calculate cosine similarity between generated text and reference text using sentence embeddings.
+    
+    Args:
+        generated_text: Generated text to evaluate
+        reference_text: Ground truth text
+        
+    Returns:
+        float: Cosine similarity score in range [0,1]
+    """
+    try:
+        if not generated_text or not reference_text or sentence_model is None:
+            return 0.0
+
+        # Get embeddings for both texts
+        generated_embedding = sentence_model.encode(generated_text, convert_to_tensor=True)
+        reference_embedding = sentence_model.encode(reference_text, convert_to_tensor=True)
+        
+        # Move tensors to CPU before converting to numpy
+        generated_embedding = generated_embedding.cpu().numpy()
+        reference_embedding = reference_embedding.cpu().numpy()
+        
+        # Calculate cosine similarity
+        similarity = np.dot(generated_embedding, reference_embedding) / \
+                    (np.linalg.norm(generated_embedding) * np.linalg.norm(reference_embedding))
+        
+        return float(similarity)
+    except Exception as e:
+        logger.error(f"Error calculating cosine similarity: {e}")
+        return 0.0
+
