@@ -67,17 +67,6 @@ class BaseRAGFramework(ABC):
         except Exception as e:
             self.logger.error(f"Error during RAG execution: {str(e)}")
             raise
-    
-    def load_index(self, index_path: str):
-        """Load the index from the given path."""
-        self.logger.debug("Loading vector store from: %s", index_path)
-        self.vector_store = FAISS.load_local(
-           index_path, 
-           self.llm.get_embedding, 
-           allow_dangerous_deserialization=True
-       )
-        # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
-        self.logger.info("Vector store loaded successfully")
 
     def index(self, documents: List[SchemaDocument]):
         """Index the documents using FAISS index"""
@@ -86,7 +75,7 @@ class BaseRAGFramework(ABC):
             
             # Load index if exists
             if os.path.exists(self.vectorstore_path):
-                self.load_index(self.vectorstore_path)
+                self._load_index(self.vectorstore_path)
                 return
             
             # Execute chunking
@@ -181,6 +170,17 @@ class BaseRAGFramework(ABC):
         full_path = f"{base_path}/{filename}"
         self.logger.info("Generated vectorstore path: %s", full_path)
         return full_path
+
+    def _load_index(self, index_path: str):
+        """Load the index from the given path. Called by index() method."""
+        self.logger.debug("Loading vector store from: %s", index_path)
+        self.vector_store = FAISS.load_local(
+           index_path, 
+           self.llm.get_embedding, 
+           allow_dangerous_deserialization=True
+       )
+        # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
+        self.logger.info("Vector store loaded successfully")
 
     @property
     def dataset_config(self) -> DatasetConfig:
