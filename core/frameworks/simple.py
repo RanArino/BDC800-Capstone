@@ -5,7 +5,7 @@ import os
 import gc
 
 from langchain_community.vectorstores import FAISS
-from langchain_core.documents import Document
+from langchain_core.documents import Document as LangChainDocument
 
 from .base import BaseRAGFramework
 from .schema import RAGResponse
@@ -15,63 +15,18 @@ class SimpleRAG(BaseRAGFramework):
     def __init__(self, config_name: str):
         super().__init__(config_name, config_path = "core/configs/simple_rag.yaml")
     
-    def index(self, documents: List[SchemaDocument]):
+    def index_preprocessing(self, documents: List[SchemaDocument]) -> List[LangChainDocument]:
         """Index the documents using FAISS index"""
         try:
-            self.logger.debug("Starting document indexing")
-            
-            # Load index if exists
-            if os.path.exists(self.vectorstore_path):
-                self.load_index(self.vectorstore_path)
-                return
-            
-            # Split documents into chunks using specified mode
-            self.logger.debug("Splitting documents into chunks")
+            # Execute simple chunking
             chunks = self.chunker.run(documents, mode=self.chunker_config.mode)
-            self.logger.info(f"Created {len(chunks)} chunks")
-
-            # Process chunks in smaller batches
-            BATCH_SIZE = 5
-            total_batches = (len(chunks) + BATCH_SIZE - 1) // BATCH_SIZE
-            
-            for batch_idx in range(total_batches):
-                start_idx = batch_idx * BATCH_SIZE
-                end_idx = min((batch_idx + 1) * BATCH_SIZE, len(chunks))
-                batch_chunks = chunks[start_idx:end_idx]
-                
-                self.logger.debug(f"Processing batch {batch_idx + 1}/{total_batches}")
-                
-                if batch_idx == 0:
-                    # Initialize vector store with first batch
-                    self.vector_store = FAISS.from_texts(
-                        texts=[chunk.page_content for chunk in batch_chunks],
-                        embedding=self.llm.get_embedding,
-                        metadatas=[chunk.metadata for chunk in batch_chunks]
-                    )
-                else:
-                    # Add subsequent batches
-                    self.vector_store.add_texts(
-                        texts=[chunk.page_content for chunk in batch_chunks],
-                        metadatas=[chunk.metadata for chunk in batch_chunks]
-                    )
-                
-                # Force garbage collection after each batch
-                gc.collect()
-            
-            # Ensure vectorstore directory exists
-            self.logger.debug(f"Creating directory: {os.path.dirname(self.vectorstore_path)}")
-            os.makedirs(os.path.dirname(self.vectorstore_path), exist_ok=True)
-            
-            # Save vector store
-            self.logger.debug(f"Saving vector store to {self.vectorstore_path}")
-            self.vector_store.save_local(self.vectorstore_path)
-            self.logger.info("Indexing completed successfully")
-            
+            return chunks
+        
         except Exception as e:
             self.logger.error(f"Error during indexing: {str(e)}")
             raise
     
-    def retrieve(self, query: str, top_k: Optional[int] = None) -> List[Document]:
+    def retrieve(self, query: str, top_k: Optional[int] = None) -> List[LangChainDocument]:
         """Retrieve relevant documents using FAISS search."""
         try:
             self.logger.debug(f"Starting retrieval for query: {query}")
@@ -93,7 +48,7 @@ class SimpleRAG(BaseRAGFramework):
             self.logger.error(f"Error during retrieval: {str(e)}")
             raise
 
-    def generate(self, query: str, retrieved_docs: List[Document]) -> RAGResponse:
+    def generate(self, query: str, retrieved_docs: List[LangChainDocument]) -> RAGResponse:
         """Generate answer using LLM with retrieved langchain documents as context."""
         try:
             self.logger.debug("Starting answer generation")
