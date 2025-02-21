@@ -25,8 +25,8 @@ except Exception as e:
 def calculate_rouge_scores(
         generated_text: str, 
         reference_text: str, 
-        rouge_types: List[RougeType] = ['rouge1', 'rouge2', 'rougeL'],
-        metric_types: List[RougeMetricType] = ['recall']
+        rouge_types: List[RougeType],
+        metric_types: List[RougeMetricType],
     ) -> Dict[RougeType, RougeMetrics]:
     """
     Calculate ROUGE scores for generated text against reference.
