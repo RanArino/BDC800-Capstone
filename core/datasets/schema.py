@@ -28,6 +28,7 @@ class Document(BaseModel):
 
 class BaseQA(BaseModel):
     """Base class for question-answer pairs."""
+    id: str
     q: str # question
     a: str # answer
     e: Optional[str] = None # evidence

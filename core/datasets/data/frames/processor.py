@@ -92,6 +92,7 @@ class Frames(BaseDataset):
         url_to_id: Dict[str, str] = {}
         documents = []
         inter_qas = []
+        qa_counter = 0  # Counter for generating QA IDs
         
         # Process documents with progress bar
         for item in tqdm(raw_data, total=total_items, desc="Processing documents", unit="item"):
@@ -135,11 +136,13 @@ class Frames(BaseDataset):
             # Create QA pair if we have valid documents
             if doc_ids:
                 qa = InterDocumentQA(
+                    id=f"q{qa_counter}",  # Add unique ID
                     q=item['Prompt'],
                     a=item['Answer'],
                     e=None,  # No explicit evidence provided in FRAMES
                     document_ids=doc_ids
                 )
+                qa_counter += 1
                 inter_qas.append(qa)
         
         # Create and return dataset

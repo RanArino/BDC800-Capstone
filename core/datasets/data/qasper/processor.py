@@ -46,6 +46,7 @@ class Qasper(BaseDataset):
         processed_docs = set()
         documents = []
         qas = []
+        qa_counter = 0  # Counter for generating QA IDs
         
         for item in tqdm(raw_data, total=total_items, desc="Processing documents", unit="item"):
             doc_id = str(item['id'])
@@ -108,13 +109,15 @@ class Qasper(BaseDataset):
                     if valid_answer is None:
                         continue
                         
-                    # Create QA pair
+                    # Create QA pair with unique ID
                     qa = IntraDocumentQA(
+                        id=f"q{qa_counter}",  # Add unique ID
                         q=question,
                         a=valid_answer,
                         e=valid_evidence,
                         document_id=doc_id
                     )
+                    qa_counter += 1
                     qas.append(qa)
         
         # Create and return dataset

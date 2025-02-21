@@ -70,6 +70,7 @@ class NarrativeQA(BaseDataset):
         processed_docs = set()
         documents = []
         qas = []
+        qa_counter = 0  # Counter for generating QA IDs
         
         for item in tqdm(raw_data, total=total_items, desc="Processing documents", unit="item"):
             doc_id = str(item['document']['id'])
@@ -95,13 +96,15 @@ class NarrativeQA(BaseDataset):
                 )
                 documents.append(doc)
             
-            # Store QA pairs
+            # Store QA pairs with unique ID
             answers = [ans['text'] for ans in item['answers']]
             qa = IntraDocumentQA(
+                id=f"q{qa_counter}",  # Add unique ID
                 q=item['question']['text'],
                 a=' '.join(answers),
                 document_id=doc_id
             )
+            qa_counter += 1
             qas.append(qa)
             
         return Dataset(documents=documents, intra_qas=qas) 
