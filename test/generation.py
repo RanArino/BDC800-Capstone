@@ -7,8 +7,8 @@ Generation evaluation test
     ```
     python -m pdb test/generation.py
     ```
-- Input examples are stored in `test/data/qasper_list.json` and `test/data/RAGResponse_list.json`
-- Output example is generated in `test/data/metrics_list.json`
+- Input examples are stored in `test/input_data/qasper_list.json` and `test/input_data/RAGResponse_list.json`
+- Output example is generated in `test/output_data/metrics_list.json`
 """
 
 import sys
@@ -23,11 +23,11 @@ from core.evaluation import calculate_generation_metrics
 
 if __name__ == "__main__":
     # Load response list
-    qa_file = "test/data/qasper_list.json"
+    qa_file = "test/input_data/qasper_list.json"
     with open(qa_file, 'r') as f:
         qa_list: List[Dict] = json.load(f)
 
-    response_file = "test/data/RAGResponse_list.json"
+    response_file = "test/input_data/RAGResponse_list.json"
     with open(response_file, 'r') as f:
         # dictionary of RAGResponse objects
         response_list: List[Dict] = json.load(f) 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         metrics_list.append(metrics)
 
     # Save metrics to JSON file
-    metrics_dir = Path("test/data")
+    metrics_dir = Path("test/output_data")
     metrics_dir.mkdir(parents=True, exist_ok=True)
     metrics_list_file = metrics_dir / "generation_metrics_list.json"
     with open(metrics_list_file, 'w') as f:
