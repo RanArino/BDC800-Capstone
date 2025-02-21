@@ -41,13 +41,17 @@ def calculate_rouge_scores(
     Returns:
         Dict containing ROUGE scores where keys are rouge types (e.g. rouge1) and values are RougeMetrics objects
     """
+    logger.debug(f"Calculating ROUGE scores with types={rouge_types}, metrics={metric_types}")
+
     try:
         if not generated_text or not reference_text:
+            logger.debug("Empty input text detected, returning zero scores")
             return {rouge_type: RougeMetrics(**{metric: 0.0 for metric in metric_types}) 
                    for rouge_type in rouge_types}
 
         scorer = rouge_scorer.RougeScorer(rouge_types, use_stemmer=True)
         scores = scorer.score(reference_text, generated_text)
+        logger.debug(f"Raw ROUGE scores: {scores}")
         
         return {
             rouge_type: RougeMetrics(**{
@@ -56,6 +60,7 @@ def calculate_rouge_scores(
             })
             for rouge_type in rouge_types
         }
+    
     except Exception as e:
         logger.error(f"Error calculating ROUGE scores: {e}")
         return {rouge_type: RougeMetrics(**{metric: 0.0 for metric in metric_types}) 
@@ -76,18 +81,23 @@ def calculate_bleu_score(
     Returns:
         float: BLEU score
     """
+    logger.debug(f"Calculating BLEU score")
+    
     try:
         if not generated_text or not reference_text:
+            logger.debug("Empty input text detected, returning zero score")
             return 0.0
             
         # SacreBLEU expects a list of references
         bleu = sacrebleu.metrics.BLEU()
         score = bleu.corpus_score([generated_text], [[reference_text]])
         return score.score / 100.0  # Normalize to [0,1] range
+    
     except Exception as e:
         logger.error(f"Error calculating BLEU score: {e}")
         return 0.0
 
+# Cosine similarity
 def calculate_cosine_similarity(generated_text: str,
                               reference_text: str) -> float:
     """
@@ -100,13 +110,17 @@ def calculate_cosine_similarity(generated_text: str,
     Returns:
         float: Cosine similarity score in range [0,1]
     """
+    logger.debug("Calculating cosine similarity")
+    
     try:
         if not generated_text or not reference_text or sentence_model is None:
+            logger.debug("Empty input text or no model available, returning zero score")
             return 0.0
 
         # Get embeddings for both texts
         generated_embedding = sentence_model.encode(generated_text, convert_to_tensor=True)
         reference_embedding = sentence_model.encode(reference_text, convert_to_tensor=True)
+        logger.debug("Successfully generated embeddings")
         
         # Move tensors to CPU before converting to numpy
         generated_embedding = generated_embedding.cpu().numpy()
@@ -117,6 +131,7 @@ def calculate_cosine_similarity(generated_text: str,
                     (np.linalg.norm(generated_embedding) * np.linalg.norm(reference_embedding))
         
         return float(similarity)
+    
     except Exception as e:
         logger.error(f"Error calculating cosine similarity: {e}")
         return 0.0
@@ -140,6 +155,7 @@ def calculate_generation_metrics(
     Returns:
         GenerationEval object containing all calculated metrics
     """
+    logger.info(f"Calculating generation metrics")
     try:
         # Calculate ROUGE scores with specified metric types
         rouge_scores = calculate_rouge_scores(
@@ -148,12 +164,17 @@ def calculate_generation_metrics(
             rouge_types=rouge_types,
             metric_types=rouge_metric_types
         )
+        logger.debug(f"ROUGE scores calculated: {rouge_scores}")
         
         # Calculate BLEU score
         bleu = calculate_bleu_score(generated_text, reference_text)
+        logger.debug(f"BLEU score calculated: {bleu}")
         
         # Calculate cosine similarity
         cosine_sim = calculate_cosine_similarity(generated_text, reference_text)
+        logger.debug(f"Cosine similarity calculated: {cosine_sim}")
+
+        logger.info(f"All metrics calculated successfully")
         
         # Create GenerationEval object with all metrics
         return GenerationEval(
@@ -171,6 +192,7 @@ def calculate_generation_metrics(
         # Set the first metric to a small non-zero value to pass validation
         if rouge_metric_types:
             default_metrics[rouge_metric_types[0]] = 0.001
+            logger.debug(f"Using default metrics with non-zero value: {default_metrics}")
         
         default_rouge_metrics = RougeMetrics(**default_metrics)
         return GenerationEval(
