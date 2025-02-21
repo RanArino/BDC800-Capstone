@@ -14,7 +14,6 @@ from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 # ROUGE scores
 def calculate_rouge_scores(
         generated_text: str, 
@@ -55,3 +54,29 @@ def calculate_rouge_scores(
         return {rouge_type: RougeMetrics(**{metric: 0.0 for metric in metric_types}) 
                 for rouge_type in rouge_types}
 
+# BLEU scores
+def calculate_bleu_score(
+        generated_text: str, 
+        reference_text: str
+    ) -> float:
+    """
+    Calculate BLEU score for generated text against reference.
+    
+    Args:
+        generated_text: Generated text to evaluate
+        reference_text: Ground truth text
+        
+    Returns:
+        float: BLEU score
+    """
+    try:
+        if not generated_text or not reference_text:
+            return 0.0
+            
+        # SacreBLEU expects a list of references
+        bleu = sacrebleu.metrics.BLEU()
+        score = bleu.corpus_score([generated_text], [[reference_text]])
+        return score.score / 100.0  # Normalize to [0,1] range
+    except Exception as e:
+        logger.error(f"Error calculating BLEU score: {e}")
+        return 0.0
