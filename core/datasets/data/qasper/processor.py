@@ -25,8 +25,10 @@ def flatten_and_join(lst: List[List[str]]) -> str:
     return flattened
 
 class Qasper(BaseDataset):
+    """Qasper dataset processor - single document QA pairs from scientific papers."""
+    
     def __init__(self):
-        super().__init__("qasper")
+        super().__init__("qasper", IntraDocumentQA)
     
     def _process_raw_data(self) -> Tuple[List[Document], List[IntraDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""

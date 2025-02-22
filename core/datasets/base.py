@@ -1,13 +1,14 @@
-
 # core/datasets/base.py
 
 """
 Base dataset class and interfaces for RAG framework datasets.
 """
 from abc import ABC, abstractmethod
-from typing import Generator, Optional, Tuple, List, Union
+from typing import Generator, Optional, Tuple, List, Union, Literal
 from pathlib import Path
 import json
+import ijson
+import random
 
 from core.datasets.schema import Document, IntraDocumentQA, InterDocumentQA
 from core.logger.logger import get_logger
@@ -18,8 +19,15 @@ logger = get_logger(__name__)
 class BaseDataset(ABC):
     """Base class for all datasets used in the RAG framework."""
     
-    def __init__(self, name: str):
+    def __init__(self, name: str, qa_type: Union[type[IntraDocumentQA], type[InterDocumentQA]]):
+        """Initialize dataset.
+        
+        Args:
+            name: Name of the dataset
+            qa_type: Type of QA pairs in this dataset (IntraDocumentQA or InterDocumentQA)
+        """
         self.name = name
+        self.qa_type = qa_type
         self.data_dir = Path(__file__).parent / "data" / name
         self.docs_file = self.data_dir / "documents.json"
         self.qas_file = self.data_dir / "qas.json"

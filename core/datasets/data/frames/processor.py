@@ -71,8 +71,10 @@ def _extract_wikipedia_content(url: str) -> WikipediaContent:
 
 
 class Frames(BaseDataset):
+    """Frames dataset processor - multi-document QA pairs from Wikipedia articles."""
+    
     def __init__(self):
-        super().__init__("frames")
+        super().__init__("frames", InterDocumentQA)
     
     def _process_raw_data(self) -> Tuple[List[Document], List[InterDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""

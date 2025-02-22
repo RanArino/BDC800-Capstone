@@ -17,8 +17,10 @@ from core.datasets import (
 )
 
 class MultiHopRAG(BaseDataset):
+    """MultiHopRAG dataset processor - multi-document QA pairs requiring reasoning across documents."""
+    
     def __init__(self):
-        super().__init__("multihoprag")
+        super().__init__("multihoprag", InterDocumentQA)
     
     def _process_raw_data(self) -> Tuple[List[Document], List[InterDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""

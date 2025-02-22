@@ -49,8 +49,10 @@ def extract_text(text: str, start_marker: str, end_marker: str) -> str:
         return text
 
 class NarrativeQA(BaseDataset):
+    """NarrativeQA dataset processor - single document QA pairs from narrative texts."""
+    
     def __init__(self):
-        super().__init__("narrativeqa")
+        super().__init__("narrativeqa", IntraDocumentQA)
     
     def _process_raw_data(self) -> Tuple[List[Document], List[IntraDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""
