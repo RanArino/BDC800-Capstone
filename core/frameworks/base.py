@@ -3,6 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Generator, Tuple
 from datetime import datetime
+from collections import deque
 import gc
 import os
 
@@ -103,51 +104,41 @@ class BaseRAGFramework(ABC):
             self.logger.error(f"Error during RAG execution: {str(e)}")
             raise
 
-    def index(self, documents: List[SchemaDocument]):
-        """Index the documents using FAISS index"""
-
-        # Load dataset
-        self._load_dataset()
-
+    def index(self, gen_docs: Generator[SchemaDocument, None, None], is_update: bool = False):
+        """Index the documents using FAISS index
+        
+        Args:
+            gen_docs: Generator of documents to index
+            is_update: Whether to update the existing index
+        """
         # Index documents
         try:
             self.logger.debug("Starting document indexing")
             
             # Load index if exists
-            if os.path.exists(self.vectorstore_path):
+            if os.path.exists(self.vectorstore_path) and not is_update:
                 self._load_index(self.vectorstore_path)
                 return
             
             # Execute chunking
             self.logger.debug("Splitting documents into chunks")
-            chunks = self.index_preprocessing(documents)
+            gen_chunks = self.index_preprocessing(gen_docs)
             
-            # Process chunks in smaller batches
+            # Process chunks in batches while maintaining generator pattern
             BATCH_SIZE = 5
-            total_batches = (len(chunks) + BATCH_SIZE - 1) // BATCH_SIZE
+            current_batch = deque(maxlen=BATCH_SIZE)
             
-            for batch_idx in range(total_batches):
-                start_idx = batch_idx * BATCH_SIZE
-                end_idx = min((batch_idx + 1) * BATCH_SIZE, len(chunks))
-                batch_chunks = chunks[start_idx:end_idx]
+            for chunk in gen_chunks:
+                current_batch.append(chunk)
                 
-                self.logger.debug(f"Processing batch {batch_idx + 1}/{total_batches}")
-                
-                if batch_idx == 0:
-                    # Initialize vector store with first batch
-                    self.vector_store = FAISS.from_texts(
-                        texts=[chunk.page_content for chunk in batch_chunks],
-                        embedding=self.llm.get_embedding,
-                        metadatas=[chunk.metadata for chunk in batch_chunks]
-                    )
-                else:
-                    # Add subsequent batches
-                    self.vector_store.add_texts(
-                        texts=[chunk.page_content for chunk in batch_chunks],
-                        metadatas=[chunk.metadata for chunk in batch_chunks]
-                    )
-                
-                # Force garbage collection after each batch
+                if len(current_batch) >= BATCH_SIZE:
+                    self._process_chunk_batch(list(current_batch))
+                    current_batch.clear()  # Clear the deque
+                    gc.collect()  # Force garbage collection after each batch
+            
+            # Process any remaining chunks
+            if current_batch:
+                self._process_chunk_batch(list(current_batch))
                 gc.collect()
             
             # Ensure vectorstore directory exists
@@ -162,6 +153,28 @@ class BaseRAGFramework(ABC):
         except Exception as e:
             self.logger.error(f"Error during indexing: {str(e)}")
             raise
+
+    def _process_chunk_batch(self, batch_chunks: List[LangChainDocument]):
+        """Process a batch of chunks and add them to the vector store.
+        
+        Args:
+            batch_chunks: List of chunks to process in this batch
+        """
+        self.logger.debug(f"Processing batch of {len(batch_chunks)} chunks")
+        
+        if not hasattr(self, 'vector_store') or self.vector_store is None:
+            # Initialize vector store with first batch
+            self.vector_store = FAISS.from_texts(
+                texts=[chunk.page_content for chunk in batch_chunks],
+                embedding=self.llm.get_embedding,
+                metadatas=[chunk.metadata for chunk in batch_chunks]
+            )
+        else:
+            # Add subsequent batches
+            self.vector_store.add_texts(
+                texts=[chunk.page_content for chunk in batch_chunks],
+                metadatas=[chunk.metadata for chunk in batch_chunks]
+            )
 
     @abstractmethod
     def index_preprocessing(self, documents: List[SchemaDocument]) -> List[LangChainDocument]:
