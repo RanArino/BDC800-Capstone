@@ -1,7 +1,7 @@
 # core/frameworks/base.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Generator
 from datetime import datetime
 import gc
 import os
@@ -15,7 +15,15 @@ import yaml
 from core.utils import get_project_root
 from core.rag_core import LLMController, Chunker
 from core.logger.logger import get_logger
-from core.datasets import IntraDocumentQA, InterDocumentQA, Document as SchemaDocument
+from core.datasets import (
+    Qasper,
+    NarrativeQA,
+    MultiHopRAG,
+    Frames,
+    IntraDocumentQA, 
+    InterDocumentQA, 
+    Document as SchemaDocument)
+
 from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig, RAGResponse
 
 logger = get_logger(__name__)
@@ -33,10 +41,10 @@ class BaseRAGFramework(ABC):
         # self.timing_metrics = TimingMetrics()  # Timing Metrics
 
         # Initialize variables that are defined in index() method
-        self.vector_store = None
-        self.faiss_index = None
-        self.dataset = None   
-        
+        self.docs: Generator[SchemaDocument, None, None] = None   
+        self.qas: Generator[IntraDocumentQA | InterDocumentQA, None, None] = None
+        self.vector_store: FAISS = None
+
         # Initialize LLMController
         self.logger.info("Initializing LLMController with models: %s (LLM), %s (Embedding)", 
                         self.model_config.llm_id, self.model_config.embedding_id)
@@ -191,7 +199,19 @@ class BaseRAGFramework(ABC):
 
     def _load_dataset(self):
         """Load the dataset from the given path."""
-        pass
+        # Load dataset
+        if self.dataset_config.name == "narrativeqa":
+            self.dataset = NarrativeQA()
+        elif self.dataset_config.name == "qasper":
+            self.dataset = Qasper()
+        elif self.dataset_config.name == "multihoprag":
+            self.dataset = MultiHopRAG()
+        elif self.dataset_config.name == "frames":
+            self.dataset = Frames()
+        
+        # TODO: Load documents and qas   
+        # self.docs, self.qas = ...
+
 
     @property
     def dataset_config(self) -> DatasetConfig:
