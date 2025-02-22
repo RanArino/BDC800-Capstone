@@ -5,7 +5,7 @@ MultiHopRAG dataset processor
 """
 
 import hashlib
-from typing import Dict
+from typing import Dict, Tuple, List
 from tqdm import tqdm
 
 from core.utils import load_hf_dataset
@@ -13,15 +13,16 @@ from core.datasets import (
     BaseDataset, 
     Document, 
     Metadata, 
-    InterDocumentQA, 
-    Dataset
+    InterDocumentQA,
 )
 
 class MultiHopRAG(BaseDataset):
-    def __init__(self):
-        super().__init__("multihoprag")
+    """MultiHopRAG dataset processor - multi-document QA pairs requiring reasoning across documents."""
     
-    def _process_raw_data(self):
+    def __init__(self):
+        super().__init__("multihoprag", InterDocumentQA)
+    
+    def _process_raw_data(self) -> Tuple[List[Document], List[InterDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""
         raw_data_corpus = load_hf_dataset("yixuantt/MultiHopRAG", "corpus", split="train")
         raw_data_qas = load_hf_dataset("yixuantt/MultiHopRAG", "MultiHopRAG", split="train")
@@ -68,6 +69,8 @@ class MultiHopRAG(BaseDataset):
             
         # Process QA pairs with progress bar
         inter_qas = []
+        qa_counter = 0  # Counter for generating QA IDs
+        
         for item in tqdm(raw_data_qas, total=total_qas, desc="Processing QA pairs", unit="qa"):
             # Get document IDs from evidence list
             doc_ids = []
@@ -79,19 +82,15 @@ class MultiHopRAG(BaseDataset):
                     url_to_id[url] = doc_id
                 doc_ids.append(url_to_id[url])
             
-            # Create QA pair
+            # Create QA pair with unique ID
             qa = InterDocumentQA(
+                id=f"q{qa_counter}",  # Add unique ID
                 q=item['query'],
                 a=item['answer'],
                 document_ids=doc_ids
             )
+            qa_counter += 1
             inter_qas.append(qa)
         
-        # Create and return dataset
-        dataset = Dataset(
-            documents=documents,
-            inter_qas=inter_qas
-        )
-        
-        return dataset
+        return documents, inter_qas
 
