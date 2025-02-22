@@ -192,11 +192,37 @@ class BaseRAGFramework(ABC):
         pass
 
     @abstractmethod
-    def retrieve(self, query: str, top_k: Optional[int] = None):
+    def retrieve(
+        self, 
+        query: str, 
+        top_k: Optional[int] = None
+    ) -> List[LangChainDocument]:
+        """Retrieve relevant documents from the vector store.
+        
+        Args:
+            query: The query to retrieve documents for.
+            top_k: The number of documents to retrieve.
+            
+        Returns:
+            A list of documents that are relevant to the query.
+        """
         pass
 
     @abstractmethod
-    def generate(self, query: str, retrieved_docs: List[LangChainDocument]) -> RAGResponse:
+    def generate(
+        self, 
+        query: str, 
+        retrieved_docs: List[LangChainDocument]
+    ) -> RAGResponse:
+        """Generate an answer to the query using the retrieved documents.
+        
+        Args:
+            query: The query to generate an answer for.
+            retrieved_docs: A list of documents that are relevant to the query.
+            
+        Returns:
+            An answer to the query.
+        """
         pass
 
     @abstractmethod
