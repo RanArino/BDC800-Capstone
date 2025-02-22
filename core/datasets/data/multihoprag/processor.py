@@ -5,7 +5,7 @@ MultiHopRAG dataset processor
 """
 
 import hashlib
-from typing import Dict
+from typing import Dict, Tuple, List
 from tqdm import tqdm
 
 from core.utils import load_hf_dataset
@@ -13,15 +13,14 @@ from core.datasets import (
     BaseDataset, 
     Document, 
     Metadata, 
-    InterDocumentQA, 
-    Dataset
+    InterDocumentQA,
 )
 
 class MultiHopRAG(BaseDataset):
     def __init__(self):
         super().__init__("multihoprag")
     
-    def _process_raw_data(self):
+    def _process_raw_data(self) -> Tuple[List[Document], List[InterDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""
         raw_data_corpus = load_hf_dataset("yixuantt/MultiHopRAG", "corpus", split="train")
         raw_data_qas = load_hf_dataset("yixuantt/MultiHopRAG", "MultiHopRAG", split="train")
@@ -91,11 +90,5 @@ class MultiHopRAG(BaseDataset):
             qa_counter += 1
             inter_qas.append(qa)
         
-        # Create and return dataset
-        dataset = Dataset(
-            documents=documents,
-            inter_qas=inter_qas
-        )
-        
-        return dataset
+        return documents, inter_qas
 

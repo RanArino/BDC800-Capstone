@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import re
 import hashlib
 import ast
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Tuple
 from tqdm import tqdm
 
 from core.utils import load_hf_dataset
@@ -18,7 +18,6 @@ from core.datasets import (
     Document, 
     Metadata, 
     InterDocumentQA, 
-    Dataset, 
     WikipediaContent
 )
 
@@ -75,7 +74,7 @@ class Frames(BaseDataset):
     def __init__(self):
         super().__init__("frames")
     
-    def _process_raw_data(self):
+    def _process_raw_data(self) -> Tuple[List[Document], List[InterDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""
         raw_data = load_hf_dataset("google/frames-benchmark", split="test")
         total_items = len(raw_data)
@@ -92,7 +91,7 @@ class Frames(BaseDataset):
         url_to_id: Dict[str, str] = {}
         documents = []
         inter_qas = []
-        qa_counter = 0  # Counter for generating QA IDs
+        qa_counter = 0
         
         # Process documents with progress bar
         for item in tqdm(raw_data, total=total_items, desc="Processing documents", unit="item"):
@@ -145,10 +144,4 @@ class Frames(BaseDataset):
                 qa_counter += 1
                 inter_qas.append(qa)
         
-        # Create and return dataset
-        dataset = Dataset(
-            documents=documents,
-            inter_qas=inter_qas
-        )
-        
-        return dataset
+        return documents, inter_qas

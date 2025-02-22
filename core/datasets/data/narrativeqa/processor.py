@@ -4,14 +4,14 @@
 NarrativeQA dataset processor
 """
 from tqdm import tqdm
+from typing import List, Tuple
 
 from core.utils import load_hf_dataset
 from core.datasets import (
     BaseDataset, 
     Document, 
     Metadata, 
-    IntraDocumentQA, 
-    Dataset
+    IntraDocumentQA,
 )
 
 def extract_text(text: str, start_marker: str, end_marker: str) -> str:
@@ -52,7 +52,7 @@ class NarrativeQA(BaseDataset):
     def __init__(self):
         super().__init__("narrativeqa")
     
-    def _process_raw_data(self) -> Dataset:
+    def _process_raw_data(self) -> Tuple[List[Document], List[IntraDocumentQA]]:
         """Process raw data from HuggingFace into our schema format"""
         # "split" can be "train"(14.7k), "validation"(3.46k), or "test"(10.6k)
         raw_data = load_hf_dataset("deepmind/narrativeqa", split="train")
@@ -70,7 +70,7 @@ class NarrativeQA(BaseDataset):
         processed_docs = set()
         documents = []
         qas = []
-        qa_counter = 0  # Counter for generating QA IDs
+        qa_counter = 0
         
         for item in tqdm(raw_data, total=total_items, desc="Processing documents", unit="item"):
             doc_id = str(item['document']['id'])
@@ -107,4 +107,4 @@ class NarrativeQA(BaseDataset):
             qa_counter += 1
             qas.append(qa)
             
-        return Dataset(documents=documents, intra_qas=qas) 
+        return documents, qas 
