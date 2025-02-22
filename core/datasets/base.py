@@ -1,14 +1,15 @@
+
 # core/datasets/base.py
 
 """
 Base dataset class and interfaces for RAG framework datasets.
 """
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Generator, Optional
+from typing import Generator, Optional, Tuple, List, Union
 from pathlib import Path
 import json
 
-from core.datasets.schema import Dataset, Document, IntraDocumentQA, InterDocumentQA
+from core.datasets.schema import Document, IntraDocumentQA, InterDocumentQA
 from core.logger.logger import get_logger
 
 # Let Python automatically determine the module name
@@ -20,7 +21,8 @@ class BaseDataset(ABC):
     def __init__(self, name: str):
         self.name = name
         self.data_dir = Path(__file__).parent / "data" / name
-        self.data_file = self.data_dir / "data.json"
+        self.docs_file = self.data_dir / "documents.json"
+        self.qas_file = self.data_dir / "qas.json"
         self._test_mode = False
         logger.debug(f"Initialized {name} dataset with data directory: {self.data_dir}")
     
@@ -33,17 +35,29 @@ class BaseDataset(ABC):
         logger.info(f"Loading {self.name} dataset")
         self._test_mode = mode == "test"
         test_suffix = "_test" if self._test_mode else ""
-        self.data_file = self.data_dir / f"data{test_suffix}.json"
+        self.docs_file = self.data_dir / f"documents{test_suffix}.json"
+        self.qas_file = self.data_dir / f"qas{test_suffix}.json"
         
-        if not self.data_file.exists():
-            logger.info(f"Data file not found at {self.data_file}, processing raw data...")
-            dataset = self._process_raw_data()
+        if not (self.docs_file.exists() and self.qas_file.exists()):
+            logger.info(f"Data files not found, processing raw data...")
+            documents, qas = self._process_raw_data()
             self.data_dir.mkdir(parents=True, exist_ok=True)
-            with open(self.data_file, 'w') as f:
-                json.dump(dataset.model_dump(), f, indent=2)
-            logger.info(f"Processed and saved data to {self.data_file}")
+            
+            # Save documents
+            with open(self.docs_file, 'w') as f:
+                json.dump([doc.model_dump() for doc in documents], f, indent=2)
+            logger.info(f"Processed and saved documents to {self.docs_file}")
+            
+            # Save QAs
+            with open(self.qas_file, 'w') as f:
+                qa_data = {
+                    'intra_qas': [qa.model_dump() for qa in qas if isinstance(qa, IntraDocumentQA)],
+                    'inter_qas': [qa.model_dump() for qa in qas if isinstance(qa, InterDocumentQA)]
+                }
+                json.dump(qa_data, f, indent=2)
+            logger.info(f"Processed and saved QAs to {self.qas_file}")
         else:
-            logger.debug(f"Using existing data file: {self.data_file}")
+            logger.info(f"Using existing data files")
 
     def get_documents(self) -> Generator[Document, None, None]:
         """Get documents one by one from the dataset."""
@@ -78,7 +92,7 @@ class BaseDataset(ABC):
                     yield InterDocumentQA.model_validate(qa_dict)
 
     @abstractmethod
-    def _process_raw_data(self) -> Dataset:
-        """Process raw data into our schema format. Must be implemented by each dataset."""
+    def _process_raw_data(self) -> Tuple[List[Document], List[Union[IntraDocumentQA, InterDocumentQA]]]:
+        """Process raw data into documents and QAs. Must be implemented by each dataset."""
         logger.info(f"Processing raw data for {self.name} dataset")
         pass 
