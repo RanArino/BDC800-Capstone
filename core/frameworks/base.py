@@ -6,6 +6,7 @@ from datetime import datetime
 from collections import deque
 import gc
 import os
+from itertools import tee
 
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
@@ -81,12 +82,11 @@ class BaseRAGFramework(ABC):
         """
         self.logger.debug("Loading dataset with params: docs=%s, qas=%s, mode=%s", number_of_docs, number_of_qas, select_mode)
         
-        # Initialize dataset
+        # Load dataset
         self.dataset = get_dataset(self.dataset_config.name)
-        self.dataset.load()  # Ensure dataset is loaded
-
-        # TODO: get documents and qas generators
-        # return doc_generator, qa_generator
+        self.dataset.load()
+        
+        return self._load_docs_and_qas(number_of_docs, number_of_qas, select_mode)
 
     def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
         """Run the RAG pipeline on a query."""
@@ -272,6 +272,50 @@ class BaseRAGFramework(ABC):
         # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
         self.logger.info("Vector store loaded successfully")
 
+    def _load_docs_and_qas(
+        self,
+        number_of_docs: Optional[int] = None,
+        number_of_qas: Optional[int] = None,
+        select_mode: Optional[str] = None
+    ) -> Tuple[Generator[SchemaDocument, None, None], Generator[IntraDocumentQA | InterDocumentQA, None, None]]:
+        """Load document and QA generators based on specified parameters."""
+        selection_mode = select_mode or self.dataset_config.select_mode or 'sequential'
+        self.logger.debug(f"Loading generators with selection mode: {selection_mode}")
+        
+        if number_of_docs is not None:
+            # Get docs and clone generator for IDs
+            gen_docs, docs_for_ids = tee(
+                self.dataset.get_documents(
+                    num_docs=number_of_docs, 
+                    selection_mode=selection_mode
+                )
+            )
+            return (
+                gen_docs,
+                self.dataset.get_queries(doc_ids=(doc.id for doc in docs_for_ids))
+            )
+            
+        if number_of_qas is not None:
+            # Get QAs and clone generator for IDs
+            gen_qas, qas_for_ids = tee(
+                self.dataset.get_queries(
+                    num_qas=number_of_qas,
+                    selection_mode=selection_mode
+                )
+            )
+            return (
+                self.dataset.get_documents(doc_ids=(
+                    doc_id for qa in qas_for_ids 
+                    for doc_id in (qa.document_ids if isinstance(qa, InterDocumentQA) else [qa.document_id])
+                )),
+                gen_qas
+            )
+            
+        # Get all docs and QAs
+        return (
+            self.dataset.get_documents(selection_mode=selection_mode),
+            self.dataset.get_queries(selection_mode=selection_mode)
+        )
 
     @property
     def dataset_config(self) -> DatasetConfig:
