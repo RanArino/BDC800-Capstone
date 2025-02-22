@@ -1,7 +1,7 @@
 # core/frameworks/base.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Generator
+from typing import List, Optional, Generator, Tuple
 from datetime import datetime
 import gc
 import os
@@ -16,13 +16,12 @@ from core.utils import get_project_root
 from core.rag_core import LLMController, Chunker
 from core.logger.logger import get_logger
 from core.datasets import (
-    Qasper,
-    NarrativeQA,
-    MultiHopRAG,
-    Frames,
+    get_dataset,
+    BaseDataset,
     IntraDocumentQA, 
     InterDocumentQA, 
-    Document as SchemaDocument)
+    Document as SchemaDocument
+)
 
 from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig, RAGResponse
 
@@ -41,6 +40,7 @@ class BaseRAGFramework(ABC):
         # self.timing_metrics = TimingMetrics()  # Timing Metrics
 
         # Initialize variables that are defined in index() method
+        self.dataset: BaseDataset = None
         self.docs: Generator[SchemaDocument, None, None] = None   
         self.qas: Generator[IntraDocumentQA | InterDocumentQA, None, None] = None
         self.vector_store: FAISS = None
@@ -61,6 +61,31 @@ class BaseRAGFramework(ABC):
             chunk_overlap=self.chunker_config.overlap
         )
         self.logger.info("BaseRAGFramework initialization completed")
+
+    def load_dataset(
+            self, 
+            number_of_docs: Optional[int] = None, 
+            number_of_qas: Optional[int] = None, 
+            select_mode: Optional[str] = None
+        ) -> Tuple[Generator[SchemaDocument, None, None], Generator[IntraDocumentQA | InterDocumentQA, None, None]]:
+        """Load the dataset from the given path.
+        
+        Args:
+            number_of_docs: Optional number of documents to load. If specified, related QAs will be loaded through doc IDs.
+            number_of_qas: Optional number of QAs to load. If specified (and number_of_docs not specified), related docs will be loaded through QA doc IDs.
+            select_mode: Optional selection mode ('sequential' or 'random'). Defaults to config value or 'sequential'.
+            
+        Returns:
+            A tuple of (document generator, QA generator)
+        """
+        self.logger.debug("Loading dataset with params: docs=%s, qas=%s, mode=%s", number_of_docs, number_of_qas, select_mode)
+        
+        # Initialize dataset
+        self.dataset = get_dataset(self.dataset_config.name)
+        self.dataset.load()  # Ensure dataset is loaded
+
+        # TODO: get documents and qas generators
+        # return doc_generator, qa_generator
 
     def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
         """Run the RAG pipeline on a query."""
@@ -196,21 +221,6 @@ class BaseRAGFramework(ABC):
        )
         # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
         self.logger.info("Vector store loaded successfully")
-
-    def _load_dataset(self):
-        """Load the dataset from the given path."""
-        # Load dataset
-        if self.dataset_config.name == "narrativeqa":
-            self.dataset = NarrativeQA()
-        elif self.dataset_config.name == "qasper":
-            self.dataset = Qasper()
-        elif self.dataset_config.name == "multihoprag":
-            self.dataset = MultiHopRAG()
-        elif self.dataset_config.name == "frames":
-            self.dataset = Frames()
-        
-        # TODO: Load documents and qas   
-        # self.docs, self.qas = ...
 
 
     @property
