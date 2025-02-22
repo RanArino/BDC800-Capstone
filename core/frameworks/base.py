@@ -177,7 +177,18 @@ class BaseRAGFramework(ABC):
             )
 
     @abstractmethod
-    def index_preprocessing(self, documents: List[SchemaDocument]) -> List[LangChainDocument]:
+    def index_preprocessing(
+        self, 
+        documents: Generator[SchemaDocument, None, None]
+    ) -> Generator[LangChainDocument, None, None]:
+        """Preprocess the documents before indexing.
+        
+        Args:
+            documents: A generator of documents to preprocess.
+            
+        Returns:
+            A generator of preprocessed documents.
+        """
         pass
 
     @abstractmethod
