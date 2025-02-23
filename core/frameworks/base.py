@@ -1,7 +1,7 @@
 # core/frameworks/base.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Generator, Tuple, Union
+from typing import List, Optional, Generator, Tuple, Union, Iterable
 from datetime import datetime
 from collections import deque
 import gc
@@ -101,17 +101,16 @@ class BaseRAGFramework(ABC):
                 raise ValueError("For InterDocumentQA datasets, please specify number_of_qas instead of number_of_docs")
             return self._load_inter_docs_and_qas(number_of_qas, selection_mode)
 
-    def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
+    def run(self, query: str) -> RAGResponse:
         """Run the RAG pipeline on a query."""
         try:
             # Retrieve relevant documents
-            retrieved_docs = self.retrieve(qa.q)
+            retrieved_docs = self.retrieve(query)
             
             # Generate answer
-            llm_answer = self.generate(qa.q, retrieved_docs)
+            llm_answer = self.generate(query, retrieved_docs)
             
             return llm_answer
-            
             
         except Exception as e:
             self.logger.error(f"Error during RAG execution: {str(e)}")
