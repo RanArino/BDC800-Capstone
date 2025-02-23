@@ -1,4 +1,4 @@
-# test/generation.py
+# test/eval_generation.py
 
 """
 Generation evaluation test
