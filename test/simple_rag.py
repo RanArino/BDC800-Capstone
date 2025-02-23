@@ -55,7 +55,7 @@ def qasper_test():
             logger.info(f"Testing RAG with query")
             response_list = []
             for qa in qas:
-                response = simple_rag.run(qa.q)
+                response = simple_rag.run(qa)
                 response_list.append(response)
             logger.info("RAG test completed")
 
@@ -88,7 +88,7 @@ def multihoprag_test():
         logger.info(f"Testing RAG with query")
         response_list = []
         for qa in gen_qas:
-            response = simple_rag.run(qa.q)
+            response = simple_rag.run(qa)
             response_list.append(response)
         logger.info("RAG test completed")
         
