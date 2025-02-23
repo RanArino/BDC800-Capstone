@@ -38,7 +38,7 @@ class BaseRAGFramework(ABC):
 
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
-        self.profiler = Profiler() # Performance Profiler
+        self.profiler = Profiler(reset_on_init=True) # Performance Profiler
         # self.timing_metrics = TimingMetrics()  # Timing Metrics
 
         # Initialize variables that are defined in index() method
