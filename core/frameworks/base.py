@@ -101,14 +101,14 @@ class BaseRAGFramework(ABC):
                 raise ValueError("For InterDocumentQA datasets, please specify number_of_qas instead of number_of_docs")
             return self._load_inter_docs_and_qas(number_of_qas, selection_mode)
 
-    def run(self, query: str) -> RAGResponse:
+    def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
         """Run the RAG pipeline on a query."""
         try:
             # Retrieve relevant documents
-            retrieved_docs = self.retrieve(query)
+            retrieved_docs = self.retrieve(qa.q)
             
             # Generate answer
-            llm_answer = self.generate(query, retrieved_docs)
+            llm_answer = self.generate(qa.q, retrieved_docs)
             
             return llm_answer
             
