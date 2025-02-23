@@ -117,13 +117,19 @@ class BaseRAGFramework(ABC):
             self.logger.error(f"Error during RAG execution: {str(e)}")
             raise
 
-    def index(self, gen_docs: Generator[SchemaDocument, None, None], is_update: bool = False):
+    def index(
+        self, 
+        docs: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]], 
+        is_update: bool = False
+    ):
         """Index the documents using FAISS index
         
         Args:
-            gen_docs: Generator of documents to index
+            docs: A single document, a generator of documents, or an iterable of documents to index
             is_update: Whether to update the existing index
         """
+        gen_docs = self._ensure_document_generator(docs)
+        
         # Index documents
         try:
             self.logger.debug("Starting document indexing")
@@ -189,15 +195,34 @@ class BaseRAGFramework(ABC):
                 metadatas=[chunk.metadata for chunk in batch_chunks]
             )
 
+    def _ensure_document_generator(
+        self, 
+        documents: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]
+    ) -> Generator[SchemaDocument, None, None]:
+        """Convert a single document or generator into a generator.
+        
+        Args:
+            documents: A single document, a generator of documents, or an iterable of documents
+            
+        Returns:
+            A generator of documents
+        """
+        if isinstance(documents, SchemaDocument):
+            yield documents
+        elif isinstance(documents, Generator):
+            yield from documents
+        else:
+            yield from documents
+
     @abstractmethod
     def index_preprocessing(
         self, 
-        documents: Generator[SchemaDocument, None, None]
+        documents: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]
     ) -> Generator[LangChainDocument, None, None]:
         """Preprocess the documents before indexing.
         
         Args:
-            documents: A generator of documents to preprocess.
+            documents: A single document, a generator of documents, or an iterable of documents to preprocess.
             
         Returns:
             A generator of preprocessed documents.
