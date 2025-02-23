@@ -28,6 +28,7 @@ class Document(BaseModel):
 
 class BaseQA(BaseModel):
     """Base class for question-answer pairs."""
+    id: str
     q: str # question
     a: str # answer
     e: Optional[str] = None # evidence
@@ -39,46 +40,3 @@ class IntraDocumentQA(BaseQA):
 class InterDocumentQA(BaseQA):
     """QA pair that may reference multiple source documents (e.g., Multihop-RAG, FRAMES)."""
     document_ids: List[str]
-
-class Dataset(BaseModel):
-    """The complete dataset containing documents and QA pairs."""
-    documents: List[Document]
-    intra_qas: List[IntraDocumentQA] = []  # For single-document QA pairs
-    inter_qas: List[InterDocumentQA] = []  # For multi-document QA pairs
-
-    def validate_document(self, document: Document) -> bool:
-        """
-        Validate a document against the schema.
-        
-        Args:
-            document: Document to validate
-            
-        Returns:
-            bool: True if valid
-        """
-        try:
-            Document.model_validate(document)
-            return True
-        except:
-            return False
-    
-    def validate_qa(self, qa: BaseQA) -> bool:
-        """
-        Validate a QA pair against the schema.
-        
-        Args:
-            qa: QA pair to validate
-            
-        Returns:
-            bool: True if valid
-        """
-        try:
-            if isinstance(qa, IntraDocumentQA):
-                IntraDocumentQA.model_validate(qa)
-            elif isinstance(qa, InterDocumentQA):
-                InterDocumentQA.model_validate(qa)
-            else:
-                return False
-            return True
-        except:
-            return False

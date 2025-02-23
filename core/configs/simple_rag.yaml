@@ -1,9 +1,58 @@
 
-# Simple RAG (conceptual)
-simple_rag_01:
+# Simple RAG test
+simple_rag_qasper_test:
   dataset: 
     name: qasper
-    number_of_docs: 10
+    number_of_docs: 1
+    selection_mode: sequential
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 5
+
+simple_rag_multihoprag_test:
+  dataset:
+    name: multihoprag
+    number_of_qas: 10
+    selection_mode: sequential
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 5
+
+simple_rag_narrativeqa_test:
+  dataset:
+    name: narrativeqa
+    number_of_qas: 1
+    selection_mode: sequential    
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 5
+
+simple_rag_frames_test:
+  dataset:
+    name: frames
+    number_of_docs: 1
+    selection_mode: sequential
   chunker:
     mode: fixed
     size: 100

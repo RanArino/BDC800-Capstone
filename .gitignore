@@ -4,12 +4,16 @@
 test.ipynb
 
 # locally generated files under datasets/data/ 
-core/datasets/data/**/data.json
 core/datasets/data/**/data_test.json
+core/datasets/data/**/documents.json
+core/datasets/data/**/qas.json
+core/datasets/data/**/documents_test.json
+core/datasets/data/**/qas_test.json
 
 # our notes
 notes/
 ToDo
+.cursor/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
