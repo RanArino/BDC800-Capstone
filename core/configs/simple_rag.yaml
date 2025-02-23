@@ -1,9 +1,10 @@
 
-# Simple RAG (conceptual)
-simple_rag_01:
+# Simple RAG test
+simple_rag_qasper_test:
   dataset: 
     name: qasper
-    number_of_docs: 10
+    number_of_docs: 1
+    selection_mode: sequential
   chunker:
     mode: fixed
     size: 100
