@@ -9,9 +9,18 @@ from core.logger.logger import get_logger
 logger = get_logger(__name__)
 
 class Profiler:
-    def __init__(self):
+    def __init__(self, reset_on_init: bool = True):
+        """Initialize a new Profiler instance.
+        
+        Args:
+            reset_on_init: If True, reset timings upon initialization
+        """
         self.timings = {}
         self._active_timers = set()  # Track currently active timers
+        
+        if reset_on_init:
+            self.reset()
+            
         logger.info("Initialized new Profiler instance")
 
     def start(self, key: str) -> None:
