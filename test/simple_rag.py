@@ -72,7 +72,41 @@ def qasper_test():
     finally:
         gc.collect()
 
+def multihoprag_test():
+    try:
+        # Initialize RAG
+        logger.info("Initializing SimpleRAG")
+        simple_rag = SimpleRAG("simple_rag_multihoprag_test")
+        gen_docs, gen_qas = simple_rag.load_dataset(number_of_qas=10)
+
+        # Index documents
+        logger.info("Indexing documents")
+        simple_rag.index(gen_docs)
+        logger.info("Indexing completed")
+
+        # Test retrieval and generation
+        logger.info(f"Testing RAG with query")
+        response_list = []
+        for qa in gen_qas:
+            response = simple_rag.run(qa.q)
+            response_list.append(response)
+        logger.info("RAG test completed")
+        
+        # store the response_list in a json file, use it for evaluation test
+        response_dir = Path("test/input_data")
+        response_dir.mkdir(parents=True, exist_ok=True)
+        response_file = response_dir / f"RAGResponse_multihoprag_test.json"
+        with open(response_file, 'w') as f:
+            json.dump([response.model_dump() for response in response_list], f, indent=2)
+
+    except Exception as e:
+        logger.error(f"Error occurred: {e}")
+        raise
+    finally:
+        gc.collect()
+
 if __name__ == "__main__":
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
-        qasper_test()
+        # qasper_test()
+        multihoprag_test()
