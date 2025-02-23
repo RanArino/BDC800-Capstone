@@ -1,10 +1,7 @@
 # core/frameworks/simple.py
 
-from typing import List, Optional
-import os
-import gc
+from typing import List, Optional, Union, Generator, Iterable
 
-from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
 
 from .base import BaseRAGFramework
@@ -15,12 +12,29 @@ class SimpleRAG(BaseRAGFramework):
     def __init__(self, config_name: str):
         super().__init__(config_name, config_path = "core/configs/simple_rag.yaml")
     
-    def index_preprocessing(self, documents: List[SchemaDocument]) -> List[LangChainDocument]:
-        """Index the documents using FAISS index"""
+    def index_preprocessing(
+            self, 
+            documents: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]
+        ) -> Generator[LangChainDocument, None, None]:
+        """Index the documents using FAISS index
+        
+        Args:
+            documents: A single document, a generator of documents, or an iterable of documents
+            
+        Returns:
+            A generator of LangChainDocument chunks
+        """
         try:
-            # Execute simple chunking
-            chunks = self.chunker.run(documents, mode=self.chunker_config.mode)
-            return chunks
+            # Convert input to generator if needed
+            doc_generator = self._ensure_document_generator(documents)
+            
+            # Process documents one at a time to maintain memory efficiency
+            for doc in doc_generator:
+                # Execute simple chunking for each document
+                chunks = self.chunker.run([doc], mode=self.chunker_config.mode)
+                # Yield each chunk
+                for chunk in chunks:
+                    yield chunk
         
         except Exception as e:
             self.logger.error(f"Error during indexing: {str(e)}")

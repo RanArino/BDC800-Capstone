@@ -106,7 +106,11 @@ def multihoprag_test():
         gc.collect()
 
 if __name__ == "__main__":
+    import time
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
-        # qasper_test()
+        qasper_test()
+        print("\n===== qasper_test completed =====")
+        print("start multihoprag_test in 3 seconds...")
+        time.sleep(3)
         multihoprag_test()

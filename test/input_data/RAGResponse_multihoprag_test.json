@@ -1,7 +1,7 @@
 [
   {
     "query": "Who is the individual associated with the cryptocurrency industry facing a criminal trial on fraud and conspiracy charges, as reported by both The Verge and TechCrunch, and is accused by prosecutors of committing fraud for personal gain?",
-    "llm_answer": "Sam Bankman-Fried. He is the former crypto mogul at the center of the trial, who was said to have committed a \"conscious criminal\" act according to the prosecution's account. The trial involves allegations of fraud and conspiracy charges, with the prosecution needing to prove intent in order to make their case.",
+    "llm_answer": "Sam Bankman-Fried. He is the former crypto mogul who has been charged with fraud and conspiracy and is currently undergoing a trial. Prosecutors accuse him of committing fraud for personal gain, and he allegedly lied about his actions despite knowing what he was doing was wrong.",
     "context": [
       {
         "id": "4905e27d-c384-49c7-bb5c-d3dcc4da43d5",
@@ -62,7 +62,7 @@
   },
   {
     "query": "Which individual is implicated in both inflating the value of a Manhattan apartment to a figure not yet achieved in New York City's real estate history, according to 'Fortune', and is also accused of adjusting this apartment's valuation to compensate for a loss in another asset's worth, as reported by 'The Age'?",
-    "llm_answer": "Donald Trump. The article describes how Trump inflated the value of his Manhattan apartment and adjusted its valuation to mask losses on another property.",
+    "llm_answer": "Donald Trump. \n\nAccording to the context provided, Donald Trump increased the value of the Manhattan apartment from $US200 million to $US327 million between 2014 and 2015, which the prosecution argues was an attempt to mask a drop in the value of one of his other properties. This action is reported as being perpetrated by Trump according to 'The Age'. The context also reports that Fortune mentioned this figure, stating it was one not yet achieved in New York City's real estate history.",
     "context": [
       {
         "id": "8c98216b-a146-4d9b-a650-03ca195c1728",
@@ -123,7 +123,7 @@
   },
   {
     "query": "Who is the figure associated with generative AI technology whose departure from OpenAI was considered shocking according to Fortune, and is also the subject of a prevailing theory suggesting a lack of full truthfulness with the board as reported by TechCrunch?",
-    "llm_answer": "Based on the context provided, the figure associated with generative AI technology who was considered shocking to depart from OpenAI is Sam Altman. He was the CEO and co-founder of OpenAI and had become a prominent figure in the industry due to his work on ChatGPT.\n\nHowever, I couldn't find any information about TechCrunch reporting a theory suggesting that Sam Altman's departure was not truthful or that he was pushed out by the board. But it is mentioned in the article that there was a mutiny by staff insisting for the founders (Sam and Greg) to be reinstated.",
+    "llm_answer": "Unfortunately, the question cannot be answered based on the provided context. The passage does mention that Altman's exit was \"shocking\" but it doesn't imply that he was dishonest or secretive about his departure. In fact, the passage suggests that there might have been a power struggle at OpenAI and that staff members were advocating for the return of the founders, rather than any impropriety on Altman's part.\n\nHowever, according to TechCrunch, Sam Altman has denied that he was pushed out by the board, but instead chose to leave due to concerns about OpenAI's direction. This theory suggests that there might have been some truthfulness issues behind his departure, which is contrary to the information in the provided context.",
     "context": [
       {
         "id": "e0866bb5-cb8d-4160-b613-dfb921fc11ff",
@@ -184,7 +184,7 @@
   },
   {
     "query": "Do the TechCrunch article on software companies and the Hacker News article on The Epoch Times both report an increase in revenue related to payment and subscription models, respectively?",
-    "llm_answer": "No, they do not. The TechCrunch article discusses a shift in payment policies at PayPal (now being sued for alleged \"Draconian\" policies) and how it led to the creation of a new subscription-based service called Partner Plus, while the Hacker News article reports on an increase in revenue for The Epoch Times related to its subscription model.",
+    "llm_answer": "Yes, that's correct. The TechCrunch article discusses how a company addressed concerns about needing a large number of subscribers by making higher-priced subscriptions eligible for certain features, indicating increased focus on subscription-based revenue. Similarly, the Hacker News article mentions The Epoch Times' significant increase in subscription revenue from $7 million in 2019 to $76 million in 2021.",
     "context": [
       {
         "id": "0fafdd34-60b9-41ef-b794-f21c1eecdd0c",
@@ -245,7 +245,7 @@
   },
   {
     "query": "Which online betting platform provides a welcome bonus of up to $1000 in bonus bets for new customers' first losses, runs NBA betting promotions, and is anticipated to extend the same sign-up offer to new users in Vermont, as reported by both CBSSports.com and Sporting News?",
-    "llm_answer": "The answer to this question cannot be determined based on the provided context. The text only mentions that BetMGM offers a welcome bonus of up to $1,500 paid back in Bonus Bets if the first wager is lost, but it does not mention anything about a specific bonus amount of $1000 or running NBA betting promotions. Additionally, there is no information regarding CBSSports.com and Sporting News reporting on any sign-up offer from this platform for Vermont users.",
+    "llm_answer": "Unfortunately, I have to inform you that there is no specific online betting platform mentioned in the context that provides a welcome bonus of up to $1000 in bonus bets for new customers' first losses, runs NBA betting promotions, and is anticipated to extend the same sign-up offer to new users in Vermont. \n\nHowever, BetMGM does provide a welcome offer of up to $1,500 paid back in Bonus Bets should new users lose their first wager on the site.\n\nAnd BetRivers has a \u201csecond chance\u201d welcome offer that gives new sign-ups a free bet refund worth up to $500 should they lose their first wager.",
     "context": [
       {
         "id": "8506cdc7-c800-43df-b153-ff9e28571cda",
@@ -306,7 +306,7 @@
   },
   {
     "query": "Who is the individual alleged to have built a thriving crypto exchange on falsehoods and is accused by the prosecution of committing fraud for personal gain, as reported by both Fortune and TechCrunch?",
-    "llm_answer": "Sam Bankman-Fried, the founder of FTX.",
+    "llm_answer": "Sam Bankman-Fried, the former CEO of FTX.",
     "context": [
       {
         "id": "ec6b83e8-c7b7-4047-92ec-cd1d73401c87",
@@ -367,7 +367,7 @@
   },
   {
     "query": "Does the TechCrunch article on Twitch's subscription revenue split policy indicate a different monetization strategy compared to the TechCrunch article on Beeper's plans for Beeper Mini subscriptions?",
-    "llm_answer": "Yes, the two articles appear to have different focuses and implications regarding monetization strategies.\n\nThe article about Twitch's subscription revenue split policy discusses how Twitch has made changes to its monetization policies, including a new program called Partner Plus that offers a 70/30 revenue split for eligible creators. However, this program is seen as being inaccessible to the vast majority of streamers due to strict requirements and the introduction of ads.\n\nIn contrast, the article about Beeper's plans for Beeper Mini subscriptions mentions that the company has decided to make Beeper Mini free for the time being while it sorts out some technical issues, but implies that they may look into turning on subscriptions again once things stabilize. This suggests a more relaxed approach to monetization and subscription-based revenue.\n\nOverall, the two articles suggest that Twitch is prioritizing ad revenue and implementing stricter requirements for creators to access higher revenue splits, whereas Beeper appears to be taking a more flexible approach to monetization.",
+    "llm_answer": "No, according to the context, it appears that the two articles are actually discussing different companies' policies. The first part of the text is about Twitch's changes to its subscription revenue split policy and ad integration, while the second part mentions Beeper, a separate startup, making its Mini app free due to \"chaotic\" conditions and temporarily halting subscriptions.",
     "context": [
       {
         "id": "ae0432d9-da9f-4d43-b56e-b16371581c32",
@@ -428,7 +428,7 @@
   },
   {
     "query": "Does 'The New York Times' article attribute the success of the Buffalo Bills' defense to the contributions of Jordan Poyer, while the 'Sporting News' article suggests that the Baltimore Ravens' defense needs to improve before their game against the Cincinnati Bengals?",
-    "llm_answer": "There is no information about \"The New York Times\" or \"Sporting News\" articles in the provided context. The text appears to be an excerpt from a single article discussing Jordan Poyer's performance and his personal growth, particularly after trying ayahuasca.",
+    "llm_answer": "This is a trick question. The context you provided does not mention either \"The New York Times\" or \"Sporting News\", nor do they mention any relationship between the Buffalo Bills and the Baltimore Ravens (they actually mention that the team met in Washington D.C.). Therefore, there is no correct answer to this question based on the provided text.",
     "context": [
       {
         "id": "f45cef22-20bd-4766-9f54-4b133867a126",
@@ -489,7 +489,7 @@
   },
   {
     "query": "What is the name of the organization discussed in TechCrunch articles that, despite its financial instability, is recognized for creating ChatGPT, which is both a priority and a platform for ongoing innovations, and is planning to enhance its capabilities with the release of GPT-4 and associated APIs?",
-    "llm_answer": "OpenAI.",
+    "llm_answer": "OpenAI. \n\nThis organization's leadership has been releasing new versions and updates such as GPT-3.5 and ChatGPT. The leader, Sam Altman, has announced a vision for a future where AI agents can perform various tasks. He also noted that the company is experiencing capacity issues with its premium version of ChatGPT, necessitating a pause on new subscriptions.",
     "context": [
       {
         "id": "f8b71088-c5a1-45cc-a66a-d51c39fe6281",
