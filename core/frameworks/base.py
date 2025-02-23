@@ -11,7 +11,7 @@ from itertools import tee
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
 import yaml
-# from core.utils.profiler import Profiler
+from core.utils import Profiler
 # from core.utils.metrics import TimingMetrics
 
 from core.utils import get_project_root
@@ -38,7 +38,7 @@ class BaseRAGFramework(ABC):
 
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
-        # self.profiler = Profiler().            # Performance Profiler
+        self.profiler = Profiler() # Performance Profiler
         # self.timing_metrics = TimingMetrics()  # Timing Metrics
 
         # Initialize variables that are defined in index() method
