@@ -1,10 +1,7 @@
 # core/frameworks/simple.py
 
 from typing import List, Optional, Union, Generator, Iterable
-import os
-import gc
 
-from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
 
 from .base import BaseRAGFramework
