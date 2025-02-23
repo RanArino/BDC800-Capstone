@@ -54,6 +54,7 @@ This document outlines the organization of our RAG framework codebase.
 │   │   │   └── generation.py    # LLM output quality
 │   │   └── viz/
 │   │       ├── __init__.py
+│   │       ├── viz_test.ipynb    # Visualization test
 │   │       ├── performance.py    # Performance visualizations
 │   │       └── results.py        # Quality metric plots
 │   │
