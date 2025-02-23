@@ -96,7 +96,27 @@ def calculate_hit_at_k(
         relevant_docs_list: List[Set[str]], 
         k_values: List[int]
     ) -> Tuple[Dict[RankCutOff, float], List[Dict[RankCutOff, float]]]:
-    pass
+    """Calculate Hit Rate at K across all queries."""
+    if not retrieved_docs_list or not relevant_docs_list:
+        empty_result = {str(k): 0.0 for k in k_values}
+        return empty_result, [empty_result] * len(retrieved_docs_list)
+    
+    individual_scores = []
+    for retrieved, relevant in zip(retrieved_docs_list, relevant_docs_list):
+        query_scores = {}
+        for k in k_values:
+            # Calculate hit for this query at k
+            hit = float(any(doc in relevant for doc in retrieved[:k]))
+            query_scores[str(k)] = hit
+        individual_scores.append(query_scores)
+    
+    # Aggregate scores
+    hit_scores = {}
+    for k in k_values:
+        k_str = str(k)
+        hit_scores[k_str] = mean(score[k_str] for score in individual_scores)
+    
+    return hit_scores, individual_scores
 
 
 # ===== Helper functions =====
