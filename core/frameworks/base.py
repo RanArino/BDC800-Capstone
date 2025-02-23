@@ -102,13 +102,20 @@ class BaseRAGFramework(ABC):
             return self._load_inter_docs_and_qas(number_of_qas, selection_mode)
 
     def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
-        """Run the RAG pipeline on a query."""
+        """Run the RAG pipeline on a query.
+        
+        Profiling:
+            - retrieval: time for overall retrieval process
+            - generation: time for overall generation process
+        """
         try:
             # Retrieve relevant documents
-            retrieved_docs = self.retrieve(qa.q)
+            with self.profiler.track("retrieval"):
+                retrieved_docs = self.retrieve(qa.q)
             
             # Generate answer
-            llm_answer = self.generate(qa.q, retrieved_docs)
+            with self.profiler.track("generation"):
+                llm_answer = self.generate(qa.q, retrieved_docs)
             
             return llm_answer
             
@@ -126,6 +133,10 @@ class BaseRAGFramework(ABC):
         Args:
             docs: A single document, a generator of documents, or an iterable of documents to index
             is_update: Whether to update the existing index
+
+        Profiling:
+            - index.preprocessing: time for chunking and its depending operations
+            - index.vectorstore: time for embedding and creating vector store
         """
         gen_docs = self._ensure_document_generator(docs)
         
@@ -185,17 +196,19 @@ class BaseRAGFramework(ABC):
         
         if not hasattr(self, 'vector_store') or self.vector_store is None:
             # Initialize vector store with first batch
-            self.vector_store = FAISS.from_texts(
-                texts=[chunk.page_content for chunk in batch_chunks],
-                embedding=self.llm.get_embedding,
-                metadatas=[chunk.metadata for chunk in batch_chunks]
-            )
+            with self.profiler.track("index.vectorstore"):
+                self.vector_store = FAISS.from_texts(
+                    texts=[chunk.page_content for chunk in batch_chunks],
+                    embedding=self.llm.get_embedding,
+                    metadatas=[chunk.metadata for chunk in batch_chunks]
+                )
         else:
             # Add subsequent batches
-            self.vector_store.add_texts(
-                texts=[chunk.page_content for chunk in batch_chunks],
-                metadatas=[chunk.metadata for chunk in batch_chunks]
-            )
+            with self.profiler.track("index.vectorstore"):
+                self.vector_store.add_texts(
+                    texts=[chunk.page_content for chunk in batch_chunks],
+                    metadatas=[chunk.metadata for chunk in batch_chunks]
+                )
 
     def _ensure_document_generator(
         self, 
