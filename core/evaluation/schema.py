@@ -5,10 +5,12 @@ Schema for evaluation metrics
 """
 
 from pydantic import BaseModel, model_validator
-from typing import Optional, Literal
+from typing import Optional, Literal, Dict, TypeAlias
 
 RougeType = Literal['rouge1', 'rouge2', 'rougeL']
 RougeMetricType = Literal['precision', 'recall', 'fmeasure']
+
+RankCutOff: TypeAlias = str
 
 class RougeMetrics(BaseModel):
     precision: Optional[float] = None
@@ -29,3 +31,7 @@ class GenerationEval(BaseModel):
     bleu: float
     cosine_sim: float
 
+class RetrievalEval(BaseModel):
+    map: Dict[RankCutOff, float]
+    mrr: Dict[RankCutOff, float]
+    hit: Dict[RankCutOff, float]
