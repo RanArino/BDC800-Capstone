@@ -13,6 +13,7 @@ core/datasets/data/**/qas_test.json
 # our notes
 notes/
 ToDo
+.cursor/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
