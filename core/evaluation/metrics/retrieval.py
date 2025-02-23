@@ -10,6 +10,9 @@ from typing import List, Dict, Set, Tuple
 from statistics import mean
 
 from core.evaluation.schema import RankCutOff
+from core.logger.logger import get_logger
+
+logger = get_logger(__name__)
 
 # ===== Main functions =====
 def calculate_retrieval_metrics(
@@ -28,7 +31,33 @@ def calculate_retrieval_metrics(
     Returns:
         Tuple of (aggregated metrics, list of individual metrics per query)
     """
-    pass
+    try:
+        map_scores, map_individual = calculate_map_at_k(retrieved_docs_list, relevant_docs_list, k_values)
+        mrr_scores, mrr_individual = calculate_mrr_at_k(retrieved_docs_list, relevant_docs_list, k_values)
+        hit_scores, hit_individual = calculate_hit_at_k(retrieved_docs_list, relevant_docs_list, k_values)
+        
+        aggregated_metrics = {
+            'map': map_scores,
+            'mrr': mrr_scores,
+            'hit': hit_scores
+        }
+        
+        individual_metrics = [
+            {'map': map_i, 'mrr': mrr_i, 'hit': hit_i}
+            for map_i, mrr_i, hit_i in zip(map_individual, mrr_individual, hit_individual)
+        ]
+        
+    except Exception as e:
+        logger.error(f"Error calculating metrics: {str(e)}")
+        empty_scores = {str(k): 0.0 for k in k_values}
+        aggregated_metrics = {
+            'map': empty_scores,
+            'mrr': empty_scores,
+            'hit': empty_scores
+        }
+        individual_metrics = [aggregated_metrics.copy() for _ in range(len(retrieved_docs_list))]
+    
+    return aggregated_metrics, individual_metrics
 
 # ===== Metrics calculation =====
 # MAP@K
