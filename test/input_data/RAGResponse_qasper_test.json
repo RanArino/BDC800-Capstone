@@ -1,7 +1,7 @@
 [
   {
     "query": "What is the seed lexicon?",
-    "llm_answer": "The seed lexicon consists of 15 positive words and 15 negative words, which are used to assign polarity scores to events based on their predicates.",
+    "llm_answer": "The seed lexicon consists of 15 positive words and 15 negative words, which are used to assign polarity scores to extracted events. If the predicate of an event is in the seed lexicon and does not involve complex phenomena like negation, a corresponding polarity score (+1 for positive events and -1 for negative events) is assigned to the event.",
     "context": [
       {
         "id": "994cb690-cfe5-4fd8-8502-87a397aa5081",
@@ -62,7 +62,7 @@
   },
   {
     "query": "What are the results?",
-    "llm_answer": "The results are shown in Table TABREF16 (not specified which one) and Table TABREF23, which shows accuracy for different combinations of datasets and models. However, without access to these tables, it's not possible to provide specific numerical values or details about the results.\n\nBased on the text, we can infer that:\n\n* The model was trained with different combinations of datasets (AL, AL+CA+CO, ACP, and ACP+AL+CA+CO) and objective functions.\n* The accuracy of these models is reported in Table TABREF23.\n* The Random baseline suggests even distribution of positive and negative labels, while the Random+Seed baseline uses a seed lexicon to output corresponding labels.\n\nHowever, without access to the actual tables or more detailed information, it's not possible to provide a comprehensive answer to what the results are.",
+    "llm_answer": "The results are shown in Table TABREF16 and Table TABREF23. However, without access to the actual tables, it's not possible to provide a detailed answer.\n\nFrom the context provided, we can infer that the tables show the accuracy of different models trained on various combinations of datasets (AL, AL+CA+CO, ACP, and ACP+AL+CA+CO) using objective functions such as $\\mathcal {L}_{\\rm AL}$, $\\mathcal {L}_{\\rm AL} + \\mathcal {L}_{\\rm CA} + \\mathcal {L}_{\\rm CO}$.\n\nTable TABREF16 likely shows the distribution of event pairs for each dataset (AL, CA, and CO), with a focus on their sizes and balances between positive and negative labels.\n\nTable TABREF23, on the other hand, appears to show the accuracy of different models trained on various datasets. However, without access to the actual table, we can't provide specific details about the results.",
     "context": [
       {
         "id": "e1c14761-6e20-4750-8a6a-5c505875a131",
@@ -123,7 +123,7 @@
   },
   {
     "query": "How are relations used to propagate polarity?",
-    "llm_answer": "According to the context, discourse relations (specifically Cause and Concession) are used to efficiently propagate polarity. For example, in a Concession relation, if one event's polarity is known, it can be assumed that the other event has the reversed polarity. This allows the model to automatically learn complex phenomena through label propagation using only a small seed lexicon and a large raw corpus.",
+    "llm_answer": "Discourse relations (such as Cause and Concession) are used to propagate polarity by assuming the reversed polarities of events connected by these relations, allowing the model to automatically learn complex phenomena through label propagation.",
     "context": [
       {
         "id": "c18d3a5d-0ccf-4bf4-ba66-4004cebe43d3",
@@ -184,7 +184,7 @@
   },
   {
     "query": "How big is the Japanese data?",
-    "llm_answer": "The context doesn't explicitly state the overall size of the Japanese data, but it does mention some specific sizes:\n\n* 0.6 million events for the ACP dataset\n* 1.4 million event pairs for AL (apparent contrastive pairing)\n* 41 million event pairs for CA (contrastive augmentation)\n* 6 million event pairs for CO (contextual overlap)\n\nIt also mentions that a subset of 6,000 events was used for comparison with the full ACP dataset.\n\nThe vocabulary size is given as 100,000.",
+    "llm_answer": "According to the context, the vocabulary size (i.e., the size of the Japanese dataset) is 100,000.",
     "context": [
       {
         "id": "e1c14761-6e20-4750-8a6a-5c505875a131",
@@ -245,7 +245,7 @@
   },
   {
     "query": "How big are improvements of supervszed learning results trained on smalled labeled data enhanced with proposed approach copared to basic approach?",
-    "llm_answer": "The question seems to be incomplete, but I'll provide an answer based on the context provided.\n\nAccording to the text, when comparing the supervised models (ACP) outperforming semi-supervised models (ACP+AL+CA+CO), it suggests that the performance improvement of using the proposed approach (discourse relation-based label propagation) with smaller labeled data is significant.",
+    "llm_answer": "Unfortunately, the provided context does not directly answer the question regarding \"improvements\" or specific numbers associated with enhancements. However, it provides insight into a comparison between supervised and semi-supervised models when using small datasets (6,000 events) versus larger ones (0.6 million events). It states that \"Contrary to our expectations, supervised models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO)\" when the dataset was 0.6 million events large.\n\nGiven this information, and interpreting the question as asking for improvements in performance or any metric resulting from applying the proposed discourse relation-based label propagation approach compared to basic methods on smaller labeled data:\n\n- The context suggests that the application of the proposed method is beneficial (\"effective\") when working with small amounts of labeled data. However, it does not provide a numerical measure of improvement.\n\nTo accurately answer the question as phrased regarding \"improvements\" specifically and quantify them, one would need more detailed performance metrics (e.g., accuracy scores, F1-scores) before and after applying the proposed approach on smaller datasets.",
     "context": [
       {
         "id": "e9fda789-e106-481d-9686-050e813e0d91",
@@ -306,7 +306,7 @@
   },
   {
     "query": "How does their model learn using mostly raw data?",
-    "llm_answer": "The answer cannot be determined based on the provided context, as it doesn't explicitly mention how their model learns from mostly raw data. However, we can infer that they used semi-supervised learning by combining labeled and unlabeled data (ACP+AL+CA+CO), which allows the model to learn from both the labeled ACP Corpus and the unlabeled datasets AL, CA, and CO through label propagation.",
+    "llm_answer": "The model learns using mostly raw data by leveraging a process called \"label propagation\", where it starts with a seed lexicon of positive and negative predicates, and then uses this initial labeling to propagate labels to other related events through the neural network. This allows the model to automatically learn complex phenomena without requiring explicit annotations for all examples in the dataset.",
     "context": [
       {
         "id": "4c537e13-0467-4cfa-81ef-b593d9b4f961",
@@ -367,7 +367,7 @@
   },
   {
     "query": "How big is seed lexicon used for training?",
-    "llm_answer": "The seed lexicon had 15 positive words and 15 negative words.",
+    "llm_answer": "According to the context, the seed lexicon consists of 15 positive words and 15 negative words, making a total of 30 words.",
     "context": [
       {
         "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
