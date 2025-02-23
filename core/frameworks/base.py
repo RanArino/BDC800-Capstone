@@ -140,7 +140,10 @@ class BaseRAGFramework(ABC):
             
             # Execute chunking
             self.logger.debug("Splitting documents into chunks")
-            gen_chunks = self.index_preprocessing(gen_docs)
+
+            # Preprocessing
+            with self.profiler.track("index.preprocessing"):
+                gen_chunks = self.index_preprocessing(gen_docs)
             
             # Process chunks in batches while maintaining generator pattern
             BATCH_SIZE = 5
