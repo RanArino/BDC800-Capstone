@@ -1,7 +1,7 @@
 # core/frameworks/base.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Generator, Tuple
+from typing import List, Optional, Generator, Tuple, Union
 from datetime import datetime
 from collections import deque
 import gc
@@ -68,25 +68,38 @@ class BaseRAGFramework(ABC):
             self, 
             number_of_docs: Optional[int] = None, 
             number_of_qas: Optional[int] = None, 
-            select_mode: Optional[str] = None
-        ) -> Tuple[Generator[SchemaDocument, None, None], Generator[IntraDocumentQA | InterDocumentQA, None, None]]:
+            selection_mode: Optional[str] = None
+        ) -> Tuple[Generator[SchemaDocument, None, None], Union[Generator[List[IntraDocumentQA], None, None], Generator[InterDocumentQA, None, None]]]:
         """Load the dataset from the given path.
         
         Args:
-            number_of_docs: Optional number of documents to load. If specified, related QAs will be loaded through doc IDs.
-            number_of_qas: Optional number of QAs to load. If specified (and number_of_docs not specified), related docs will be loaded through QA doc IDs.
-            select_mode: Optional selection mode ('sequential' or 'random'). Defaults to config value or 'sequential'.
+            number_of_docs: Optional number of documents to load. Required for IntraDocumentQA datasets.
+            number_of_qas: Optional number of QAs to load. Required for InterDocumentQA datasets.
+            selection_mode: Optional selection mode ('sequential' or 'random'). Defaults to config value or 'sequential'.
             
         Returns:
-            A tuple of (document generator, QA generator)
+            A tuple of (document generator, QA generator). For IntraDocumentQA, the QA generator yields lists of QAs per document.
+            For InterDocumentQA, it yields individual QAs.
+            
+        Raises:
+            ValueError: If number_of_docs is not specified for IntraDocumentQA datasets or
+                      if number_of_qas is not specified for InterDocumentQA datasets.
         """
-        self.logger.debug("Loading dataset with params: docs=%s, qas=%s, mode=%s", number_of_docs, number_of_qas, select_mode)
+        self.logger.debug("Loading dataset with params: docs=%s, qas=%s, mode=%s", number_of_docs, number_of_qas, selection_mode)
         
         # Load dataset
         self.dataset = get_dataset(self.dataset_config.name)
         self.dataset.load()
         
-        return self._load_docs_and_qas(number_of_docs, number_of_qas, select_mode)
+        # Call appropriate loader based on QA type
+        if self.dataset.qa_type == IntraDocumentQA:
+            if number_of_qas is not None and number_of_docs is None:
+                raise ValueError("For IntraDocumentQA datasets, please specify number_of_docs instead of number_of_qas")
+            return self._load_intra_docs_and_qas(number_of_docs, selection_mode)
+        else:
+            if number_of_docs is not None and number_of_qas is None:
+                raise ValueError("For InterDocumentQA datasets, please specify number_of_qas instead of number_of_docs")
+            return self._load_inter_docs_and_qas(number_of_qas, selection_mode)
 
     def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
         """Run the RAG pipeline on a query."""
@@ -272,49 +285,57 @@ class BaseRAGFramework(ABC):
         # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
         self.logger.info("Vector store loaded successfully")
 
-    def _load_docs_and_qas(
+    def _load_intra_docs_and_qas(
         self,
         number_of_docs: Optional[int] = None,
-        number_of_qas: Optional[int] = None,
-        select_mode: Optional[str] = None
-    ) -> Tuple[Generator[SchemaDocument, None, None], Generator[IntraDocumentQA | InterDocumentQA, None, None]]:
-        """Load document and QA generators based on specified parameters."""
-        selection_mode = select_mode or self.dataset_config.select_mode or 'sequential'
-        self.logger.debug(f"Loading generators with selection mode: {selection_mode}")
+        selection_mode: Optional[str] = None
+    ) -> Tuple[Generator[SchemaDocument, None, None], Generator[List[IntraDocumentQA], None, None]]:
+        """Load document and QA generators for IntraDocumentQA type datasets.
+        Groups QAs by document and yields them as lists."""
+        selection_mode = selection_mode or self.dataset_config.selection_mode or 'sequential'
+        self.logger.debug(f"Loading IntraDocumentQA generators with selection mode: {selection_mode}")
         
-        if number_of_docs is not None:
-            # Get docs and clone generator for IDs
-            gen_docs, docs_for_ids = tee(
-                self.dataset.get_documents(
-                    num_docs=number_of_docs, 
-                    selection_mode=selection_mode
-                )
+        # Get docs and clone generator for IDs
+        gen_docs, docs_for_ids = tee(
+            self.dataset.get_documents(
+                num_docs=number_of_docs, 
+                selection_mode=selection_mode
             )
-            return (
-                gen_docs,
-                self.dataset.get_queries(doc_ids=(doc.id for doc in docs_for_ids))
+        )
+        
+        # Create a generator that yields lists of QAs grouped by document
+        def group_qas_by_doc():
+            for doc in docs_for_ids:
+                qas_for_doc = list(self.dataset.get_queries(doc_ids=[doc.id]))
+                if qas_for_doc:  # Only yield if there are QAs for this doc
+                    yield qas_for_doc
+        
+        return gen_docs, group_qas_by_doc()
+
+    def _load_inter_docs_and_qas(
+        self,
+        number_of_qas: Optional[int] = None,
+        selection_mode: Optional[str] = None
+    ) -> Tuple[Generator[SchemaDocument, None, None], Generator[InterDocumentQA, None, None]]:
+        """Load document and QA generators for InterDocumentQA type datasets."""
+        selection_mode = selection_mode or self.dataset_config.selection_mode or 'sequential'
+        self.logger.debug(f"Loading InterDocumentQA generators with selection mode: {selection_mode}")
+        
+        # Get QAs and clone generator for IDs
+        gen_qas, qas_for_ids = tee(
+            self.dataset.get_queries(
+                num_qas=number_of_qas,
+                selection_mode=selection_mode
             )
-            
-        if number_of_qas is not None:
-            # Get QAs and clone generator for IDs
-            gen_qas, qas_for_ids = tee(
-                self.dataset.get_queries(
-                    num_qas=number_of_qas,
-                    selection_mode=selection_mode
-                )
-            )
-            return (
-                self.dataset.get_documents(doc_ids=(
-                    doc_id for qa in qas_for_ids 
-                    for doc_id in (qa.document_ids if isinstance(qa, InterDocumentQA) else [qa.document_id])
-                )),
-                gen_qas
-            )
-            
-        # Get all docs and QAs
+        )
+        
+        # Get documents referenced by these QAs
         return (
-            self.dataset.get_documents(selection_mode=selection_mode),
-            self.dataset.get_queries(selection_mode=selection_mode)
+            self.dataset.get_documents(doc_ids=(
+                doc_id for qa in qas_for_ids 
+                for doc_id in qa.document_ids
+            )),
+            gen_qas
         )
 
     @property
