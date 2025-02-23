@@ -64,7 +64,31 @@ def calculate_mrr_at_k(
         relevant_docs_list: List[Set[str]], 
         k_values: List[int]
     ) -> Tuple[Dict[RankCutOff, float], List[Dict[RankCutOff, float]]]:
-    pass
+    """Calculate Mean Reciprocal Rank at K across all queries."""
+    if not retrieved_docs_list or not relevant_docs_list:
+        empty_result = {str(k): 0.0 for k in k_values}
+        return empty_result, [empty_result] * len(retrieved_docs_list)
+    
+    individual_scores = []
+    for retrieved, relevant in zip(retrieved_docs_list, relevant_docs_list):
+        query_scores = {}
+        for k in k_values:
+            # Calculate reciprocal rank for this query at k
+            rr = 0.0
+            for rank, doc in enumerate(retrieved[:k], 1):
+                if doc in relevant:
+                    rr = 1.0 / rank
+                    break
+            query_scores[str(k)] = rr
+        individual_scores.append(query_scores)
+    
+    # Aggregate scores
+    mrr_scores = {}
+    for k in k_values:
+        k_str = str(k)
+        mrr_scores[k_str] = mean(score[k_str] for score in individual_scores)
+    
+    return mrr_scores, individual_scores
 
 # Hit@K
 def calculate_hit_at_k(
