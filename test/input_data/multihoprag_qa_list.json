@@ -1,0 +1,107 @@
+[
+  {
+    "id": "q0",
+    "q": "Who is the individual associated with the cryptocurrency industry facing a criminal trial on fraud and conspiracy charges, as reported by both The Verge and TechCrunch, and is accused by prosecutors of committing fraud for personal gain?",
+    "a": "Sam Bankman-Fried",
+    "e": null,
+    "document_ids": [
+      "25714e046b9a337f641e665df1f12adb",
+      "67a9fe175ef79381846781464cce47f2",
+      "08353f6356ccef934f233d6f8e166529"
+    ]
+  },
+  {
+    "id": "q1",
+    "q": "Which individual is implicated in both inflating the value of a Manhattan apartment to a figure not yet achieved in New York City's real estate history, according to 'Fortune', and is also accused of adjusting this apartment's valuation to compensate for a loss in another asset's worth, as reported by 'The Age'?",
+    "a": "Donald Trump",
+    "e": null,
+    "document_ids": [
+      "4faa59cf802c5d97b0bde76f1b66ab85",
+      "ed8007a55bf6bde90979b114c8c37e92"
+    ]
+  },
+  {
+    "id": "q2",
+    "q": "Who is the figure associated with generative AI technology whose departure from OpenAI was considered shocking according to Fortune, and is also the subject of a prevailing theory suggesting a lack of full truthfulness with the board as reported by TechCrunch?",
+    "a": "Sam Altman",
+    "e": null,
+    "document_ids": [
+      "4d00a2973da5d50e5a1aef47a848a730",
+      "9d4d0f0a8ec56c2c71a1d1a52b6edcc9"
+    ]
+  },
+  {
+    "id": "q3",
+    "q": "Do the TechCrunch article on software companies and the Hacker News article on The Epoch Times both report an increase in revenue related to payment and subscription models, respectively?",
+    "a": "Yes",
+    "e": null,
+    "document_ids": [
+      "cc7d59297a222da348253ee88db66638",
+      "3f39c5189bd90b10b4e99f25d4e63082"
+    ]
+  },
+  {
+    "id": "q4",
+    "q": "Which online betting platform provides a welcome bonus of up to $1000 in bonus bets for new customers' first losses, runs NBA betting promotions, and is anticipated to extend the same sign-up offer to new users in Vermont, as reported by both CBSSports.com and Sporting News?",
+    "a": "Caesars Sportsbook",
+    "e": null,
+    "document_ids": [
+      "794ae3977932068cabd7431086b47b48",
+      "790fd82a54a90190f2e15e2bd0a9dc82",
+      "ca0ef2a2a97078ac889916dcdaa072c7"
+    ]
+  },
+  {
+    "id": "q5",
+    "q": "Who is the individual alleged to have built a thriving crypto exchange on falsehoods and is accused by the prosecution of committing fraud for personal gain, as reported by both Fortune and TechCrunch?",
+    "a": "Sam Bankman-Fried",
+    "e": null,
+    "document_ids": [
+      "4f09bccec0ca8ff11b3ac1070e3f2993",
+      "08353f6356ccef934f233d6f8e166529"
+    ]
+  },
+  {
+    "id": "q6",
+    "q": "Does the TechCrunch article on Twitch's subscription revenue split policy indicate a different monetization strategy compared to the TechCrunch article on Beeper's plans for Beeper Mini subscriptions?",
+    "a": "Yes",
+    "e": null,
+    "document_ids": [
+      "a2c2224ee2eb3fe43080b781bb71746d",
+      "f9d00893a23ce4dc43a479a2a409a07f"
+    ]
+  },
+  {
+    "id": "q7",
+    "q": "Does 'The New York Times' article attribute the success of the Buffalo Bills' defense to the contributions of Jordan Poyer, while the 'Sporting News' article suggests that the Baltimore Ravens' defense needs to improve before their game against the Cincinnati Bengals?",
+    "a": "Yes",
+    "e": null,
+    "document_ids": [
+      "cfa4b163b922dbbaee8652ed946888b0",
+      "524c9e17cbe57979d74f0f5c7f492403"
+    ]
+  },
+  {
+    "id": "q8",
+    "q": "What is the name of the organization discussed in TechCrunch articles that, despite its financial instability, is recognized for creating ChatGPT, which is both a priority and a platform for ongoing innovations, and is planning to enhance its capabilities with the release of GPT-4 and associated APIs?",
+    "a": "OpenAI",
+    "e": null,
+    "document_ids": [
+      "9d4d0f0a8ec56c2c71a1d1a52b6edcc9",
+      "f8a2de361f4fef06aeb2db60e347f92c",
+      "bb98ebd7a5221dd90b8f71978ef069b1",
+      "3025d50ad0702e3ebfde970ffc69fd41"
+    ]
+  },
+  {
+    "id": "q9",
+    "q": "Which company, as reported by both TechCrunch and The Verge, has spent billions to maintain its default search engine status on various platforms and is also accused of harming news publishers\u2019 revenue through its business practices?",
+    "a": "Google",
+    "e": null,
+    "document_ids": [
+      "89aaf4a8e5c4b5e67c0e47dd54fc2fbf",
+      "3e02d75891fcf3d3eccc7e80ab571330",
+      "686885562052058713cdd73b812e242d"
+    ]
+  }
+]

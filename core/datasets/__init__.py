@@ -21,5 +21,31 @@ __all__ = [
     'NarrativeQA',
     'Qasper',
     'MultiHopRAG',
-    'Frames'
-] 
+    'Frames',
+    'get_dataset'
+]
+
+def get_dataset(name: str) -> BaseDataset:
+    """
+    Retrieves a dataset instance by name.
+
+    Args:
+        name: The name of the dataset.
+        **kwargs: Additional keyword arguments to pass to the dataset constructor (e.g., test_mode).
+
+    Returns:
+        An instance of the requested dataset.
+
+    Raises:
+        ValueError: If the dataset name is not recognized.
+    """
+    if name == "narrativeqa":
+        return NarrativeQA()
+    elif name == "qasper":
+        return Qasper()
+    elif name == "multihoprag":
+        return MultiHopRAG()
+    elif name == "frames":
+        return Frames()
+    else:
+        raise ValueError(f"Unknown dataset: {name}") 

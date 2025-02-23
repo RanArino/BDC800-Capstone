@@ -1,0 +1,429 @@
+[
+  {
+    "query": "What is the seed lexicon?",
+    "llm_answer": "The seed lexicon consists of 15 positive words and 15 negative words, which are used to assign polarity scores to events based on their predicates.",
+    "context": [
+      {
+        "id": "994cb690-cfe5-4fd8-8502-87a397aa5081",
+        "metadata": {
+          "chunk_id": 25,
+          "document_id": "1909.00694",
+          "start_idx": 8296,
+          "end_idx": 8611
+        },
+        "page_content": "] made a serious mistake, [I] got fired. From this sentence, we extracted the event pair of \u201c\u91cd\u5927\u306a\u5931\u6557\u3092\u72af\u3059\u201d ([I] make a serious mistake) and \u201c\u4ed5\u4e8b\u3092\u30af\u30d3\u306b\u306a\u308b\u201d ([I] get fired), and tagged it with Cause. We constructed our seed lexicon consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the",
+        "type": "Document"
+      },
+      {
+        "id": "f5fdef08-4cdd-41f0-8495-ef39ed38a9b3",
+        "metadata": {
+          "chunk_id": 35,
+          "document_id": "1909.00694",
+          "start_idx": 11244,
+          "end_idx": 11751
+        },
+        "page_content": "or the reverse of it for negation) if the event's predicate is in the seed lexicon. We can see that the seed lexicon itself had practically no impact on prediction. The models in the top block performed considerably better than the random baselines. The performance gaps with their (semi-)supervised counterparts, shown in the middle block, were less than 7%. This demonstrates the effectiveness of discourse relation-based label propagation. Comparing the model variants, we obtained the highest score with",
+        "type": "Document"
+      },
+      {
+        "id": "fd6f755d-addb-47cc-b25e-af247c6a8ca2",
+        "metadata": {
+          "chunk_id": 15,
+          "document_id": "1909.00694",
+          "start_idx": 5168,
+          "end_idx": 5658
+        },
+        "page_content": " As shown in Figure FIGREF1, we limit our scope to two discourse relations: Cause and Concession. The seed lexicon consists of positive and negative predicates. If the predicate of an extracted event is in the seed lexicon and does not involve complex phenomena like negation, we assign the corresponding polarity score ($+1$ for positive events and $-1$ for negative events) to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the",
+        "type": "Document"
+      },
+      {
+        "id": "9aa9f3e6-2a63-43b5-99c0-0781effa0a33",
+        "metadata": {
+          "chunk_id": 16,
+          "document_id": "1909.00694",
+          "start_idx": 5454,
+          "end_idx": 5949
+        },
+        "page_content": " to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the availability of scores and the types of discourse relations, we classify the extracted event pairs into the following three types.  The seed lexicon matches (1) the latter event but (2) not the former event, and (3) their discourse relation type is Cause or Concession. If the discourse relation type is Cause, the former event is given the same score as the latter. Likewise, if",
+        "type": "Document"
+      },
+      {
+        "id": "f376181e-ff7b-4cc4-a90e-fce19a5c3857",
+        "metadata": {
+          "chunk_id": 4,
+          "document_id": "1909.00694",
+          "start_idx": 1452,
+          "end_idx": 1786
+        },
+        "page_content": " If the seed lexicon suggests $x_2$ is positive, $x_1$ is also likely to be positive because it triggers the positive emotion. The fact that $x_2$ is known to be negative indicates the negative polarity of $x_1$. Similarly, if $x_1$ and $x_2$ are in the discourse relation of Concession (i.e., $x_2$ in spite of $x_1$), the reverse of",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "What are the results?",
+    "llm_answer": "The results are shown in Table TABREF16 (not specified which one) and Table TABREF23, which shows accuracy for different combinations of datasets and models. However, without access to these tables, it's not possible to provide specific numerical values or details about the results.\n\nBased on the text, we can infer that:\n\n* The model was trained with different combinations of datasets (AL, AL+CA+CO, ACP, and ACP+AL+CA+CO) and objective functions.\n* The accuracy of these models is reported in Table TABREF23.\n* The Random baseline suggests even distribution of positive and negative labels, while the Random+Seed baseline uses a seed lexicon to output corresponding labels.\n\nHowever, without access to the actual tables or more detailed information, it's not possible to provide a comprehensive answer to what the results are.",
+    "context": [
+      {
+        "id": "e1c14761-6e20-4750-8a6a-5c505875a131",
+        "metadata": {
+          "chunk_id": 27,
+          "document_id": "1909.00694",
+          "start_idx": 8898,
+          "end_idx": 9330
+        },
+        "page_content": " CO such that it was five times larger than AL. The results are shown in Table TABREF16. We used the latest version of the ACP Corpus BIBREF12 for evaluation. It was used for (semi-)supervised training as well. Extracted from Japanese websites using HTML layouts and linguistic patterns, the dataset covered various genres. For example, the following two sentences were labeled positive and negative, respectively: . \u4f5c\u696d\u304c\u697d\u3060\u3002 The work",
+        "type": "Document"
+      },
+      {
+        "id": "4c537e13-0467-4cfa-81ef-b593d9b4f961",
+        "metadata": {
+          "chunk_id": 32,
+          "document_id": "1909.00694",
+          "start_idx": 10558,
+          "end_idx": 10948
+        },
+        "page_content": " output is the final hidden state corresponding to the special classification tag ([CLS]). For the details of ${\\rm Encoder}$, see Sections SECREF30. We trained the model with the following four combinations of the datasets: AL, AL+CA+CO (two proposed models), ACP (supervised), and ACP+AL+CA+CO (semi-supervised). The corresponding objective functions were: $\\mathcal {L}_{\\rm AL}$, $\\math",
+        "type": "Document"
+      },
+      {
+        "id": "36f2f4ec-e031-4fa1-a588-3a149ac308bd",
+        "metadata": {
+          "chunk_id": 34,
+          "document_id": "1909.00694",
+          "start_idx": 11000,
+          "end_idx": 11367
+        },
+        "page_content": " + \\mathcal {L}_{\\rm AL} + \\mathcal {L}_{\\rm CA} + \\mathcal {L}_{\\rm CO}$.   Table TABREF23 shows accuracy. As the Random baseline suggests, positive and negative labels were distributed evenly. The Random+Seed baseline made use of the seed lexicon and output the corresponding label (or the reverse of it for negation) if the event's predicate is in the seed lexicon",
+        "type": "Document"
+      },
+      {
+        "id": "d8ad5fbe-bb56-4932-a3da-a1c317d7911d",
+        "metadata": {
+          "chunk_id": 26,
+          "document_id": "1909.00694",
+          "start_idx": 8611,
+          "end_idx": 9077
+        },
+        "page_content": " consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the corpus of about 100 million sentences, we obtained 1.4 millions event pairs for AL, 41 millions for CA, and 6 millions for CO. We randomly selected subsets of AL event pairs such that positive and negative latter events were equal in size. We also sampled event pairs for each of CA and CO such that it was five times larger than AL. The results are shown in Table TABREF",
+        "type": "Document"
+      },
+      {
+        "id": "b5a6a425-2286-44d5-b30b-8d9880b714f2",
+        "metadata": {
+          "chunk_id": 30,
+          "document_id": "1909.00694",
+          "start_idx": 9921,
+          "end_idx": 10268
+        },
+        "page_content": " the ACP Corpus. To optimize the hyperparameters, we used the dev set of the ACP Corpus. For the evaluation, we used the test set of the ACP Corpus. The model output was classified as positive if $p(x) > 0$ and negative if $p(x) \\le 0$.  As for ${\\rm Encoder}$, we compared two types of neural networks: BiGRU and BERT. GRU BIBREF16 is a recurrent",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How are relations used to propagate polarity?",
+    "llm_answer": "According to the context, discourse relations (specifically Cause and Concession) are used to efficiently propagate polarity. For example, in a Concession relation, if one event's polarity is known, it can be assumed that the other event has the reversed polarity. This allows the model to automatically learn complex phenomena through label propagation using only a small seed lexicon and a large raw corpus.",
+    "context": [
+      {
+        "id": "c18d3a5d-0ccf-4bf4-ba66-4004cebe43d3",
+        "metadata": {
+          "chunk_id": 5,
+          "document_id": "1909.00694",
+          "start_idx": 1786,
+          "end_idx": 2082
+        },
+        "page_content": ".e., $x_2$ in spite of $x_1$), the reverse of $x_2$'s polarity can be propagated to $x_1$. Even if $x_2$'s polarity is not known in advance, we can exploit the tendency of $x_1$ and $x_2$ to be of the same polarity (for Cause) or of the reverse polarity (for Concession) although the heuristic is",
+        "type": "Document"
+      },
+      {
+        "id": "b5bb5cc5-44b6-492a-8644-a08d8d77f952",
+        "metadata": {
+          "chunk_id": 6,
+          "document_id": "1909.00694",
+          "start_idx": 1955,
+          "end_idx": 2465
+        },
+        "page_content": " (for Cause) or of the reverse polarity (for Concession) although the heuristic is not exempt from counterexamples. We transform this idea into objective functions and train neural network models that predict the polarity of a given event. We trained the models using a Japanese web corpus. Given the minimum amount of supervision, they performed well. In addition, the combination of annotated and unannotated data yielded a gain over a purely supervised baseline when labeled data were small. Learning affect",
+        "type": "Document"
+      },
+      {
+        "id": "fd6f755d-addb-47cc-b25e-af247c6a8ca2",
+        "metadata": {
+          "chunk_id": 15,
+          "document_id": "1909.00694",
+          "start_idx": 5168,
+          "end_idx": 5658
+        },
+        "page_content": " As shown in Figure FIGREF1, we limit our scope to two discourse relations: Cause and Concession. The seed lexicon consists of positive and negative predicates. If the predicate of an extracted event is in the seed lexicon and does not involve complex phenomena like negation, we assign the corresponding polarity score ($+1$ for positive events and $-1$ for negative events) to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the",
+        "type": "Document"
+      },
+      {
+        "id": "076dc354-c549-49ec-9861-1e75fe859e1a",
+        "metadata": {
+          "chunk_id": 18,
+          "document_id": "1909.00694",
+          "start_idx": 6255,
+          "end_idx": 6711
+        },
+        "page_content": " polarities.  The seed lexicon matches neither the former nor the latter event, and their discourse relation type is Concession. We assume the two events have the reversed polarities.  Using AL, CA, and CO data, we optimize the parameters of the polarity function $p(x)$. We define a loss function for each of the three types of event pairs and sum up the multiple loss functions. We use mean squared error to construct loss functions. For the AL data, the",
+        "type": "Document"
+      },
+      {
+        "id": "7649bf7a-2e9f-4979-869b-1aa0c095ad45",
+        "metadata": {
+          "chunk_id": 2,
+          "document_id": "1909.00694",
+          "start_idx": 780,
+          "end_idx": 1273
+        },
+        "page_content": " combinatorial nature of language, the non-compositionality of affective polarity entails the need for large amounts of world knowledge, which can hardly be learned from small annotated data. In this paper, we propose a simple and effective method for learning affective events that only requires a very small seed lexicon and a large raw corpus. As illustrated in Figure FIGREF1, our key idea is that we can exploit discourse relations BIBREF4 to efficiently propagate polarity from seed pred",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How big is the Japanese data?",
+    "llm_answer": "The context doesn't explicitly state the overall size of the Japanese data, but it does mention some specific sizes:\n\n* 0.6 million events for the ACP dataset\n* 1.4 million event pairs for AL (apparent contrastive pairing)\n* 41 million event pairs for CA (contrastive augmentation)\n* 6 million event pairs for CO (contextual overlap)\n\nIt also mentions that a subset of 6,000 events was used for comparison with the full ACP dataset.\n\nThe vocabulary size is given as 100,000.",
+    "context": [
+      {
+        "id": "e1c14761-6e20-4750-8a6a-5c505875a131",
+        "metadata": {
+          "chunk_id": 27,
+          "document_id": "1909.00694",
+          "start_idx": 8898,
+          "end_idx": 9330
+        },
+        "page_content": " CO such that it was five times larger than AL. The results are shown in Table TABREF16. We used the latest version of the ACP Corpus BIBREF12 for evaluation. It was used for (semi-)supervised training as well. Extracted from Japanese websites using HTML layouts and linguistic patterns, the dataset covered various genres. For example, the following two sentences were labeled positive and negative, respectively: . \u4f5c\u696d\u304c\u697d\u3060\u3002 The work",
+        "type": "Document"
+      },
+      {
+        "id": "73fa6056-a7e0-4f96-9b9f-e2da98f4d406",
+        "metadata": {
+          "chunk_id": 48,
+          "document_id": "1909.00694",
+          "start_idx": 15131,
+          "end_idx": 15574
+        },
+        "page_content": " vocabulary size was 100,000. The number of hidden layers was 2. The dimension of hidden units was 256. The optimizer was Momentum SGD BIBREF21. The mini-batch size was 1024. We ran 100 epochs and selected the snapshot that achieved the highest score for the dev set. We used a Japanese BERT model pretrained with Japanese Wikipedia. The input sentences were segmented into words by Juman++, and words were broken into subwords by applying BPE",
+        "type": "Document"
+      },
+      {
+        "id": "52c5caf6-8981-4d3a-b86a-86346b403dc3",
+        "metadata": {
+          "chunk_id": 37,
+          "document_id": "1909.00694",
+          "start_idx": 12027,
+          "end_idx": 12460
+        },
+        "page_content": " models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO). This suggests that the training set of 0.6 million events is sufficiently large for training the models. For comparison, we trained the models with a subset (6,000 events) of the ACP dataset. As the results shown in Table TABREF24 demonstrate, our method is effective when labeled data are small. The result of hyperparameter optimization for the BiGRU encoder was as",
+        "type": "Document"
+      },
+      {
+        "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
+        "metadata": {
+          "chunk_id": 49,
+          "document_id": "1909.00694",
+          "start_idx": 15395,
+          "end_idx": 15766
+        },
+        "page_content": " segmented into words by Juman++, and words were broken into subwords by applying BPE BIBREF20. The vocabulary size was 32,000. The maximum length of an input sequence was 128. The number of hidden layers was 12. The dimension of hidden units was 768. The number of self-attention heads was 12. The optimizer was Adam BIBREF19. The mini-batch size was 32. We ran 1 epoch.",
+        "type": "Document"
+      },
+      {
+        "id": "d8ad5fbe-bb56-4932-a3da-a1c317d7911d",
+        "metadata": {
+          "chunk_id": 26,
+          "document_id": "1909.00694",
+          "start_idx": 8611,
+          "end_idx": 9077
+        },
+        "page_content": " consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the corpus of about 100 million sentences, we obtained 1.4 millions event pairs for AL, 41 millions for CA, and 6 millions for CO. We randomly selected subsets of AL event pairs such that positive and negative latter events were equal in size. We also sampled event pairs for each of CA and CO such that it was five times larger than AL. The results are shown in Table TABREF",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How big are improvements of supervszed learning results trained on smalled labeled data enhanced with proposed approach copared to basic approach?",
+    "llm_answer": "The question seems to be incomplete, but I'll provide an answer based on the context provided.\n\nAccording to the text, when comparing the supervised models (ACP) outperforming semi-supervised models (ACP+AL+CA+CO), it suggests that the performance improvement of using the proposed approach (discourse relation-based label propagation) with smaller labeled data is significant.",
+    "context": [
+      {
+        "id": "e9fda789-e106-481d-9686-050e813e0d91",
+        "metadata": {
+          "chunk_id": 36,
+          "document_id": "1909.00694",
+          "start_idx": 11751,
+          "end_idx": 12204
+        },
+        "page_content": " of discourse relation-based label propagation. Comparing the model variants, we obtained the highest score with the BiGRU encoder trained with the AL+CA+CO dataset. BERT was competitive but its performance went down if CA and CO were used in addition to AL. We conjecture that BERT was more sensitive to noises found more frequently in CA and CO. Contrary to our expectations, supervised models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO).",
+        "type": "Document"
+      },
+      {
+        "id": "52c5caf6-8981-4d3a-b86a-86346b403dc3",
+        "metadata": {
+          "chunk_id": 37,
+          "document_id": "1909.00694",
+          "start_idx": 12027,
+          "end_idx": 12460
+        },
+        "page_content": " models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO). This suggests that the training set of 0.6 million events is sufficiently large for training the models. For comparison, we trained the models with a subset (6,000 events) of the ACP dataset. As the results shown in Table TABREF24 demonstrate, our method is effective when labeled data are small. The result of hyperparameter optimization for the BiGRU encoder was as",
+        "type": "Document"
+      },
+      {
+        "id": "f5fdef08-4cdd-41f0-8495-ef39ed38a9b3",
+        "metadata": {
+          "chunk_id": 35,
+          "document_id": "1909.00694",
+          "start_idx": 11244,
+          "end_idx": 11751
+        },
+        "page_content": "or the reverse of it for negation) if the event's predicate is in the seed lexicon. We can see that the seed lexicon itself had practically no impact on prediction. The models in the top block performed considerably better than the random baselines. The performance gaps with their (semi-)supervised counterparts, shown in the middle block, were less than 7%. This demonstrates the effectiveness of discourse relation-based label propagation. Comparing the model variants, we obtained the highest score with",
+        "type": "Document"
+      },
+      {
+        "id": "73fa6056-a7e0-4f96-9b9f-e2da98f4d406",
+        "metadata": {
+          "chunk_id": 48,
+          "document_id": "1909.00694",
+          "start_idx": 15131,
+          "end_idx": 15574
+        },
+        "page_content": " vocabulary size was 100,000. The number of hidden layers was 2. The dimension of hidden units was 256. The optimizer was Momentum SGD BIBREF21. The mini-batch size was 1024. We ran 100 epochs and selected the snapshot that achieved the highest score for the dev set. We used a Japanese BERT model pretrained with Japanese Wikipedia. The input sentences were segmented into words by Juman++, and words were broken into subwords by applying BPE",
+        "type": "Document"
+      },
+      {
+        "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
+        "metadata": {
+          "chunk_id": 49,
+          "document_id": "1909.00694",
+          "start_idx": 15395,
+          "end_idx": 15766
+        },
+        "page_content": " segmented into words by Juman++, and words were broken into subwords by applying BPE BIBREF20. The vocabulary size was 32,000. The maximum length of an input sequence was 128. The number of hidden layers was 12. The dimension of hidden units was 768. The number of self-attention heads was 12. The optimizer was Adam BIBREF19. The mini-batch size was 32. We ran 1 epoch.",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How does their model learn using mostly raw data?",
+    "llm_answer": "The answer cannot be determined based on the provided context, as it doesn't explicitly mention how their model learns from mostly raw data. However, we can infer that they used semi-supervised learning by combining labeled and unlabeled data (ACP+AL+CA+CO), which allows the model to learn from both the labeled ACP Corpus and the unlabeled datasets AL, CA, and CO through label propagation.",
+    "context": [
+      {
+        "id": "4c537e13-0467-4cfa-81ef-b593d9b4f961",
+        "metadata": {
+          "chunk_id": 32,
+          "document_id": "1909.00694",
+          "start_idx": 10558,
+          "end_idx": 10948
+        },
+        "page_content": " output is the final hidden state corresponding to the special classification tag ([CLS]). For the details of ${\\rm Encoder}$, see Sections SECREF30. We trained the model with the following four combinations of the datasets: AL, AL+CA+CO (two proposed models), ACP (supervised), and ACP+AL+CA+CO (semi-supervised). The corresponding objective functions were: $\\mathcal {L}_{\\rm AL}$, $\\math",
+        "type": "Document"
+      },
+      {
+        "id": "9aa9f3e6-2a63-43b5-99c0-0781effa0a33",
+        "metadata": {
+          "chunk_id": 16,
+          "document_id": "1909.00694",
+          "start_idx": 5454,
+          "end_idx": 5949
+        },
+        "page_content": " to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the availability of scores and the types of discourse relations, we classify the extracted event pairs into the following three types.  The seed lexicon matches (1) the latter event but (2) not the former event, and (3) their discourse relation type is Cause or Concession. If the discourse relation type is Cause, the former event is given the same score as the latter. Likewise, if",
+        "type": "Document"
+      },
+      {
+        "id": "3a4ff5d7-44d0-4e56-b496-7b784e3dba9e",
+        "metadata": {
+          "chunk_id": 29,
+          "document_id": "1909.00694",
+          "start_idx": 9585,
+          "end_idx": 9921
+        },
+        "page_content": " last clause in it. The train/dev/test split of the data is shown in Table TABREF19. The objective function for supervised training is:  where $v_i$ is the $i$-th event, $R_i$ is the reference score of $v_i$, and $N_{\\rm ACP}$ is the number of the events of the ACP Corpus. To optimize the hyperparameters, we used the dev set of the AC",
+        "type": "Document"
+      },
+      {
+        "id": "b5a6a425-2286-44d5-b30b-8d9880b714f2",
+        "metadata": {
+          "chunk_id": 30,
+          "document_id": "1909.00694",
+          "start_idx": 9921,
+          "end_idx": 10268
+        },
+        "page_content": " the ACP Corpus. To optimize the hyperparameters, we used the dev set of the ACP Corpus. For the evaluation, we used the test set of the ACP Corpus. The model output was classified as positive if $p(x) > 0$ and negative if $p(x) \\le 0$.  As for ${\\rm Encoder}$, we compared two types of neural networks: BiGRU and BERT. GRU BIBREF16 is a recurrent",
+        "type": "Document"
+      },
+      {
+        "id": "fd6f755d-addb-47cc-b25e-af247c6a8ca2",
+        "metadata": {
+          "chunk_id": 15,
+          "document_id": "1909.00694",
+          "start_idx": 5168,
+          "end_idx": 5658
+        },
+        "page_content": " As shown in Figure FIGREF1, we limit our scope to two discourse relations: Cause and Concession. The seed lexicon consists of positive and negative predicates. If the predicate of an extracted event is in the seed lexicon and does not involve complex phenomena like negation, we assign the corresponding polarity score ($+1$ for positive events and $-1$ for negative events) to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How big is seed lexicon used for training?",
+    "llm_answer": "The seed lexicon had 15 positive words and 15 negative words.",
+    "context": [
+      {
+        "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
+        "metadata": {
+          "chunk_id": 49,
+          "document_id": "1909.00694",
+          "start_idx": 15395,
+          "end_idx": 15766
+        },
+        "page_content": " segmented into words by Juman++, and words were broken into subwords by applying BPE BIBREF20. The vocabulary size was 32,000. The maximum length of an input sequence was 128. The number of hidden layers was 12. The dimension of hidden units was 768. The number of self-attention heads was 12. The optimizer was Adam BIBREF19. The mini-batch size was 32. We ran 1 epoch.",
+        "type": "Document"
+      },
+      {
+        "id": "f5fdef08-4cdd-41f0-8495-ef39ed38a9b3",
+        "metadata": {
+          "chunk_id": 35,
+          "document_id": "1909.00694",
+          "start_idx": 11244,
+          "end_idx": 11751
+        },
+        "page_content": "or the reverse of it for negation) if the event's predicate is in the seed lexicon. We can see that the seed lexicon itself had practically no impact on prediction. The models in the top block performed considerably better than the random baselines. The performance gaps with their (semi-)supervised counterparts, shown in the middle block, were less than 7%. This demonstrates the effectiveness of discourse relation-based label propagation. Comparing the model variants, we obtained the highest score with",
+        "type": "Document"
+      },
+      {
+        "id": "73fa6056-a7e0-4f96-9b9f-e2da98f4d406",
+        "metadata": {
+          "chunk_id": 48,
+          "document_id": "1909.00694",
+          "start_idx": 15131,
+          "end_idx": 15574
+        },
+        "page_content": " vocabulary size was 100,000. The number of hidden layers was 2. The dimension of hidden units was 256. The optimizer was Momentum SGD BIBREF21. The mini-batch size was 1024. We ran 100 epochs and selected the snapshot that achieved the highest score for the dev set. We used a Japanese BERT model pretrained with Japanese Wikipedia. The input sentences were segmented into words by Juman++, and words were broken into subwords by applying BPE",
+        "type": "Document"
+      },
+      {
+        "id": "994cb690-cfe5-4fd8-8502-87a397aa5081",
+        "metadata": {
+          "chunk_id": 25,
+          "document_id": "1909.00694",
+          "start_idx": 8296,
+          "end_idx": 8611
+        },
+        "page_content": "] made a serious mistake, [I] got fired. From this sentence, we extracted the event pair of \u201c\u91cd\u5927\u306a\u5931\u6557\u3092\u72af\u3059\u201d ([I] make a serious mistake) and \u201c\u4ed5\u4e8b\u3092\u30af\u30d3\u306b\u306a\u308b\u201d ([I] get fired), and tagged it with Cause. We constructed our seed lexicon consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the",
+        "type": "Document"
+      },
+      {
+        "id": "52c5caf6-8981-4d3a-b86a-86346b403dc3",
+        "metadata": {
+          "chunk_id": 37,
+          "document_id": "1909.00694",
+          "start_idx": 12027,
+          "end_idx": 12460
+        },
+        "page_content": " models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO). This suggests that the training set of 0.6 million events is sufficiently large for training the models. For comparison, we trained the models with a subset (6,000 events) of the ACP dataset. As the results shown in Table TABREF24 demonstrate, our method is effective when labeled data are small. The result of hyperparameter optimization for the BiGRU encoder was as",
+        "type": "Document"
+      }
+    ]
+  }
+]
