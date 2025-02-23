@@ -79,6 +79,17 @@ This document outlines the organization of our RAG framework codebase.
 │       ├── multihoprag/        # Multi-hop reasoning dataset
 │       └── frames/             # Frames benchmark dataset
 │
+├── test/            # Test suite
+│   ├── chunker.py            # Chunking test
+│   ├── simple_rag.py         # SimpleRAG implementation tests
+│   ├── eval_retrieval.py     # Retrieval evaluation tests
+│   ├── eval_generation.py    # Generation evaluation tests
+│   ├── llm_controller.py     # LLM controller test
+│   ├── input_data/           # Input data for evaluation test
+│   │   └── ...
+│   └── output_data/          # Evaluation output data
+│       └── ...
+│
 └── logger/          # Logging system
     ├── __init__.py
     ├── logger.py     # Main logging implementation
@@ -154,6 +165,16 @@ Framework-agnostic dataset management:
   - `narrativeqa/`:Intra-document QA on narrative texts
   - `multihoprag/`: Multi-hop reasoning dataset
   - `frames/`: Frames benchmark dataset
+
+### Test Suite (test/)
+- `test/`: Framework testing and evaluation
+  - `chunker.py`: Chunking test
+  - `simple_rag.py`: SimpleRAG implementation tests
+  - `eval_retrieval.py`: Retrieval evaluation tests
+  - `eval_generation.py`: Generation evaluation tests
+  - `llm_controller.py`: LLM controller test
+  - `input_data/`: Test input data files
+  - `output_data/`: Test output and metrics files
 
 ## Key Files
 - `constants.py`: Global constants used across operations
