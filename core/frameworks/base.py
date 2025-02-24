@@ -56,8 +56,8 @@ class BaseRAGFramework(ABC):
         )
 
         # Initialize Chunker based on config
-        self.logger.info("Initializing Chunker with size: %d, overlap: %d", 
-                        self.chunker_config.size, self.chunker_config.overlap)
+        self.logger.info("Initializing Chunker with size: %d, overlap: %.2f%%", 
+                        self.chunker_config.size, self.chunker_config.overlap * 100)
         self.chunker = Chunker(
             chunk_size=self.chunker_config.size, 
             chunk_overlap=self.chunker_config.overlap
