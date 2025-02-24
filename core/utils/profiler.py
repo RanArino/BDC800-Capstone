@@ -133,21 +133,64 @@ class Profiler:
             current_level[keys[-1]]["end"] = end_time
             current_level[keys[-1]]["end_memory"] = end_memory
             
-            elapsed = end_time - current_level[keys[-1]]["start"]
-            memory_used = end_memory - current_level[keys[-1]]["start_memory"]
-            
-            # Update accumulated metrics
-            current_level[keys[-1]]["total"] = current_level[keys[-1]].get("total", 0) + elapsed
-            current_level[keys[-1]]["total_memory"] = current_level[keys[-1]].get("total_memory", 0) + memory_used
-            
-            metrics = {
-                "elapsed": elapsed,
-                "memory_used": memory_used,
-                "end_memory": end_memory
-            }
-            # logger.info(f"Timer '{key}' stopped. Metrics: {metrics}")
-            return metrics
-        return None
+    def _update_peak_memory(self, key: str, current_memory: float, timestamp: float) -> None:
+        """Thread-safe update of peak memory."""
+        timer_dict = self._get_timer_dict(key)
+        
+        with self._lock:
+            # Store memory sample with timestamp
+            if "memory_samples" in timer_dict:
+                timer_dict["memory_samples"].append((timestamp, current_memory))
+                
+            # Update peak memory if current is higher
+            if current_memory > timer_dict.get("peak_memory", 0):
+                timer_dict["peak_memory"] = current_memory
+                timer_dict["peak_time"] = timestamp
+
+    def _track_memory(self, key: str):
+        """Continuously track memory usage with adaptive sampling."""
+        last_memory = self._process.memory_info().rss / 1024 / 1024
+        current_interval = self._min_poll_interval
+        volatility_history = []
+        
+        try:
+            while key in self._active_timers and not self._timer_flags.get(key, True):
+                try:
+                    # Get current memory and timestamp
+                    timestamp = time.time()
+                    current_memory = self._process.memory_info().rss / 1024 / 1024
+                    
+                    # Update peak memory
+                    self._update_peak_memory(key, current_memory, timestamp)
+                    
+                    # Calculate memory volatility for adaptive sampling
+                    volatility = abs(current_memory - last_memory)
+                    volatility_history.append(volatility)
+                    
+                    # Adjust sampling interval based on recent volatility
+                    if len(volatility_history) > 10:
+                        volatility_history.pop(0)
+                        avg_volatility = sum(volatility_history) / len(volatility_history)
+                        
+                        # More volatile = faster sampling, less volatile = slower sampling
+                        if avg_volatility > 1.0:  # High volatility
+                            current_interval = self._min_poll_interval
+                        elif avg_volatility < 0.1:  # Low volatility
+                            current_interval = min(current_interval * 1.5, self._max_poll_interval)
+                    
+                    last_memory = current_memory
+                    time.sleep(current_interval)
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    break  # Stop if process no longer exists or accessible
+        except Exception as e:
+            # logger.error(f"Memory tracking error for {key}: {str(e)}")
+            pass
+        finally:
+            # Clean up
+            if key in self._timer_threads:
+                with self._lock:
+                    if key in self._timer_threads:
+                        del self._timer_threads[key]
 
     @contextmanager
     def track(self, key: str):
