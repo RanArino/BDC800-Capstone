@@ -4,9 +4,9 @@ import time
 from typing import Dict, Any, Optional
 from contextlib import contextmanager
 
-from core.logger.logger import get_logger
-
-logger = get_logger(__name__)
+# Setup basic logging for profiler
+# import logging
+# logger = logging.getLogger(__name__)
 
 class Profiler:
     def __init__(self, reset_on_init: bool = True):
@@ -21,7 +21,7 @@ class Profiler:
         if reset_on_init:
             self.reset()
             
-        logger.info("Initialized new Profiler instance")
+        # logger.info("Initialized new Profiler instance")
 
     def start(self, key: str) -> None:
         """Start timing for a specific key.
@@ -31,7 +31,7 @@ class Profiler:
         """
         if key in self._active_timers:
             error_msg = f"Timer '{key}' is already running"
-            logger.error(error_msg)
+            # logger.error(error_msg)
             raise ValueError(error_msg)
             
         self._active_timers.add(key)
@@ -48,7 +48,7 @@ class Profiler:
             "start": start_time,
             "count": current_level.get(keys[-1], {}).get("count", 0) + 1
         }
-        logger.debug(f"Started timer for '{key}' at {start_time}")
+        # logger.debug(f"Started timer for '{key}' at {start_time}")
 
     def stop(self, key: str) -> Optional[float]:
         """Stop timing for a specific key and return the elapsed time.
@@ -61,7 +61,7 @@ class Profiler:
         """
         if key not in self._active_timers:
             error_msg = f"Timer '{key}' was not started"
-            logger.error(error_msg)
+            # logger.error(error_msg)
             raise ValueError(error_msg)
             
         self._active_timers.remove(key)
@@ -70,7 +70,7 @@ class Profiler:
         
         for k in keys[:-1]:
             if k not in current_level:
-                logger.warning(f"Timer '{key}' not found in hierarchy")
+                # logger.warning(f"Timer '{key}' not found in hierarchy")
                 return None
             current_level = current_level[k]
             
@@ -82,7 +82,7 @@ class Profiler:
             # Update accumulated time
             current_level[keys[-1]]["total"] = current_level[keys[-1]].get("total", 0) + elapsed
             
-            logger.info(f"Timer '{key}' stopped. Elapsed time: {elapsed:.4f}s")
+            # logger.info(f"Timer '{key}' stopped. Elapsed time: {elapsed:.4f}s")
             return elapsed
         return None
 
@@ -102,7 +102,7 @@ class Profiler:
             yield
         finally:
             elapsed = self.stop(key)
-            logger.debug(f"Context manager for '{key}' completed. Time: {elapsed:.4f}s")
+            # logger.debug(f"Context manager for '{key}' completed. Time: {elapsed:.4f}s")
 
     def track_func(self, key: str):
         """Decorator for timing function execution.
@@ -117,7 +117,7 @@ class Profiler:
         """
         def decorator(func):
             def wrapper(*args, **kwargs):
-                logger.debug(f"Executing tracked function '{func.__name__}' with key '{key}'")
+                # logger.debug(f"Executing tracked function '{func.__name__}' with key '{key}'")
                 with self.track(key):
                     return func(*args, **kwargs)
             return wrapper
@@ -127,7 +127,7 @@ class Profiler:
         """Reset all timings and active timers."""
         self.timings = {}
         self._active_timers.clear()
-        logger.info("Profiler reset - all timings cleared")
+        # logger.info("Profiler reset - all timings cleared")
 
     def get_metrics(self, include_counts: bool = False) -> Dict[str, Any]:
         """Get flattened metrics with optional execution counts.
@@ -162,7 +162,7 @@ class Profiler:
             return result
 
         metrics = _flatten(self.timings)
-        logger.debug(f"Retrieved metrics: {metrics}")
+        # logger.debug(f"Retrieved metrics: {metrics}")
         return metrics
 
     def get_active_timers(self) -> set:
