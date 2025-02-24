@@ -26,7 +26,6 @@ class RougeMetrics(BaseModel):
             raise ValueError("At least one metric (precision, recall, or fmeasure) must be provided")
         return self
 
-
 class GenerationEval(BaseModel):
     rouge1: RougeMetrics
     rouge2: Optional[RougeMetrics] = None
@@ -39,3 +38,12 @@ class RetrievalEval(BaseModel):
     map: Dict[RankCutOff, float]
     mrr: Dict[RankCutOff, float]
     hit: Dict[RankCutOff, float]
+
+class MetricsSummary(BaseModel):
+    qa_id: str
+    query: str
+    ground_truth: str
+    llm_answer: str
+    generation: Optional[GenerationEval] = None
+    retrieval: Optional[RetrievalEval] = None
+    
