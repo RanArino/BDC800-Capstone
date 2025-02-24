@@ -5,7 +5,7 @@ Schema for evaluation metrics
 """
 
 from pydantic import BaseModel, model_validator
-from typing import Optional, Literal, Dict, TypeAlias
+from typing import Optional, Literal, Dict, TypeAlias, Union
 
 RougeType = Literal['rouge1', 'rouge2', 'rougeL']
 RougeMetricType = Literal['precision', 'recall', 'fmeasure']
@@ -15,10 +15,20 @@ SelfCheckerAnswer = Literal["Yes", "No", "Undetermined"]
 
 RankCutOff: TypeAlias = str
 
+class StatValue(BaseModel):
+    """Statistical values for a metric."""
+    mean: float
+    std: float
+    median: float
+    q1: float
+    q3: float
+    min: float
+    max: float
+
 class RougeMetrics(BaseModel):
-    precision: Optional[float] = None
-    recall: Optional[float] = None
-    fmeasure: Optional[float] = None
+    precision: Optional[Union[float, StatValue]] = None
+    recall: Optional[Union[float, StatValue]] = None
+    fmeasure: Optional[Union[float, StatValue]] = None
 
     @model_validator(mode='after')
     def check_at_least_one_metric(self) -> 'RougeMetrics':
@@ -26,18 +36,20 @@ class RougeMetrics(BaseModel):
             raise ValueError("At least one metric (precision, recall, or fmeasure) must be provided")
         return self
 
+
 class GenerationEval(BaseModel):
     rouge1: RougeMetrics
     rouge2: Optional[RougeMetrics] = None
     rougeL: Optional[RougeMetrics] = None
-    bleu: float
-    cosine_sim: float
-    self_checker: SelfCheckerAnswer
+    bleu: Union[float, StatValue]
+    cosine_sim: Union[float, StatValue]
+    self_checker: Optional[SelfCheckerAnswer] = None
+    self_checker_accuracy: Optional[float] = None  # For summary stats only
     
 class RetrievalEval(BaseModel):
-    map: Dict[RankCutOff, float]
-    mrr: Dict[RankCutOff, float]
-    hit: Dict[RankCutOff, float]
+    map: Dict[RankCutOff, Union[float, StatValue]]
+    mrr: Dict[RankCutOff, Union[float, StatValue]]
+    hit: Dict[RankCutOff, Union[float, StatValue]]
 
 class MetricsSummary(BaseModel):
     qa_id: str
@@ -46,4 +58,9 @@ class MetricsSummary(BaseModel):
     llm_answer: str
     generation: Optional[GenerationEval] = None
     retrieval: Optional[RetrievalEval] = None
-    
+
+class MetricsSummaryStats(BaseModel):
+    """Statistical summary of metrics across multiple QA pairs."""
+    total_queries: int
+    generation: Optional[GenerationEval] = None
+    retrieval: Optional[RetrievalEval] = None
