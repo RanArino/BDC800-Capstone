@@ -7,13 +7,16 @@ The Profiler class allows you to:
 - Start and stop timers for specific code blocks
 - Track function execution time and memory usage
 - Get flattened metrics with optional execution counts
+- Monitor memory usage with adaptive sampling
 """
 
 import time
-from typing import Dict, Any, Optional
+import os
+import threading
+import tracemalloc
+from typing import Dict, Any, Optional, List, Tuple
 from contextlib import contextmanager
 import psutil
-import os
 
 # Setup basic logging for profiler
 # import logging
