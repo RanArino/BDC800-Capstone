@@ -27,7 +27,7 @@ if __name__ == "__main__":
     with open(qa_file, 'r') as f:
         qa_list: List[Dict] = json.load(f)
 
-    response_file = "test/input_data/RAGResponse_list.json"
+    response_file = "test/input_data/RAGResponse_qasper_test.json"
     with open(response_file, 'r') as f:
         # dictionary of RAGResponse objects
         response_list: List[Dict] = json.load(f) 
@@ -36,6 +36,8 @@ if __name__ == "__main__":
     metrics_list = []
     for response, qa in zip(response_list, qa_list):
         metrics = calculate_generation_metrics(
+            qa.get('id'),
+            qa.get('q'),
             response.get('llm_answer'), 
             qa.get('a'),
             rouge_types=['rouge1', 'rouge2', 'rougeL'],
