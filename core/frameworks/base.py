@@ -56,8 +56,8 @@ class BaseRAGFramework(ABC):
         )
 
         # Initialize Chunker based on config
-        self.logger.info("Initializing Chunker with size: %d, overlap: %d", 
-                        self.chunker_config.size, self.chunker_config.overlap)
+        self.logger.info("Initializing Chunker with size: %d, overlap: %.2f%%", 
+                        self.chunker_config.size, self.chunker_config.overlap * 100)
         self.chunker = Chunker(
             chunk_size=self.chunker_config.size, 
             chunk_overlap=self.chunker_config.overlap
@@ -101,27 +101,40 @@ class BaseRAGFramework(ABC):
                 raise ValueError("For InterDocumentQA datasets, please specify number_of_qas instead of number_of_docs")
             return self._load_inter_docs_and_qas(number_of_qas, selection_mode)
 
-    def run(self, qa: IntraDocumentQA|InterDocumentQA) -> RAGResponse:
-        """Run the RAG pipeline on a query.
+    def run(
+        self, 
+        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]]
+    ) -> List[RAGResponse]:
+        """Run the RAG pipeline on queries.
         
+        Args:
+            qas: A list, generator, or any iterable of QA pairs to process
+            
+        Returns:
+            A list of RAGResponses corresponding to each input QA pair
+            
         Profiling:
             - retrieval: time for overall retrieval process
             - generation: time for overall generation process
         """
-        try:
-            # Retrieve relevant documents
-            with self.profiler.track("retrieval"):
-                retrieved_docs = self.retrieve(qa.q)
-            
-            # Generate answer
-            with self.profiler.track("generation"):
-                llm_answer = self.generate(qa.q, retrieved_docs)
-            
-            return llm_answer
-            
-        except Exception as e:
-            self.logger.error(f"Error during RAG execution: {str(e)}")
-            raise
+        responses = []
+        for qa in qas:
+            try:
+                # Retrieve relevant documents
+                with self.profiler.track("retrieval"):
+                    retrieved_docs = self.retrieve(qa.q)
+                
+                # Generate answer
+                with self.profiler.track("generation"):
+                    llm_answer = self.generate(qa.q, retrieved_docs)
+                
+                responses.append(llm_answer)
+                
+            except Exception as e:
+                self.logger.error(f"Error during RAG execution for question '{qa.q}': {str(e)}")
+                raise
+        
+        return responses
 
     def index(
         self, 
