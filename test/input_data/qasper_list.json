@@ -1,41 +1,48 @@
 [
   {
+    "id": "q0",
     "q": "What is the seed lexicon?",
     "a": "a vocabulary of positive and negative predicates that helps determine the polarity score of an event",
     "e": "The seed lexicon consists of positive and negative predicates. If the predicate of an extracted event is in the seed lexicon and does not involve complex phenomena like negation, we assign the corresponding polarity score ($+1$ for positive events and $-1$ for negative events) to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the availability of scores and the types of discourse relations, we classify the extracted event pairs into the following three types.",
     "document_id": "1909.00694"
   },
   {
+    "id": "q1",
     "q": "What are the results?",
     "a": "Using all data to train: AL -- BiGRU achieved 0.843 accuracy, AL -- BERT achieved 0.863 accuracy, AL+CA+CO -- BiGRU achieved 0.866 accuracy, AL+CA+CO -- BERT achieved 0.835, accuracy, ACP -- BiGRU achieved 0.919 accuracy, ACP -- BERT achived 0.933, accuracy, ACP+AL+CA+CO -- BiGRU achieved 0.917 accuracy, ACP+AL+CA+CO -- BERT achieved 0.913 accuracy. \nUsing a subset to train: BERT achieved 0.876 accuracy using ACP (6K), BERT achieved 0.886 accuracy using ACP (6K) + AL, BiGRU achieved 0.830 accuracy using ACP (6K), BiGRU achieved 0.879 accuracy using ACP (6K) + AL + CA + CO.",
     "e": "FLOAT SELECTED: Table 3: Performance of various models on the ACP test set. FLOAT SELECTED: Table 4: Results for small labeled training data. Given the performance with the full dataset, we show BERT trained only with the AL data. As for ${\\rm Encoder}$, we compared two types of neural networks: BiGRU and BERT. GRU BIBREF16 is a recurrent neural network sequence encoder. BiGRU reads an input sequence forward and backward and the output is the concatenation of the final forward and backward hidden states. We trained the model with the following four combinations of the datasets: AL, AL+CA+CO (two proposed models), ACP (supervised), and ACP+AL+CA+CO (semi-supervised). The corresponding objective functions were: $\\mathcal {L}_{\\rm AL}$, $\\mathcal {L}_{\\rm AL} + \\mathcal {L}_{\\rm CA} + \\mathcal {L}_{\\rm CO}$, $\\mathcal {L}_{\\rm ACP}$, and $\\mathcal {L}_{\\rm ACP} + \\mathcal {L}_{\\rm AL} + \\mathcal {L}_{\\rm CA} + \\mathcal {L}_{\\rm CO}$.",
     "document_id": "1909.00694"
   },
   {
+    "id": "q2",
     "q": "How are relations used to propagate polarity?",
     "a": "based on the relation between events, the suggested polarity of one event can determine the possible polarity of the other event ",
     "e": "In this paper, we propose a simple and effective method for learning affective events that only requires a very small seed lexicon and a large raw corpus. As illustrated in Figure FIGREF1, our key idea is that we can exploit discourse relations BIBREF4 to efficiently propagate polarity from seed predicates that directly report one's emotions (e.g., \u201cto be glad\u201d is positive). Suppose that events $x_1$ are $x_2$ are in the discourse relation of Cause (i.e., $x_1$ causes $x_2$). If the seed lexicon suggests $x_2$ is positive, $x_1$ is also likely to be positive because it triggers the positive emotion. The fact that $x_2$ is known to be negative indicates the negative polarity of $x_1$. Similarly, if $x_1$ and $x_2$ are in the discourse relation of Concession (i.e., $x_2$ in spite of $x_1$), the reverse of $x_2$'s polarity can be propagated to $x_1$. Even if $x_2$'s polarity is not known in advance, we can exploit the tendency of $x_1$ and $x_2$ to be of the same polarity (for Cause) or of the reverse polarity (for Concession) although the heuristic is not exempt from counterexamples. We transform this idea into objective functions and train neural network models that predict the polarity of a given event.",
     "document_id": "1909.00694"
   },
   {
+    "id": "q3",
     "q": "How big is the Japanese data?",
     "a": "7000000 pairs of events were extracted from the Japanese Web corpus, 529850 pairs of events were extracted from the ACP corpus",
     "e": "As a raw corpus, we used a Japanese web corpus that was compiled through the procedures proposed by BIBREF13. To extract event pairs tagged with discourse relations, we used the Japanese dependency parser KNP and in-house postprocessing scripts BIBREF14. KNP used hand-written rules to segment each sentence into what we conventionally called clauses (mostly consecutive text chunks), each of which contained one main predicate. KNP also identified the discourse relations of event pairs if explicit discourse connectives BIBREF4 such as \u201c\u306e\u3067\u201d (because) and \u201c\u306e\u306b\u201d (in spite of) were present. We treated Cause/Reason (\u539f\u56e0\u30fb\u7406\u7531) and Condition (\u6761\u4ef6) in the original tagset BIBREF15 as Cause and Concession (\u9006\u63a5) as Concession, respectively. Here is an example of event pair extraction. We constructed our seed lexicon consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the corpus of about 100 million sentences, we obtained 1.4 millions event pairs for AL, 41 millions for CA, and 6 millions for CO. We randomly selected subsets of AL event pairs such that positive and negative latter events were equal in size. We also sampled event pairs for each of CA and CO such that it was five times larger than AL. The results are shown in Table TABREF16. FLOAT SELECTED: Table 1: Statistics of the AL, CA, and CO datasets. We used the latest version of the ACP Corpus BIBREF12 for evaluation. It was used for (semi-)supervised training as well. Extracted from Japanese websites using HTML layouts and linguistic patterns, the dataset covered various genres. For example, the following two sentences were labeled positive and negative, respectively: Although the ACP corpus was originally constructed in the context of sentiment analysis, we found that it could roughly be regarded as a collection of affective events. We parsed each sentence and extracted the last clause in it. The train/dev/test split of the data is shown in Table TABREF19. FLOAT SELECTED: Table 2: Details of the ACP dataset.",
     "document_id": "1909.00694"
   },
   {
+    "id": "q4",
     "q": "How big are improvements of supervszed learning results trained on smalled labeled data enhanced with proposed approach copared to basic approach?",
     "a": "3%",
     "e": "FLOAT SELECTED: Table 4: Results for small labeled training data. Given the performance with the full dataset, we show BERT trained only with the AL data.",
     "document_id": "1909.00694"
   },
   {
+    "id": "q5",
     "q": "How does their model learn using mostly raw data?",
     "a": "by exploiting discourse relations to propagate polarity from seed predicates to final sentiment polarity",
     "e": "In this paper, we propose a simple and effective method for learning affective events that only requires a very small seed lexicon and a large raw corpus. As illustrated in Figure FIGREF1, our key idea is that we can exploit discourse relations BIBREF4 to efficiently propagate polarity from seed predicates that directly report one's emotions (e.g., \u201cto be glad\u201d is positive). Suppose that events $x_1$ are $x_2$ are in the discourse relation of Cause (i.e., $x_1$ causes $x_2$). If the seed lexicon suggests $x_2$ is positive, $x_1$ is also likely to be positive because it triggers the positive emotion. The fact that $x_2$ is known to be negative indicates the negative polarity of $x_1$. Similarly, if $x_1$ and $x_2$ are in the discourse relation of Concession (i.e., $x_2$ in spite of $x_1$), the reverse of $x_2$'s polarity can be propagated to $x_1$. Even if $x_2$'s polarity is not known in advance, we can exploit the tendency of $x_1$ and $x_2$ to be of the same polarity (for Cause) or of the reverse polarity (for Concession) although the heuristic is not exempt from counterexamples. We transform this idea into objective functions and train neural network models that predict the polarity of a given event.",
     "document_id": "1909.00694"
   },
   {
+    "id": "q6",
     "q": "How big is seed lexicon used for training?",
     "a": "30 words",
     "e": "We constructed our seed lexicon consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the corpus of about 100 million sentences, we obtained 1.4 millions event pairs for AL, 41 millions for CA, and 6 millions for CO. We randomly selected subsets of AL event pairs such that positive and negative latter events were equal in size. We also sampled event pairs for each of CA and CO such that it was five times larger than AL. The results are shown in Table TABREF16.",

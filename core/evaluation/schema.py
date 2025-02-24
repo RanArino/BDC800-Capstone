@@ -10,6 +10,9 @@ from typing import Optional, Literal, Dict, TypeAlias
 RougeType = Literal['rouge1', 'rouge2', 'rougeL']
 RougeMetricType = Literal['precision', 'recall', 'fmeasure']
 
+SelfCheckerAnswer = Literal["Yes", "No", "Undetermined"]
+
+
 RankCutOff: TypeAlias = str
 
 class RougeMetrics(BaseModel):
@@ -30,7 +33,8 @@ class GenerationEval(BaseModel):
     rougeL: Optional[RougeMetrics] = None
     bleu: float
     cosine_sim: float
-
+    self_checker: SelfCheckerAnswer
+    
 class RetrievalEval(BaseModel):
     map: Dict[RankCutOff, float]
     mrr: Dict[RankCutOff, float]

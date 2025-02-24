@@ -9,6 +9,7 @@ import os
 from typing import Literal
 import google.generativeai as genai
 
+from core.evaluation.schema import SelfCheckerAnswer
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
@@ -30,36 +31,40 @@ model = genai.GenerativeModel(
   system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
 )
 
-SelfCheckerAnswer = Literal["Yes", "No", "Undetermined"]
-
-def check_reasoning(
+def check_llm_answer(
         qa_id: str,
         question: str, 
-        answer: str, 
-        reasoning: str
+        ground_truth_answer: str,
+        llm_answer: str
     ) -> SelfCheckerAnswer:
     """
-    Check if the reasoning for an answer is logically valid and consistent.
+    Check if the LLM's reasoning/answer aligns with the ground truth answer.
     
     Args:
+        qa_id (str): The unique identifier for the QA pair
         question (str): The original question
-        answer (str): The provided answer
-        reasoning (str): The reasoning behind the answer
+        ground_truth_answer (str): The ground truth answer
+        llm_answer (str): The LLM generated answer/reasoning
         
     Returns:
-        str: 'Yes' if reasoning is valid and consistent, 'No' otherwise.
-             Returns 'Undetermined' if LLM fails to provide clear answer.
+        SelfCheckerAnswer: Contains evaluation result ('Yes'/'No'/'Undetermined')
+                          indicating if LLM's answer aligns with ground truth
     """
     try:
         chat_session = model.start_chat(history=[])
         
         prompt = f"""
 Question: {question}
-Answer: {answer}
-Reasoning: {reasoning}
+Answer: {ground_truth_answer}
+Reasoning: {llm_answer}
 
-Is the reasoning logically valid and consistent with both the question and answer?
-Please respond with ONLY 'Yes' or 'No'.
+Evaluate if the LLM's answer captures the key information and meaning from the ground truth answer.
+Consider:
+1. Factual accuracy compared to ground truth
+2. Key concepts coverage
+3. No contradictions with ground truth
+
+Please respond with ONLY 'Yes' if the LLM's answer is sufficiently aligned with ground truth, or 'No' if there are significant discrepancies.
 """
         
         # First attempt
@@ -74,7 +79,7 @@ Please respond with ONLY 'Yes' or 'No'.
             return "No"
         
         # Second attempt - explicitly ask for Yes/No
-        retry_prompt = "Please answer ONLY with 'Yes' or 'No'. Is the reasoning logically valid and consistent?"
+        retry_prompt = "Please answer ONLY with 'Yes' or 'No'. Is the LLM's answer aligned with the ground truth answer?"
         response = chat_session.send_message(retry_prompt)
         second_response = response.text.strip().lower()
         
