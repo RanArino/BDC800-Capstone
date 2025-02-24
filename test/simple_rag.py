@@ -94,6 +94,9 @@ def multihoprag_test():
             response = simple_rag.run(qa)
             response_list.append(response)
         logger.info("RAG test completed")
+
+        # print the metrics
+        print(simple_rag.profiler.get_metrics(include_counts=True))
         
         # store the response_list in a json file, use it for evaluation test
         response_dir = Path("test/input_data")
