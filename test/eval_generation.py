@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from core.evaluation import calculate_generation_metrics
+from core.evaluation.metrics_summary import calculate_generation_metrics
 
 if __name__ == "__main__":
     # Load response list
