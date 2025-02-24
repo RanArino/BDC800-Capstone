@@ -51,7 +51,28 @@ class Profiler:
         if reset_on_init:
             self.reset()
             
-        # logger.info("Initialized new Profiler instance")
+        # logger.info(f"Initialized new Profiler instance (tracemalloc: {use_tracemalloc})")
+
+    def _get_timer_dict(self, key: str) -> Dict:
+        """Thread-safe access to timer dictionary."""
+        keys = key.split(".")
+        with self._lock:
+            current_level = self.timings
+            for k in keys[:-1]:
+                if k not in current_level:
+                    current_level[k] = {}
+                current_level = current_level[k]
+            
+            if keys[-1] not in current_level:
+                current_level[keys[-1]] = {}
+                
+            return current_level[keys[-1]]
+
+    def _update_timer_value(self, key: str, field: str, value: Any) -> None:
+        """Thread-safe update of a timer field."""
+        timer_dict = self._get_timer_dict(key)
+        with self._lock:
+            timer_dict[field] = value
 
     def start(self, key: str) -> None:
         """Start timing for a specific key.
