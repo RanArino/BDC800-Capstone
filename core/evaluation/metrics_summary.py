@@ -90,6 +90,227 @@ def calculate_metrics_for_qa(
     # Return as a MetricsSummary object
     return MetricsSummary(**metrics)
 
+def accumulate_and_summarize_metrics(
+    metrics_list: List[MetricsSummary],
+    return_detailed: bool = False
+) -> Tuple[MetricsSummaryStats, Optional[pd.DataFrame]]:
+    """
+    Accumulate and summarize metrics from multiple QA pairs.
+    
+    Args:
+        metrics_list: List of MetricsSummary objects
+        return_detailed: If True, returns detailed metrics DataFrame
+        
+    Returns:
+        Tuple of (MetricsSummaryStats object, optional DataFrame with detailed metrics)
+    """
+    # Initialize accumulators for different metric types
+    generation_metrics = defaultdict(lambda: defaultdict(list))
+    retrieval_metrics = defaultdict(lambda: defaultdict(list))
+    self_checker_results = []
+    
+    # Create separate lists for single-value metrics
+    bleu_values = []
+    cosine_sim_values = []
+    
+    # Process each metrics entry
+    for metrics in metrics_list:
+        # Process generation metrics
+        if metrics.generation:
+            # Handle ROUGE metrics
+            for rouge_type in ['rouge1', 'rouge2', 'rougeL']:
+                rouge_metrics = getattr(metrics.generation, rouge_type, None)
+                if rouge_metrics:
+                    # Handle precision, recall, fmeasure
+                    if rouge_metrics.precision is not None:
+                        generation_metrics[rouge_type]['precision'].append(rouge_metrics.precision)
+                    if rouge_metrics.recall is not None:
+                        generation_metrics[rouge_type]['recall'].append(rouge_metrics.recall)
+                    if rouge_metrics.fmeasure is not None:
+                        generation_metrics[rouge_type]['fmeasure'].append(rouge_metrics.fmeasure)
+            
+            # Handle other generation metrics
+            if metrics.generation.bleu is not None:
+                bleu_values.append(metrics.generation.bleu)
+            if metrics.generation.cosine_sim is not None:
+                cosine_sim_values.append(metrics.generation.cosine_sim)
+            
+            # Handle self_checker
+            if metrics.generation.self_checker:
+                self_checker_results.append(metrics.generation.self_checker)
+        
+        # Process retrieval metrics if available
+        if metrics.retrieval:
+            # Handle MAP metrics
+            if metrics.retrieval.map:
+                for k, value in metrics.retrieval.map.items():
+                    retrieval_metrics['map'][k].append(value)
+            
+            # Handle MRR metrics
+            if metrics.retrieval.mrr:
+                for k, value in metrics.retrieval.mrr.items():
+                    retrieval_metrics['mrr'][k].append(value)
+            
+            # Handle Hit metrics
+            if metrics.retrieval.hit:
+                for k, value in metrics.retrieval.hit.items():
+                    retrieval_metrics['hit'][k].append(value)
+    
+    # Build generation stats
+    generation_stats = None
+    if generation_metrics or bleu_values or cosine_sim_values:
+        # Build ROUGE metrics stats
+        rouge1_stats = None
+        rouge2_stats = None
+        rougeL_stats = None
+        
+        if 'rouge1' in generation_metrics:
+            precision_stats = _create_stat_value(generation_metrics['rouge1'].get('precision'))
+            recall_stats = _create_stat_value(generation_metrics['rouge1'].get('recall'))
+            fmeasure_stats = _create_stat_value(generation_metrics['rouge1'].get('fmeasure'))
+            rouge1_stats = RougeMetrics(
+                precision=precision_stats,
+                recall=recall_stats,
+                fmeasure=fmeasure_stats
+            )
+        
+        if 'rouge2' in generation_metrics:
+            precision_stats = _create_stat_value(generation_metrics['rouge2'].get('precision'))
+            recall_stats = _create_stat_value(generation_metrics['rouge2'].get('recall'))
+            fmeasure_stats = _create_stat_value(generation_metrics['rouge2'].get('fmeasure'))
+            rouge2_stats = RougeMetrics(
+                precision=precision_stats,
+                recall=recall_stats,
+                fmeasure=fmeasure_stats
+            )
+        
+        if 'rougeL' in generation_metrics:
+            precision_stats = _create_stat_value(generation_metrics['rougeL'].get('precision'))
+            recall_stats = _create_stat_value(generation_metrics['rougeL'].get('recall'))
+            fmeasure_stats = _create_stat_value(generation_metrics['rougeL'].get('fmeasure'))
+            rougeL_stats = RougeMetrics(
+                precision=precision_stats,
+                recall=recall_stats,
+                fmeasure=fmeasure_stats
+            )
+        
+        # Build other metrics stats
+        bleu_stats = None
+        if bleu_values:
+            bleu_stats = _create_stat_value(bleu_values)
+        
+        cosine_sim_stats = None
+        if cosine_sim_values:
+            cosine_sim_stats = _create_stat_value(cosine_sim_values)
+        
+        # Calculate self_checker accuracy
+        self_checker_accuracy = None
+        if self_checker_results:
+            yes_count = sum(1 for result in self_checker_results if result == "Yes")
+            self_checker_accuracy = yes_count / len(self_checker_results)
+        
+        generation_stats = GenerationEval(
+            rouge1=rouge1_stats,
+            rouge2=rouge2_stats,
+            rougeL=rougeL_stats,
+            bleu=bleu_stats,
+            cosine_sim=cosine_sim_stats,
+            self_checker_accuracy=self_checker_accuracy
+        )
+    
+    # Build retrieval stats
+    retrieval_stats = None
+    if retrieval_metrics:
+        map_stats = {}
+        mrr_stats = {}
+        hit_stats = {}
+        
+        if 'map' in retrieval_metrics:
+            for k, values in retrieval_metrics['map'].items():
+                map_stats[k] = _create_stat_value(values)
+        
+        if 'mrr' in retrieval_metrics:
+            for k, values in retrieval_metrics['mrr'].items():
+                mrr_stats[k] = _create_stat_value(values)
+        
+        if 'hit' in retrieval_metrics:
+            for k, values in retrieval_metrics['hit'].items():
+                hit_stats[k] = _create_stat_value(values)
+        
+        if map_stats and mrr_stats and hit_stats:
+            retrieval_stats = RetrievalEval(
+                map=map_stats,
+                mrr=mrr_stats,
+                hit=hit_stats
+            )
+    
+    # Create the MetricsSummaryStats object
+    summary_stats = MetricsSummaryStats(
+        total_queries=len(metrics_list),
+        generation=generation_stats,
+        retrieval=retrieval_stats
+    )
+    
+    # Return summary only if detailed metrics are not requested
+    if not return_detailed:
+        return summary_stats, None
+    
+    # Create DataFrame for detailed metrics if requested
+    # Convert MetricsSummary objects to dictionaries with flattened structure
+    flat_metrics = []
+    for metrics in metrics_list:
+        flat_dict = {
+            'qa_id': metrics.qa_id,
+            'query': metrics.query,
+            'ground_truth': metrics.ground_truth,
+            'llm_answer': metrics.llm_answer
+        }
+        
+        # Add generation metrics
+        if metrics.generation:
+            # Add ROUGE metrics
+            for rouge_type in ['rouge1', 'rouge2', 'rougeL']:
+                rouge_metrics = getattr(metrics.generation, rouge_type, None)
+                if rouge_metrics:
+                    if rouge_metrics.precision is not None:
+                        flat_dict[f"{rouge_type}_p"] = rouge_metrics.precision
+                    if rouge_metrics.recall is not None:
+                        flat_dict[f"{rouge_type}_r"] = rouge_metrics.recall
+                    if rouge_metrics.fmeasure is not None:
+                        flat_dict[f"{rouge_type}_f"] = rouge_metrics.fmeasure
+            
+            # Add other generation metrics
+            if metrics.generation.bleu is not None:
+                flat_dict['bleu'] = metrics.generation.bleu
+            if metrics.generation.cosine_sim is not None:
+                flat_dict['cosine_sim'] = metrics.generation.cosine_sim
+            if metrics.generation.self_checker:
+                flat_dict['self_checker'] = metrics.generation.self_checker
+        
+        # Add retrieval metrics
+        if metrics.retrieval:
+            # Add MAP metrics
+            if metrics.retrieval.map:
+                for k, value in metrics.retrieval.map.items():
+                    flat_dict[f"map@{k}"] = value
+            
+            # Add MRR metrics
+            if metrics.retrieval.mrr:
+                for k, value in metrics.retrieval.mrr.items():
+                    flat_dict[f"mrr@{k}"] = value
+            
+            # Add Hit metrics
+            if metrics.retrieval.hit:
+                for k, value in metrics.retrieval.hit.items():
+                    flat_dict[f"hit@{k}"] = value
+        
+        flat_metrics.append(flat_dict)
+    
+    detailed_df = pd.DataFrame(flat_metrics)
+    
+    return summary_stats, detailed_df
+
+
 def _extract_doc_ids(
         responses: List[RAGResponse],
         qa_pairs: List[InterDocumentQA]
