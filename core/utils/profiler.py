@@ -203,12 +203,29 @@ class Profiler:
             with profiler.track("retrieval.chunking"):
                 do_something()
         """
+        memory_thread = None
         try:
             self.start(key)
+            
+            # Start memory tracking in a separate thread
+            memory_thread = threading.Thread(target=self._track_memory, args=(key,))
+            memory_thread.daemon = True
+            with self._lock:
+                self._timer_threads[key] = memory_thread
+            memory_thread.start()
+            
             yield
         finally:
-            elapsed = self.stop(key)
-            # logger.debug(f"Context manager for '{key}' completed. Time: {elapsed:.4f}s")
+            # Signal thread to stop and clean up
+            with self._lock:
+                self._timer_flags[key] = True
+                
+            # Wait for thread to finish
+            if memory_thread and memory_thread.is_alive():
+                memory_thread.join(timeout=1.0)  # Wait up to 1 second for thread to finish
+                
+            # Stop the timer
+            self.stop(key)
 
     def track_func(self, key: str):
         """Decorator for timing function execution.
