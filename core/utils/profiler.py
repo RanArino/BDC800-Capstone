@@ -268,14 +268,16 @@ class Profiler:
         
         # logger.info("Profiler reset - all timings cleared")
 
-    def get_metrics(self, include_counts: bool = False) -> Dict[str, Any]:
+    def get_metrics(self, include_counts: bool = False, include_samples: bool = False) -> Dict[str, Any]:
         """Get flattened metrics with optional execution counts.
         
         Args:
             include_counts: If True, include execution counts in the output
+            include_samples: If True, include memory samples in the output
             
         Returns:
-            Dictionary mapping timer keys to their metrics
+            Dictionary mapping timer keys to their metrics.
+            Memory metrics show the actual memory overhead (always positive).
         """
         metrics = {}
         
@@ -312,6 +314,162 @@ class Profiler:
         # logger.debug(f"Retrieved metrics: {metrics}")
         return metrics
 
-    def get_active_timers(self) -> set:
-        """Get the set of currently active timer keys."""
-        return self._active_timers.copy()
+    def stop(self, key: str) -> Optional[Dict[str, float]]:
+        """Stop timing for a specific key and return the elapsed time and memory usage."""
+        with self._lock:
+            if key not in self._active_timers:
+                error_msg = f"Timer '{key}' was not started"
+                raise ValueError(error_msg)
+                
+            self._active_timers.remove(key)
+            
+        # Signal memory tracking thread to stop if it exists
+        self._timer_flags[key] = True
+        
+        # Get timer data
+        timer_dict = self._get_timer_dict(key)
+        
+        if not timer_dict:
+            return None
+            
+        # Get end metrics
+        end_time = time.time()
+        end_memory = self._process.memory_info().rss / 1024 / 1024
+        
+        # Get system memory for differential analysis
+        system_memory_end = psutil.virtual_memory()
+        
+        # Get tracemalloc snapshot if enabled
+        tracemalloc_stats = None
+        tracemalloc_diff = 0
+        if self._use_tracemalloc and "tracemalloc_start" in timer_dict:
+            snapshot_end = tracemalloc.take_snapshot()
+            start_snapshot = timer_dict["tracemalloc_start"]
+            
+            # Get top statistics
+            tracemalloc_stats = snapshot_end.compare_to(start_snapshot, 'lineno')
+            
+            # Calculate total memory difference from tracemalloc
+            tracemalloc_diff = sum(stat.size_diff for stat in tracemalloc_stats) / 1024 / 1024  # MB
+        
+        with self._lock:
+            # Update timer data
+            timer_dict["end"] = end_time
+            timer_dict["end_memory"] = end_memory
+            
+            # Final peak memory check
+            if end_memory > timer_dict.get("peak_memory", 0):
+                timer_dict["peak_memory"] = end_memory
+                timer_dict["peak_time"] = end_time
+            
+            # Calculate metrics
+            elapsed = end_time - timer_dict["start"]
+            memory_overhead = timer_dict["peak_memory"] - timer_dict["start_memory"]
+            
+            # Calculate differential memory usage
+            if "system_memory_start" in timer_dict:
+                system_memory_start = timer_dict["system_memory_start"]
+                
+                # Calculate how much system memory changed during execution
+                system_available_diff = (system_memory_start["available"] - system_memory_end.available) / 1024 / 1024  # MB
+                
+                # Adjust process memory overhead by system changes
+                adjusted_memory_overhead = max(0, memory_overhead - max(0, system_available_diff))
+                timer_dict["adjusted_memory_overhead"] = adjusted_memory_overhead
+            else:
+                adjusted_memory_overhead = memory_overhead
+                timer_dict["adjusted_memory_overhead"] = adjusted_memory_overhead
+            
+            # Update tracemalloc data if available
+            if tracemalloc_stats:
+                timer_dict["tracemalloc_stats"] = tracemalloc_stats[:10]  # Top 10 allocations
+                timer_dict["tracemalloc_diff"] = tracemalloc_diff
+            
+            # Update accumulated metrics
+            timer_dict["total"] = timer_dict.get("total", 0) + elapsed
+            timer_dict["total_memory"] = timer_dict.get("total_memory", 0) + adjusted_memory_overhead
+            
+            # Prepare return metrics
+            metrics = {
+                "elapsed": elapsed,
+                "memory_overhead": memory_overhead,
+                "adjusted_memory_overhead": adjusted_memory_overhead,
+                "peak_memory": timer_dict["peak_memory"],
+                "peak_time_offset": timer_dict.get("peak_time", end_time) - timer_dict["start"]
+            }
+            
+            # Add tracemalloc metrics if available
+            if tracemalloc_diff:
+                metrics["tracemalloc_diff"] = tracemalloc_diff
+                
+        return metrics
+
+    def analyze_memory_profile(self, key: str) -> Dict[str, Any]:
+        """Analyze memory profile for a specific key.
+        
+        Args:
+            key: Dot-separated string representing the timing hierarchy
+            
+        Returns:
+            Dictionary with memory profile analysis
+        """
+        timer_dict = self._get_timer_dict(key)
+        if not timer_dict or "memory_samples" not in timer_dict:
+            return {"error": f"No memory samples found for key '{key}'"}
+            
+        samples = timer_dict.get("memory_samples", [])
+        if not samples:
+            return {"error": "No memory samples collected"}
+            
+        # Extract timestamps and memory values
+        timestamps = [s[0] for s in samples]
+        memory_values = [s[1] for s in samples]
+        
+        # Normalize timestamps relative to start
+        start_time = timer_dict.get("start", timestamps[0])
+        relative_times = [t - start_time for t in timestamps]
+        
+        # Calculate statistics
+        if memory_values:
+            min_memory = min(memory_values)
+            max_memory = max(memory_values)
+            avg_memory = sum(memory_values) / len(memory_values)
+            
+            # Calculate volatility (standard deviation)
+            if len(memory_values) > 1:
+                mean = avg_memory
+                variance = sum((x - mean) ** 2 for x in memory_values) / len(memory_values)
+                std_dev = variance ** 0.5
+            else:
+                std_dev = 0
+                
+            # Find growth rate
+            if len(memory_values) > 1:
+                first_val = memory_values[0]
+                last_val = memory_values[-1]
+                duration = relative_times[-1]
+                if duration > 0:
+                    growth_rate = (last_val - first_val) / duration  # MB/s
+                else:
+                    growth_rate = 0
+            else:
+                growth_rate = 0
+                
+            # Identify potential memory leaks
+            potential_leak = growth_rate > 0.5 and duration > 1.0  # Heuristic
+                
+            return {
+                "samples_count": len(samples),
+                "duration": relative_times[-1] if relative_times else 0,
+                "min_memory_mb": min_memory,
+                "max_memory_mb": max_memory,
+                "avg_memory_mb": avg_memory,
+                "std_dev_mb": std_dev,
+                "growth_rate_mb_per_sec": growth_rate,
+                "potential_memory_leak": potential_leak,
+                "peak_memory_mb": timer_dict.get("peak_memory", max_memory),
+                "adjusted_overhead_mb": timer_dict.get("adjusted_memory_overhead", max_memory - min_memory),
+                "tracemalloc_diff_mb": timer_dict.get("tracemalloc_diff", None)
+            }
+        
+        return {"error": "No valid memory samples found"}
