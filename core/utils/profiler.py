@@ -1,4 +1,13 @@
-# core/utils/profiler.py (Conceptual)
+# core/utils/profiler.py
+
+"""
+This module provides a profiler for timing and memory usage of code blocks.
+
+The Profiler class allows you to:
+- Start and stop timers for specific code blocks
+- Track function execution time and memory usage
+- Get flattened metrics with optional execution counts
+"""
 
 import time
 from typing import Dict, Any, Optional
