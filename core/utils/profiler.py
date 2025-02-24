@@ -3,6 +3,8 @@
 import time
 from typing import Dict, Any, Optional
 from contextlib import contextmanager
+import psutil
+import os
 
 # Setup basic logging for profiler
 # import logging
@@ -17,6 +19,7 @@ class Profiler:
         """
         self.timings = {}
         self._active_timers = set()  # Track currently active timers
+        self._process = psutil.Process(os.getpid())  # Get current process for memory tracking
         
         if reset_on_init:
             self.reset()
@@ -44,20 +47,22 @@ class Profiler:
             current_level = current_level[k]
         
         start_time = time.time()
+        start_memory = self._process.memory_info().rss / 1024 / 1024  # Memory in MB
         current_level[keys[-1]] = {
             "start": start_time,
+            "start_memory": start_memory,
             "count": current_level.get(keys[-1], {}).get("count", 0) + 1
         }
         # logger.debug(f"Started timer for '{key}' at {start_time}")
 
-    def stop(self, key: str) -> Optional[float]:
-        """Stop timing for a specific key and return the elapsed time.
+    def stop(self, key: str) -> Optional[Dict[str, float]]:
+        """Stop timing for a specific key and return the elapsed time and memory usage.
         
         Args:
             key: Dot-separated string representing the timing hierarchy
             
         Returns:
-            Elapsed time in seconds, or None if the timer wasn't started
+            Dictionary containing elapsed time and memory metrics, or None if the timer wasn't started
         """
         if key not in self._active_timers:
             error_msg = f"Timer '{key}' was not started"
@@ -76,14 +81,24 @@ class Profiler:
             
         if keys[-1] in current_level:
             end_time = time.time()
+            end_memory = self._process.memory_info().rss / 1024 / 1024  # Memory in MB
             current_level[keys[-1]]["end"] = end_time
+            current_level[keys[-1]]["end_memory"] = end_memory
+            
             elapsed = end_time - current_level[keys[-1]]["start"]
+            memory_used = end_memory - current_level[keys[-1]]["start_memory"]
             
-            # Update accumulated time
+            # Update accumulated metrics
             current_level[keys[-1]]["total"] = current_level[keys[-1]].get("total", 0) + elapsed
+            current_level[keys[-1]]["total_memory"] = current_level[keys[-1]].get("total_memory", 0) + memory_used
             
-            # logger.info(f"Timer '{key}' stopped. Elapsed time: {elapsed:.4f}s")
-            return elapsed
+            metrics = {
+                "elapsed": elapsed,
+                "memory_used": memory_used,
+                "end_memory": end_memory
+            }
+            # logger.info(f"Timer '{key}' stopped. Metrics: {metrics}")
+            return metrics
         return None
 
     @contextmanager
@@ -153,10 +168,18 @@ class Profiler:
                             result[new_key] = {
                                 "duration": v["total"],
                                 "count": v["count"],
-                                "avg_duration": v["total"] / v["count"]
+                                "avg_duration": v["total"] / v["count"],
+                                "memory": {
+                                    "total_mb": v.get("total_memory", 0),
+                                    "avg_mb": v.get("total_memory", 0) / v["count"],
+                                    "last_mb": v.get("end_memory", 0) - v.get("start_memory", 0)
+                                }
                             }
                         else:
-                            result[new_key] = v["total"]
+                            result[new_key] = {
+                                "duration": v["total"],
+                                "memory_mb": v.get("total_memory", 0)
+                            }
                     else:
                         _flatten(v, new_key, result)
             return result
