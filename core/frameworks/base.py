@@ -127,7 +127,7 @@ class BaseRAGFramework(ABC):
         """
         responses = []
         metrics_list = []
-        
+
         for qa in qas:
             try:
                 # Retrieve relevant documents
@@ -144,7 +144,6 @@ class BaseRAGFramework(ABC):
                     response=llm_answer
                 )
                 metrics_list.append(metrics)
-                
                 responses.append(llm_answer)
                 
             except Exception as e:
