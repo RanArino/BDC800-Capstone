@@ -51,14 +51,12 @@ def qasper_test():
             logger.info("Indexing documents")
             simple_rag.index(doc)
             logger.info("Indexing completed")
+            
             # Test retrieval and generation
-            logger.info(f"Testing RAG with query")
-            response_list = []
-            for qa in qas:
-                response = simple_rag.run(qa)
-                response_list.append(response)
+            logger.info("Testing RAG with queries")
+            response_list = simple_rag.run(qas)  # Process list of QAs
             logger.info("RAG test completed")
-
+            
             # print the metrics
             print(simple_rag.profiler.get_metrics(include_counts=True))
 
@@ -68,7 +66,7 @@ def qasper_test():
             response_file = response_dir / f"RAGResponse_qasper_test.json"
             with open(response_file, 'w') as f:
                 json.dump([response.model_dump() for response in response_list], f, indent=2)
-        
+
     except Exception as e:
         logger.error(f"Error occurred: {e}")
         raise
@@ -88,12 +86,12 @@ def multihoprag_test():
         logger.info("Indexing completed")
 
         # Test retrieval and generation
-        logger.info(f"Testing RAG with query")
-        response_list = []
-        for qa in gen_qas:
-            response = simple_rag.run(qa)
-            response_list.append(response)
+        logger.info("Testing RAG with queries")
+        response_list = simple_rag.run(gen_qas) 
         logger.info("RAG test completed")
+
+        # print the metrics
+        print(simple_rag.profiler.get_metrics(include_counts=True))
         
         # store the response_list in a json file, use it for evaluation test
         response_dir = Path("test/input_data")
@@ -113,7 +111,7 @@ if __name__ == "__main__":
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
         qasper_test()
-        print("\n===== qasper_test completed =====")
-        print("start multihoprag_test in 3 seconds...")
-        time.sleep(3)
-        multihoprag_test()
+        # print("\n===== qasper_test completed =====")
+        # print("start multihoprag_test in 3 seconds...")
+        # time.sleep(3)
+        # multihoprag_test()
