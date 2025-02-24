@@ -250,8 +250,22 @@ class Profiler:
 
     def reset(self) -> None:
         """Reset all timings and active timers."""
-        self.timings = {}
-        self._active_timers.clear()
+        with self._lock:
+            self.timings = {}
+            self._active_timers.clear()
+            
+        # Clean up all timer flags and threads
+        for key in list(self._timer_flags.keys()):
+            self._timer_flags[key] = True
+            
+        # Wait for all threads to finish
+        for key, thread in list(self._timer_threads.items()):
+            if thread and thread.is_alive():
+                thread.join(timeout=0.5)
+                
+        self._timer_flags.clear()
+        self._timer_threads.clear()
+        
         # logger.info("Profiler reset - all timings cleared")
 
     def get_metrics(self, include_counts: bool = False) -> Dict[str, Any]:
