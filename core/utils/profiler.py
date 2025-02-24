@@ -80,59 +80,61 @@ class Profiler:
         Args:
             key: Dot-separated string representing the timing hierarchy
         """
-        if key in self._active_timers:
-            error_msg = f"Timer '{key}' is already running"
-            # logger.error(error_msg)
-            raise ValueError(error_msg)
-            
-        self._active_timers.add(key)
-        keys = key.split(".")
-        current_level = self.timings
+        with self._lock:
+            if key in self._active_timers:
+                error_msg = f"Timer '{key}' is already running"
+                # logger.error(error_msg)
+                raise ValueError(error_msg)
+                
+            self._active_timers.add(key)
         
-        for k in keys[:-1]:
-            if k not in current_level:
-                current_level[k] = {}
-            current_level = current_level[k]
+        # Initialize per-timer stop flag
+        self._timer_flags[key] = False
         
+        # Get current memory metrics
         start_time = time.time()
         start_memory = self._process.memory_info().rss / 1024 / 1024  # Memory in MB
-        current_level[keys[-1]] = {
+        
+        # Get system memory for differential analysis
+        system_memory = psutil.virtual_memory()
+        system_memory_start = {
+            "total": system_memory.total,
+            "available": system_memory.available,
+            "percent": system_memory.percent
+        }
+        
+        # Start tracemalloc if enabled
+        tracemalloc_snapshot = None
+        if self._use_tracemalloc:
+            if not tracemalloc.is_tracing():
+                tracemalloc.start()
+            tracemalloc_snapshot = tracemalloc.take_snapshot()
+        
+        # Update timer data
+        timer_data = {
             "start": start_time,
             "start_memory": start_memory,
-            "count": current_level.get(keys[-1], {}).get("count", 0) + 1
+            "peak_memory": start_memory,  # Initialize peak memory
+            "system_memory_start": system_memory_start,
+            "count": self._get_timer_dict(key).get("count", 0) + 1,
+            "memory_samples": []  # Store memory samples for analysis
         }
-        # logger.debug(f"Started timer for '{key}' at {start_time}")
-
-    def stop(self, key: str) -> Optional[Dict[str, float]]:
-        """Stop timing for a specific key and return the elapsed time and memory usage.
         
-        Args:
-            key: Dot-separated string representing the timing hierarchy
+        if tracemalloc_snapshot:
+            timer_data["tracemalloc_start"] = tracemalloc_snapshot
             
-        Returns:
-            Dictionary containing elapsed time and memory metrics, or None if the timer wasn't started
-        """
-        if key not in self._active_timers:
-            error_msg = f"Timer '{key}' was not started"
-            # logger.error(error_msg)
-            raise ValueError(error_msg)
-            
-        self._active_timers.remove(key)
+        # Thread-safe update of timer data
         keys = key.split(".")
         current_level = self.timings
-        
-        for k in keys[:-1]:
-            if k not in current_level:
-                # logger.warning(f"Timer '{key}' not found in hierarchy")
-                return None
-            current_level = current_level[k]
+        with self._lock:
+            for k in keys[:-1]:
+                if k not in current_level:
+                    current_level[k] = {}
+                current_level = current_level[k]
+            current_level[keys[-1]] = timer_data
             
-        if keys[-1] in current_level:
-            end_time = time.time()
-            end_memory = self._process.memory_info().rss / 1024 / 1024  # Memory in MB
-            current_level[keys[-1]]["end"] = end_time
-            current_level[keys[-1]]["end_memory"] = end_memory
-            
+        # logger.debug(f"Started timer for '{key}' at {start_time}")
+
     def _update_peak_memory(self, key: str, current_memory: float, timestamp: float) -> None:
         """Thread-safe update of peak memory."""
         timer_dict = self._get_timer_dict(key)
