@@ -12,7 +12,7 @@ Self-checker evaluation test
     ```
     python -m pdb test/eval-selfchecker.py
     ```
-- Input examples are stored in `test/input_data/qasper_list.json` and `test/input_data/RAGResponse_list.json`
+- Input examples are stored in `test/input_data/qasper_list.json` and `test/input_data/RAGResponse_qasper_test.json`
 - Output example is generated in `test/output_data/metrics_list.json`
 """
 
