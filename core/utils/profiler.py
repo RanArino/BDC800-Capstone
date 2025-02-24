@@ -290,27 +290,38 @@ class Profiler:
                 
                 if isinstance(v, dict):
                     if "start" in v and "end" in v:
+                        metric_data = {
+                            "duration": v["total"],
+                        }
+                        
+                        # Add memory metrics
+                        memory_data = {
+                            "total_mb": v.get("total_memory", 0),
+                            "peak_mb": v.get("peak_memory", 0) - v.get("start_memory", 0),
+                            "adjusted_mb": v.get("adjusted_memory_overhead", 0)
+                        }
+                        
+                        # Add tracemalloc data if available
+                        if "tracemalloc_diff" in v:
+                            memory_data["tracemalloc_mb"] = v["tracemalloc_diff"]
+                            
                         if include_counts:
-                            result[new_key] = {
-                                "duration": v["total"],
-                                "count": v["count"],
-                                "avg_duration": v["total"] / v["count"],
-                                "memory": {
-                                    "total_mb": v.get("total_memory", 0),
-                                    "avg_mb": v.get("total_memory", 0) / v["count"],
-                                    "last_mb": v.get("end_memory", 0) - v.get("start_memory", 0)
-                                }
-                            }
-                        else:
-                            result[new_key] = {
-                                "duration": v["total"],
-                                "memory_mb": v.get("total_memory", 0)
-                            }
+                            metric_data["count"] = v["count"]
+                            metric_data["avg_duration"] = v["total"] / v["count"]
+                            memory_data["avg_mb"] = v.get("total_memory", 0) / v["count"]
+                            
+                        if include_samples and "memory_samples" in v:
+                            memory_data["samples"] = v["memory_samples"]
+                            
+                        metric_data["memory"] = memory_data
+                        result[new_key] = metric_data
                     else:
                         _flatten(v, new_key, result)
             return result
 
-        metrics = _flatten(self.timings)
+        with self._lock:
+            metrics = _flatten(self.timings)
+            
         # logger.debug(f"Retrieved metrics: {metrics}")
         return metrics
 
