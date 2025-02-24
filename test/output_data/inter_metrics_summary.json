@@ -1,0 +1,462 @@
+[
+  {
+    "qa_id": "q0",
+    "query": "Who is the individual associat",
+    "ground_truth": "Sam Bankman-Fried",
+    "llm_answer": "Sam Bankman-Fried. He is the f",
+    "generation": {
+      "rouge1": {
+        "precision": 0.06382978723404255,
+        "recall": 1.0,
+        "fmeasure": 0.12
+      },
+      "rouge2": {
+        "precision": 0.043478260869565216,
+        "recall": 1.0,
+        "fmeasure": 0.08333333333333333
+      },
+      "rougeL": {
+        "precision": 0.06382978723404255,
+        "recall": 1.0,
+        "fmeasure": 0.12
+      },
+      "bleu": 0.014583397289082511,
+      "cosine_sim": 0.6780915856361389,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.5833333333333333,
+        "5": 0.6791666666666667,
+        "10": 0.6791666666666667
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q1",
+    "query": "Which individual is implicated",
+    "ground_truth": "Donald Trump",
+    "llm_answer": "Donald Trump. \n\nAccording to t",
+    "generation": {
+      "rouge1": {
+        "precision": 0.024096385542168676,
+        "recall": 1.0,
+        "fmeasure": 0.047058823529411764
+      },
+      "rouge2": {
+        "precision": 0.012195121951219513,
+        "recall": 1.0,
+        "fmeasure": 0.024096385542168676
+      },
+      "rougeL": {
+        "precision": 0.024096385542168676,
+        "recall": 1.0,
+        "fmeasure": 0.047058823529411764
+      },
+      "bleu": 0.007901250976858681,
+      "cosine_sim": 0.3303412199020386,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q2",
+    "query": "Who is the figure associated w",
+    "ground_truth": "Sam Altman",
+    "llm_answer": "Unfortunately, the question ca",
+    "generation": {
+      "rouge1": {
+        "precision": 0.01639344262295082,
+        "recall": 1.0,
+        "fmeasure": 0.03225806451612903
+      },
+      "rouge2": {
+        "precision": 0.008264462809917356,
+        "recall": 1.0,
+        "fmeasure": 0.01639344262295082
+      },
+      "rougeL": {
+        "precision": 0.01639344262295082,
+        "recall": 1.0,
+        "fmeasure": 0.03225806451612903
+      },
+      "bleu": 0.0054186416369440835,
+      "cosine_sim": 0.5379299521446228,
+      "self_checker": "No"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 0.8333333333333333,
+        "5": 0.8041666666666667,
+        "10": 0.8041666666666667
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q3",
+    "query": "Do the TechCrunch article on s",
+    "ground_truth": "Yes",
+    "llm_answer": "Yes, that's correct. The TechC",
+    "generation": {
+      "rouge1": {
+        "precision": 0.016666666666666666,
+        "recall": 1.0,
+        "fmeasure": 0.03278688524590164
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.016666666666666666,
+        "recall": 1.0,
+        "fmeasure": 0.03278688524590164
+      },
+      "bleu": 0.005568633223045912,
+      "cosine_sim": 0.21709772944450378,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 0.8875,
+        "10": 0.8875
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q4",
+    "query": "Which online betting platform ",
+    "ground_truth": "Caesars Sportsbook",
+    "llm_answer": "Unfortunately, I have to infor",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.22687260806560516,
+      "self_checker": "No"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q5",
+    "query": "Who is the individual alleged ",
+    "ground_truth": "Sam Bankman-Fried",
+    "llm_answer": "Sam Bankman-Fried, the former ",
+    "generation": {
+      "rouge1": {
+        "precision": 0.375,
+        "recall": 1.0,
+        "fmeasure": 0.5454545454545454
+      },
+      "rouge2": {
+        "precision": 0.2857142857142857,
+        "recall": 1.0,
+        "fmeasure": 0.4444444444444445
+      },
+      "rougeL": {
+        "precision": 0.375,
+        "recall": 1.0,
+        "fmeasure": 0.5454545454545454
+      },
+      "bleu": 0.09535414040914189,
+      "cosine_sim": 0.5942321419715881,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 0.8333333333333333,
+        "5": 0.8055555555555556,
+        "10": 0.8055555555555556
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q6",
+    "query": "Does the TechCrunch article on",
+    "ground_truth": "Yes",
+    "llm_answer": "No, according to the context, ",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.2292923629283905,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q7",
+    "query": "Does 'The New York Times' arti",
+    "ground_truth": "Yes",
+    "llm_answer": "This is a trick question. The ",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.1564599871635437,
+      "self_checker": "No"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q8",
+    "query": "What is the name of the organi",
+    "ground_truth": "OpenAI",
+    "llm_answer": "OpenAI. \n\nThis organization's ",
+    "generation": {
+      "rouge1": {
+        "precision": 0.01694915254237288,
+        "recall": 1.0,
+        "fmeasure": 0.03333333333333333
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.01694915254237288,
+        "recall": 1.0,
+        "fmeasure": 0.03333333333333333
+      },
+      "bleu": 0.005749785925016119,
+      "cosine_sim": 0.5566371083259583,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 0.95,
+        "10": 0.95
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q9",
+    "query": "Which company, as reported by ",
+    "ground_truth": "Google",
+    "llm_answer": "Google.",
+    "generation": {
+      "rouge1": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.7872848510742188,
+      "self_checker": "Yes"
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      }
+    }
+  }
+]

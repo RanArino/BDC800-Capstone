@@ -22,7 +22,7 @@ import pandas as pd
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from core.evaluation.metrics.retrieval import calculate_retrieval_metrics
+from core.evaluation.metrics import calculate_retrieval_metrics
 from core.datasets.schema import InterDocumentQA, Document
 from core.frameworks.schema import RAGResponse
 
