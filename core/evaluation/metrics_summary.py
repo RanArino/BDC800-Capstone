@@ -8,19 +8,30 @@ for RAG system evaluation. It's designed to work with the BaseRAGFramework.run()
 and calculates metrics per QA pair while efficiently managing memory usage.
 """
 
-from typing import List, Union, Tuple, Set
+from typing import List, Union, Tuple, Set, Optional
+import pandas as pd
+from collections import defaultdict
 
 from core.datasets.schema import IntraDocumentQA, InterDocumentQA
 from core.frameworks.schema import RAGResponse
 from core.evaluation.metrics import calculate_retrieval_metrics, calculate_generation_metrics
-from core.evaluation.schema import RougeMetricType, MetricsSummary
+from core.evaluation.schema import (
+    RougeType,
+    RougeMetricType, 
+    MetricsSummary, 
+    MetricsSummaryStats,
+    StatValue,
+    RougeMetrics,
+    GenerationEval,
+    RetrievalEval
+)
 
 
 def calculate_metrics_for_qa(
     qa: Union[IntraDocumentQA, InterDocumentQA],
     response: RAGResponse,
     k_values: List[int] = [1, 3, 5, 10],
-    rouge_types: List[str] = ['rouge1', 'rouge2', 'rougeL'],
+    rouge_types: List[RougeType] = ['rouge1', 'rouge2', 'rougeL'],
     rouge_metric_types: List[RougeMetricType] = ['precision', 'recall', 'fmeasure']
 ) -> MetricsSummary:
     """
@@ -108,3 +119,27 @@ def _extract_doc_ids(
         relevant_docs_list.append(relevant)
     
     return retrieved_docs_list, relevant_docs_list
+
+def _create_stat_value(values):
+    """
+    Create a StatValue object from a list of values.
+    
+    Args:
+        values: List of numerical values
+        
+    Returns:
+        StatValue object with statistical measures or None if values is empty
+    """
+    if not values:
+        return None
+    
+    values_series = pd.Series(values)
+    return StatValue(
+        mean=float(values_series.mean()),
+        std=float(values_series.std()),
+        median=float(values_series.median()),
+        q1=float(values_series.quantile(0.25)),
+        q3=float(values_series.quantile(0.75)),
+        min=float(values_series.min()),
+        max=float(values_series.max())
+    )
