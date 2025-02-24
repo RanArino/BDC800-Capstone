@@ -23,15 +23,30 @@ import psutil
 # logger = logging.getLogger(__name__)
 
 class Profiler:
-    def __init__(self, reset_on_init: bool = True):
+    def __init__(
+            self, 
+            reset_on_init: bool = True, 
+            use_tracemalloc: bool = False, 
+            min_poll_interval: float = 0.001, 
+            max_poll_interval: float = 0.1
+        ):
         """Initialize a new Profiler instance.
         
         Args:
             reset_on_init: If True, reset timings upon initialization
+            use_tracemalloc: If True, use tracemalloc for Python object tracking
+            min_poll_interval: Minimum interval (seconds) for memory polling
+            max_poll_interval: Maximum interval (seconds) for memory polling
         """
         self.timings = {}
         self._active_timers = set()  # Track currently active timers
         self._process = psutil.Process(os.getpid())  # Get current process for memory tracking
+        self._min_poll_interval = min_poll_interval
+        self._max_poll_interval = max_poll_interval
+        self._timer_flags = {}  # Per-timer stop flags
+        self._timer_threads = {}  # Track memory threads by key
+        self._lock = threading.Lock()  # Thread synchronization for shared data
+        self._use_tracemalloc = use_tracemalloc
         
         if reset_on_init:
             self.reset()
