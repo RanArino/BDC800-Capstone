@@ -23,9 +23,10 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from core.datasets.schema import IntraDocumentQA, InterDocumentQA
 from core.frameworks.schema import RAGResponse
-from core.evaluation.metrics_summary import calculate_metrics_for_qa
+from core.evaluation.metrics_summary import calculate_metrics_for_qa, accumulate_and_summarize_metrics
+from core.evaluation.schema import MetricsSummary
 
-def test_script(mode: Literal["intra", "inter"] = "intra"):
+def test_metrics_summary(mode: Literal["intra", "inter"] = "intra"):
     # Load QA list
     if mode == "intra":
         qa_file = "test/input_data/qasper_list.json"
@@ -64,12 +65,42 @@ def test_script(mode: Literal["intra", "inter"] = "intra"):
         json.dump([metrics.model_dump() for metrics in metrics_list], f, indent=2)
 
     print(f"Metrics saved to {metrics_file}")
+
+def test_accumulate_and_summarize_metrics(mode: Literal["intra", "inter"] = "intra"):
+    # Load metrics summary
+    metrics_file = Path(f"test/output_data/{mode}_metrics_summary.json")
+    with open(metrics_file, 'r') as f:
+        metrics_list = [MetricsSummary(**metrics) for metrics in json.load(f)]
+    
+    # Accumulate and summarize metrics
+    summary_stats, detailed_metrics = accumulate_and_summarize_metrics(metrics_list, return_detailed=True)
+    
+    # Save summary to JSON file
+    output_dir = Path("test/output_data")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    summary_file = output_dir / f"{mode}_overall_metrics_summary.json"
+    with open(summary_file, 'w') as f:
+        json.dump(summary_stats.model_dump(), f, indent=2)
+    
+    print(f"Summary saved to {summary_file}")
+
+    # Save detailed metrics to CSV file if it exists
+    if detailed_metrics is not None:
+        detailed_metrics_file = output_dir / f"{mode}_detailed_metrics.csv"
+        detailed_metrics.to_csv(detailed_metrics_file, index=False)
+    
     
 if __name__ == "__main__":
+    # # evaluate inter-document QA
+    # test_metrics_summary(mode="inter")
+
+    # # evaluate intra-document QA
+    # test_metrics_summary(mode="intra")
+
     # evaluate inter-document QA
-    test_script(mode="inter")
+    test_accumulate_and_summarize_metrics(mode="inter")
 
     # evaluate intra-document QA
-    test_script(mode="intra")
+    test_accumulate_and_summarize_metrics(mode="intra")
 
     
