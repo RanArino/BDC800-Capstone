@@ -9,6 +9,7 @@ import os
 from typing import Literal
 import google.generativeai as genai
 
+from core.evaluation.schema import SelfCheckerAnswer
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
@@ -29,8 +30,6 @@ model = genai.GenerativeModel(
   generation_config=generation_config,
   system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
 )
-
-SelfCheckerAnswer = Literal["Yes", "No", "Undetermined"]
 
 def check_reasoning(
         qa_id: str,
