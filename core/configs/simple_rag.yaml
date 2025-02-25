@@ -1,10 +1,11 @@
 
 # Experiment
-simple_rag_qasper:
+
+## Fixed Chunking vs Sentence Chunking
+TEST02_simple_rag_01:
   dataset: 
     name: qasper
-    number_of_docs: 5
-    selection_mode: sequential
+    number_of_docs: 30
   chunker:
     mode: fixed
     size: 100
@@ -14,13 +15,12 @@ simple_rag_qasper:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
-    top_k: 5
+    top_k: 10
 
-simple_rag_multihoprag:
+TEST02_simple_rag_02:
   dataset:
     name: multihoprag
-    number_of_qas: 15
-    selection_mode: sequential
+    number_of_qas: 50
   chunker:
     mode: fixed
     size: 100
@@ -30,13 +30,12 @@ simple_rag_multihoprag:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
-    top_k: 5
+    top_k: 10
 
-simple_rag_narrativeqa:
+TEST02_simple_rag_03:
   dataset:
     name: narrativeqa
-    number_of_docs: 3
-    selection_mode: sequential    
+    number_of_docs: 10
   chunker:
     mode: fixed
     size: 100
@@ -46,13 +45,12 @@ simple_rag_narrativeqa:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
-    top_k: 5
+    top_k: 10
 
-simple_rag_frames:
+TEST02_simple_rag_04:
   dataset:
     name: frames
-    number_of_qas: 20
-    selection_mode: sequential
+    number_of_qas: 50
   chunker:
     mode: fixed
     size: 100
@@ -62,7 +60,8 @@ simple_rag_frames:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
-    top_k: 5
+    top_k: 10
+
 
 
 # Simple RAG test
