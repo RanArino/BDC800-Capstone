@@ -47,9 +47,9 @@ This document outlines the organization of our RAG framework codebase.
 │   │
 │   ├── evaluation/
 │   │   ├── __init__.py
+│   │   ├── metrics_summary.py   # Aggregates metrics and performance data
 │   │   ├── metrics/
 │   │   │   ├── __init__.py
-│   │   │   ├── timing.py        # Processing time analysis
 │   │   │   ├── retrieval.py     # Retrieval quality
 │   │   │   ├── generation.py    # LLM output quality
 │   │   │   └── self_checker.py  # Logical consistency validator for QA pairs
@@ -138,10 +138,10 @@ Common utilities:
 #### Evaluation
 Performance measurement and visualization:
 ##### Metrics
-- `timing.py`: Processing time analysis
 - `retrieval.py`: Retrieval quality metrics
 - `generation.py`: LLM output quality assessment
 - `self_checker.py`: Validates logical consistency between questions, answers, and reasoning using LLM
+- `metrics_summary.py`: Aggregates metrics and performance data including processing time and memory usage
 
 ##### Visualization
 - `performance.py`: Performance visualization tools
