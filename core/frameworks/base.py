@@ -391,8 +391,8 @@ Answer:"""
         def group_qas_by_doc():
             for doc in docs_for_ids:
                 qas_for_doc = list(self.dataset.get_queries(doc_ids=[doc.id]))
-                if qas_for_doc:  # Only yield if there are QAs for this doc
-                    yield qas_for_doc
+                # Always yield the list of QAs, even if empty
+                yield qas_for_doc
         
         return gen_docs, group_qas_by_doc()
 
