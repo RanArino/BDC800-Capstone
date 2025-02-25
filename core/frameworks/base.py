@@ -11,7 +11,7 @@ from itertools import tee
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
 import yaml
-from core.utils import Profiler
+from core.utils import Profiler, ProgressTracker
 # from core.utils.metrics import TimingMetrics
 
 from core.utils import get_project_root
@@ -42,6 +42,7 @@ class BaseRAGFramework(ABC):
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
         self.profiler = Profiler(reset_on_init=True)
+        self.progress_tracker = ProgressTracker(self.logger)
 
         # Initialize variables that are defined in index() method
         self.dataset: BaseDataset = None
@@ -96,7 +97,15 @@ class BaseRAGFramework(ABC):
             number_of_docs = self.dataset_config.number_of_docs
         if not number_of_qas:
             number_of_qas = self.dataset_config.number_of_qas
-        
+
+        # Initialize progress tracker
+        self.progress_tracker.initialize(
+            dataset=self.dataset,
+            dataset_config=self.dataset_config,
+            number_of_docs=number_of_docs,
+            number_of_qas=number_of_qas
+        )
+
         # Call appropriate loader based on QA type
         if self.dataset.qa_type == IntraDocumentQA:
             if number_of_qas is not None and number_of_docs is None:
@@ -145,6 +154,9 @@ class BaseRAGFramework(ABC):
                 )
                 metrics_list.append(metrics)
                 responses.append(llm_answer)
+
+                # Update progress for each question
+                self.progress_tracker.update(1)
                 
             except Exception as e:
                 self.logger.error(f"Error during RAG execution for question '{qa.q}': {str(e)}")
