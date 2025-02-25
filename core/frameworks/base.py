@@ -345,12 +345,15 @@ Answer:"""
         self.logger.debug("Generating vectorstore path")
         # base path
         base_path = get_project_root() / "core/vectorstore"
-        # Format: config_name-dataset-indextype-YYYYMMDD (i.e., simple_rag_01-qasper-flatl2-20250211)
+        # Format: config_name-dataset-indextype-YYYYMMDD (i.e., simple_rag_01-qasper-fixed100T(20%)-flatl2)
         # date_str = datetime.now().strftime("%Y%m%d")
         dataset_name = self.dataset_config.name
+        chunk_mode = self.chunker_config.mode
+        chunk_size = self.chunker_config.size
+        chunk_overlap = self.chunker_config.overlap * 100
         faiss_search = self.retrieval_config.faiss_search
         # Get dataset name
-        filename = f"{self.config_name}-{dataset_name}-{faiss_search}"
+        filename = f"{self.config_name}-{dataset_name}-{chunk_mode}{chunk_size}T({chunk_overlap}%)-{faiss_search}"
         full_path = f"{base_path}/{filename}"
         self.logger.info("Generated vectorstore path: %s", full_path)
         return full_path
