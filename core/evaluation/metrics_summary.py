@@ -57,9 +57,9 @@ def calculate_metrics_for_qa(
     # Initialize metrics dictionary with basic information
     metrics = {
         'qa_id': qa.id,
-        'query': query[:30],
-        'ground_truth': ground_truth_answer[:30],
-        'llm_answer': generated_text[:30]
+        'query': query[:100],
+        'ground_truth': ground_truth_answer[:100],
+        'llm_answer': generated_text[:100]
     }
 
     # Calculate retrieval metrics if qa is an InterDocumentQA
@@ -94,8 +94,7 @@ def calculate_metrics_for_qa(
 def accumulate_and_summarize_metrics(
     metrics_list: List[MetricsSummary],
     profiler_metrics: Dict[ProfilerTimingKey, Dict[str, float]],
-    return_detailed: bool = False,
-) -> Tuple[MetricsSummaryStats, Optional[pd.DataFrame]]:
+) -> Tuple[MetricsSummaryStats, pd.DataFrame]:
     """
     Accumulate and summarize metrics from multiple QA pairs.
     
@@ -266,11 +265,6 @@ def accumulate_and_summarize_metrics(
         memory_usage=memory_usage
     )
     
-    # Return summary only if detailed metrics are not requested
-    if not return_detailed:
-        return summary_stats, None
-    
-    # Create DataFrame for detailed metrics if requested
     # Convert MetricsSummary objects to dictionaries with flattened structure
     flat_metrics = []
     for metrics in metrics_list:
