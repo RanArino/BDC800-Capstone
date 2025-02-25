@@ -8,8 +8,8 @@ from .base import BaseRAGFramework
 from core.datasets import Document as SchemaDocument
 
 class SimpleRAG(BaseRAGFramework):
-    def __init__(self, config_name: str):
-        super().__init__(config_name, config_path = "core/configs/simple_rag.yaml")
+    def __init__(self, config_name: str, config_path: str = "core/configs/simple_rag.yaml"):
+        super().__init__(config_name, config_path)
     
     def index_preprocessing(
             self, 
