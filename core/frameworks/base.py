@@ -7,7 +7,6 @@ from collections import deque
 import gc
 import os
 from itertools import tee
-import pandas as pd
 
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
@@ -25,8 +24,8 @@ from core.datasets import (
     InterDocumentQA, 
     Document as SchemaDocument
 )
-from core.evaluation.metrics_summary import calculate_metrics_for_qa, accumulate_and_summarize_metrics
-from core.evaluation.schema import MetricsSummaryStats
+from core.evaluation.metrics_summary import calculate_metrics_for_qa
+from core.evaluation.schema import MetricsSummary
 
 from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig, RAGResponse
 
@@ -112,20 +111,17 @@ class BaseRAGFramework(ABC):
 
     def run(
         self, 
-        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]],
-        store_detailed_metrics: bool = False
-    ) -> Tuple[List[RAGResponse], MetricsSummaryStats, Optional[pd.DataFrame]]:
+        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]]
+    ) -> Tuple[List[RAGResponse], List[MetricsSummary]]:
         """Run the RAG pipeline on queries.
         
         Args:
             qas: A list, generator, or any iterable of QA pairs to process
-            store_detailed_metrics: Whether to store detailed metrics for each QA pair
             
         Returns:
             A tuple containing:
                 - List of RAGResponses corresponding to each input QA pair
-                - MetricsSummaryStats object with statistical summary of metrics
-                - DataFrame containing detailed metrics for each QA pair if store_detailed_metrics is True
+                - List of individual metrics dictionaries for each QA pair
             
         Profiling:
             - retrieval: time for overall retrieval process
@@ -156,14 +152,8 @@ class BaseRAGFramework(ABC):
                 self.logger.error(f"Error during RAG execution for question '{qa.q}': {str(e)}")
                 raise
         
-        # Return responses with metrics summary
-        metrics_summary, detailed_df = accumulate_and_summarize_metrics(
-            metrics_list=metrics_list,
-            profiler_metrics=self.profiler.get_metrics(),
-            return_detailed=store_detailed_metrics,
-        )
-        return responses, metrics_summary, detailed_df
-
+        return responses, metrics_list
+  
     def index(
         self, 
         docs: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]], 
