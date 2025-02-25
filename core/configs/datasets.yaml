@@ -1,0 +1,17 @@
+# core/configs/datasets.yaml
+
+qasper
+  number_of_docs: 888
+  number_of_qas: 615
+
+multihoprag
+  number_of_docs: 609
+  number_of_qas: 2556
+
+narrativeqa
+  number_of_docs: 1102
+  number_of_qas: 32747
+
+frames
+  number_of_docs: 2493
+  number_of_qas: 824
