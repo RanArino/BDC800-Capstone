@@ -3,7 +3,7 @@
 simple_rag_qasper_test:
   dataset: 
     name: qasper
-    number_of_docs: 1
+    number_of_docs: 5
     selection_mode: sequential
   chunker:
     mode: fixed
@@ -19,7 +19,7 @@ simple_rag_qasper_test:
 simple_rag_multihoprag_test:
   dataset:
     name: multihoprag
-    number_of_qas: 10
+    number_of_qas: 50
     selection_mode: sequential
   chunker:
     mode: fixed
@@ -35,7 +35,7 @@ simple_rag_multihoprag_test:
 simple_rag_narrativeqa_test:
   dataset:
     name: narrativeqa
-    number_of_qas: 1
+    number_of_docs: 3
     selection_mode: sequential    
   chunker:
     mode: fixed
@@ -51,7 +51,7 @@ simple_rag_narrativeqa_test:
 simple_rag_frames_test:
   dataset:
     name: frames
-    number_of_docs: 1
+    number_of_qas: 20
     selection_mode: sequential
   chunker:
     mode: fixed
