@@ -57,9 +57,9 @@ def calculate_metrics_for_qa(
     # Initialize metrics dictionary with basic information
     metrics = {
         'qa_id': qa.id,
-        'query': query[:100],
-        'ground_truth': ground_truth_answer[:100],
-        'llm_answer': generated_text[:100]
+        'query': query,
+        'ground_truth': ground_truth_answer,
+        'llm_answer': generated_text
     }
 
     # Calculate retrieval metrics if qa is an InterDocumentQA
