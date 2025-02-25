@@ -79,7 +79,7 @@ loggers:
     propagate: false
 
   core.frameworks:
-    level: DEBUG
+    level: INFO
     handlers: [console, frameworks_file]
     propagate: false
 
@@ -89,7 +89,7 @@ loggers:
     propagate: false
 
   core.generation:
-    level: DEBUG
+    level: INFO
     handlers: [console, generation_file]
     propagate: false
 
