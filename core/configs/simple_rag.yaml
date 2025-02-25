@@ -1,6 +1,6 @@
 
-# Simple RAG test
-simple_rag_qasper_test:
+# Experiment
+simple_rag_qasper:
   dataset: 
     name: qasper
     number_of_docs: 5
@@ -16,10 +16,10 @@ simple_rag_qasper_test:
     faiss_search: "flatl2"
     top_k: 5
 
-simple_rag_multihoprag_test:
+simple_rag_multihoprag:
   dataset:
     name: multihoprag
-    number_of_qas: 50
+    number_of_qas: 15
     selection_mode: sequential
   chunker:
     mode: fixed
@@ -32,7 +32,7 @@ simple_rag_multihoprag_test:
     faiss_search: "flatl2"
     top_k: 5
 
-simple_rag_narrativeqa_test:
+simple_rag_narrativeqa:
   dataset:
     name: narrativeqa
     number_of_docs: 3
@@ -48,10 +48,44 @@ simple_rag_narrativeqa_test:
     faiss_search: "flatl2"
     top_k: 5
 
-simple_rag_frames_test:
+simple_rag_frames:
   dataset:
     name: frames
     number_of_qas: 20
+    selection_mode: sequential
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 5
+
+
+# Simple RAG test
+TEST_simple_rag_qasper:
+  dataset: 
+    name: qasper
+    number_of_docs: 3
+    selection_mode: sequential
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 5
+
+TEST_simple_rag_multihoprag:
+  dataset:
+    name: multihoprag
+    number_of_qas: 15
     selection_mode: sequential
   chunker:
     mode: fixed
