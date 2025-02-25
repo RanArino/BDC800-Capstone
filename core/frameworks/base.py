@@ -302,22 +302,39 @@ class BaseRAGFramework(ABC):
         """
         pass
 
-    @abstractmethod
-    def generate(
-        self, 
-        query: str, 
-        retrieved_docs: List[LangChainDocument]
-    ) -> RAGResponse:
-        """Generate an answer to the query using the retrieved documents.
-        
-        Args:
-            query: The query to generate an answer for.
-            retrieved_docs: A list of documents that are relevant to the query.
+    def generate(self, query: str, retrieved_docs: List[LangChainDocument]) -> RAGResponse:
+        """Generate answer using LLM with retrieved langchain documents as context."""
+        try:
+            self.logger.debug("Starting answer generation")
             
-        Returns:
-            An answer to the query.
-        """
-        pass
+            # Extract content from retrieved documents
+            context = "\n\n".join([doc.page_content for doc in retrieved_docs])
+            self.logger.debug(f"Created context from {len(retrieved_docs)} documents")
+            
+            # Generate prompt
+            prompt = f"""Based on the following context, please answer the question.
+            
+Context:
+{context}
+
+Question: {query}
+
+Answer:"""
+            
+            # Generate answer using LLM
+            self.logger.debug("Generating answer using LLM")
+            llm_answer = self.llm.generate_text(prompt)
+            self.logger.info("Answer generated successfully")
+            
+            return RAGResponse(
+                query=query,
+                llm_answer=llm_answer,
+                context=retrieved_docs
+            )
+            
+        except Exception as e:
+            self.logger.error(f"Error during answer generation: {str(e)}")
+            raise
 
     def _load_config(self) -> RAGConfig:
         """Load the config for the given config name."""
