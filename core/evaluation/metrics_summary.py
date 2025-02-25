@@ -8,7 +8,7 @@ for RAG system evaluation. It's designed to work with the BaseRAGFramework.run()
 and calculates metrics per QA pair while efficiently managing memory usage.
 """
 
-from typing import List, Union, Tuple, Set, Optional
+from typing import List, Union, Tuple, Set, Optional, Dict
 import pandas as pd
 from collections import defaultdict
 
@@ -16,6 +16,7 @@ from core.datasets.schema import IntraDocumentQA, InterDocumentQA
 from core.frameworks.schema import RAGResponse
 from core.evaluation.metrics import calculate_retrieval_metrics, calculate_generation_metrics
 from core.evaluation.schema import (
+    ProfilerTimingKey,
     RougeType,
     RougeMetricType, 
     MetricsSummary, 
@@ -92,13 +93,15 @@ def calculate_metrics_for_qa(
 
 def accumulate_and_summarize_metrics(
     metrics_list: List[MetricsSummary],
-    return_detailed: bool = False
+    profiler_metrics: Dict[ProfilerTimingKey, Dict[str, float]],
+    return_detailed: bool = False,
 ) -> Tuple[MetricsSummaryStats, Optional[pd.DataFrame]]:
     """
     Accumulate and summarize metrics from multiple QA pairs.
     
     Args:
         metrics_list: List of MetricsSummary objects
+        profiler: Profiler instance to extract performance metrics
         return_detailed: If True, returns detailed metrics DataFrame
         
     Returns:
@@ -244,11 +247,23 @@ def accumulate_and_summarize_metrics(
                 hit=hit_stats
             )
     
+    # Extract profiler metrics if provided
+    processing_time = {}
+    memory_usage = {}
+    for key, data in profiler_metrics.items():
+        # Add processing time metrics
+        processing_time[key] = data.get("duration", 0)
+        
+        # Add memory usage metrics
+        memory_usage[key] = data["memory"].get("total_mb", 0)
+    
     # Create the MetricsSummaryStats object
     summary_stats = MetricsSummaryStats(
         total_queries=len(metrics_list),
         generation=generation_stats,
-        retrieval=retrieval_stats
+        retrieval=retrieval_stats,
+        processing_time=processing_time,
+        memory_usage=memory_usage
     )
     
     # Return summary only if detailed metrics are not requested
