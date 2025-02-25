@@ -153,7 +153,8 @@ class BaseRAGFramework(ABC):
         # Return responses with metrics summary
         metrics_summary, detailed_df = accumulate_and_summarize_metrics(
             metrics_list=metrics_list,
-            return_detailed=store_detailed_metrics
+            profiler_metrics=self.profiler.get_metrics(),
+            return_detailed=store_detailed_metrics,
         )
         return responses, metrics_summary, detailed_df
 

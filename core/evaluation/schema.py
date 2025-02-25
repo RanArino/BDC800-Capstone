@@ -12,7 +12,7 @@ RougeMetricType = Literal['precision', 'recall', 'fmeasure']
 
 SelfCheckerAnswer = Literal["Yes", "No", "Undetermined"]
 
-
+ProfilerTimingKey: TypeAlias = str
 RankCutOff: TypeAlias = str
 
 class StatValue(BaseModel):
@@ -62,5 +62,7 @@ class MetricsSummary(BaseModel):
 class MetricsSummaryStats(BaseModel):
     """Statistical summary of metrics across multiple QA pairs."""
     total_queries: int
+    processing_time: Dict[ProfilerTimingKey, float]
+    memory_usage: Dict[ProfilerTimingKey, float]
     generation: Optional[GenerationEval] = None
     retrieval: Optional[RetrievalEval] = None

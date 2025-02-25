@@ -54,7 +54,7 @@ def qasper_test():
             
             # Test retrieval and generation
             logger.info("Testing RAG with queries")
-            response_list = simple_rag.run(qas)  # Process list of QAs
+            response_list, metrics_summary, _ = simple_rag.run(qas)  # Process list of QAs
             logger.info("RAG test completed")
             
             # print the metrics
@@ -66,6 +66,13 @@ def qasper_test():
             response_file = response_dir / f"RAGResponse_qasper_test.json"
             with open(response_file, 'w') as f:
                 json.dump([response.model_dump() for response in response_list], f, indent=2)
+
+            # save the metrics summary
+            metrics_summary_dir = Path("test/output_data")
+            metrics_summary_dir.mkdir(parents=True, exist_ok=True)
+            metrics_summary_file = metrics_summary_dir / f"intra_overall_metrics_summary.json"
+            with open(metrics_summary_file, 'w') as f:
+                json.dump(metrics_summary.model_dump(), f, indent=2)
 
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -87,7 +94,7 @@ def multihoprag_test():
 
         # Test retrieval and generation
         logger.info("Testing RAG with queries")
-        response_list = simple_rag.run(gen_qas) 
+        response_list, metrics_summary, detailed_df = simple_rag.run(gen_qas) 
         logger.info("RAG test completed")
 
         # print the metrics
@@ -100,6 +107,13 @@ def multihoprag_test():
         with open(response_file, 'w') as f:
             json.dump([response.model_dump() for response in response_list], f, indent=2)
 
+        # save the metrics summary
+        metrics_summary_dir = Path("test/output_data")
+        metrics_summary_dir.mkdir(parents=True, exist_ok=True)
+        metrics_summary_file = metrics_summary_dir / f"inter_overall_metrics_summary.json"
+        with open(metrics_summary_file, 'w') as f:
+            json.dump(metrics_summary.model_dump(), f, indent=2)
+
     except Exception as e:
         logger.error(f"Error occurred: {e}")
         raise
@@ -111,7 +125,7 @@ if __name__ == "__main__":
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
         qasper_test()
-        # print("\n===== qasper_test completed =====")
-        # print("start multihoprag_test in 3 seconds...")
-        # time.sleep(3)
-        # multihoprag_test()
+        print("\n===== qasper_test completed =====")
+        print("start multihoprag_test in 3 seconds...")
+        time.sleep(3)
+        multihoprag_test()
