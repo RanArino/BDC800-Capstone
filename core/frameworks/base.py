@@ -33,10 +33,11 @@ logger = get_logger(__name__)
 
 
 class BaseRAGFramework(ABC):
-    def __init__(self, config_name: str, config_path: str):
+    def __init__(self, config_name: str, config_path: str, is_save_vectorstore: bool = False):
         self.logger = logger
         self.config_name = config_name
         self.config_path = config_path
+        self.is_save_vectorstore = is_save_vectorstore
 
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
@@ -201,14 +202,15 @@ class BaseRAGFramework(ABC):
                 self._process_chunk_batch(list(current_batch))
                 gc.collect()
             
-            # Ensure vectorstore directory exists
-            self.logger.debug(f"Creating directory: {os.path.dirname(self.vectorstore_path)}")
-            os.makedirs(os.path.dirname(self.vectorstore_path), exist_ok=True)
-            
-            # Save vector store
-            self.logger.debug(f"Saving vector store to {self.vectorstore_path}")
-            self.vector_store.save_local(self.vectorstore_path)
-            self.logger.info("Indexing completed successfully")
+            if self.is_save_vectorstore:
+                # Ensure vectorstore directory exists
+                self.logger.debug(f"Creating directory: {os.path.dirname(self.vectorstore_path)}")
+                os.makedirs(os.path.dirname(self.vectorstore_path), exist_ok=True)
+                
+                # Save vector store
+                self.logger.debug(f"Saving vector store to {self.vectorstore_path}")
+                self.vector_store.save_local(self.vectorstore_path)
+                self.logger.info("Indexing completed successfully")
 
         except Exception as e:
             self.logger.error(f"Error during indexing: {str(e)}")
