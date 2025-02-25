@@ -40,13 +40,10 @@ class BaseRAGFramework(ABC):
 
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
-        self.profiler = Profiler(reset_on_init=True) # Performance Profiler
-        # self.timing_metrics = TimingMetrics()  # Timing Metrics
+        self.profiler = Profiler(reset_on_init=True)
 
         # Initialize variables that are defined in index() method
         self.dataset: BaseDataset = None
-        self.docs: Generator[SchemaDocument, None, None] = None   
-        self.qas: Generator[IntraDocumentQA | InterDocumentQA, None, None] = None
         self.vector_store: FAISS = None
 
         # Initialize LLMController
