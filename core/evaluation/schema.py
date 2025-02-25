@@ -63,6 +63,6 @@ class MetricsSummaryStats(BaseModel):
     """Statistical summary of metrics across multiple QA pairs."""
     total_queries: int
     processing_time: Dict[ProfilerTimingKey, float]
-    memory_usage: Dict[ProfilerTimingKey, Dict[str, float]]
+    memory_usage: Dict[ProfilerTimingKey, float]
     generation: Optional[GenerationEval] = None
     retrieval: Optional[RetrievalEval] = None
