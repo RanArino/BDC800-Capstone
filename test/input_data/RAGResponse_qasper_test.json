@@ -1,10 +1,10 @@
 [
   {
     "query": "What is the seed lexicon?",
-    "llm_answer": "The seed lexicon consists of 15 positive words and 15 negative words, which are used to assign polarity scores to extracted events. If the predicate of an event is in the seed lexicon and does not involve complex phenomena like negation, a corresponding polarity score (+1 for positive events and -1 for negative events) is assigned to the event.",
+    "llm_answer": "The seed lexicon consists of 15 positive words and 15 negative words. It is used to assign polarity scores (+1 for positive events and -1 for negative events) to extracted events based on whether their predicates are in the seed lexicon and do not involve complex phenomena like negation.",
     "context": [
       {
-        "id": "994cb690-cfe5-4fd8-8502-87a397aa5081",
+        "id": "511fc609-03c5-4767-b7d9-b354506f96f3",
         "metadata": {
           "chunk_id": 25,
           "document_id": "1909.00694",
@@ -15,7 +15,7 @@
         "type": "Document"
       },
       {
-        "id": "f5fdef08-4cdd-41f0-8495-ef39ed38a9b3",
+        "id": "2d50dda1-4bad-45e1-906f-e9ee938aa7f5",
         "metadata": {
           "chunk_id": 35,
           "document_id": "1909.00694",
@@ -26,7 +26,7 @@
         "type": "Document"
       },
       {
-        "id": "fd6f755d-addb-47cc-b25e-af247c6a8ca2",
+        "id": "5c228307-24e6-4a2d-8ba4-7e8ce494ef94",
         "metadata": {
           "chunk_id": 15,
           "document_id": "1909.00694",
@@ -37,7 +37,7 @@
         "type": "Document"
       },
       {
-        "id": "9aa9f3e6-2a63-43b5-99c0-0781effa0a33",
+        "id": "f102fc87-106b-4433-865b-b1bd3b940eb3",
         "metadata": {
           "chunk_id": 16,
           "document_id": "1909.00694",
@@ -48,7 +48,7 @@
         "type": "Document"
       },
       {
-        "id": "f376181e-ff7b-4cc4-a90e-fce19a5c3857",
+        "id": "48b0afa8-0994-4154-b1f1-4d4b4e8c9da2",
         "metadata": {
           "chunk_id": 4,
           "document_id": "1909.00694",
@@ -62,10 +62,10 @@
   },
   {
     "query": "What are the results?",
-    "llm_answer": "The results are shown in Table TABREF16 and Table TABREF23. However, without access to the actual tables, it's not possible to provide a detailed answer.\n\nFrom the context provided, we can infer that the tables show the accuracy of different models trained on various combinations of datasets (AL, AL+CA+CO, ACP, and ACP+AL+CA+CO) using objective functions such as $\\mathcal {L}_{\\rm AL}$, $\\mathcal {L}_{\\rm AL} + \\mathcal {L}_{\\rm CA} + \\mathcal {L}_{\\rm CO}$.\n\nTable TABREF16 likely shows the distribution of event pairs for each dataset (AL, CA, and CO), with a focus on their sizes and balances between positive and negative labels.\n\nTable TABREF23, on the other hand, appears to show the accuracy of different models trained on various datasets. However, without access to the actual table, we can't provide specific details about the results.",
+    "llm_answer": "The results are shown in Table TABREF23 (accuracy) and the text does not specify what these results are exactly, but based on the context, it appears to be accuracy values for different models and baselines.",
     "context": [
       {
-        "id": "e1c14761-6e20-4750-8a6a-5c505875a131",
+        "id": "f5a340b1-f1a0-44a5-b07b-40956d4dd3f9",
         "metadata": {
           "chunk_id": 27,
           "document_id": "1909.00694",
@@ -76,7 +76,7 @@
         "type": "Document"
       },
       {
-        "id": "4c537e13-0467-4cfa-81ef-b593d9b4f961",
+        "id": "3b25b28c-64f4-4a12-95bb-b71a300f4758",
         "metadata": {
           "chunk_id": 32,
           "document_id": "1909.00694",
@@ -87,7 +87,7 @@
         "type": "Document"
       },
       {
-        "id": "36f2f4ec-e031-4fa1-a588-3a149ac308bd",
+        "id": "ada9e075-1780-4d86-8cdf-b6a6453f8427",
         "metadata": {
           "chunk_id": 34,
           "document_id": "1909.00694",
@@ -98,7 +98,7 @@
         "type": "Document"
       },
       {
-        "id": "d8ad5fbe-bb56-4932-a3da-a1c317d7911d",
+        "id": "a093c1bd-a405-47e7-9351-9de47ee71286",
         "metadata": {
           "chunk_id": 26,
           "document_id": "1909.00694",
@@ -109,7 +109,7 @@
         "type": "Document"
       },
       {
-        "id": "b5a6a425-2286-44d5-b30b-8d9880b714f2",
+        "id": "05fb6a80-99a8-4e60-8ab3-ecc77011ffa7",
         "metadata": {
           "chunk_id": 30,
           "document_id": "1909.00694",
@@ -123,10 +123,10 @@
   },
   {
     "query": "How are relations used to propagate polarity?",
-    "llm_answer": "Discourse relations (such as Cause and Concession) are used to propagate polarity by assuming the reversed polarities of events connected by these relations, allowing the model to automatically learn complex phenomena through label propagation.",
+    "llm_answer": "According to the context, discourse relations (specifically Cause and Concession) are used to efficiently propagate polarity from seed predicates. If the predicate of an extracted event is in the seed lexicon, its corresponding polarity score can be assigned to it. For events that do not have a matching predicate in the seed lexicon, their polarities are assumed to be reversed if they are connected by a Concession relation.",
     "context": [
       {
-        "id": "c18d3a5d-0ccf-4bf4-ba66-4004cebe43d3",
+        "id": "4e5cf78f-44f5-4aa2-a8ef-7b6c02a00366",
         "metadata": {
           "chunk_id": 5,
           "document_id": "1909.00694",
@@ -137,7 +137,7 @@
         "type": "Document"
       },
       {
-        "id": "b5bb5cc5-44b6-492a-8644-a08d8d77f952",
+        "id": "45d130ab-62d2-4c54-943f-915bea9e608e",
         "metadata": {
           "chunk_id": 6,
           "document_id": "1909.00694",
@@ -148,7 +148,7 @@
         "type": "Document"
       },
       {
-        "id": "fd6f755d-addb-47cc-b25e-af247c6a8ca2",
+        "id": "5c228307-24e6-4a2d-8ba4-7e8ce494ef94",
         "metadata": {
           "chunk_id": 15,
           "document_id": "1909.00694",
@@ -159,7 +159,7 @@
         "type": "Document"
       },
       {
-        "id": "076dc354-c549-49ec-9861-1e75fe859e1a",
+        "id": "51940530-7cf4-48af-a60b-d08abf6f616f",
         "metadata": {
           "chunk_id": 18,
           "document_id": "1909.00694",
@@ -170,7 +170,7 @@
         "type": "Document"
       },
       {
-        "id": "7649bf7a-2e9f-4979-869b-1aa0c095ad45",
+        "id": "277579d4-93b0-40bd-bf33-93f5abb8a606",
         "metadata": {
           "chunk_id": 2,
           "document_id": "1909.00694",
@@ -184,10 +184,10 @@
   },
   {
     "query": "How big is the Japanese data?",
-    "llm_answer": "According to the context, the vocabulary size (i.e., the size of the Japanese dataset) is 100,000.",
+    "llm_answer": "The context does not mention a specific \"Japanese data\" but rather mentions the use of Japanese BERT models pretrained with 100 million sentences from Japanese Wikipedia, and also uses Japanese websites for dataset extraction. The vocabulary size was 32,000 or 100,000 depending on the model being described.",
     "context": [
       {
-        "id": "e1c14761-6e20-4750-8a6a-5c505875a131",
+        "id": "f5a340b1-f1a0-44a5-b07b-40956d4dd3f9",
         "metadata": {
           "chunk_id": 27,
           "document_id": "1909.00694",
@@ -198,7 +198,7 @@
         "type": "Document"
       },
       {
-        "id": "73fa6056-a7e0-4f96-9b9f-e2da98f4d406",
+        "id": "1a3bd67c-5129-4d5b-9fd9-71d7e3a22b74",
         "metadata": {
           "chunk_id": 48,
           "document_id": "1909.00694",
@@ -209,7 +209,7 @@
         "type": "Document"
       },
       {
-        "id": "52c5caf6-8981-4d3a-b86a-86346b403dc3",
+        "id": "03dd14dd-51b6-440c-9380-05031c6bfdb7",
         "metadata": {
           "chunk_id": 37,
           "document_id": "1909.00694",
@@ -220,7 +220,7 @@
         "type": "Document"
       },
       {
-        "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
+        "id": "8a87b33c-a1b1-4227-8c6b-710619ad4380",
         "metadata": {
           "chunk_id": 49,
           "document_id": "1909.00694",
@@ -231,7 +231,7 @@
         "type": "Document"
       },
       {
-        "id": "d8ad5fbe-bb56-4932-a3da-a1c317d7911d",
+        "id": "a093c1bd-a405-47e7-9351-9de47ee71286",
         "metadata": {
           "chunk_id": 26,
           "document_id": "1909.00694",
@@ -245,10 +245,10 @@
   },
   {
     "query": "How big are improvements of supervszed learning results trained on smalled labeled data enhanced with proposed approach copared to basic approach?",
-    "llm_answer": "Unfortunately, the provided context does not directly answer the question regarding \"improvements\" or specific numbers associated with enhancements. However, it provides insight into a comparison between supervised and semi-supervised models when using small datasets (6,000 events) versus larger ones (0.6 million events). It states that \"Contrary to our expectations, supervised models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO)\" when the dataset was 0.6 million events large.\n\nGiven this information, and interpreting the question as asking for improvements in performance or any metric resulting from applying the proposed discourse relation-based label propagation approach compared to basic methods on smaller labeled data:\n\n- The context suggests that the application of the proposed method is beneficial (\"effective\") when working with small amounts of labeled data. However, it does not provide a numerical measure of improvement.\n\nTo accurately answer the question as phrased regarding \"improvements\" specifically and quantify them, one would need more detailed performance metrics (e.g., accuracy scores, F1-scores) before and after applying the proposed approach on smaller datasets.",
+    "llm_answer": "The question is a bit convoluted, but I'll try to provide an answer based on the context.\n\nAccording to the text, when the models were trained on a small dataset (6,000 events) of labeled data (ACP), and enhanced with additional unlabeled data (AL+CA+CO), the results show that the proposed approach (discourse relation-based label propagation) is effective. However, it does not explicitly mention the size of the improvements.\n\nBut we can infer from the text that the performance gaps between the supervised models (ACP) and their semi-supervised counterparts (ACP+AL+CA+CO) were less than 7%. This suggests that the proposed approach made a significant improvement on the results trained on small labeled data, but the exact magnitude of the improvements is not specified.",
     "context": [
       {
-        "id": "e9fda789-e106-481d-9686-050e813e0d91",
+        "id": "1d058b4d-c856-4d08-988d-0567d148701e",
         "metadata": {
           "chunk_id": 36,
           "document_id": "1909.00694",
@@ -259,7 +259,7 @@
         "type": "Document"
       },
       {
-        "id": "52c5caf6-8981-4d3a-b86a-86346b403dc3",
+        "id": "03dd14dd-51b6-440c-9380-05031c6bfdb7",
         "metadata": {
           "chunk_id": 37,
           "document_id": "1909.00694",
@@ -270,7 +270,7 @@
         "type": "Document"
       },
       {
-        "id": "f5fdef08-4cdd-41f0-8495-ef39ed38a9b3",
+        "id": "2d50dda1-4bad-45e1-906f-e9ee938aa7f5",
         "metadata": {
           "chunk_id": 35,
           "document_id": "1909.00694",
@@ -281,7 +281,7 @@
         "type": "Document"
       },
       {
-        "id": "73fa6056-a7e0-4f96-9b9f-e2da98f4d406",
+        "id": "1a3bd67c-5129-4d5b-9fd9-71d7e3a22b74",
         "metadata": {
           "chunk_id": 48,
           "document_id": "1909.00694",
@@ -292,7 +292,7 @@
         "type": "Document"
       },
       {
-        "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
+        "id": "8a87b33c-a1b1-4227-8c6b-710619ad4380",
         "metadata": {
           "chunk_id": 49,
           "document_id": "1909.00694",
@@ -306,10 +306,10 @@
   },
   {
     "query": "How does their model learn using mostly raw data?",
-    "llm_answer": "The model learns using mostly raw data by leveraging a process called \"label propagation\", where it starts with a seed lexicon of positive and negative predicates, and then uses this initial labeling to propagate labels to other related events through the neural network. This allows the model to automatically learn complex phenomena without requiring explicit annotations for all examples in the dataset.",
+    "llm_answer": "The model learns by using semi-supervised learning, where it uses a combination of labeled and unlabeled data (ACP Corpus for labeled data and AL+CA+CO datasets for unlabeled data) to automatically learn complex phenomena through label propagation. Additionally, the model is pre-trained with a seed lexicon that provides polarity scores for positive and negative events, allowing the model to start learning from the raw data and gradually refine its understanding of complex phenomena.",
     "context": [
       {
-        "id": "4c537e13-0467-4cfa-81ef-b593d9b4f961",
+        "id": "3b25b28c-64f4-4a12-95bb-b71a300f4758",
         "metadata": {
           "chunk_id": 32,
           "document_id": "1909.00694",
@@ -320,7 +320,7 @@
         "type": "Document"
       },
       {
-        "id": "9aa9f3e6-2a63-43b5-99c0-0781effa0a33",
+        "id": "f102fc87-106b-4433-865b-b1bd3b940eb3",
         "metadata": {
           "chunk_id": 16,
           "document_id": "1909.00694",
@@ -331,7 +331,7 @@
         "type": "Document"
       },
       {
-        "id": "3a4ff5d7-44d0-4e56-b496-7b784e3dba9e",
+        "id": "25aba0e6-7d04-490d-b192-62a41cfd0c71",
         "metadata": {
           "chunk_id": 29,
           "document_id": "1909.00694",
@@ -342,7 +342,7 @@
         "type": "Document"
       },
       {
-        "id": "b5a6a425-2286-44d5-b30b-8d9880b714f2",
+        "id": "05fb6a80-99a8-4e60-8ab3-ecc77011ffa7",
         "metadata": {
           "chunk_id": 30,
           "document_id": "1909.00694",
@@ -353,7 +353,7 @@
         "type": "Document"
       },
       {
-        "id": "fd6f755d-addb-47cc-b25e-af247c6a8ca2",
+        "id": "5c228307-24e6-4a2d-8ba4-7e8ce494ef94",
         "metadata": {
           "chunk_id": 15,
           "document_id": "1909.00694",
@@ -367,10 +367,10 @@
   },
   {
     "query": "How big is seed lexicon used for training?",
-    "llm_answer": "According to the context, the seed lexicon consists of 15 positive words and 15 negative words, making a total of 30 words.",
+    "llm_answer": "According to the context, the seed lexicon consisted of 15 positive words and 15 negative words.",
     "context": [
       {
-        "id": "019d86da-25b8-442f-9d5a-26f9baf9f778",
+        "id": "8a87b33c-a1b1-4227-8c6b-710619ad4380",
         "metadata": {
           "chunk_id": 49,
           "document_id": "1909.00694",
@@ -381,7 +381,7 @@
         "type": "Document"
       },
       {
-        "id": "f5fdef08-4cdd-41f0-8495-ef39ed38a9b3",
+        "id": "2d50dda1-4bad-45e1-906f-e9ee938aa7f5",
         "metadata": {
           "chunk_id": 35,
           "document_id": "1909.00694",
@@ -392,7 +392,7 @@
         "type": "Document"
       },
       {
-        "id": "73fa6056-a7e0-4f96-9b9f-e2da98f4d406",
+        "id": "1a3bd67c-5129-4d5b-9fd9-71d7e3a22b74",
         "metadata": {
           "chunk_id": 48,
           "document_id": "1909.00694",
@@ -403,7 +403,7 @@
         "type": "Document"
       },
       {
-        "id": "994cb690-cfe5-4fd8-8502-87a397aa5081",
+        "id": "511fc609-03c5-4767-b7d9-b354506f96f3",
         "metadata": {
           "chunk_id": 25,
           "document_id": "1909.00694",
@@ -414,7 +414,7 @@
         "type": "Document"
       },
       {
-        "id": "52c5caf6-8981-4d3a-b86a-86346b403dc3",
+        "id": "03dd14dd-51b6-440c-9380-05031c6bfdb7",
         "metadata": {
           "chunk_id": 37,
           "document_id": "1909.00694",
@@ -422,6 +422,128 @@
           "end_idx": 12460
         },
         "page_content": " models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO). This suggests that the training set of 0.6 million events is sufficiently large for training the models. For comparison, we trained the models with a subset (6,000 events) of the ACP dataset. As the results shown in Table TABREF24 demonstrate, our method is effective when labeled data are small. The result of hyperparameter optimization for the BiGRU encoder was as",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How do the various social phenomena examined manifest in different types of communities?",
+    "llm_answer": "The answer cannot be determined from the provided context as it does not mention anything about how social phenomena manifest in different types of communities. The text is actually discussing a model for learning affective events through discourse analysis and using a seed lexicon to propagate polarities, with no reference to community types or social phenomena beyond sentiment analysis.",
+    "context": [
+      {
+        "id": "f102fc87-106b-4433-865b-b1bd3b940eb3",
+        "metadata": {
+          "chunk_id": 16,
+          "document_id": "1909.00694",
+          "start_idx": 5454,
+          "end_idx": 5949
+        },
+        "page_content": " to the event. We expect the model to automatically learn complex phenomena through label propagation. Based on the availability of scores and the types of discourse relations, we classify the extracted event pairs into the following three types.  The seed lexicon matches (1) the latter event but (2) not the former event, and (3) their discourse relation type is Cause or Concession. If the discourse relation type is Cause, the former event is given the same score as the latter. Likewise, if",
+        "type": "Document"
+      },
+      {
+        "id": "d9b035eb-7983-4d22-ab38-3acbc996fdcf",
+        "metadata": {
+          "chunk_id": 7,
+          "document_id": "1909.00694",
+          "start_idx": 2465,
+          "end_idx": 2938
+        },
+        "page_content": " unannotated data yielded a gain over a purely supervised baseline when labeled data were small. Learning affective events is closely related to sentiment analysis. Whereas sentiment analysis usually focuses on the polarity of what are described (e.g., movies), we work on how people are typically affected by events. In sentiment analysis, much attention has been paid to compositionality. Word-level polarity BIBREF5, BIBREF6, BIBREF7 and the roles of negation and intens",
+        "type": "Document"
+      },
+      {
+        "id": "ed35dcb3-ddd2-4a60-aea7-352d557c807f",
+        "metadata": {
+          "chunk_id": 42,
+          "document_id": "1909.00694",
+          "start_idx": 13637,
+          "end_idx": 14204
+        },
+        "page_content": " shoulders) is an idiom that expresses a disappointed feeling. The examples demonstrate that our model correctly learned non-compositional expressions.  In this paper, we proposed to use discourse relations to effectively propagate polarities of affective events from seeds. Experiments show that, even with a minimal amount of supervision, the proposed method performed well. Although event pairs linked by discourse analysis are shown to be useful, they nevertheless contain noises. Adding linguistically-motivated filtering rules would help improve the performance",
+        "type": "Document"
+      },
+      {
+        "id": "8b975852-7ea3-48e0-9b86-7d826e399f0e",
+        "metadata": {
+          "chunk_id": 14,
+          "document_id": "1909.00694",
+          "start_idx": 4812,
+          "end_idx": 5168
+        },
+        "page_content": " requires a very small seed lexicon and a large raw corpus. We assume that we can automatically extract discourse-tagged event pairs, $(x_{i1}, x_{i2})$ ($i=1, \\cdots $) from the raw corpus. We refer to $x_{i1}$ and $x_{i2}$ as former and latter events, respectively. As shown in Figure FIGREF1, we limit our scope to two discourse relations: Cause and Con",
+        "type": "Document"
+      },
+      {
+        "id": "bfe04002-5aea-43e8-a195-bf869277e786",
+        "metadata": {
+          "chunk_id": 10,
+          "document_id": "1909.00694",
+          "start_idx": 3392,
+          "end_idx": 3871
+        },
+        "page_content": " $B$\u201d and \u201c$A$ but $B$\u201d). We shift our scope to event pairs that are more complex than phrase pairs, and consequently exploit discourse connectives as event-level counterparts of phrase-level conjunctions. BIBREF0 constructed a network of events using word embedding-derived similarities. Compared with this method, our discourse relation-based linking of events is much simpler and more intuitive. Some previous studies made use of document structure to understand the sentiment",
+        "type": "Document"
+      }
+    ]
+  },
+  {
+    "query": "How did the select the 300 Reddit communities for comparison?",
+    "llm_answer": "The provided context does not mention selecting 300 Reddit communities for comparison at all. The text discusses the ACP Corpus, event pairs, hyperparameter optimization, and neural network models for classification tasks, but it does not mention Reddit communities. Therefore, there is no answer to the question as it pertains to information not included in the provided context.",
+    "context": [
+      {
+        "id": "a093c1bd-a405-47e7-9351-9de47ee71286",
+        "metadata": {
+          "chunk_id": 26,
+          "document_id": "1909.00694",
+          "start_idx": 8611,
+          "end_idx": 9077
+        },
+        "page_content": " consisting of 15 positive words and 15 negative words, as shown in Section SECREF27. From the corpus of about 100 million sentences, we obtained 1.4 millions event pairs for AL, 41 millions for CA, and 6 millions for CO. We randomly selected subsets of AL event pairs such that positive and negative latter events were equal in size. We also sampled event pairs for each of CA and CO such that it was five times larger than AL. The results are shown in Table TABREF",
+        "type": "Document"
+      },
+      {
+        "id": "f5a340b1-f1a0-44a5-b07b-40956d4dd3f9",
+        "metadata": {
+          "chunk_id": 27,
+          "document_id": "1909.00694",
+          "start_idx": 8898,
+          "end_idx": 9330
+        },
+        "page_content": " CO such that it was five times larger than AL. The results are shown in Table TABREF16. We used the latest version of the ACP Corpus BIBREF12 for evaluation. It was used for (semi-)supervised training as well. Extracted from Japanese websites using HTML layouts and linguistic patterns, the dataset covered various genres. For example, the following two sentences were labeled positive and negative, respectively: . \u4f5c\u696d\u304c\u697d\u3060\u3002 The work",
+        "type": "Document"
+      },
+      {
+        "id": "067fa0ac-914c-497c-bac9-7e21cceeb570",
+        "metadata": {
+          "chunk_id": 38,
+          "document_id": "1909.00694",
+          "start_idx": 12460,
+          "end_idx": 12825
+        },
+        "page_content": " data are small. The result of hyperparameter optimization for the BiGRU encoder was as follows: As the CA and CO pairs were equal in size (Table TABREF16), $\\lambda _{\\rm CA}$ and $\\lambda _{\\rm CO}$ were comparable values. $\\lambda _{\\rm CA}$ was about one-third of $\\lambda _{\\rm CO}$, and this indicated that the CA pairs were noisier than the CO pairs. A major",
+        "type": "Document"
+      },
+      {
+        "id": "03dd14dd-51b6-440c-9380-05031c6bfdb7",
+        "metadata": {
+          "chunk_id": 37,
+          "document_id": "1909.00694",
+          "start_idx": 12027,
+          "end_idx": 12460
+        },
+        "page_content": " models (ACP) outperformed semi-supervised models (ACP+AL+CA+CO). This suggests that the training set of 0.6 million events is sufficiently large for training the models. For comparison, we trained the models with a subset (6,000 events) of the ACP dataset. As the results shown in Table TABREF24 demonstrate, our method is effective when labeled data are small. The result of hyperparameter optimization for the BiGRU encoder was as",
+        "type": "Document"
+      },
+      {
+        "id": "05fb6a80-99a8-4e60-8ab3-ecc77011ffa7",
+        "metadata": {
+          "chunk_id": 30,
+          "document_id": "1909.00694",
+          "start_idx": 9921,
+          "end_idx": 10268
+        },
+        "page_content": " the ACP Corpus. To optimize the hyperparameters, we used the dev set of the ACP Corpus. For the evaluation, we used the test set of the ACP Corpus. The model output was classified as positive if $p(x) > 0$ and negative if $p(x) \\le 0$.  As for ${\\rm Encoder}$, we compared two types of neural networks: BiGRU and BERT. GRU BIBREF16 is a recurrent",
         "type": "Document"
       }
     ]
