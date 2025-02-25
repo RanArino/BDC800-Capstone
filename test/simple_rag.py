@@ -12,39 +12,30 @@ import sys
 import os
 import gc
 import warnings
-import logging
 import json
 from pathlib import Path
-
+from typing import List
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from core.frameworks import SimpleRAG
+from core.frameworks import SimpleRAG, RAGResponse
 from core.logger.logger import get_logger
-
+from core.evaluation.metrics_summary import accumulate_and_summarize_metrics
+from core.evaluation.schema import MetricsSummary
 # Set up logging
 logger = get_logger(__name__)
-logger.setLevel(logging.DEBUG)
+
 
 def qasper_test():
     try:
         # Initialize RAG
         logger.info("Initializing SimpleRAG")
-        simple_rag = SimpleRAG("simple_rag_qasper_test")
-        gen_docs, gen_qas = simple_rag.load_dataset(number_of_docs=1)
+        simple_rag = SimpleRAG("TEST_simple_rag_qasper")
+        gen_docs, gen_qas = simple_rag.load_dataset()
+        
+        # Initialize accumulators for metrics
+        all_responses: List[RAGResponse] = []
+        all_metrics: List[MetricsSummary] = []
 
-        # # Check if gen_docs and gen_qas are not empty
-        # try:
-        #     first_doc = next(gen_docs)
-        #     print(f"First document: \n id: {first_doc.id} \n text: {first_doc.content[:120]}")
-        # except StopIteration:
-        #     print("No documents found in gen_docs")
-        
-        # try:
-        #     first_qa_list = next(gen_qas)
-        #     print(f"QA IDs: {[qa.document_id for qa in first_qa_list]}")
-        # except StopIteration:
-        #     print("No QAs found in gen_qas")
-        
         # load each document and qa pair
         for doc, qas in zip(gen_docs, gen_qas):
             # Index documents
@@ -54,25 +45,39 @@ def qasper_test():
             
             # Test retrieval and generation
             logger.info("Testing RAG with queries")
-            response_list, metrics_summary, _ = simple_rag.run(qas)  # Process list of QAs
+            response_list, metrics_list = simple_rag.run(qas)  # Process list of QAs
             logger.info("RAG test completed")
-            
-            # print the metrics
-            print(simple_rag.profiler.get_metrics(include_counts=True))
 
-            # store the response_list in a json file, use it for evaluation test
-            response_dir = Path("test/input_data")
-            response_dir.mkdir(parents=True, exist_ok=True)
-            response_file = response_dir / f"RAGResponse_qasper_test.json"
-            with open(response_file, 'w') as f:
-                json.dump([response.model_dump() for response in response_list], f, indent=2)
+            # Update accumulators
+            all_responses.extend(response_list)
+            all_metrics.extend(metrics_list)
 
-            # save the metrics summary
-            metrics_summary_dir = Path("test/output_data")
-            metrics_summary_dir.mkdir(parents=True, exist_ok=True)
-            metrics_summary_file = metrics_summary_dir / f"intra_overall_metrics_summary.json"
-            with open(metrics_summary_file, 'w') as f:
-                json.dump(metrics_summary.model_dump(), f, indent=2)
+        # Build overall metrics summary
+        overall_metrics_summary, detailed_df = accumulate_and_summarize_metrics(
+            metrics_list=all_metrics,
+            profiler_metrics=simple_rag.profiler.get_metrics()
+        ) 
+        
+        # print the metrics
+        print(simple_rag.profiler.get_metrics(include_counts=True))
+
+        # store the response_list in a json file, use it for evaluation test
+        response_dir = Path("test/input_data")
+        response_dir.mkdir(parents=True, exist_ok=True)
+        response_file = response_dir / f"RAGResponse_qasper_test.json"
+        with open(response_file, 'w') as f:
+            json.dump([response.model_dump() for response in all_responses], f, indent=2)
+
+        # save the metrics summary
+        output_dir = Path("test/output_data")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        metrics_summary_file = output_dir / f"qasper_overall_metrics_summary.json"
+        with open(metrics_summary_file, 'w') as f:
+            json.dump(overall_metrics_summary.model_dump(), f, indent=2)
+
+        # save the detailed dataframe
+        detailed_df_file = output_dir / f"qasper_detailed_metrics_summary.csv"
+        detailed_df.to_csv(detailed_df_file, index=False)
 
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -84,8 +89,8 @@ def multihoprag_test():
     try:
         # Initialize RAG
         logger.info("Initializing SimpleRAG")
-        simple_rag = SimpleRAG("simple_rag_multihoprag_test")
-        gen_docs, gen_qas = simple_rag.load_dataset(number_of_qas=10)
+        simple_rag = SimpleRAG("TEST_simple_rag_multihoprag")
+        gen_docs, gen_qas = simple_rag.load_dataset()
 
         # Index documents
         logger.info("Indexing documents")
@@ -94,8 +99,14 @@ def multihoprag_test():
 
         # Test retrieval and generation
         logger.info("Testing RAG with queries")
-        response_list, metrics_summary, detailed_df = simple_rag.run(gen_qas) 
+        all_responses, all_metrics = simple_rag.run(gen_qas) 
         logger.info("RAG test completed")
+
+        # Build overall metrics summary
+        overall_metrics_summary, detailed_df = accumulate_and_summarize_metrics(
+            metrics_list=all_metrics,
+            profiler_metrics=simple_rag.profiler.get_metrics()
+        ) 
 
         # print the metrics
         print(simple_rag.profiler.get_metrics(include_counts=True))
@@ -105,14 +116,18 @@ def multihoprag_test():
         response_dir.mkdir(parents=True, exist_ok=True)
         response_file = response_dir / f"RAGResponse_multihoprag_test.json"
         with open(response_file, 'w') as f:
-            json.dump([response.model_dump() for response in response_list], f, indent=2)
+            json.dump([response.model_dump() for response in all_responses], f, indent=2)
 
         # save the metrics summary
-        metrics_summary_dir = Path("test/output_data")
-        metrics_summary_dir.mkdir(parents=True, exist_ok=True)
-        metrics_summary_file = metrics_summary_dir / f"inter_overall_metrics_summary.json"
+        output_dir = Path("test/output_data")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        metrics_summary_file = output_dir / f"multihoprag_overall_metrics_summary.json"
         with open(metrics_summary_file, 'w') as f:
-            json.dump(metrics_summary.model_dump(), f, indent=2)
+            json.dump(overall_metrics_summary.model_dump(), f, indent=2)
+
+        # save the detailed dataframe
+        detailed_df_file = output_dir / f"multihoprag_detailed_metrics_summary.csv"
+        detailed_df.to_csv(detailed_df_file, index=False)
 
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -129,3 +144,4 @@ if __name__ == "__main__":
         print("start multihoprag_test in 3 seconds...")
         time.sleep(3)
         multihoprag_test()
+        
