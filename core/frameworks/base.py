@@ -93,6 +93,12 @@ class BaseRAGFramework(ABC):
         # Load dataset
         self.dataset = get_dataset(self.dataset_config.name)
         self.dataset.load()
+
+        # Check config
+        if not number_of_docs:
+            number_of_docs = self.dataset_config.number_of_docs
+        if not number_of_qas:
+            number_of_qas = self.dataset_config.number_of_qas
         
         # Call appropriate loader based on QA type
         if self.dataset.qa_type == IntraDocumentQA:
