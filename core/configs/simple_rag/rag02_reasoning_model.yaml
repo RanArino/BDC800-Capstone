@@ -17,11 +17,10 @@ simple_rag_02_01:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 # DeepSeek-R1-8B
 simple_rag_02_02:
@@ -32,11 +31,10 @@ simple_rag_02_02:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: deepseek-r1-8b
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: deepseek-r1-8b
 
 # Phi4(14B)
 simple_rag_02_03:
@@ -47,11 +45,10 @@ simple_rag_02_03:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: phi4
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: phi4
 
 # DeepSeek-R1-14B
 simple_rag_02_04:
@@ -62,8 +59,7 @@ simple_rag_02_04:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: deepseek-r1-14b
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: deepseek-r1-14b
