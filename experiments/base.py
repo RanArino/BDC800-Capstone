@@ -36,8 +36,14 @@ def run_experiment(
     """
     try:
         # Initialize RAG
-        logger.info(f"Initializing SimpleRAG for {config_name}")
-        rag = SimpleRAG(config_name, config_path)
+        
+        if Path(config_path).parent.name == "simple_rag":
+            logger.info(f"Initializing SimpleRAG for {config_name}")
+            rag = SimpleRAG(config_name, config_path)
+        elif Path(config_path).parent.name == "scaler_rag":
+            pass
+        else:
+            raise ValueError(f"Invalid config path: {config_path}. Must be in the simple_rag directory.")
 
         # Load dataset
         gen_docs, gen_qas = rag.load_dataset()
@@ -50,7 +56,7 @@ def run_experiment(
             all_metrics: List[MetricsSummary] = []
             
             for doc, qas in zip(gen_docs, gen_qas):
-                if qas is []:
+                if qas == []:
                     continue
                 
                 rag.index(doc)
@@ -127,7 +133,7 @@ if __name__ == "__main__":
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
         # define config_path and config_name
-        config_path = "core/configs/simple_rag.yaml"
+        config_path = "core/configs/simple_rag/test.yaml"
         config_name = ["TEST02_simple_rag_01", "TEST02_simple_rag_02", "TEST02_simple_rag_03", "TEST02_simple_rag_04"]
         # run the experiment
         for config in config_name:
