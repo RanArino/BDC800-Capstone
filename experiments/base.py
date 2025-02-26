@@ -59,6 +59,9 @@ def run_experiment(
                 all_responses.extend(response_list)
                 all_metrics.extend(metrics_list)
 
+                # Update progress for each document
+                rag.progress_tracker.update(1)
+
                 # Force garbage collection after each document
                 gc.collect()
         
