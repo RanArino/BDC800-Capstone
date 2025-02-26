@@ -198,7 +198,7 @@ class BaseRAGFramework(ABC):
                 gen_chunks = self.index_preprocessing(gen_docs)
             
             # Process chunks in batches while maintaining generator pattern
-            BATCH_SIZE = 5
+            BATCH_SIZE = 64
             current_batch = deque(maxlen=BATCH_SIZE)
             
             for chunk in gen_chunks:
