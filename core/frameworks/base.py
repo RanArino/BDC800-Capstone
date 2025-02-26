@@ -118,12 +118,14 @@ class BaseRAGFramework(ABC):
 
     def run(
         self, 
-        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]]
+        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]],
+        llm_generation: bool = True
     ) -> Tuple[List[RAGResponse], List[MetricsSummary]]:
         """Run the RAG pipeline on queries.
         
         Args:
             qas: A list, generator, or any iterable of QA pairs to process
+            llm_generation: Whether to generate the answer using the LLM
             
         Returns:
             A tuple containing:
@@ -144,16 +146,23 @@ class BaseRAGFramework(ABC):
                     retrieved_docs = self.retrieve(qa.q)
                     
                 # Generate answer
-                with self.profiler.track("generation"):
-                    llm_answer = self.generate(qa.q, retrieved_docs)
+                if llm_generation:
+                    with self.profiler.track("generation"):
+                        response = self.generate(qa.q, retrieved_docs)
+                else:
+                    response = RAGResponse(
+                        query=qa.q,
+                        llm_answer="",
+                        context=retrieved_docs
+                    )
 
                 # Calculate metrics
                 metrics = calculate_metrics_for_qa(
                     qa=qa,
-                    response=llm_answer
+                    response=response
                 )
                 metrics_list.append(metrics)
-                responses.append(llm_answer)
+                responses.append(response)
                 
                 # For IntraDocumentQA, progress is updated per document in experiments/base.py
                 if self.dataset.qa_type != IntraDocumentQA:
