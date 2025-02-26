@@ -30,6 +30,7 @@ def run_experiment(
         store_responses: bool = True,
         store_metrics: bool = True,
         store_detailed_df: bool = True,
+        llm_generation: bool = True
     ):
     """
     Run RAG test for a specific dataset type with memory-efficient metrics calculation.
@@ -60,7 +61,7 @@ def run_experiment(
                     continue
                 
                 rag.index(doc)
-                response_list, metrics_list = rag.run(qas)
+                response_list, metrics_list = rag.run(qas, llm_generation)
 
                 all_responses.extend(response_list)
                 all_metrics.extend(metrics_list)
@@ -78,7 +79,7 @@ def run_experiment(
             logger.info("Indexing completed")
 
             # Test retrieval and generation
-            all_responses, all_metrics = rag.run(gen_qas) 
+            all_responses, all_metrics = rag.run(gen_qas, llm_generation) 
             logger.info("RAG test completed")
 
             # Force garbage collection after each document
@@ -138,5 +139,5 @@ if __name__ == "__main__":
         # run the experiment
         for config in config_name:
             print(f"\n===== Starting {config} test =====")
-            run_experiment(config_path, config)
+            run_experiment(config_path, config, llm_generation=False)
             print(f"\n===== {config} test completed =====")
