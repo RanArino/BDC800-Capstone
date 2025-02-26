@@ -39,7 +39,7 @@ class RAGConfig(BaseModel):
     """Main configuration for the RAG system."""
     dataset: DatasetConfig = Field(..., description="Dataset configuration")
     chunker: ChunkerConfig = Field(..., description="Text chunking configuration")
-    retrieval: RetrievalGenerationConfig = Field(..., description="Retrieval configuration")
+    retrieval_generation: RetrievalGenerationConfig = Field(..., description="Retrieval and generation configuration")
 
 class RAGResponse(BaseModel):
     """Schema for the RAG pipeline response."""
