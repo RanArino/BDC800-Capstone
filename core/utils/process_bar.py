@@ -36,25 +36,23 @@ class ProgressTracker:
         dataset_info = self._get_dataset_info_from_yaml(dataset_config.name)
         
         if dataset.qa_type == IntraDocumentQA:
-            # For IntraDoc, we track by questions but need to estimate from docs
+            # For IntraDoc, we track by documents
+            # Prioritize explicitly passed number_of_docs, then dataset_config, then yaml info
             doc_count = number_of_docs or dataset_config.number_of_docs or dataset_info.get("number_of_docs", 0)
             
-            # Estimate average QAs per document if we have both counts
-            if dataset_info.get("number_of_docs") and dataset_info.get("number_of_qas"):
-                avg_qas_per_doc = dataset_info["number_of_qas"] / dataset_info["number_of_docs"]
-                self.total_qa_count = int(doc_count * avg_qas_per_doc)
-            else:
-                # Fallback to document count if we can't estimate
-                self.total_qa_count = doc_count
+            # Use doc_count directly for IntraDocumentQA
+            self.total_qa_count = doc_count
                 
-            self.logger.info(f"Tracking progress for approximately {self.total_qa_count} questions across {doc_count} documents")
+            self.logger.info(f"Tracking progress for {doc_count} documents")
+            # Create progress bar for documents
+            self.progress_bar = tqdm(total=self.total_qa_count, desc="Processing documents")
         else:
             # For InterDoc, we track by questions directly
+            # Prioritize explicitly passed number_of_qas, then dataset_config, then yaml info
             self.total_qa_count = number_of_qas or dataset_config.number_of_qas or dataset_info.get("number_of_qas", 0)
             self.logger.info(f"Tracking progress for {self.total_qa_count} questions")
-        
-        # Create progress bar
-        self.progress_bar = tqdm(total=self.total_qa_count, desc="Processing questions")
+            # Create progress bar for questions
+            self.progress_bar = tqdm(total=self.total_qa_count, desc="Processing questions")
     
     def update(self, count=1):
         """Update progress by the specified count.
