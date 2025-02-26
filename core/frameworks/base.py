@@ -142,7 +142,7 @@ class BaseRAGFramework(ABC):
                 # Retrieve relevant documents
                 with self.profiler.track("retrieval"):
                     retrieved_docs = self.retrieve(qa.q)
-                
+                    
                 # Generate answer
                 with self.profiler.track("generation"):
                     llm_answer = self.generate(qa.q, retrieved_docs)
@@ -154,9 +154,10 @@ class BaseRAGFramework(ABC):
                 )
                 metrics_list.append(metrics)
                 responses.append(llm_answer)
-
-                # Update progress for each question
-                self.progress_tracker.update(1)
+                
+                # For IntraDocumentQA, progress is updated per document in experiments/base.py
+                if self.dataset.qa_type != IntraDocumentQA:
+                    self.progress_tracker.update(1)
                 
             except Exception as e:
                 self.logger.error(f"Error during RAG execution for question '{qa.q}': {str(e)}")
