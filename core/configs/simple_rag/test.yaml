@@ -1,4 +1,3 @@
-
 # Experiment test
 TEST02_simple_rag_01:
   dataset: 
@@ -8,9 +7,9 @@ TEST02_simple_rag_01:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -23,9 +22,9 @@ TEST02_simple_rag_02:
     mode: fixed
     size: 100
     overlap: 0.2
-  model:
-    llm_id: llama3.1
     embedding_id: huggingface-multi-qa-mpnet
+  model:
+      llm_id: llama3.1
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -38,9 +37,9 @@ TEST02_simple_rag_03:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -53,9 +52,9 @@ TEST02_simple_rag_04:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -72,9 +71,9 @@ TEST_simple_rag_qasper:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 5
@@ -88,9 +87,9 @@ TEST_simple_rag_multihoprag:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 5
