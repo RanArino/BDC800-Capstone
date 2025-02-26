@@ -8,7 +8,7 @@ from .base import BaseRAGFramework
 from core.datasets import Document as SchemaDocument
 
 class SimpleRAG(BaseRAGFramework):
-    def __init__(self, config_name: str, config_path: str = "core/configs/simple_rag.yaml", is_save_vectorstore: bool = False):
+    def __init__(self, config_name: str, config_path: str = "core/configs/simple_rag/test.yaml", is_save_vectorstore: bool = False):
         super().__init__(config_name, config_path, is_save_vectorstore)
     
     def index_preprocessing(
