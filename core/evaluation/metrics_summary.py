@@ -78,15 +78,16 @@ def calculate_metrics_for_qa(
         metrics['retrieval'] = retrieval_metrics
     
     # Calculate generation metrics
-    generation_metrics = calculate_generation_metrics(
-        qa_id=qa.id,
-        question=query,
-        generated_text=generated_text,
-        reference_text=ground_truth_answer,
-        rouge_types=rouge_types,
-        rouge_metric_types=rouge_metric_types
-    )
-    metrics['generation'] = generation_metrics
+    if generated_text:
+        generation_metrics = calculate_generation_metrics(
+            qa_id=qa.id,
+            question=query,
+            generated_text=generated_text,
+            reference_text=ground_truth_answer,
+            rouge_types=rouge_types,
+            rouge_metric_types=rouge_metric_types
+        )
+        metrics['generation'] = generation_metrics
     
     # Return as a MetricsSummary object
     return MetricsSummary(**metrics)
