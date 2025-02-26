@@ -49,7 +49,7 @@ class SimpleRAG(BaseRAGFramework):
             
             # Use config's top_k if not specified
             if top_k is None:
-                top_k = self.retrieval_config.top_k
+                top_k = self.retrieval_generation_config.top_k
             
             self.logger.debug(f"Retrieving top {top_k} documents")
             results = self.vector_store.similarity_search(query, k=top_k)
