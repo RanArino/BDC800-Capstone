@@ -7,12 +7,11 @@ from collections import deque
 import gc
 import os
 from itertools import tee
-import pandas as pd
 
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
 import yaml
-from core.utils import Profiler
+from core.utils import Profiler, ProgressTracker
 # from core.utils.metrics import TimingMetrics
 
 from core.utils import get_project_root
@@ -25,8 +24,8 @@ from core.datasets import (
     InterDocumentQA, 
     Document as SchemaDocument
 )
-from core.evaluation.metrics_summary import calculate_metrics_for_qa, accumulate_and_summarize_metrics
-from core.evaluation.schema import MetricsSummaryStats
+from core.evaluation.metrics_summary import calculate_metrics_for_qa
+from core.evaluation.schema import MetricsSummary
 
 from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig, RAGResponse
 
@@ -34,20 +33,19 @@ logger = get_logger(__name__)
 
 
 class BaseRAGFramework(ABC):
-    def __init__(self, config_name: str, config_path: str):
+    def __init__(self, config_name: str, config_path: str, is_save_vectorstore: bool = False):
         self.logger = logger
         self.config_name = config_name
         self.config_path = config_path
+        self.is_save_vectorstore = is_save_vectorstore
 
         self.config: RAGConfig = self._load_config()
         self.vectorstore_path: str = self._define_vectorstore_path()
-        self.profiler = Profiler(reset_on_init=True) # Performance Profiler
-        # self.timing_metrics = TimingMetrics()  # Timing Metrics
+        self.profiler = Profiler(reset_on_init=True)
+        self.progress_tracker = ProgressTracker(self.logger)
 
         # Initialize variables that are defined in index() method
         self.dataset: BaseDataset = None
-        self.docs: Generator[SchemaDocument, None, None] = None   
-        self.qas: Generator[IntraDocumentQA | InterDocumentQA, None, None] = None
         self.vector_store: FAISS = None
 
         # Initialize LLMController
@@ -93,7 +91,21 @@ class BaseRAGFramework(ABC):
         # Load dataset
         self.dataset = get_dataset(self.dataset_config.name)
         self.dataset.load()
-        
+
+        # Check config
+        if not number_of_docs:
+            number_of_docs = self.dataset_config.number_of_docs
+        if not number_of_qas:
+            number_of_qas = self.dataset_config.number_of_qas
+
+        # Initialize progress tracker
+        self.progress_tracker.initialize(
+            dataset=self.dataset,
+            dataset_config=self.dataset_config,
+            number_of_docs=number_of_docs,
+            number_of_qas=number_of_qas
+        )
+
         # Call appropriate loader based on QA type
         if self.dataset.qa_type == IntraDocumentQA:
             if number_of_qas is not None and number_of_docs is None:
@@ -106,20 +118,17 @@ class BaseRAGFramework(ABC):
 
     def run(
         self, 
-        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]],
-        store_detailed_metrics: bool = False
-    ) -> Tuple[List[RAGResponse], MetricsSummaryStats, Optional[pd.DataFrame]]:
+        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]]
+    ) -> Tuple[List[RAGResponse], List[MetricsSummary]]:
         """Run the RAG pipeline on queries.
         
         Args:
             qas: A list, generator, or any iterable of QA pairs to process
-            store_detailed_metrics: Whether to store detailed metrics for each QA pair
             
         Returns:
             A tuple containing:
                 - List of RAGResponses corresponding to each input QA pair
-                - MetricsSummaryStats object with statistical summary of metrics
-                - DataFrame containing detailed metrics for each QA pair if store_detailed_metrics is True
+                - List of individual metrics dictionaries for each QA pair
             
         Profiling:
             - retrieval: time for overall retrieval process
@@ -145,19 +154,16 @@ class BaseRAGFramework(ABC):
                 )
                 metrics_list.append(metrics)
                 responses.append(llm_answer)
+
+                # Update progress for each question
+                self.progress_tracker.update(1)
                 
             except Exception as e:
                 self.logger.error(f"Error during RAG execution for question '{qa.q}': {str(e)}")
                 raise
         
-        # Return responses with metrics summary
-        metrics_summary, detailed_df = accumulate_and_summarize_metrics(
-            metrics_list=metrics_list,
-            profiler_metrics=self.profiler.get_metrics(),
-            return_detailed=store_detailed_metrics,
-        )
-        return responses, metrics_summary, detailed_df
-
+        return responses, metrics_list
+  
     def index(
         self, 
         docs: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]], 
@@ -208,14 +214,15 @@ class BaseRAGFramework(ABC):
                 self._process_chunk_batch(list(current_batch))
                 gc.collect()
             
-            # Ensure vectorstore directory exists
-            self.logger.debug(f"Creating directory: {os.path.dirname(self.vectorstore_path)}")
-            os.makedirs(os.path.dirname(self.vectorstore_path), exist_ok=True)
-            
-            # Save vector store
-            self.logger.debug(f"Saving vector store to {self.vectorstore_path}")
-            self.vector_store.save_local(self.vectorstore_path)
-            self.logger.info("Indexing completed successfully")
+            if self.is_save_vectorstore:
+                # Ensure vectorstore directory exists
+                self.logger.debug(f"Creating directory: {os.path.dirname(self.vectorstore_path)}")
+                os.makedirs(os.path.dirname(self.vectorstore_path), exist_ok=True)
+                
+                # Save vector store
+                self.logger.debug(f"Saving vector store to {self.vectorstore_path}")
+                self.vector_store.save_local(self.vectorstore_path)
+                self.logger.info("Indexing completed successfully")
 
         except Exception as e:
             self.logger.error(f"Error during indexing: {str(e)}")
@@ -296,22 +303,39 @@ class BaseRAGFramework(ABC):
         """
         pass
 
-    @abstractmethod
-    def generate(
-        self, 
-        query: str, 
-        retrieved_docs: List[LangChainDocument]
-    ) -> RAGResponse:
-        """Generate an answer to the query using the retrieved documents.
-        
-        Args:
-            query: The query to generate an answer for.
-            retrieved_docs: A list of documents that are relevant to the query.
+    def generate(self, query: str, retrieved_docs: List[LangChainDocument]) -> RAGResponse:
+        """Generate answer using LLM with retrieved langchain documents as context."""
+        try:
+            self.logger.debug("Starting answer generation")
             
-        Returns:
-            An answer to the query.
-        """
-        pass
+            # Extract content from retrieved documents
+            context = "\n\n".join([doc.page_content for doc in retrieved_docs])
+            self.logger.debug(f"Created context from {len(retrieved_docs)} documents")
+            
+            # Generate prompt
+            prompt = f"""Based on the following context, please answer the question.
+            
+Context:
+{context}
+
+Question: {query}
+
+Answer:"""
+            
+            # Generate answer using LLM
+            self.logger.debug("Generating answer using LLM")
+            llm_answer = self.llm.generate_text(prompt)
+            self.logger.info("Answer generated successfully")
+            
+            return RAGResponse(
+                query=query,
+                llm_answer=llm_answer,
+                context=retrieved_docs
+            )
+            
+        except Exception as e:
+            self.logger.error(f"Error during answer generation: {str(e)}")
+            raise
 
     def _load_config(self) -> RAGConfig:
         """Load the config for the given config name."""
@@ -335,12 +359,15 @@ class BaseRAGFramework(ABC):
         self.logger.debug("Generating vectorstore path")
         # base path
         base_path = get_project_root() / "core/vectorstore"
-        # Format: config_name-dataset-indextype-YYYYMMDD (i.e., simple_rag_01-qasper-flatl2-20250211)
+        # Format: config_name-dataset-indextype-YYYYMMDD (i.e., simple_rag_01-qasper-fixed100T(20%)-flatl2)
         # date_str = datetime.now().strftime("%Y%m%d")
         dataset_name = self.dataset_config.name
+        chunk_mode = self.chunker_config.mode
+        chunk_size = self.chunker_config.size
+        chunk_overlap = self.chunker_config.overlap * 100
         faiss_search = self.retrieval_config.faiss_search
         # Get dataset name
-        filename = f"{self.config_name}-{dataset_name}-{faiss_search}"
+        filename = f"{self.config_name}-{dataset_name}-{chunk_mode}{chunk_size}T({chunk_overlap}%)-{faiss_search}"
         full_path = f"{base_path}/{filename}"
         self.logger.info("Generated vectorstore path: %s", full_path)
         return full_path
@@ -378,8 +405,8 @@ class BaseRAGFramework(ABC):
         def group_qas_by_doc():
             for doc in docs_for_ids:
                 qas_for_doc = list(self.dataset.get_queries(doc_ids=[doc.id]))
-                if qas_for_doc:  # Only yield if there are QAs for this doc
-                    yield qas_for_doc
+                # Always yield the list of QAs, even if empty
+                yield qas_for_doc
         
         return gen_docs, group_qas_by_doc()
 

@@ -74,27 +74,27 @@ handlers:
 
 loggers:
   core.datasets:
-    level: INFO
+    level: WARNING
     handlers: [console, datasets_file]
     propagate: false
 
   core.frameworks:
-    level: DEBUG
+    level: WARNING
     handlers: [console, frameworks_file]
     propagate: false
 
   core.retrieval:
-    level: INFO
+    level: WARNING
     handlers: [console, retrieval_file]
     propagate: false
 
   core.generation:
-    level: DEBUG
+    level: WARNING
     handlers: [console, generation_file]
     propagate: false
 
   core.evaluation:
-    level: INFO
+    level: WARNING
     handlers: [console, evaluation_file]
     propagate: false
 

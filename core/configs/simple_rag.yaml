@@ -1,10 +1,11 @@
 
-# Simple RAG test
-simple_rag_qasper_test:
+# Experiment
+
+## Fixed Chunking vs Sentence Chunking
+TEST02_simple_rag_01:
   dataset: 
     name: qasper
-    number_of_docs: 1
-    selection_mode: sequential
+    number_of_docs: 30
   chunker:
     mode: fixed
     size: 100
@@ -14,12 +15,60 @@ simple_rag_qasper_test:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
-    top_k: 5
+    top_k: 10
 
-simple_rag_multihoprag_test:
+TEST02_simple_rag_02:
   dataset:
     name: multihoprag
-    number_of_qas: 10
+    number_of_qas: 50
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
+
+TEST02_simple_rag_03:
+  dataset:
+    name: narrativeqa
+    number_of_docs: 10
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
+
+TEST02_simple_rag_04:
+  dataset:
+    name: frames
+    number_of_qas: 50
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
+
+
+
+# Simple RAG test
+TEST_simple_rag_qasper:
+  dataset: 
+    name: qasper
+    number_of_docs: 3
     selection_mode: sequential
   chunker:
     mode: fixed
@@ -32,26 +81,10 @@ simple_rag_multihoprag_test:
     faiss_search: "flatl2"
     top_k: 5
 
-simple_rag_narrativeqa_test:
+TEST_simple_rag_multihoprag:
   dataset:
-    name: narrativeqa
-    number_of_qas: 1
-    selection_mode: sequential    
-  chunker:
-    mode: fixed
-    size: 100
-    overlap: 0.2
-  model:
-    llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
-  retrieval:
-    faiss_search: "flatl2"
-    top_k: 5
-
-simple_rag_frames_test:
-  dataset:
-    name: frames
-    number_of_docs: 1
+    name: multihoprag
+    number_of_qas: 15
     selection_mode: sequential
   chunker:
     mode: fixed

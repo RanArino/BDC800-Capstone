@@ -5,12 +5,11 @@ from typing import List, Optional, Union, Generator, Iterable
 from langchain_core.documents import Document as LangChainDocument
 
 from .base import BaseRAGFramework
-from .schema import RAGResponse
 from core.datasets import Document as SchemaDocument
 
 class SimpleRAG(BaseRAGFramework):
-    def __init__(self, config_name: str):
-        super().__init__(config_name, config_path = "core/configs/simple_rag.yaml")
+    def __init__(self, config_name: str, config_path: str = "core/configs/simple_rag.yaml", is_save_vectorstore: bool = False):
+        super().__init__(config_name, config_path, is_save_vectorstore)
     
     def index_preprocessing(
             self, 
@@ -61,41 +60,3 @@ class SimpleRAG(BaseRAGFramework):
         except Exception as e:
             self.logger.error(f"Error during retrieval: {str(e)}")
             raise
-
-    def generate(self, query: str, retrieved_docs: List[LangChainDocument]) -> RAGResponse:
-        """Generate answer using LLM with retrieved langchain documents as context."""
-        try:
-            self.logger.debug("Starting answer generation")
-            
-            # Extract content from retrieved documents
-            context = "\n\n".join([doc.page_content for doc in retrieved_docs])
-            self.logger.debug(f"Created context from {len(retrieved_docs)} documents")
-            
-            # Generate prompt
-            prompt = f"""Based on the following context, please answer the question.
-            
-Context:
-{context}
-
-Question: {query}
-
-Answer:"""
-            
-            # Generate answer using LLM
-            self.logger.debug("Generating answer using LLM")
-            llm_answer = self.llm.generate_text(prompt)
-            self.logger.info("Answer generated successfully")
-            
-            return RAGResponse(
-                query=query,
-                llm_answer=llm_answer,
-                context=retrieved_docs
-            )
-            
-        except Exception as e:
-            self.logger.error(f"Error during answer generation: {str(e)}")
-            raise
-    
-    def evaluate(self, dataset):
-        # To be implemented later
-        pass

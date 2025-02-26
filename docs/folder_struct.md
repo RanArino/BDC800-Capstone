@@ -92,6 +92,16 @@ This document outlines the organization of our RAG framework codebase.
 │   └── output_data/          # Evaluation output data
 │       └── ...
 │
+├── experiments/     # Experiment execution and results storage
+│   ├── __init__.py
+│   ├── base.py               # Core experiment runner implementation
+│   ├── detailed_dfs/         # Detailed metrics dataframes storage
+│   │   └── *.csv             # CSV files with detailed metrics
+│   ├── metrics/              # Experiment metrics summaries
+│   │   └── *.json            # JSON files with metrics summaries
+│   └── responses/            # RAG response storage
+│       └── *.json            # JSON files with RAG responses
+│
 └── logger/          # Logging system
     ├── __init__.py
     ├── logger.py     # Main logging implementation
@@ -178,6 +188,13 @@ Framework-agnostic dataset management:
   - `llm_controller.py`: LLM controller test
   - `input_data/`: Test input data files
   - `output_data/`: Test output and metrics files
+
+### Experiments Module (experiments/)
+Experiment execution and results storage:
+- `base.py`: Core experiment runner implementation with memory-efficient metrics calculation
+- `detailed_dfs/`: Storage for detailed metrics dataframes in CSV format
+- `metrics/`: Storage for experiment metrics summaries in JSON format
+- `responses/`: Storage for RAG responses in JSON format
 
 ## Key Files
 - `constants.py`: Global constants used across operations
