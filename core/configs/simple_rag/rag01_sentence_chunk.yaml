@@ -1,0 +1,68 @@
+# core/configs/rag_sentence_chunk.yaml
+
+""" 
+Compare the performance of sentence chunking for RAG.
+- whether the sentence chunking is better than the fixed chunking
+
+Tested for both IntraDocumentQA (Qasper) and InterDocumentQA (Frames).
+"""
+
+# IntraDocumentQA & Fixed Chunking
+simple_rag_01_01:
+  dataset: 
+    name: qasper
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
+
+# IntraDocumentQA & Sentence Chunking
+simple_rag_01_02:
+  dataset:
+    name: qasper
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
+
+# InterDocumentQA & Fixed Chunking
+simple_rag_01_03:
+  dataset:
+    name: frames
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
+
+# InterDocumentQA & Sentence Chunking
+simple_rag_01_04:
+  dataset:
+    name: frames
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+  model:
+    llm_id: llama3.1
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval:
+    faiss_search: "flatl2"
+    top_k: 10
