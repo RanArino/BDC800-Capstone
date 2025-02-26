@@ -118,12 +118,14 @@ class BaseRAGFramework(ABC):
 
     def run(
         self, 
-        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]]
+        qas: Union[List[IntraDocumentQA|InterDocumentQA], Generator[IntraDocumentQA|InterDocumentQA, None, None], Iterable[IntraDocumentQA|InterDocumentQA]],
+        llm_generation: bool = True
     ) -> Tuple[List[RAGResponse], List[MetricsSummary]]:
         """Run the RAG pipeline on queries.
         
         Args:
             qas: A list, generator, or any iterable of QA pairs to process
+            llm_generation: Whether to generate the answer using the LLM
             
         Returns:
             A tuple containing:
@@ -142,21 +144,29 @@ class BaseRAGFramework(ABC):
                 # Retrieve relevant documents
                 with self.profiler.track("retrieval"):
                     retrieved_docs = self.retrieve(qa.q)
-                
+                    
                 # Generate answer
-                with self.profiler.track("generation"):
-                    llm_answer = self.generate(qa.q, retrieved_docs)
+                if llm_generation:
+                    with self.profiler.track("generation"):
+                        response = self.generate(qa.q, retrieved_docs)
+                else:
+                    response = RAGResponse(
+                        query=qa.q,
+                        llm_answer="",
+                        context=retrieved_docs
+                    )
 
                 # Calculate metrics
                 metrics = calculate_metrics_for_qa(
                     qa=qa,
-                    response=llm_answer
+                    response=response
                 )
                 metrics_list.append(metrics)
-                responses.append(llm_answer)
-
-                # Update progress for each question
-                self.progress_tracker.update(1)
+                responses.append(response)
+                
+                # For IntraDocumentQA, progress is updated per document in experiments/base.py
+                if self.dataset.qa_type != IntraDocumentQA:
+                    self.progress_tracker.update(1)
                 
             except Exception as e:
                 self.logger.error(f"Error during RAG execution for question '{qa.q}': {str(e)}")
@@ -198,7 +208,7 @@ class BaseRAGFramework(ABC):
                 gen_chunks = self.index_preprocessing(gen_docs)
             
             # Process chunks in batches while maintaining generator pattern
-            BATCH_SIZE = 5
+            BATCH_SIZE = 64
             current_batch = deque(maxlen=BATCH_SIZE)
             
             for chunk in gen_chunks:

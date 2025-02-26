@@ -54,7 +54,7 @@ class RAGConfig(BaseModel):
 class RAGResponse(BaseModel):
     """Schema for the RAG pipeline response."""
     query: str = Field(..., description="The original query string")
-    llm_answer: str = Field(..., description="The generated answer from the LLM")
+    llm_answer: Optional[str] = Field(None, description="The generated answer from the LLM")
     context: List[Document] = Field(..., description="The retrieved documents used as context")
 
     class Config:

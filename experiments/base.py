@@ -30,14 +30,21 @@ def run_experiment(
         store_responses: bool = True,
         store_metrics: bool = True,
         store_detailed_df: bool = True,
+        llm_generation: bool = True
     ):
     """
     Run RAG test for a specific dataset type with memory-efficient metrics calculation.
     """
     try:
         # Initialize RAG
-        logger.info(f"Initializing SimpleRAG for {config_name}")
-        rag = SimpleRAG(config_name, config_path)
+        
+        if Path(config_path).parent.name == "simple_rag":
+            logger.info(f"Initializing SimpleRAG for {config_name}")
+            rag = SimpleRAG(config_name, config_path)
+        elif Path(config_path).parent.name == "scaler_rag":
+            pass
+        else:
+            raise ValueError(f"Invalid config path: {config_path}. Must be in the simple_rag directory.")
 
         # Load dataset
         gen_docs, gen_qas = rag.load_dataset()
@@ -50,14 +57,17 @@ def run_experiment(
             all_metrics: List[MetricsSummary] = []
             
             for doc, qas in zip(gen_docs, gen_qas):
-                if qas is []:
+                if qas == []:
                     continue
                 
                 rag.index(doc)
-                response_list, metrics_list = rag.run(qas)
+                response_list, metrics_list = rag.run(qas, llm_generation)
 
                 all_responses.extend(response_list)
                 all_metrics.extend(metrics_list)
+
+                # Update progress for each document
+                rag.progress_tracker.update(1)
 
                 # Force garbage collection after each document
                 gc.collect()
@@ -69,7 +79,7 @@ def run_experiment(
             logger.info("Indexing completed")
 
             # Test retrieval and generation
-            all_responses, all_metrics = rag.run(gen_qas) 
+            all_responses, all_metrics = rag.run(gen_qas, llm_generation) 
             logger.info("RAG test completed")
 
             # Force garbage collection after each document
@@ -124,10 +134,10 @@ if __name__ == "__main__":
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
         # define config_path and config_name
-        config_path = "core/configs/simple_rag.yaml"
+        config_path = "core/configs/simple_rag/test.yaml"
         config_name = ["TEST02_simple_rag_01", "TEST02_simple_rag_02", "TEST02_simple_rag_03", "TEST02_simple_rag_04"]
         # run the experiment
         for config in config_name:
             print(f"\n===== Starting {config} test =====")
-            run_experiment(config_path, config)
+            run_experiment(config_path, config, llm_generation=False)
             print(f"\n===== {config} test completed =====")

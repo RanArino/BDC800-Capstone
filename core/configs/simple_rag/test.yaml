@@ -1,7 +1,5 @@
 
-# Experiment
-
-## Fixed Chunking vs Sentence Chunking
+# Experiment test
 TEST02_simple_rag_01:
   dataset: 
     name: qasper

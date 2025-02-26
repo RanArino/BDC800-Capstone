@@ -110,19 +110,25 @@ class Profiler:
                 tracemalloc.start()
             tracemalloc_snapshot = tracemalloc.take_snapshot()
         
-        # Update timer data
+        # Get existing timer data to preserve accumulated values
+        existing_timer = self._get_timer_dict(key)
+        
+        # Create timer data with preserved accumulated totals
         timer_data = {
             "start": start_time,
             "start_memory": start_memory,
-            "peak_memory": start_memory,  # Initialize peak memory
+            "peak_memory": start_memory,
             "system_memory_start": system_memory_start,
-            "count": self._get_timer_dict(key).get("count", 0) + 1,
-            "memory_samples": []  # Store memory samples for analysis
+            "count": existing_timer.get("count", 0) + 1,
+            "memory_samples": [],
+            # Preserve existing accumulated totals
+            "total": existing_timer.get("total", 0),
+            "total_memory": existing_timer.get("total_memory", 0)
         }
         
         if tracemalloc_snapshot:
             timer_data["tracemalloc_start"] = tracemalloc_snapshot
-            
+        
         # Thread-safe update of timer data
         keys = key.split(".")
         current_level = self.timings
@@ -290,8 +296,9 @@ class Profiler:
                 
                 if isinstance(v, dict):
                     if "start" in v and "end" in v:
+                        # This is a timer entry
                         metric_data = {
-                            "duration": v["total"],
+                            "duration": v.get("total", 0),  # Use the accumulated total
                         }
                         
                         # Add memory metrics
@@ -306,9 +313,10 @@ class Profiler:
                             memory_data["tracemalloc_mb"] = v["tracemalloc_diff"]
                             
                         if include_counts:
-                            metric_data["count"] = v["count"]
-                            metric_data["avg_duration"] = v["total"] / v["count"]
-                            memory_data["avg_mb"] = v.get("total_memory", 0) / v["count"]
+                            count = v.get("count", 1)
+                            metric_data["count"] = count
+                            metric_data["avg_duration"] = metric_data["duration"] / count
+                            memory_data["avg_mb"] = memory_data["total_mb"] / count
                             
                         if include_samples and "memory_samples" in v:
                             memory_data["samples"] = v["memory_samples"]
@@ -397,8 +405,8 @@ class Profiler:
                 timer_dict["tracemalloc_diff"] = tracemalloc_diff
             
             # Update accumulated metrics
-            timer_dict["total"] = timer_dict.get("total", 0) + elapsed
-            timer_dict["total_memory"] = timer_dict.get("total_memory", 0) + adjusted_memory_overhead
+            previous_total = timer_dict.get("total", 0)
+            timer_dict["total"] = previous_total + elapsed
             
             # Prepare return metrics
             metrics = {
