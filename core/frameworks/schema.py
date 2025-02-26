@@ -27,16 +27,13 @@ class ChunkerConfig(BaseModel):
         ge=0.0,
         le=1.0
     )
+    embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the Embedding Model to use")
 
 class ModelConfig(BaseModel):
     """Configuration for the model components."""
     llm_id: AVAILABLE_LLM_ID = Field(
         ..., 
         description="ID of the Language Model to use"
-    )
-    embedding_id: AVAILABLE_EMBEDDING_ID = Field(
-        ..., 
-        description="ID of the Embedding Model to use"
     )
 
 class RetrievalConfig(BaseModel):
