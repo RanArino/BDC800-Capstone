@@ -29,24 +29,17 @@ class ChunkerConfig(BaseModel):
     )
     embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the Embedding Model to use")
 
-class ModelConfig(BaseModel):
-    """Configuration for the model components."""
-    llm_id: AVAILABLE_LLM_ID = Field(
-        ..., 
-        description="ID of the Language Model to use"
-    )
-
-class RetrievalConfig(BaseModel):
+class RetrievalGenerationConfig(BaseModel):
     """Configuration for the retrieval component."""
     faiss_search: AVAILABLE_FAISS_SEARCH = Field(..., description="FAISS index type for vector search")
     top_k: PositiveInt = Field(..., description="Number of top documents to retrieve")
+    llm_id: Optional[AVAILABLE_LLM_ID] = Field(..., description="ID of the Language Model to use")
 
 class RAGConfig(BaseModel):
     """Main configuration for the RAG system."""
     dataset: DatasetConfig = Field(..., description="Dataset configuration")
     chunker: ChunkerConfig = Field(..., description="Text chunking configuration")
-    model: ModelConfig = Field(..., description="Model configuration")
-    retrieval: RetrievalConfig = Field(..., description="Retrieval configuration")
+    retrieval: RetrievalGenerationConfig = Field(..., description="Retrieval configuration")
 
 class RAGResponse(BaseModel):
     """Schema for the RAG pipeline response."""
