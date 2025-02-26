@@ -49,11 +49,10 @@ class BaseRAGFramework(ABC):
         self.vector_store: FAISS = None
 
         # Initialize LLMController
-        self.logger.info("Initializing LLMController with models: %s (LLM), %s (Embedding)", 
-                        self.model_config.llm_id, self.model_config.embedding_id)
+        self.logger.info("Initializing LLMController with models: %s (LLM)", self.model_config.llm_id)
         self.llm = LLMController(
             llm_id=self.model_config.llm_id, 
-            embedding_id=self.model_config.embedding_id
+            embedding_id=self.chunker_config.embedding_id
         )
 
         # Initialize Chunker based on config
