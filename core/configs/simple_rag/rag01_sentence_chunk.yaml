@@ -16,12 +16,10 @@ simple_rag_01_01:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
-
+    llm_id: llama3.1
 # IntraDocumentQA & Sentence Chunking
 simple_rag_01_02:
   dataset:
@@ -31,11 +29,10 @@ simple_rag_01_02:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 # InterDocumentQA & Fixed Chunking
 simple_rag_01_03:
@@ -46,11 +43,10 @@ simple_rag_01_03:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 # InterDocumentQA & Sentence Chunking
 simple_rag_01_04:
@@ -61,8 +57,7 @@ simple_rag_01_04:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1

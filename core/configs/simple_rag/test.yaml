@@ -8,11 +8,10 @@ TEST02_simple_rag_01:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 TEST02_simple_rag_02:
   dataset:
@@ -23,11 +22,10 @@ TEST02_simple_rag_02:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-      llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 TEST02_simple_rag_03:
   dataset:
@@ -38,11 +36,10 @@ TEST02_simple_rag_03:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 TEST02_simple_rag_04:
   dataset:
@@ -53,11 +50,10 @@ TEST02_simple_rag_04:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
+    llm_id: llama3.1
 
 
 
@@ -72,11 +68,10 @@ TEST_simple_rag_qasper:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 5
+    llm_id: llama3.1
 
 TEST_simple_rag_multihoprag:
   dataset:
@@ -88,8 +83,7 @@ TEST_simple_rag_multihoprag:
     size: 100
     overlap: 0.2
     embedding_id: huggingface-multi-qa-mpnet
-  model:
-    llm_id: llama3.1
-  retrieval:
+  retrieval_generation:
     faiss_search: "flatl2"
     top_k: 5
+    llm_id: llama3.1

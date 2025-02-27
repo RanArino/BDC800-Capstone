@@ -27,7 +27,7 @@ from core.datasets import (
 from core.evaluation.metrics_summary import calculate_metrics_for_qa
 from core.evaluation.schema import MetricsSummary
 
-from .schema import RAGConfig, DatasetConfig, ChunkerConfig, ModelConfig, RetrievalConfig, RAGResponse
+from .schema import RAGConfig, DatasetConfig, ChunkerConfig, RetrievalGenerationConfig, RAGResponse
 
 logger = get_logger(__name__)
 
@@ -49,9 +49,9 @@ class BaseRAGFramework(ABC):
         self.vector_store: FAISS = None
 
         # Initialize LLMController
-        self.logger.info("Initializing LLMController with models: %s (LLM)", self.model_config.llm_id)
+        self.logger.info("Initializing LLMController with models: %s (LLM)", self.retrieval_generation_config.llm_id)
         self.llm = LLMController(
-            llm_id=self.model_config.llm_id, 
+            llm_id=self.retrieval_generation_config.llm_id, 
             embedding_id=self.chunker_config.embedding_id
         )
 
@@ -374,7 +374,7 @@ Answer:"""
         chunk_mode = self.chunker_config.mode
         chunk_size = self.chunker_config.size
         chunk_overlap = self.chunker_config.overlap * 100
-        faiss_search = self.retrieval_config.faiss_search
+        faiss_search = self.retrieval_generation_config.faiss_search
         # Get dataset name
         filename = f"{self.config_name}-{dataset_name}-{chunk_mode}{chunk_size}T({chunk_overlap}%)-{faiss_search}"
         full_path = f"{base_path}/{filename}"
@@ -454,9 +454,5 @@ Answer:"""
         return self.config.chunker
     
     @property
-    def model_config(self) -> ModelConfig:
-        return self.config.model
-    
-    @property
-    def retrieval_config(self) -> RetrievalConfig:
-        return self.config.retrieval
+    def retrieval_generation_config(self) -> RetrievalGenerationConfig:
+        return self.config.retrieval_generation
