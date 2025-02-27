@@ -34,7 +34,9 @@ class ChunkerConfig(BaseModel):
         le=1.0
     )
     embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the Embedding Model to use")
-
+    dim_reduction: Optional[Literal["pca", "umap"]] = Field(None, description="Dimension reduction method to use")
+    clustering: Optional[Literal["kmeans", "gmm"]] = Field(None, description="Clustering method to use")
+    
 class RetrievalGenerationConfig(BaseModel):
     """Configuration for the retrieval component."""
     faiss_search: AVAILABLE_FAISS_SEARCH = Field(..., description="FAISS index type for vector search")
