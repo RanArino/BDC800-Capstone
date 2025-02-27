@@ -15,9 +15,9 @@ simple_rag_01_01:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -30,9 +30,9 @@ simple_rag_01_02:
     mode: sentence
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -45,9 +45,9 @@ simple_rag_01_03:
     mode: fixed
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
@@ -60,9 +60,9 @@ simple_rag_01_04:
     mode: sentence
     size: 100
     overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
   model:
     llm_id: llama3.1
-    embedding_id: huggingface-multi-qa-mpnet
   retrieval:
     faiss_search: "flatl2"
     top_k: 10
