@@ -17,6 +17,8 @@ This document outlines the organization of our RAG framework codebase.
 │   │   ├── indexing/        # Document processing
 │   │   │   ├── __init__.py
 │   │   │   ├── chunker.py       # Uses langchain
+│   │   │   ├── clustering.py    # clustering functions
+│   │   │   ├── dim_reduction.py # dimentional reduction functions
 │   │   │   └── summarizer.py    # Uses rag_core.llm
 │   │   │
 │   │   ├── llm/            # LLM and embedding models management
@@ -29,14 +31,6 @@ This document outlines the organization of our RAG framework codebase.
 │   │   │   ├── search.py        # FAISS operations
 │   │   │   └── expander.py      # Optional query expansion, uses \
 │   │   │
-│   │   ├── clustering/      # Clustering operations
-│   │   │   ├── __init__.py
-│   │   │   ├── kmeans.py
-│   │   │   ├── gmm.py
-│   │   │   └── reduction/
-│   │   │       ├── __init__.py
-│   │   │       ├── pca.py
-│   │   │       └── umap.py
 │   │   │
 │   │   └── __init__.py
 │   │
