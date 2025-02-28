@@ -4,6 +4,7 @@ from .indexing.chunker import Chunker
 from .indexing.dim_reduction import run_dim_reduction, reduce_query_embedding
 from .indexing.clustering import run_clustering
 from .llm.controller import LLMController
+from .llm.summarizer import run_doc_summary
 
 __all__ = [
     "Chunker",
