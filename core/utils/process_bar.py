@@ -1,10 +1,14 @@
 # core/utils/process_bar.py
 
 import os
+from typing import TYPE_CHECKING
 from tqdm import tqdm
-from core.datasets import IntraDocumentQA
 from core.utils import get_project_root
 import logging
+
+if TYPE_CHECKING:
+    from core.datasets import IntraDocumentQA
+
 
 class ProgressTracker:
     """Progress tracking utility for RAG frameworks."""
@@ -35,7 +39,7 @@ class ProgressTracker:
         # Get dataset info from YAML config if available
         dataset_info = self._get_dataset_info_from_yaml(dataset_config.name)
         
-        if dataset.qa_type == IntraDocumentQA:
+        if dataset.qa_type == "IntraDocumentQA":
             # For IntraDoc, we track by documents
             # Prioritize explicitly passed number_of_docs, then dataset_config, then yaml info
             doc_count = number_of_docs or dataset_config.number_of_docs or dataset_info.get("number_of_docs", 0)
