@@ -5,10 +5,12 @@ from pydantic import BaseModel, Field, PositiveInt
 
 from langchain_core.documents import Document
 
-# Available Models
+# Available Models & Algorithms
 AVAILABLE_LLM_ID = Literal["llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14b"]
 AVAILABLE_EMBEDDING_ID = Literal["huggingface-multi-qa-mpnet", "google-gecko"]
 AVAILABLE_FAISS_SEARCH = Literal["flatl2", "ivf", "hnsw"]
+AVAILABLE_DIM_REDUCTION = Literal["pca", "umap"]
+AVAILABLE_CLUSTERING = Literal["k-means", "gmm"]
 
 # Available Layers
 AVAILABLE_LAYERS = Literal["doc_cc", "doc", "chunk_cc", "chunk"]
@@ -35,6 +37,9 @@ class ChunkerConfig(BaseModel):
         le=1.0
     )
     embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the Embedding Model to use")
+    dim_reduction: Optional[AVAILABLE_DIM_REDUCTION] = Field(None, description="Method for dimensionality reduction (e.g., PCA, UMAP)")
+    clustering: Optional[AVAILABLE_CLUSTERING] = Field(None, description="Clustering method to use (e.g., k-means, GMM)")
+
 
 class RetrievalGenerationConfig(BaseModel):
     """Configuration for the retrieval component."""
