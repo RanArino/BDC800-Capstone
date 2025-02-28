@@ -58,6 +58,7 @@ def run_experiment(
             
             for doc, qas in zip(gen_docs, gen_qas):
                 if qas == []:
+                    rag.progress_tracker.update(1)
                     continue
                 
                 # Indexing
@@ -138,9 +139,9 @@ if __name__ == "__main__":
         warnings.filterwarnings("ignore")
         # define config_path and config_name
         config_path = "core/configs/simple_rag/test.yaml"
-        config_name = ["TEST02_simple_rag_01", "TEST02_simple_rag_02", "TEST02_simple_rag_03", "TEST02_simple_rag_04"]
+        config_name = ["TEST02_simple_rag_01"]
         # run the experiment
         for config in config_name:
             print(f"\n===== Starting {config} test =====")
-            run_experiment(config_path, config, llm_generation=False)
+            run_experiment(config_path, config, llm_generation=True)
             print(f"\n===== {config} test completed =====")
