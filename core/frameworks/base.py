@@ -1,20 +1,14 @@
 # core/frameworks/base.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Generator, Tuple, Union, Iterable, Dict, Any
-from datetime import datetime
-from collections import deque
-import gc
-import os
+from typing import List, Optional, Generator, Tuple, Union, Iterable
 from itertools import tee
+import yaml
 
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document as LangChainDocument
-import yaml
-from core.utils import Profiler, ProgressTracker
-# from core.utils.metrics import TimingMetrics
 
-from core.utils import get_project_root
+from core.utils import Profiler, ProgressTracker, get_project_root
 from core.rag_core import LLMController, Chunker
 from core.logger.logger import get_logger
 from core.datasets import (
@@ -173,125 +167,15 @@ class BaseRAGFramework(ABC):
         
         return responses, metrics_list
   
+    @abstractmethod
     def index(
         self, 
-        docs: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]], 
-        is_update: bool = False
+        docs: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]],
     ):
-        """Index the documents using FAISS index
+        """Index documents in the vector store.
         
         Args:
-            docs: A single document, a generator of documents, or an iterable of documents to index
-            is_update: Whether to update the existing index
-
-        Profiling:
-            - index.preprocessing: time for chunking and its depending operations
-            - index.vectorstore: time for embedding and creating vector store
-        """
-        gen_docs = self._ensure_document_generator(docs)
-        
-        # Index documents
-        try:
-            self.logger.debug("Starting document indexing")
-            
-            # Load index if exists
-            if os.path.exists(self.vectorstore_path) and not is_update:
-                self._load_index(self.vectorstore_path)
-                return
-            
-            # Execute chunking
-            self.logger.debug("Splitting documents into chunks")
-
-            # Preprocessing
-            with self.profiler.track("index.preprocessing"):
-                gen_chunks = self.index_preprocessing(gen_docs)
-            
-            # Process chunks in batches while maintaining generator pattern
-            BATCH_SIZE = 64
-            current_batch = deque(maxlen=BATCH_SIZE)
-            
-            for chunk in gen_chunks:
-                current_batch.append(chunk)
-                
-                if len(current_batch) >= BATCH_SIZE:
-                    self._process_chunk_batch(list(current_batch))
-                    current_batch.clear()  # Clear the deque
-                    gc.collect()  # Force garbage collection after each batch
-            
-            # Process any remaining chunks
-            if current_batch:
-                self._process_chunk_batch(list(current_batch))
-                gc.collect()
-            
-            if self.is_save_vectorstore:
-                # Ensure vectorstore directory exists
-                self.logger.debug(f"Creating directory: {os.path.dirname(self.vectorstore_path)}")
-                os.makedirs(os.path.dirname(self.vectorstore_path), exist_ok=True)
-                
-                # Save vector store
-                self.logger.debug(f"Saving vector store to {self.vectorstore_path}")
-                self.vector_store.save_local(self.vectorstore_path)
-                self.logger.info("Indexing completed successfully")
-
-        except Exception as e:
-            self.logger.error(f"Error during indexing: {str(e)}")
-            raise
-
-    def _process_chunk_batch(self, batch_chunks: List[LangChainDocument]):
-        """Process a batch of chunks and add them to the vector store.
-        
-        Args:
-            batch_chunks: List of chunks to process in this batch
-        """
-        self.logger.debug(f"Processing batch of {len(batch_chunks)} chunks")
-        
-        if not hasattr(self, 'vector_store') or self.vector_store is None:
-            # Initialize vector store with first batch
-            with self.profiler.track("index.vectorstore"):
-                self.vector_store = FAISS.from_texts(
-                    texts=[chunk.page_content for chunk in batch_chunks],
-                    embedding=self.llm.get_embedding,
-                    metadatas=[chunk.metadata for chunk in batch_chunks]
-                )
-        else:
-            # Add subsequent batches
-            with self.profiler.track("index.vectorstore"):
-                self.vector_store.add_texts(
-                    texts=[chunk.page_content for chunk in batch_chunks],
-                    metadatas=[chunk.metadata for chunk in batch_chunks]
-                )
-
-    def _ensure_document_generator(
-        self, 
-        documents: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]
-    ) -> Generator[SchemaDocument, None, None]:
-        """Convert a single document or generator into a generator.
-        
-        Args:
-            documents: A single document, a generator of documents, or an iterable of documents
-            
-        Returns:
-            A generator of documents
-        """
-        if isinstance(documents, SchemaDocument):
-            yield documents
-        elif isinstance(documents, Generator):
-            yield from documents
-        else:
-            yield from documents
-
-    @abstractmethod
-    def index_preprocessing(
-        self, 
-        documents: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]
-    ) -> Generator[LangChainDocument, None, None]:
-        """Preprocess the documents before indexing.
-        
-        Args:
-            documents: A single document, a generator of documents, or an iterable of documents to preprocess.
-            
-        Returns:
-            A generator of preprocessed documents.
+            docs: Document(s) to be indexed. Can be a single document, a generator, or any iterable of documents.
         """
         pass
 
