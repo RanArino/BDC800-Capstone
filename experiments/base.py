@@ -60,7 +60,10 @@ def run_experiment(
                 if qas == []:
                     continue
                 
-                rag.index(doc)
+                # Indexing
+                with rag.profiler.track("indexing"):
+                    rag.index(doc)
+                # Retrieval & Generation
                 response_list, metrics_list = rag.run(qas, llm_generation)
 
                 all_responses.extend(response_list)
