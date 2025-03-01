@@ -17,7 +17,7 @@ from core.datasets import Document as SchemaDocument
 from core.frameworks.base import BaseRAGFramework
 from core.frameworks.schema import RAGConfig, RAGResponse, AVAILABLE_LAYERS, PARENT_NODE_ID, HierarchicalFilterOption
 
-from core.rag_core import run_doc_summary, run_dim_reduction, run_clustering
+from core.rag_core import run_doc_summary, run_dim_reduction, run_clustering, reduce_query_embedding
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,12 @@ class ScalerRAG(BaseRAGFramework):
             "chunk": {},
             "doc_cc": {},
             "chunk_cc": {}
+        }
+        
+        # Store dimensional reduction models
+        self.dim_reduction_models = {
+            "doc": None,
+            "chunk": {},
         }
 
     def index(
@@ -143,15 +149,20 @@ class ScalerRAG(BaseRAGFramework):
         dim_method = self.config.chunker.dim_reduction
         if dim_method:
             # TODO: Consider adding number of components in ChunkerConfig
-            embeddings = run_dim_reduction(embeddings, dim_method, n_components=50)
-        
-        # Conduct clustering
-        n_clusters = getattr(self.config.chunker.clustering, 'n_clusters', None)
-        _, centroids, clusters_to_indices = run_clustering(
-            embeddings,
-            method=cluster_method,
-            n_clusters=n_clusters,
-        )
+            embeddings, dim_model = run_dim_reduction(embeddings, dim_method, n_components=50)
+            
+            # Store the dimensional reduction model for later use with queries
+            if layer == "doc":
+                self.dim_reduction_models["doc"] = dim_model
+            elif layer == "chunk" and parent_node_id:
+                self.dim_reduction_models["chunk"][parent_node_id] = dim_model
+            
+            # Use reduced embeddings for clustering
+            _, centroids, clusters_to_indices = run_clustering(
+                embeddings,
+                method=cluster_method,
+                n_clusters=getattr(self.config.chunker.clustering, 'n_clusters', None),
+            )
 
         # Initialize dictionaries if they don't exist
         if layer == "doc":
