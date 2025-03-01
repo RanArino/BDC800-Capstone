@@ -168,36 +168,36 @@ class ScalerRAG(BaseRAGFramework):
         if layer == "doc":
             # Store cluster centroids for document layer
             self.layered_vector_stores["doc_cc"] = FAISS.from_embeddings(
-                [(f"doc_cc-{label}", vector) for label, vector in centroids.items()],
-                self.llm.get_embedding
+                text_embeddings=[(f"doc_cc-{label}", vector) for label, vector in centroids.items()],
+                embedding=self.llm.get_embedding
             )
         elif layer == "chunk" and parent_node_id:
             # Store cluster centroids for chunk layer
             self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
-                [(f"chunk_cc-{label}", vector) for label, vector in centroids.items()],
-                self.llm.get_embedding
+                text_embeddings=[(f"chunk_cc-{label}", vector) for label, vector in centroids.items()],
+                embedding=self.llm.get_embedding
             )
         else:
             raise ValueError(f"Invalid layer: {layer}")
 
-        # Store the embeddings and chunks or summaries
+        # Store the embeddings and chunks or summaries per cluster
         for cluster, embed_indices in clusters_to_indices.items():
             texts_and_embeddings = []
             metadatas = []
+            parent_node_id = parent_node_id + f"-{str(cluster)}" if parent_node_id else str(cluster)
             
+            # Extract the embeddings and texts which are associated with the current cluster
             for idx in embed_indices:
                 if layer == "doc":
-                    parent_node_id = str(cluster)  # Use cluster as parent_node_id for doc layer
                     texts_and_embeddings.append((doc_summary[idx], embeddings[idx]))
                     metadatas.append({"layer": layer, "cluster": cluster})
                 elif layer == "chunk":
-                    parent_node_id = f"{parent_node_id}-{cluster}"  # Combine parent_node_id and cluster
                     texts_and_embeddings.append((chunks[idx].page_content, embeddings[idx]))
                     metadatas.append({"layer": layer, "cluster": cluster, **chunks[idx].metadata})
 
             # Store in the appropriate layer
             self.layered_vector_stores[layer][parent_node_id] = FAISS.from_embeddings(
-                texts_and_embeddings=texts_and_embeddings,
+                text_embeddings=texts_and_embeddings,
                 metadatas=metadatas,
                 embedding=self.llm.get_embedding
             )
