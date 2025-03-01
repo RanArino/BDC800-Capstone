@@ -131,7 +131,7 @@ class ScalerRAG(BaseRAGFramework):
     def _layered_vector_store(
             self, 
             layer: Literal["doc", "chunk"], 
-            embedings: List[List[float]],
+            embeddings: List[List[float]],
             doc_summary: Optional[List[str]] = None,
             chunks: Optional[List[LangChainDocument]] = None,
             parent_node_id: Optional[PARENT_NODE_ID] = None
@@ -144,12 +144,12 @@ class ScalerRAG(BaseRAGFramework):
         dim_method = self.config.chunker.dim_reduction
         if dim_method:
             # TODO: Consider adding number of components in ChunkerConfig
-            embedings = run_dim_reduction(embedings, dim_method, n_components=50)
+            embeddings = run_dim_reduction(embeddings, dim_method, n_components=50)
         
         # Conduct clustering
         n_clusters = getattr(self.config.chunker.clustering, 'n_clusters', None)
         _, centroids, clusters_to_indices = run_clustering(
-            embedings,
+            embeddings,
             method=cluster_method,
             n_clusters=n_clusters,
         )
@@ -178,11 +178,11 @@ class ScalerRAG(BaseRAGFramework):
             for idx in embed_indices:
                 if layer == "doc":
                     parent_node_id = str(cluster)  # Use cluster as parent_node_id for doc layer
-                    texts_and_embeddings.append((doc_summary[idx], embedings[idx]))
+                    texts_and_embeddings.append((doc_summary[idx], embeddings[idx]))
                     metadatas.append({"layer": layer, "cluster": cluster})
                 elif layer == "chunk":
                     parent_node_id = f"{parent_node_id}-{cluster}"  # Combine parent_node_id and cluster
-                    texts_and_embeddings.append((chunks[idx].page_content, embedings[idx]))
+                    texts_and_embeddings.append((chunks[idx].page_content, embeddings[idx]))
                     metadatas.append({"layer": layer, "cluster": cluster, **chunks[idx].metadata})
 
             # Store in the appropriate layer
