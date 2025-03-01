@@ -44,7 +44,10 @@ class ChunkerConfig(BaseModel):
 class RetrievalGenerationConfig(BaseModel):
     """Configuration for the retrieval component."""
     faiss_search: AVAILABLE_FAISS_SEARCH = Field(..., description="FAISS index type for vector search")
-    top_k: PositiveInt = Field(..., description="Number of top documents to retrieve")
+    top_k: PositiveInt = Field(..., description="Number of top document chunks to retrieve")
+    top_k_doc_cc: Optional[PositiveInt] = Field(..., description="Number of top document clusters to retrieve")
+    top_k_doc: Optional[PositiveInt] = Field(..., description="Number of top documents to retrieve")
+    top_k_chunk_cc: Optional[PositiveInt] = Field(..., description="Number of top chunk clusters to retrieve")
     llm_id: Optional[AVAILABLE_LLM_ID] = Field(..., description="ID of the Language Model to use")
 
 class RAGConfig(BaseModel):
