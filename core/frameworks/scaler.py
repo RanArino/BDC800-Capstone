@@ -158,13 +158,13 @@ class ScalerRAG(BaseRAGFramework):
         if layer == "doc":
             # Store cluster centroids for document layer
             self.layered_vector_stores["doc_cc"] = FAISS.from_embeddings(
-                [(f"doc_cc-{label}", vector) for label, vector in centroids],
+                [(f"doc_cc-{label}", vector) for label, vector in centroids.items()],
                 self.llm.get_embedding
             )
         elif layer == "chunk" and parent_node_id:
             # Store cluster centroids for chunk layer
             self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
-                [(f"chunk_cc-{label}", vector) for label, vector in centroids],
+                [(f"chunk_cc-{label}", vector) for label, vector in centroids.items()],
                 self.llm.get_embedding
             )
         else:
