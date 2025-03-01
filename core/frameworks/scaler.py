@@ -115,7 +115,6 @@ class ScalerRAG(BaseRAGFramework):
             summary = run_doc_summary(doc.content)
 
         embedding = self.llm.embedding.embed_documents([summary])
-        # TODO: Check embedding is a list of a single list[[embeddings], no more lists]
         return summary, embedding[0]
 
     def _doc_chunking(self, doc: SchemaDocument) -> Tuple[List[LangChainDocument], List[List[float]]]:
