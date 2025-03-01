@@ -82,7 +82,7 @@ class ScalerRAG(BaseRAGFramework):
                 # Create layered vector store
                 self._layered_vector_store(
                     layer="chunk",
-                    embedings=chunks_embed,
+                    embeddings=chunks_embed,
                     chunks=chunks,
                     parent_node_id=doc.id
                 )
@@ -93,7 +93,7 @@ class ScalerRAG(BaseRAGFramework):
                 # Create document summary vector store
                 self._layered_vector_store(
                     layer="doc",
-                    embedings=doc_summary_embed,
+                    embeddings=doc_summary_embed,
                     doc_summary=doc_summary,
                     parent_node_id=None
                 )
