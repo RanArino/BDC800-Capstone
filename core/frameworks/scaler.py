@@ -31,20 +31,20 @@ class ScalerRAG(BaseRAGFramework):
     3. Dimensional reduction for efficient retrieval
     """
     
-    def __init__(self, config: RAGConfig):
+    def __init__(self, config_name: str, config_path: str = "core/configs/scaler_rag/test.yaml", is_save_vectorstore: bool = False):
         """Initialize the SCALER framework.
         
         Args:
             config: RAG configuration
         """
-        super().__init__(config)
-
+        super().__init__(config_name, config_path, is_save_vectorstore)
+        
         # Initialize layered vector stores
         self.layered_vector_stores: Dict[AVAILABLE_LAYERS, Union[FAISS, Dict[PARENT_NODE_ID, FAISS]]] = {
             "doc": None,
-            "chunk": None,
-            "doc_cc": None,
-            "chunk_cc": None
+            "chunk": {},
+            "doc_cc": {},
+            "chunk_cc": {}
         }
 
     def index(
