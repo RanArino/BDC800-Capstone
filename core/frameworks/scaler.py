@@ -60,6 +60,9 @@ class ScalerRAG(BaseRAGFramework):
             documents: List of documents to index
         """
         # TODO: Load index if exists
+
+        # ensure docs is a generator
+        gen_docs = self._ensure_document_generator(docs)
         
         # Index document
         try:
@@ -68,7 +71,7 @@ class ScalerRAG(BaseRAGFramework):
             num_docs = 0
             doc_summary = []
             doc_summary_embed = []
-            for doc in docs:
+            for doc in gen_docs:
                 # LLM summary
                 summary, sum_embed = self._doc_summary(doc)
                 doc_summary.append(summary)
