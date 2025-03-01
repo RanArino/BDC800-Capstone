@@ -10,7 +10,7 @@ AVAILABLE_LLM_ID = Literal["llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14
 AVAILABLE_EMBEDDING_ID = Literal["huggingface-multi-qa-mpnet", "google-gecko"]
 AVAILABLE_FAISS_SEARCH = Literal["flatl2", "ivf", "hnsw"]
 AVAILABLE_DIM_REDUCTION = Literal["pca", "umap"]
-AVAILABLE_CLUSTERING = Literal["k-means", "gmm"]
+AVAILABLE_CLUSTERING = Literal["kmeans", "gmm"]
 
 # Available Layers
 AVAILABLE_LAYERS = Literal["doc_cc", "doc", "chunk_cc", "chunk"]
