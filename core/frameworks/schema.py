@@ -26,6 +26,12 @@ class DatasetConfig(BaseModel):
     number_of_qas: Optional[PositiveInt] = Field(None, description="Number of question-answer pairs to use from the dataset")
     selection_mode: Optional[Literal["sequential", "random"]] = Field(None, description="Selection mode for the dataset")
 
+class SummarizerConfig(BaseModel):
+    """Configuration for the summarizer component."""
+    llm_id: AVAILABLE_LLM_ID = Field(..., description="ID of the language model to use")
+    output_tokens: PositiveInt = Field(..., description="Expected number of tokens to output")
+    embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the embedding model to use")
+
 class ChunkerConfig(BaseModel):
     """Configuration for the text chunking component."""
     mode: Literal["fixed"] = Field(..., description="Chunking mode (currently only fixed is supported)")
@@ -54,6 +60,7 @@ class RetrievalGenerationConfig(BaseModel):
 class RAGConfig(BaseModel):
     """Main configuration for the RAG system."""
     dataset: DatasetConfig = Field(..., description="Dataset configuration")
+    summarizer: Optional[SummarizerConfig] = Field(None, description="Summarizer configuration")
     chunker: ChunkerConfig = Field(..., description="Text chunking configuration")
     retrieval_generation: RetrievalGenerationConfig = Field(..., description="Retrieval and generation configuration")
 
