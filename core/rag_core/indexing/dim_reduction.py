@@ -5,7 +5,7 @@ Implements PCA, t-SNE, and UMAP methods for reducing embedding dimensions.
 
 import numpy as np
 import logging
-from typing import Dict, Tuple, Any, List
+from typing import Tuple, Any, List, Union
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import umap
@@ -16,7 +16,7 @@ def apply_pca(
     embeddings: np.ndarray,
     n_components: int = 50,
     random_state: int = 42
-) -> np.ndarray:
+) -> Tuple[np.ndarray, PCA]:
     """Apply PCA to reduce embedding dimensions.
     
     Args:
@@ -25,7 +25,7 @@ def apply_pca(
         random_state: Random state for reproducibility
         
     Returns:
-        Reduced embeddings
+        Tuple of (reduced embeddings, fitted PCA model)
     """
     logger.info(f"Applying PCA to reduce dimensions to {n_components}")
     
@@ -40,7 +40,7 @@ def apply_pca(
     explained_variance = sum(pca.explained_variance_ratio_) * 100
     logger.info(f"PCA explained variance: {explained_variance:.2f}%")
     
-    return reduced_embeddings
+    return reduced_embeddings, pca
 
 def apply_umap(
     embeddings: np.ndarray,
@@ -48,7 +48,7 @@ def apply_umap(
     n_neighbors: int = 15,
     min_dist: float = 0.1,
     random_state: int = 42
-) -> np.ndarray:
+) -> Tuple[np.ndarray, umap.UMAP]:
     """Apply UMAP to reduce embedding dimensions.
     
     Args:
@@ -59,7 +59,7 @@ def apply_umap(
         random_state: Random state for reproducibility
         
     Returns:
-        Reduced embeddings
+        Tuple of (reduced embeddings, fitted UMAP model)
     """
     logger.info(f"Applying UMAP to reduce dimensions to {n_components}")
     
@@ -72,14 +72,14 @@ def apply_umap(
     )
     reduced_embeddings = reducer.fit_transform(embeddings)
     
-    return reduced_embeddings
+    return reduced_embeddings, reducer
 
 def run_dim_reduction(
     embeddings: List[List[float]],
     method: str = "pca",
     n_components: int = 50,
     **kwargs
-) -> np.ndarray:
+) -> Tuple[np.ndarray, Union[PCA, umap.UMAP]]:
     """Reduce dimensions of embeddings.
     
     Args:
@@ -89,20 +89,20 @@ def run_dim_reduction(
         **kwargs: Additional arguments for the specific method
         
     Returns:
-        Reduced embeddings as numpy array
+        Tuple of (reduced embeddings as numpy array, fitted dimensionality reduction model)
     """
     # Convert embeddings to numpy array if not already
     embeddings_array = np.array(embeddings, dtype=np.float32)
     
     # Apply dimensionality reduction
     if method.lower() == "pca":
-        reduced_embeddings = apply_pca(
+        reduced_embeddings, model = apply_pca(
             embeddings_array, 
             n_components=n_components,
             random_state=kwargs.get("random_state", 42)
         )
     elif method.lower() == "umap":
-        reduced_embeddings = apply_umap(
+        reduced_embeddings, model = apply_umap(
             embeddings_array,
             n_components=n_components,
             n_neighbors=kwargs.get("n_neighbors", 15),
@@ -112,4 +112,31 @@ def run_dim_reduction(
     else:
         raise ValueError(f"Unsupported dimensionality reduction method: {method}")
     
-    return reduced_embeddings
+    return reduced_embeddings, model
+
+def reduce_query_embedding(
+    query_embedding: List[float],
+    model: Union[PCA, umap.UMAP]
+) -> np.ndarray:
+    """Apply a pre-fitted dimensionality reduction model to a query embedding.
+    
+    Args:
+        query_embedding: The original query embedding vector
+        model: A fitted dimensionality reduction model (PCA or UMAP)
+        
+    Returns:
+        Reduced query embedding as numpy array
+    """
+    # Convert query embedding to numpy array
+    query_array = np.array([query_embedding], dtype=np.float32)
+    
+    # Apply the reduction model
+    if isinstance(model, PCA):
+        reduced_query = model.transform(query_array)
+    elif isinstance(model, umap.UMAP):
+        # UMAP transform requires more careful handling
+        reduced_query = model.transform(query_array)
+    else:
+        raise ValueError(f"Unsupported model type: {type(model)}")
+    
+    return reduced_query[0]  # Return as a 1D array
