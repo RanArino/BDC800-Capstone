@@ -39,7 +39,7 @@ def test_dim_reduction():
         # Test PCA reduction
         logger.info("Testing PCA dimensional reduction")
         pca_start_time = time.time()
-        reduced_embeddings_pca = run_dim_reduction(
+        reduced_embeddings_pca, pca_model = run_dim_reduction(
             embeddings=embeddings,
             method="pca",
             n_components=50
@@ -56,7 +56,7 @@ def test_dim_reduction():
         # Test UMAP reduction
         logger.info("Testing UMAP dimensional reduction")
         umap_start_time = time.time()
-        reduced_embeddings_umap = run_dim_reduction(
+        reduced_embeddings_umap, umap_model = run_dim_reduction(
             embeddings=embeddings,
             method="umap",
             n_components=10
@@ -75,7 +75,7 @@ def test_dim_reduction():
         
         # Test with small number of samples
         small_embeddings = embeddings[:5]
-        reduced_small = run_dim_reduction(
+        reduced_small, _ = run_dim_reduction(
             embeddings=small_embeddings,
             method="pca",
             n_components=10
@@ -243,7 +243,7 @@ def test_integration():
         
         # Step 1: Dimensional reduction with PCA
         logger.info("Performing PCA dimensional reduction")
-        reduced_embeddings_pca = run_dim_reduction(
+        reduced_embeddings_pca, pca_model = run_dim_reduction(
             embeddings=embeddings,
             method="pca",
             n_components=50
@@ -275,7 +275,7 @@ def test_integration():
         
         # Step 1: Dimensional reduction with UMAP
         logger.info("Performing UMAP dimensional reduction")
-        reduced_embeddings_umap = run_dim_reduction(
+        reduced_embeddings_umap, umap_model = run_dim_reduction(
             embeddings=embeddings,
             method="umap",
             n_components=10
