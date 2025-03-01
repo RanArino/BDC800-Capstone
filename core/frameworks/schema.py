@@ -38,6 +38,7 @@ class ChunkerConfig(BaseModel):
     )
     embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the Embedding Model to use")
     dim_reduction: Optional[AVAILABLE_DIM_REDUCTION] = Field(None, description="Method for dimensionality reduction (e.g., PCA, UMAP)")
+    n_components: Optional[PositiveInt] = Field(None, description="Number of components for dimensionality reduction")
     clustering: Optional[AVAILABLE_CLUSTERING] = Field(None, description="Clustering method to use (e.g., k-means, GMM)")
 
 
