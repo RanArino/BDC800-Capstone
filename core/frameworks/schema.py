@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, PositiveInt
 from langchain_core.documents import Document
 
 # Available Models & Algorithms
-AVAILABLE_LLM_ID = Literal["llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14b"]
+AVAILABLE_LLM_ID = Literal["llama3.2:1b", "llama3.2:3b", "llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14b"]
 AVAILABLE_EMBEDDING_ID = Literal["huggingface-multi-qa-mpnet", "google-gecko"]
 AVAILABLE_FAISS_SEARCH = Literal["flatl2", "ivf", "hnsw"]
 AVAILABLE_DIM_REDUCTION = Literal["pca", "umap"]
@@ -32,6 +32,16 @@ class SummarizerConfig(BaseModel):
     output_tokens: PositiveInt = Field(..., description="Expected number of tokens to output")
     embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the embedding model to use")
 
+class DimReductionConfig(BaseModel):
+    """Configuration for dimensionality reduction."""
+    method: AVAILABLE_DIM_REDUCTION = Field(..., description="Method for dimensionality reduction")
+    n_components: PositiveInt = Field(..., description="Number of components for dimensionality reduction")
+
+class ClusteringConfig(BaseModel):
+    """Configuration for clustering."""
+    method: AVAILABLE_CLUSTERING = Field(..., description="Clustering method to use")
+    n_clusters: Optional[PositiveInt] = Field(None, description="Number of clusters (if None, will be estimated)")
+
 class ChunkerConfig(BaseModel):
     """Configuration for the text chunking component."""
     mode: Literal["fixed"] = Field(..., description="Chunking mode (currently only fixed is supported)")
@@ -43,10 +53,8 @@ class ChunkerConfig(BaseModel):
         le=1.0
     )
     embedding_id: AVAILABLE_EMBEDDING_ID = Field(..., description="ID of the Embedding Model to use")
-    dim_reduction: Optional[AVAILABLE_DIM_REDUCTION] = Field(None, description="Method for dimensionality reduction (e.g., PCA, UMAP)")
-    n_components: Optional[PositiveInt] = Field(None, description="Number of components for dimensionality reduction")
-    clustering: Optional[AVAILABLE_CLUSTERING] = Field(None, description="Clustering method to use (e.g., k-means, GMM)")
-
+    dim_reduction: Optional[DimReductionConfig] = Field(None, description="Configuration for dimensionality reduction")
+    clustering: Optional[ClusteringConfig] = Field(None, description="Configuration for clustering")
 
 class RetrievalGenerationConfig(BaseModel):
     """Configuration for the retrieval component."""
