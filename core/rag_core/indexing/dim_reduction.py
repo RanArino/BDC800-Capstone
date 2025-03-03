@@ -97,7 +97,7 @@ def run_dim_reduction(
     method: str = "pca",
     n_components: int = 50,
     **kwargs
-) -> Tuple[np.ndarray, Union[PCA, umap.UMAP]]:
+) -> Union[PCA, umap.UMAP]:
     """Reduce dimensions of embeddings.
     
     Args:
@@ -107,20 +107,21 @@ def run_dim_reduction(
         **kwargs: Additional arguments for the specific method
         
     Returns:
-        Tuple of (reduced embeddings as numpy array, fitted dimensionality reduction model)
+        Fitted dimensionality reduction model (either PCA or UMAP)
+        with transform() method for reducing new data
     """
     # Convert embeddings to numpy array if not already
     embeddings_array = np.array(embeddings, dtype=np.float32)
     
     # Apply dimensionality reduction
     if method.lower() == "pca":
-        reduced_embeddings, model = apply_pca(
+        _, model = apply_pca(
             embeddings_array, 
             n_components=n_components,
             random_state=kwargs.get("random_state", 42)
         )
     elif method.lower() == "umap":
-        reduced_embeddings, model = apply_umap(
+        _, model = apply_umap(
             embeddings_array,
             n_components=n_components,
             n_neighbors=kwargs.get("n_neighbors", 15),
@@ -130,7 +131,7 @@ def run_dim_reduction(
     else:
         raise ValueError(f"Unsupported dimensionality reduction method: {method}")
     
-    return reduced_embeddings, model
+    return model
 
 def reduce_query_embedding(
     query_embedding: List[float],
