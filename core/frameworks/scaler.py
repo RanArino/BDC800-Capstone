@@ -7,7 +7,6 @@ Implementation of the SCALER (Semantic Clustered Abstractive Layers for Efficien
 import os
 import logging
 import numpy as np
-from joblib import dump, load
 from typing import List, Optional, Union, Generator, Iterable, Dict, Any, Tuple, Literal
 
 from langchain_community.vectorstores import FAISS
@@ -320,22 +319,7 @@ class ScalerRAG(BaseRAGFramework):
                         self.dim_reduction_models[layer][parent_node_id] = dim_model
     
     def _save_all_indexes(self):
-        """Save all indexes to disk.
-        
-        The layered vector stores are saved with the following structure:
-        vectorstore_path/
-            ├── doc/
-            │   ├── cluster1.faiss
-            │   └── cluster2.faiss
-            ├── doc_cc/
-            │   └── doc_cc.faiss
-            ├── chunk/
-            │   ├── doc_id1.faiss
-            │   └── doc_id2.faiss
-            └── chunk_cc/
-                ├── doc_id1.faiss
-                └── doc_id2.faiss
-        """
+        """Save all indexes to disk."""
         if not self.is_save_vectorstore:
             self.logger.info("Skipping index saving as is_save_vectorstore is False")
             return
@@ -379,20 +363,8 @@ class ScalerRAG(BaseRAGFramework):
             raise
 
     def _load_all_indexes(self) -> Dict[str, bool]:
-        """Load all indexes from disk.
-        
-        The layered vector stores are loaded from the following structure:
-        vectorstore_path/
-            ├── doc/
-            │   └── doc.faiss
-            ├── doc_cc/
-            │   └── doc_cc.faiss
-            ├── chunk/
-            │   ├── doc_id1.faiss
-            │   └── doc_id2.faiss
-            └── chunk_cc/
-                ├── doc_id1.faiss
-                └── doc_id2.faiss
+        """
+        Load all indexes from disk.
                 
         Returns:
             Dict[str, bool]: Dictionary indicating which layers were successfully loaded
