@@ -41,6 +41,7 @@ class ClusteringConfig(BaseModel):
     """Configuration for clustering."""
     method: AVAILABLE_CLUSTERING = Field(..., description="Clustering method to use")
     n_clusters: Optional[PositiveInt] = Field(None, description="Number of clusters (if None, will be estimated)")
+    items_per_cluster: PositiveInt = Field(..., description="Number of items per cluster (used if n_clusters is None)")
 
 class ChunkerConfig(BaseModel):
     """Configuration for the text chunking component."""
