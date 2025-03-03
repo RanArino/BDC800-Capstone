@@ -7,6 +7,7 @@ Implementation of the SCALER (Semantic Clustered Abstractive Layers for Efficien
 import os
 import logging
 import numpy as np
+from joblib import dump, load
 from typing import List, Optional, Union, Generator, Iterable, Dict, Any, Tuple, Literal
 
 from langchain_community.vectorstores import FAISS
@@ -49,6 +50,12 @@ class ScalerRAG(BaseRAGFramework):
         
         # Store dimensional reduction models
         self.dim_reduction_models = {
+            "doc": None,
+            "chunk": {},
+        }
+        
+        # Store clustering models
+        self.clustering_models = {
             "doc": None,
             "chunk": {},
         }
@@ -273,6 +280,13 @@ class ScalerRAG(BaseRAGFramework):
                     embedding=self.llm.get_embedding
                 )
 
+                # Store dimension reduction model even when clustering is disabled
+                if hasattr(self.config.chunker, "dim_reduction"):
+                    if layer == "doc":
+                        self.dim_reduction_models["doc"] = dim_model
+                    elif layer == "chunk" and parent_node_id:
+                        self.dim_reduction_models["chunk"][parent_node_id] = dim_model
+    
     def _save_all_indexes(self):
         """Save all indexes to disk.
         
@@ -361,6 +375,18 @@ class ScalerRAG(BaseRAGFramework):
                 "chunk": {},
                 "doc_cc": None,
                 "chunk_cc": {}
+            }
+            
+            # Initialize empty model stores
+            self.dim_reduction_models = {
+                "doc": None,
+                "chunk": {}
+            }
+            
+            # Initialize empty clustering models
+            self.clustering_models = {
+                "doc": None,
+                "chunk": {}
             }
             
             # Track which layers were loaded
