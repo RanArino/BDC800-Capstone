@@ -19,6 +19,7 @@ from core.frameworks.base import BaseRAGFramework
 from core.frameworks.schema import RAGConfig, RAGResponse, AVAILABLE_LAYERS, PARENT_NODE_ID, HierarchicalFilterOption
 
 from core.rag_core import run_doc_summary, run_dim_reduction, run_clustering, reduce_query_embedding
+from core.utils import save_layer_models, load_layer_models
 
 logger = logging.getLogger(__name__)
 
@@ -366,6 +367,10 @@ class ScalerRAG(BaseRAGFramework):
                             save_path = os.path.join(layer_path, f"{node_id}.faiss")
                             vs.save_local(save_path)
                             self.logger.debug(f"Saved {layer} index for node {node_id} to {save_path}")
+                            
+                            # Save associated ML models if they exist
+                            if layer in ["doc", "chunk"]:
+                                save_layer_models(layer, node_id, layer_path, self.dim_reduction_models, self.clustering_models)
             
             self.logger.info("Successfully saved all indexes")
             
@@ -459,11 +464,39 @@ class ScalerRAG(BaseRAGFramework):
                             )
                             self.logger.debug(f"Loaded {layer} index for node {node_id} from {index_path}")
             
+                            # Try to load associated ML models if they exist
+                            if layer in ["doc", "chunk"]:
+                                dim_model, cluster_model = load_layer_models(layer, node_id, layer_path)
+                                
+                                # Store dimension reduction model if loaded
+                                if dim_model is not None:
+                                    if layer == "doc":
+                                        self.dim_reduction_models[layer] = dim_model
+                                    elif layer == "chunk":
+                                        # For chunk layer, extract the parent document ID if needed
+                                        node_key = node_id.split('-')[0] if '-' in node_id else node_id
+                                        self.dim_reduction_models[layer][node_key] = dim_model
+                                
+                                # Store clustering model if loaded
+                                if cluster_model is not None:
+                                    if layer == "doc":
+                                        self.clustering_models[layer] = cluster_model
+                                    elif layer == "chunk":
+                                        # For chunk layer, extract the parent document ID if needed
+                                        node_key = node_id.split('-')[0] if '-' in node_id else node_id
+                                        self.clustering_models[layer][node_key] = cluster_model
+            
             loaded_count = sum(loaded_layers.values())
             if loaded_count == 0:
                 self.logger.info("No indexes were loaded")
             else:
                 self.logger.info(f"Successfully loaded {loaded_count} layers: {[layer for layer, loaded in loaded_layers.items() if loaded]}")
+            
+                # Log information about loaded ML models
+                if any(model is not None for model in [self.dim_reduction_models["doc"]] + list(self.dim_reduction_models["chunk"].values())):
+                    self.logger.info("Successfully loaded dimension reduction models")
+                if any(model is not None for model in [self.clustering_models["doc"]] + list(self.clustering_models["chunk"].values())):
+                    self.logger.info("Successfully loaded clustering models")
             
             return loaded_layers
             
