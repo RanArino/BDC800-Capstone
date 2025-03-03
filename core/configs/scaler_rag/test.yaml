@@ -1,0 +1,46 @@
+# Simple RAG test
+TEST_scaler_rag_qasper:
+  dataset: 
+    name: qasper
+    number_of_docs: 3
+    selection_mode: sequential
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      n_clusters: 1
+    dim_reduction:
+      method: "pca"
+      n_components: 50
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: llama3.1
+
+TEST_scaler_rag_multihoprag:
+  dataset:
+    name: multihoprag
+    number_of_qas: 15
+    selection_mode: sequential
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 512
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      n_clusters: 1
+    dim_reduction:
+      method: "pca"
+      n_components: 50
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: llama3.1
