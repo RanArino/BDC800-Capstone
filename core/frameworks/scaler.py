@@ -60,12 +60,27 @@ class ScalerRAG(BaseRAGFramework):
         """Index documents using SCALER's hierarchical approach.
         
         This method:
-      
-        
+        1. Attempts to load existing indexes if available
+        2. If some indexes exist, loads them and creates only the missing ones
+        3. If no indexes exist or loading fails, creates all new indexes:
+            - Creates document-level summaries and embeddings
+            - Chunks documents and creates embeddings
+            - Creates layered vector stores with clustering
+            
         Args:
             documents: List of documents to index
         """
-        # TODO: Load index if exists
+        # Try to load existing indexes first
+        try:
+            loaded_layers = self._load_all_indexes()
+            if all(loaded_layers.values()):
+                self.logger.info("Successfully loaded all existing indexes")
+                return
+            elif any(loaded_layers.values()):
+                self.logger.info(f"Partially loaded indexes. Will create missing layers: {[layer for layer, loaded in loaded_layers.items() if not loaded]}")
+        except Exception as e:
+            self.logger.warning(f"Failed to load existing indexes: {str(e)}. Will create new indexes.")
+            loaded_layers = {layer: False for layer in self.layered_vector_stores.keys()}
 
         # ensure docs is a generator
         gen_docs = self._ensure_document_generator(docs)
@@ -78,25 +93,43 @@ class ScalerRAG(BaseRAGFramework):
             doc_summary = []
             doc_summary_embed = []
             for doc in gen_docs:
-                # LLM summary
-                summary, sum_embed = self._doc_summary(doc)
-                doc_summary.append(summary)
-                doc_summary_embed.append(sum_embed)
+                # Skip document-level processing if both doc and doc_cc are already loaded
+                if not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
+                    # LLM summary
+                    summary, sum_embed = self._doc_summary(doc)
+                    doc_summary.append(summary)
+                    doc_summary_embed.append(sum_embed)
 
-                # Chunking
-                chunks, chunks_embed = self._doc_chunking(doc)
-                # Create layered vector store
-                self._layered_vector_store(
-                    layer="chunk",
-                    embeddings=chunks_embed,
-                    chunks=chunks,
-                    parent_node_id=doc.id
-                )
+                # Skip chunk processing if both chunk and chunk_cc are already loaded for this document
+                chunk_key = str(doc.id)
+                # Check if this document has already been processed
+                if chunk_key in self.layered_vector_stores["chunk"] or any(k.startswith(chunk_key + "-") for k in self.layered_vector_stores["chunk"].keys()):
+                    self.logger.debug(f"Skipping chunk processing for document {chunk_key} as it's already indexed")
+                else:
+                    # Chunking
+                    chunks, chunks_embed = self._doc_chunking(doc)
+                    # Create layered vector store
+                    self._layered_vector_store(
+                        layer="chunk",
+                        embeddings=chunks_embed,
+                        chunks=chunks,
+                        parent_node_id=doc.id
+                    )
                 num_docs += 1
             
-            # if a single document is indexed, no need to create a document summary vector store
+            # Create document summary vector store if needed
+            if num_docs > 1 and not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
+                self._layered_vector_store(
+                    layer="doc",
+                    embeddings=doc_summary_embed,
+                    doc_summary=doc_summary,
+                    parent_node_id=None
+                )
+
+            # Create or update document summary vector store if we have multiple documents
             if num_docs > 1:
-                # Create document summary vector store
+                # Always recreate the doc and doc_cc layers when adding new documents
+                # This ensures proper clustering with all documents
                 self._layered_vector_store(
                     layer="doc",
                     embeddings=doc_summary_embed,
@@ -104,8 +137,9 @@ class ScalerRAG(BaseRAGFramework):
                     parent_node_id=None
                 )
                 
-            # Save all indexes
-            self._save_all_indexes()
+            # Save all indexes if enabled
+            if self.is_save_vectorstore:
+                self._save_all_indexes()
             
             self.logger.info("Indexing complete")
             
