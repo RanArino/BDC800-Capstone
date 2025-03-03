@@ -4,6 +4,9 @@
 test.ipynb
 
 # locally generated files 
+## vector stores
+core/vectorstore/
+
 ## under datasets/data/ 
 core/datasets/data/**/data_test.json
 core/datasets/data/**/documents.json
