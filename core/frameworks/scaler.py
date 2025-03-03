@@ -176,65 +176,109 @@ class ScalerRAG(BaseRAGFramework):
             parent_node_id: Optional[PARENT_NODE_ID] = None
         ):
         """Create layered vector stores for efficient retrieval."""
-        # Conduct Clustering
-        cluster_method = self.config.chunker.clustering
+        # Check if embeddings is empty
+        if not embeddings or len(embeddings) == 0:
+            self.logger.warning(f"Empty embeddings provided to _layered_vector_store for layer {layer}. Skipping vector store creation.")
+            return
         
-        # Conduct dimensional reduction
-        dim_method = self.config.chunker.dim_reduction
-        if dim_method:
-            # TODO: Consider adding number of components in ChunkerConfig
-            embeddings, dim_model = run_dim_reduction(embeddings, dim_method, n_components=50)
+        # Convert embeddings to numpy array
+        embeddings_array = np.array(embeddings, dtype=np.float32)
+        
+        # Conduct dimensional reduction if configured
+        if self.config.chunker.dim_reduction:
+            dim_method = self.config.chunker.dim_reduction.method
+            n_components = self.config.chunker.dim_reduction.n_components
+            embeddings_array, dim_model = run_dim_reduction(embeddings_array, dim_method, n_components=n_components)
             
             # Store the dimensional reduction model for later use with queries
             if layer == "doc":
                 self.dim_reduction_models["doc"] = dim_model
             elif layer == "chunk" and parent_node_id:
                 self.dim_reduction_models["chunk"][parent_node_id] = dim_model
+        
+        # Conduct Clustering if configured
+        if self.config.chunker.clustering:
+            cluster_method = self.config.chunker.clustering.method
+            n_clusters = self.config.chunker.clustering.n_clusters
             
-            # Use reduced embeddings for clustering
+            # Run clustering
             _, centroids, clusters_to_indices = run_clustering(
-                embeddings,
+                embeddings_array,
                 method=cluster_method,
-                n_clusters=getattr(self.config.chunker.clustering, 'n_clusters', None),
+                n_clusters=n_clusters,
             )
+            
+            # Check if centroids is empty
+            if not centroids:
+                self.logger.warning(f"No centroids returned from clustering for layer {layer}. Skipping vector store creation.")
+                return
+            
+            # Store cluster centroids
+            if layer == "doc":
+                # Store cluster centroids for document layer
+                centroid_embeddings = [(f"doc_cc-{label}", vector) for label, vector in centroids.items()]
+                if centroid_embeddings:  # Only create if we have embeddings
+                    self.layered_vector_stores["doc_cc"] = FAISS.from_embeddings(
+                        text_embeddings=centroid_embeddings,
+                        embedding=self.llm.get_embedding
+                    )
+            elif layer == "chunk" and parent_node_id:
+                # Store cluster centroids for chunk layer
+                centroid_embeddings = [(f"chunk_cc-{label}", vector) for label, vector in centroids.items()]
+                if centroid_embeddings:  # Only create if we have embeddings
+                    self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
+                        text_embeddings=centroid_embeddings,
+                        embedding=self.llm.get_embedding
+                    )
+            else:
+                raise ValueError(f"Invalid layer: {layer}")
 
-        # Initialize dictionaries if they don't exist
-        if layer == "doc":
-            # Store cluster centroids for document layer
-            self.layered_vector_stores["doc_cc"] = FAISS.from_embeddings(
-                text_embeddings=[(f"doc_cc-{label}", vector) for label, vector in centroids.items()],
-                embedding=self.llm.get_embedding
-            )
-        elif layer == "chunk" and parent_node_id:
-            # Store cluster centroids for chunk layer
-            self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
-                text_embeddings=[(f"chunk_cc-{label}", vector) for label, vector in centroids.items()],
-                embedding=self.llm.get_embedding
-            )
+            # Store the embeddings and chunks or summaries per cluster
+            for cluster, embed_indices in clusters_to_indices.items():
+                if not embed_indices:  # Skip if no indices for this cluster
+                    continue
+                
+                texts_and_embeddings = []
+                metadatas = []
+                cluster_parent_node_id = parent_node_id + f"-{str(cluster)}" if parent_node_id else str(cluster)
+                
+                # Extract the embeddings and texts which are associated with the current cluster
+                for idx in embed_indices:
+                    if layer == "doc":
+                        texts_and_embeddings.append((doc_summary[idx], embeddings[idx]))
+                        metadatas.append({"layer": layer, "cluster": cluster})
+                    elif layer == "chunk":
+                        texts_and_embeddings.append((chunks[idx].page_content, embeddings[idx]))
+                        metadatas.append({"layer": layer, "cluster": cluster, **chunks[idx].metadata})
+
+                # Store in the appropriate layer if we have embeddings
+                if texts_and_embeddings:
+                    self.layered_vector_stores[layer][cluster_parent_node_id] = FAISS.from_embeddings(
+                        text_embeddings=texts_and_embeddings,
+                        metadatas=metadatas,
+                        embedding=self.llm.get_embedding
+                    )
         else:
-            raise ValueError(f"Invalid layer: {layer}")
-
-        # Store the embeddings and chunks or summaries per cluster
-        for cluster, embed_indices in clusters_to_indices.items():
+            # If no clustering is configured, store all embeddings in a single vector store
             texts_and_embeddings = []
             metadatas = []
-            parent_node_id = parent_node_id + f"-{str(cluster)}" if parent_node_id else str(cluster)
             
-            # Extract the embeddings and texts which are associated with the current cluster
-            for idx in embed_indices:
+            for idx, embedding in enumerate(embeddings):
                 if layer == "doc":
-                    texts_and_embeddings.append((doc_summary[idx], embeddings[idx]))
-                    metadatas.append({"layer": layer, "cluster": cluster})
+                    texts_and_embeddings.append((doc_summary[idx], embedding))
+                    metadatas.append({"layer": layer})
                 elif layer == "chunk":
-                    texts_and_embeddings.append((chunks[idx].page_content, embeddings[idx]))
-                    metadatas.append({"layer": layer, "cluster": cluster, **chunks[idx].metadata})
-
-            # Store in the appropriate layer
-            self.layered_vector_stores[layer][parent_node_id] = FAISS.from_embeddings(
-                text_embeddings=texts_and_embeddings,
-                metadatas=metadatas,
-                embedding=self.llm.get_embedding
-            )
+                    texts_and_embeddings.append((chunks[idx].page_content, embedding))
+                    metadatas.append({"layer": layer, **chunks[idx].metadata})
+            
+            # Store in the appropriate layer if we have embeddings
+            if texts_and_embeddings:
+                store_key = parent_node_id if parent_node_id else layer
+                self.layered_vector_stores[layer][store_key] = FAISS.from_embeddings(
+                    text_embeddings=texts_and_embeddings,
+                    metadatas=metadatas,
+                    embedding=self.llm.get_embedding
+                )
 
     def _save_all_indexes(self):
         """Save all indexes to disk.
