@@ -18,6 +18,7 @@ from core.frameworks.base import BaseRAGFramework
 from core.frameworks.schema import RAGConfig, RAGResponse, AVAILABLE_LAYERS, PARENT_NODE_ID, HierarchicalFilterOption
 
 from core.rag_core import run_doc_summary, run_dim_reduction, run_clustering, reduce_query_embedding
+from core.utils import save_layer_models, load_layer_models
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +50,12 @@ class ScalerRAG(BaseRAGFramework):
         
         # Store dimensional reduction models
         self.dim_reduction_models = {
+            "doc": None,
+            "chunk": {},
+        }
+        
+        # Store clustering models
+        self.clustering_models = {
             "doc": None,
             "chunk": {},
         }
@@ -179,31 +186,62 @@ class ScalerRAG(BaseRAGFramework):
         # Conduct dimensional reduction if configured
         if hasattr(self.config.chunker, "dim_reduction"):
             # Run dimensional reduction
-            embeddings_array, dim_model = run_dim_reduction(
+            dim_model = run_dim_reduction(
                 embeddings=embeddings_array, 
-                dim_method=self.config.chunker.dim_reduction.method, 
+                method=self.config.chunker.dim_reduction.method, 
                 n_components=getattr(self.config.chunker.dim_reduction, "n_components", None)
             )
             
             # Store the dimensional reduction model for later use with queries
             if layer == "doc":
-                self.dim_reduction_models["doc"] = dim_model
+                self.dim_reduction_models[layer] = dim_model
             elif layer == "chunk" and parent_node_id:
-                self.dim_reduction_models["chunk"][parent_node_id] = dim_model
+                self.dim_reduction_models[layer][parent_node_id] = dim_model
+                
+            # Apply dimension reduction to embeddings
+            embeddings_array = dim_model.transform(embeddings_array)
         
         # Conduct Clustering if configured
         if hasattr(self.config.chunker, "clustering"):
             # Run clustering
-            _, centroids, clusters_to_indices = run_clustering(
+            clustering_model = run_clustering(
                 embeddings_array,
                 method=self.config.chunker.clustering.method,
                 n_clusters=getattr(self.config.chunker.clustering, "n_clusters", None),
                 items_per_cluster=getattr(self.config.chunker.clustering, "items_per_cluster", None)
             )
             
+            # Skip if no model returned
+            if clustering_model is None:
+                self.logger.warning(f"No clustering model returned for layer {layer}. Skipping vector store creation.")
+                return
+                
+            # Store the clustering model for later use
+            if layer == "doc":
+                self.clustering_models["doc"] = clustering_model
+            elif layer == "chunk" and parent_node_id:
+                self.clustering_models["chunk"][parent_node_id] = clustering_model
+                
+            # Get labels and centroids from the model
+            if hasattr(clustering_model, 'labels_'):
+                # KMeans
+                labels = clustering_model.labels_.tolist()
+                centroids = {i: clustering_model.cluster_centers_[i] for i in range(len(clustering_model.cluster_centers_))}
+            else:
+                # GMM
+                labels = clustering_model.predict(embeddings_array).tolist()
+                centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
+                
+            # Create mapping from cluster to indices
+            clusters_to_indices = {}
+            for i, label in enumerate(labels):
+                if label not in clusters_to_indices:
+                    clusters_to_indices[label] = []
+                clusters_to_indices[label].append(i)
+            
             # Check if centroids is empty
             if not centroids:
-                self.logger.warning(f"No centroids returned from clustering for layer {layer}. Skipping vector store creation.")
+                self.logger.warning(f"No centroids extracted from clustering model for layer {layer}. Skipping vector store creation.")
                 return
             
             # Store cluster centroids
@@ -273,23 +311,15 @@ class ScalerRAG(BaseRAGFramework):
                     embedding=self.llm.get_embedding
                 )
 
+                # Store dimension reduction model even when clustering is disabled
+                if hasattr(self.config.chunker, "dim_reduction"):
+                    if layer == "doc":
+                        self.dim_reduction_models[layer] = dim_model
+                    elif layer == "chunk" and parent_node_id:
+                        self.dim_reduction_models[layer][parent_node_id] = dim_model
+    
     def _save_all_indexes(self):
-        """Save all indexes to disk.
-        
-        The layered vector stores are saved with the following structure:
-        vectorstore_path/
-            ├── doc/
-            │   ├── cluster1.faiss
-            │   └── cluster2.faiss
-            ├── doc_cc/
-            │   └── doc_cc.faiss
-            ├── chunk/
-            │   ├── doc_id1.faiss
-            │   └── doc_id2.faiss
-            └── chunk_cc/
-                ├── doc_id1.faiss
-                └── doc_id2.faiss
-        """
+        """Save all indexes to disk."""
         if not self.is_save_vectorstore:
             self.logger.info("Skipping index saving as is_save_vectorstore is False")
             return
@@ -321,6 +351,10 @@ class ScalerRAG(BaseRAGFramework):
                             save_path = os.path.join(layer_path, f"{node_id}.faiss")
                             vs.save_local(save_path)
                             self.logger.debug(f"Saved {layer} index for node {node_id} to {save_path}")
+                            
+                            # Save associated ML models if they exist
+                            if layer in ["doc", "chunk"]:
+                                save_layer_models(layer, node_id, layer_path, self.dim_reduction_models, self.clustering_models)
             
             self.logger.info("Successfully saved all indexes")
             
@@ -329,20 +363,8 @@ class ScalerRAG(BaseRAGFramework):
             raise
 
     def _load_all_indexes(self) -> Dict[str, bool]:
-        """Load all indexes from disk.
-        
-        The layered vector stores are loaded from the following structure:
-        vectorstore_path/
-            ├── doc/
-            │   └── doc.faiss
-            ├── doc_cc/
-            │   └── doc_cc.faiss
-            ├── chunk/
-            │   ├── doc_id1.faiss
-            │   └── doc_id2.faiss
-            └── chunk_cc/
-                ├── doc_id1.faiss
-                └── doc_id2.faiss
+        """
+        Load all indexes from disk.
                 
         Returns:
             Dict[str, bool]: Dictionary indicating which layers were successfully loaded
@@ -361,6 +383,18 @@ class ScalerRAG(BaseRAGFramework):
                 "chunk": {},
                 "doc_cc": None,
                 "chunk_cc": {}
+            }
+            
+            # Initialize empty model stores
+            self.dim_reduction_models = {
+                "doc": None,
+                "chunk": {}
+            }
+            
+            # Initialize empty clustering models
+            self.clustering_models = {
+                "doc": None,
+                "chunk": {}
             }
             
             # Track which layers were loaded
@@ -402,11 +436,39 @@ class ScalerRAG(BaseRAGFramework):
                             )
                             self.logger.debug(f"Loaded {layer} index for node {node_id} from {index_path}")
             
+                            # Try to load associated ML models if they exist
+                            if layer in ["doc", "chunk"]:
+                                dim_model, cluster_model = load_layer_models(layer, node_id, layer_path)
+                                
+                                # Store dimension reduction model if loaded
+                                if dim_model is not None:
+                                    if layer == "doc":
+                                        self.dim_reduction_models[layer] = dim_model
+                                    elif layer == "chunk":
+                                        # For chunk layer, extract the parent document ID if needed
+                                        node_key = node_id.split('-')[0] if '-' in node_id else node_id
+                                        self.dim_reduction_models[layer][node_key] = dim_model
+                                
+                                # Store clustering model if loaded
+                                if cluster_model is not None:
+                                    if layer == "doc":
+                                        self.clustering_models[layer] = cluster_model
+                                    elif layer == "chunk":
+                                        # For chunk layer, extract the parent document ID if needed
+                                        node_key = node_id.split('-')[0] if '-' in node_id else node_id
+                                        self.clustering_models[layer][node_key] = cluster_model
+            
             loaded_count = sum(loaded_layers.values())
             if loaded_count == 0:
                 self.logger.info("No indexes were loaded")
             else:
                 self.logger.info(f"Successfully loaded {loaded_count} layers: {[layer for layer, loaded in loaded_layers.items() if loaded]}")
+            
+                # Log information about loaded ML models
+                if any(model is not None for model in [self.dim_reduction_models["doc"]] + list(self.dim_reduction_models["chunk"].values())):
+                    self.logger.info("Successfully loaded dimension reduction models")
+                if any(model is not None for model in [self.clustering_models["doc"]] + list(self.clustering_models["chunk"].values())):
+                    self.logger.info("Successfully loaded clustering models")
             
             return loaded_layers
             
