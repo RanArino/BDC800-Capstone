@@ -186,7 +186,7 @@ class ScalerRAG(BaseRAGFramework):
         # Conduct dimensional reduction if configured
         if hasattr(self.config.chunker, "dim_reduction"):
             # Run dimensional reduction
-            embeddings_array, dim_model = run_dim_reduction(
+            dim_model = run_dim_reduction(
                 embeddings=embeddings_array, 
                 method=self.config.chunker.dim_reduction.method, 
                 n_components=getattr(self.config.chunker.dim_reduction, "n_components", None)
@@ -194,23 +194,54 @@ class ScalerRAG(BaseRAGFramework):
             
             # Store the dimensional reduction model for later use with queries
             if layer == "doc":
-                self.dim_reduction_models["doc"] = dim_model
+                self.dim_reduction_models[layer] = dim_model
             elif layer == "chunk" and parent_node_id:
-                self.dim_reduction_models["chunk"][parent_node_id] = dim_model
+                self.dim_reduction_models[layer][parent_node_id] = dim_model
+                
+            # Apply dimension reduction to embeddings
+            embeddings_array = dim_model.transform(embeddings_array)
         
         # Conduct Clustering if configured
         if hasattr(self.config.chunker, "clustering"):
             # Run clustering
-            labels, centroids, clusters_to_indices = run_clustering(
+            clustering_model = run_clustering(
                 embeddings_array,
                 method=self.config.chunker.clustering.method,
                 n_clusters=getattr(self.config.chunker.clustering, "n_clusters", None),
                 items_per_cluster=getattr(self.config.chunker.clustering, "items_per_cluster", None)
             )
             
+            # Skip if no model returned
+            if clustering_model is None:
+                self.logger.warning(f"No clustering model returned for layer {layer}. Skipping vector store creation.")
+                return
+                
+            # Store the clustering model for later use
+            if layer == "doc":
+                self.clustering_models["doc"] = clustering_model
+            elif layer == "chunk" and parent_node_id:
+                self.clustering_models["chunk"][parent_node_id] = clustering_model
+                
+            # Get labels and centroids from the model
+            if hasattr(clustering_model, 'labels_'):
+                # KMeans
+                labels = clustering_model.labels_.tolist()
+                centroids = {i: clustering_model.cluster_centers_[i] for i in range(len(clustering_model.cluster_centers_))}
+            else:
+                # GMM
+                labels = clustering_model.predict(embeddings_array).tolist()
+                centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
+                
+            # Create mapping from cluster to indices
+            clusters_to_indices = {}
+            for i, label in enumerate(labels):
+                if label not in clusters_to_indices:
+                    clusters_to_indices[label] = []
+                clusters_to_indices[label].append(i)
+            
             # Check if centroids is empty
             if not centroids:
-                self.logger.warning(f"No centroids returned from clustering for layer {layer}. Skipping vector store creation.")
+                self.logger.warning(f"No centroids extracted from clustering model for layer {layer}. Skipping vector store creation.")
                 return
             
             # Store cluster centroids
@@ -283,9 +314,9 @@ class ScalerRAG(BaseRAGFramework):
                 # Store dimension reduction model even when clustering is disabled
                 if hasattr(self.config.chunker, "dim_reduction"):
                     if layer == "doc":
-                        self.dim_reduction_models["doc"] = dim_model
+                        self.dim_reduction_models[layer] = dim_model
                     elif layer == "chunk" and parent_node_id:
-                        self.dim_reduction_models["chunk"][parent_node_id] = dim_model
+                        self.dim_reduction_models[layer][parent_node_id] = dim_model
     
     def _save_all_indexes(self):
         """Save all indexes to disk.
