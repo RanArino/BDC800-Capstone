@@ -118,17 +118,8 @@ class ScalerRAG(BaseRAGFramework):
                     )
                 num_docs += 1
             
-            # Create document summary vector store if needed
-            if num_docs > 1 and not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
-                self._layered_vector_store(
-                    layer="doc",
-                    embeddings=doc_summary_embed,
-                    doc_summary=doc_summary,
-                    parent_node_id=None
-                )
-
             # Create or update document summary vector store if we have multiple documents
-            if num_docs > 1:
+            if num_docs > 1 and doc_summary and doc_summary_embed:
                 # Always recreate the doc and doc_cc layers when adding new documents
                 # This ensures proper clustering with all documents
                 self._layered_vector_store(
@@ -137,7 +128,7 @@ class ScalerRAG(BaseRAGFramework):
                     doc_summary=doc_summary,
                     parent_node_id=None
                 )
-                
+            
             # Save all indexes if enabled
             if self.is_save_vectorstore:
                 self._save_all_indexes()
