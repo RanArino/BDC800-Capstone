@@ -39,11 +39,14 @@ def test_dim_reduction():
         # Test PCA reduction
         logger.info("Testing PCA dimensional reduction")
         pca_start_time = time.time()
-        reduced_embeddings_pca, pca_model = run_dim_reduction(
+        pca_model = run_dim_reduction(
             embeddings=embeddings,
             method="pca",
             n_components=50
         )
+        # Transform the embeddings using the model
+        embeddings_array = np.array(embeddings, dtype=np.float32)
+        reduced_embeddings_pca = pca_model.transform(embeddings_array)
         pca_time = time.time() - pca_start_time
         
         # Verify PCA output
@@ -56,11 +59,13 @@ def test_dim_reduction():
         # Test UMAP reduction
         logger.info("Testing UMAP dimensional reduction")
         umap_start_time = time.time()
-        reduced_embeddings_umap, umap_model = run_dim_reduction(
+        umap_model = run_dim_reduction(
             embeddings=embeddings,
             method="umap",
             n_components=10
         )
+        # Transform the embeddings using the model
+        reduced_embeddings_umap = umap_model.transform(embeddings_array)
         umap_time = time.time() - umap_start_time
         
         # Verify UMAP output
@@ -75,11 +80,13 @@ def test_dim_reduction():
         
         # Test with small number of samples
         small_embeddings = embeddings[:5]
-        reduced_small, _ = run_dim_reduction(
+        small_model = run_dim_reduction(
             embeddings=small_embeddings,
             method="pca",
             n_components=10
         )
+        small_array = np.array(small_embeddings, dtype=np.float32)
+        reduced_small = small_model.transform(small_array)
         assert reduced_small.shape == (5, 5), f"Expected shape (5, 5), got {reduced_small.shape}"
         
         # Test invalid method
@@ -129,12 +136,23 @@ def test_clustering():
         # Test K-means clustering
         logger.info("Testing K-means clustering")
         kmeans_start_time = time.time()
-        labels_kmeans, centroids_kmeans, clusters_kmeans = run_clustering(
+        kmeans_model = run_clustering(
             embeddings=embeddings,
             method="kmeans",
             n_clusters=5
         )
         kmeans_time = time.time() - kmeans_start_time
+        
+        # Extract results from model
+        labels_kmeans = kmeans_model.labels_.tolist()
+        centroids_kmeans = {i: kmeans_model.cluster_centers_[i] for i in range(len(kmeans_model.cluster_centers_))}
+        
+        # Create clusters mapping
+        clusters_kmeans = {}
+        for i, label in enumerate(labels_kmeans):
+            if label not in clusters_kmeans:
+                clusters_kmeans[label] = []
+            clusters_kmeans[label].append(i)
         
         # Verify K-means output
         assert isinstance(labels_kmeans, list), "K-means labels should be a list"
@@ -154,12 +172,23 @@ def test_clustering():
         # Test GMM clustering
         logger.info("Testing GMM clustering")
         gmm_start_time = time.time()
-        labels_gmm, centroids_gmm, clusters_gmm = run_clustering(
+        gmm_model = run_clustering(
             embeddings=embeddings,
             method="gmm",
             n_clusters=5
         )
         gmm_time = time.time() - gmm_start_time
+        
+        # Extract results from model
+        labels_gmm = gmm_model.predict(np.array(embeddings, dtype=np.float32)).tolist()
+        centroids_gmm = {i: gmm_model.means_[i] for i in range(len(gmm_model.means_))}
+        
+        # Create clusters mapping
+        clusters_gmm = {}
+        for i, label in enumerate(labels_gmm):
+            if label not in clusters_gmm:
+                clusters_gmm[label] = []
+            clusters_gmm[label].append(i)
         
         # Verify GMM output
         assert isinstance(labels_gmm, list), "GMM labels should be a list"
@@ -179,13 +208,24 @@ def test_clustering():
         # Test automatic cluster determination
         logger.info("Testing automatic cluster determination")
         auto_start_time = time.time()
-        labels_auto, centroids_auto, clusters_auto = run_clustering(
+        auto_model = run_clustering(
             embeddings=embeddings,
             method="kmeans",
             n_clusters=None,
             items_per_cluster=20
         )
         auto_time = time.time() - auto_start_time
+        
+        # Extract results from model
+        labels_auto = auto_model.labels_.tolist()
+        centroids_auto = {i: auto_model.cluster_centers_[i] for i in range(len(auto_model.cluster_centers_))}
+        
+        # Create clusters mapping
+        clusters_auto = {}
+        for i, label in enumerate(labels_auto):
+            if label not in clusters_auto:
+                clusters_auto[label] = []
+            clusters_auto[label].append(i)
         
         # Verify automatic clustering output
         expected_clusters = min(max(2, 100 // 20), 20)
@@ -243,19 +283,33 @@ def test_integration():
         
         # Step 1: Dimensional reduction with PCA
         logger.info("Performing PCA dimensional reduction")
-        reduced_embeddings_pca, pca_model = run_dim_reduction(
+        pca_model = run_dim_reduction(
             embeddings=embeddings,
             method="pca",
             n_components=50
         )
+        # Transform the embeddings using the model
+        embeddings_array = np.array(embeddings, dtype=np.float32)
+        reduced_embeddings_pca = pca_model.transform(embeddings_array)
         
         # Step 2: Clustering on reduced embeddings
         logger.info("Performing K-means clustering on PCA-reduced embeddings")
-        labels_pca, centroids_pca, clusters_pca = run_clustering(
+        kmeans_model = run_clustering(
             embeddings=reduced_embeddings_pca.tolist(),
             method="kmeans",
             n_clusters=5
         )
+        
+        # Extract results from model
+        labels_pca = kmeans_model.labels_.tolist()
+        centroids_pca = {i: kmeans_model.cluster_centers_[i] for i in range(len(kmeans_model.cluster_centers_))}
+        
+        # Create clusters mapping
+        clusters_pca = {}
+        for i, label in enumerate(labels_pca):
+            if label not in clusters_pca:
+                clusters_pca[label] = []
+            clusters_pca[label].append(i)
         
         # Verify output
         assert len(labels_pca) == 100, f"Expected 100 labels, got {len(labels_pca)}"
@@ -275,19 +329,32 @@ def test_integration():
         
         # Step 1: Dimensional reduction with UMAP
         logger.info("Performing UMAP dimensional reduction")
-        reduced_embeddings_umap, umap_model = run_dim_reduction(
+        umap_model = run_dim_reduction(
             embeddings=embeddings,
             method="umap",
             n_components=10
         )
+        # Transform the embeddings using the model
+        reduced_embeddings_umap = umap_model.transform(embeddings_array)
         
         # Step 2: Clustering on reduced embeddings
         logger.info("Performing GMM clustering on UMAP-reduced embeddings")
-        labels_umap, centroids_umap, clusters_umap = run_clustering(
+        gmm_model = run_clustering(
             embeddings=reduced_embeddings_umap.tolist(),
             method="gmm",
             n_clusters=5
         )
+        
+        # Extract results from model
+        labels_umap = gmm_model.predict(np.array(reduced_embeddings_umap.tolist(), dtype=np.float32)).tolist()
+        centroids_umap = {i: gmm_model.means_[i] for i in range(len(gmm_model.means_))}
+        
+        # Create clusters mapping
+        clusters_umap = {}
+        for i, label in enumerate(labels_umap):
+            if label not in clusters_umap:
+                clusters_umap[label] = []
+            clusters_umap[label].append(i)
         
         # Verify output
         assert len(labels_umap) == 100, f"Expected 100 labels, got {len(labels_umap)}"
