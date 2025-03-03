@@ -95,10 +95,11 @@ class ScalerRAG(BaseRAGFramework):
             for doc in gen_docs:
                 # Skip document-level processing if both doc and doc_cc are already loaded
                 if not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
-                    # LLM summary
-                    summary, sum_embed = self._doc_summary(doc)
-                    doc_summary.append(summary)
-                    doc_summary_embed.append(sum_embed)
+                    # Skip LLM summary only if docs is a single SchemaDocument
+                    if not isinstance(docs, SchemaDocument):
+                        summary, sum_embed = self._doc_summary(doc)
+                        doc_summary.append(summary)
+                        doc_summary_embed.append(sum_embed)
 
                 # Skip chunk processing if both chunk and chunk_cc are already loaded for this document
                 chunk_key = str(doc.id)
@@ -117,17 +118,8 @@ class ScalerRAG(BaseRAGFramework):
                     )
                 num_docs += 1
             
-            # Create document summary vector store if needed
-            if num_docs > 1 and not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
-                self._layered_vector_store(
-                    layer="doc",
-                    embeddings=doc_summary_embed,
-                    doc_summary=doc_summary,
-                    parent_node_id=None
-                )
-
             # Create or update document summary vector store if we have multiple documents
-            if num_docs > 1:
+            if num_docs > 1 and doc_summary and doc_summary_embed:
                 # Always recreate the doc and doc_cc layers when adding new documents
                 # This ensures proper clustering with all documents
                 self._layered_vector_store(
@@ -136,7 +128,7 @@ class ScalerRAG(BaseRAGFramework):
                     doc_summary=doc_summary,
                     parent_node_id=None
                 )
-                
+            
             # Save all indexes if enabled
             if self.is_save_vectorstore:
                 self._save_all_indexes()
@@ -185,10 +177,13 @@ class ScalerRAG(BaseRAGFramework):
         embeddings_array = np.array(embeddings, dtype=np.float32)
         
         # Conduct dimensional reduction if configured
-        if self.config.chunker.dim_reduction:
-            dim_method = self.config.chunker.dim_reduction.method
-            n_components = self.config.chunker.dim_reduction.n_components
-            embeddings_array, dim_model = run_dim_reduction(embeddings_array, dim_method, n_components=n_components)
+        if hasattr(self.config.chunker, "dim_reduction"):
+            # Run dimensional reduction
+            embeddings_array, dim_model = run_dim_reduction(
+                embeddings=embeddings_array, 
+                dim_method=self.config.chunker.dim_reduction.method, 
+                n_components=getattr(self.config.chunker.dim_reduction, "n_components", None)
+            )
             
             # Store the dimensional reduction model for later use with queries
             if layer == "doc":
@@ -197,15 +192,13 @@ class ScalerRAG(BaseRAGFramework):
                 self.dim_reduction_models["chunk"][parent_node_id] = dim_model
         
         # Conduct Clustering if configured
-        if self.config.chunker.clustering:
-            cluster_method = self.config.chunker.clustering.method
-            n_clusters = self.config.chunker.clustering.n_clusters
-            
+        if hasattr(self.config.chunker, "clustering"):
             # Run clustering
             _, centroids, clusters_to_indices = run_clustering(
                 embeddings_array,
-                method=cluster_method,
-                n_clusters=n_clusters,
+                method=self.config.chunker.clustering.method,
+                n_clusters=getattr(self.config.chunker.clustering, "n_clusters", None),
+                items_per_cluster=getattr(self.config.chunker.clustering, "items_per_cluster", None)
             )
             
             # Check if centroids is empty

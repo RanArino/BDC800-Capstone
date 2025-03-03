@@ -11,7 +11,7 @@ TEST_scaler_rag_qasper:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      n_clusters: 1
+      items_per_cluster: 15
     dim_reduction:
       method: "pca"
       n_components: 50
@@ -36,7 +36,7 @@ TEST_scaler_rag_multihoprag:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      n_clusters: 1
+      items_per_cluster: 15
     dim_reduction:
       method: "pca"
       n_components: 50
