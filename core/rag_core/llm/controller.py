@@ -1,5 +1,9 @@
 # core/rag_core/llm/controller.py
 
+import os
+# Set tokenizers parallelism to avoid warnings when using multiprocessing
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 import yaml
 from typing import Dict
 
