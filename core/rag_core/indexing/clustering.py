@@ -90,7 +90,7 @@ def run_clustering(
     n_clusters: Optional[int] = None,
     items_per_cluster: int = 15,
     **kwargs
-) -> Tuple[List[int], Dict[int, List[float]], Dict[int, List[int]]]:
+) -> Union[KMeans, GaussianMixture]:
     """Run clustering on embeddings.
     
     Args:
@@ -103,19 +103,17 @@ def run_clustering(
         **kwargs: Additional arguments for the specific method
         
     Returns:
-        Tuple of 
-        - List of cluster labels for each embedding
-        - Dictionary of cluster centroids; {cluster_id: centroid}
-        - Dictionary of cluster to indices mapping; {cluster_id: [indices of embeddings in the cluster]}
+        The clustering model object, which can be:
+        - KMeans: with attributes labels_, cluster_centers_
+        - GaussianMixture: with methods predict() and attribute means_
     """
     # Convert embeddings to numpy array if not already
     embeddings_array = np.array(embeddings, dtype=np.float32)
     
     # Check if embeddings array is empty
     if embeddings_array.size == 0:
-        logger.warning("Empty embeddings array provided to clustering. Returning empty results.")
-        # Return empty results
-        return [], {0: np.zeros(50, dtype=np.float32)}, {0: []}
+        logger.warning("Empty embeddings array provided to clustering. Returning None.")
+        return None
     
     # Estimate number of clusters if not provided
     if n_clusters is None:
@@ -125,26 +123,47 @@ def run_clustering(
     
     # Apply clustering based on method
     if method.lower() == "kmeans":
-        labels, centroids, clusters = kmeans_clustering(
-            embeddings_array,
+        # For KMeans
+        kmeans = KMeans(
             n_clusters=n_clusters,
-            random_state=kwargs.get("random_state", 42)
+            random_state=kwargs.get("random_state", 42),
+            n_init=10
         )
+        kmeans.fit(embeddings_array)
+        
+        # Log cluster sizes
+        labels = kmeans.labels_
+        clusters = {}
+        for i, label in enumerate(labels):
+            if label not in clusters:
+                clusters[label] = []
+            clusters[label].append(i)
+        
+        cluster_sizes = {cluster_id: len(indices) for cluster_id, indices in clusters.items()}
+        logger.info(f"KMeans cluster sizes: {cluster_sizes}")
+        
+        return kmeans
+            
     elif method.lower() == "gmm":
-        labels, centroids, clusters = gmm_clustering(
-            embeddings_array,
+        # For GMM
+        gmm = GaussianMixture(
             n_components=n_clusters,
             random_state=kwargs.get("random_state", 42)
         )
+        gmm.fit(embeddings_array)
+        
+        # Log cluster sizes
+        labels = gmm.predict(embeddings_array)
+        clusters = {}
+        for i, label in enumerate(labels):
+            if label not in clusters:
+                clusters[label] = []
+            clusters[label].append(i)
+        
+        cluster_sizes = {cluster_id: len(indices) for cluster_id, indices in clusters.items()}
+        logger.info(f"GMM cluster sizes: {cluster_sizes}")
+        
+        return gmm
+            
     else:
         raise ValueError(f"Unsupported clustering method: {method}")
-    
-    # Create dictionary of cluster centroids
-    centroid_dict = {i: centroids[i] for i in range(len(centroids))}
-    
-    # Log actual cluster sizes
-    cluster_sizes = {cluster_id: len(indices) for cluster_id, indices in clusters.items()}
-    logger.info(f"Actual cluster sizes: {cluster_sizes}")
-    
-    # Return cluster labels (in original order), centroids dictionary, and clusters mapping
-    return labels.tolist(), centroid_dict, clusters
