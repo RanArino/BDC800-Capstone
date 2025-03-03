@@ -42,6 +42,7 @@ httpx-sse==0.4.0
 huggingface-hub==0.28.1
 idna==3.10
 ijson==3.3.0
+iniconfig==2.0.0
 ipykernel==6.29.5
 ipython==8.32.0
 jedi==0.19.2
@@ -81,6 +82,7 @@ parso==0.8.4
 pexpect==4.9.0
 pillow==11.1.0
 platformdirs==4.3.6
+pluggy==1.5.0
 portalocker==3.1.1
 prompt_toolkit==3.0.50
 propcache==0.2.1
@@ -98,6 +100,7 @@ pydantic_core==2.27.2
 Pygments==2.19.1
 pynndescent==0.5.13
 pyparsing==3.2.1
+pytest==8.3.5
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1

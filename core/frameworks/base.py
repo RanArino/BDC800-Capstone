@@ -329,6 +329,25 @@ Answer:"""
             gen_qas
         )
 
+    def _ensure_document_generator(
+        self, 
+        documents: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]
+    ) -> Generator[SchemaDocument, None, None]:
+        """Convert a single document or generator into a generator.
+        
+        Args:
+            documents: A single document, a generator of documents, or an iterable of documents
+            
+        Returns:
+            A generator of documents
+        """
+        if isinstance(documents, SchemaDocument):
+            yield documents
+        elif isinstance(documents, Generator):
+            yield from documents
+        else:
+            yield from documents
+
     @property
     def dataset_config(self) -> DatasetConfig:
         return self.config.dataset
