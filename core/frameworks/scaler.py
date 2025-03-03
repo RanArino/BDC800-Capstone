@@ -41,9 +41,9 @@ class ScalerRAG(BaseRAGFramework):
         
         # Initialize layered vector stores
         self.layered_vector_stores: Dict[AVAILABLE_LAYERS, Union[FAISS, Dict[PARENT_NODE_ID, FAISS]]] = {
-            "doc": None,
+            "doc": {},
             "chunk": {},
-            "doc_cc": {},
+            "doc_cc": None,
             "chunk_cc": {}
         }
         
