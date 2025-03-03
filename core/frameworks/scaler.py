@@ -181,7 +181,7 @@ class ScalerRAG(BaseRAGFramework):
             # Run dimensional reduction
             embeddings_array, dim_model = run_dim_reduction(
                 embeddings=embeddings_array, 
-                dim_method=self.config.chunker.dim_reduction.method, 
+                method=self.config.chunker.dim_reduction.method, 
                 n_components=getattr(self.config.chunker.dim_reduction, "n_components", None)
             )
             
@@ -194,7 +194,7 @@ class ScalerRAG(BaseRAGFramework):
         # Conduct Clustering if configured
         if hasattr(self.config.chunker, "clustering"):
             # Run clustering
-            _, centroids, clusters_to_indices = run_clustering(
+            labels, centroids, clusters_to_indices = run_clustering(
                 embeddings_array,
                 method=self.config.chunker.clustering.method,
                 n_clusters=getattr(self.config.chunker.clustering, "n_clusters", None),
