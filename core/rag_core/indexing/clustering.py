@@ -90,13 +90,13 @@ def run_clustering(
     n_clusters: Optional[int] = None,
     items_per_cluster: int = 15,
     **kwargs
-) -> Tuple[List[int], Dict[int, np.ndarray], Dict[int, List[int]]]:
-    """Perform clustering on embeddings.
+) -> Tuple[List[int], Dict[int, List[float]], Dict[int, List[int]]]:
+    """Run clustering on embeddings.
     
     Args:
         embeddings: List of embedding vectors
         method: Clustering method ("kmeans" or "gmm")
-        n_clusters: Number of clusters (if None, will be estimated based on items_per_cluster)
+        n_clusters: Number of clusters (if None, will be estimated)
         items_per_cluster: Target number of items per cluster (used if n_clusters is None).
                           This is a guideline, not a strict requirement - actual clusters may
                           contain fewer or more items depending on the data distribution.
@@ -110,6 +110,12 @@ def run_clustering(
     """
     # Convert embeddings to numpy array if not already
     embeddings_array = np.array(embeddings, dtype=np.float32)
+    
+    # Check if embeddings array is empty
+    if embeddings_array.size == 0:
+        logger.warning("Empty embeddings array provided to clustering. Returning empty results.")
+        # Return empty results
+        return [], {0: np.zeros(50, dtype=np.float32)}, {0: []}
     
     # Estimate number of clusters if not provided
     if n_clusters is None:
