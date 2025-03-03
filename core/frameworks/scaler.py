@@ -202,6 +202,147 @@ class ScalerRAG(BaseRAGFramework):
                 embedding=self.llm.get_embedding
             )
 
+    def _save_all_indexes(self):
+        """Save all indexes to disk.
+        
+        The layered vector stores are saved with the following structure:
+        vectorstore_path/
+            ├── doc/
+            │   ├── cluster1.faiss
+            │   └── cluster2.faiss
+            ├── doc_cc/
+            │   └── doc_cc.faiss
+            ├── chunk/
+            │   ├── doc_id1.faiss
+            │   └── doc_id2.faiss
+            └── chunk_cc/
+                ├── doc_id1.faiss
+                └── doc_id2.faiss
+        """
+        if not self.is_save_vectorstore:
+            self.logger.info("Skipping index saving as is_save_vectorstore is False")
+            return
+            
+        try:
+            self.logger.debug("Starting to save all indexes")
+            
+            # Create base directory if it doesn't exist
+            os.makedirs(self.vectorstore_path, exist_ok=True)
+            
+            # Save each layer
+            for layer, vector_store in self.layered_vector_stores.items():
+                if vector_store is None:
+                    continue
+                    
+                # Create layer directory
+                layer_path = os.path.join(self.vectorstore_path, layer)
+                os.makedirs(layer_path, exist_ok=True)
+                
+                if isinstance(vector_store, FAISS):
+                    # Handle single FAISS instance (doc_cc layer)
+                    save_path = os.path.join(layer_path, f"{layer}.faiss")
+                    vector_store.save_local(save_path)
+                    self.logger.debug(f"Saved {layer} index to {save_path}")
+                elif isinstance(vector_store, dict):
+                    # Handle dictionary of FAISS instances (doc, chunk, and chunk_cc layers)
+                    for node_id, vs in vector_store.items():
+                        if vs is not None:
+                            save_path = os.path.join(layer_path, f"{node_id}.faiss")
+                            vs.save_local(save_path)
+                            self.logger.debug(f"Saved {layer} index for node {node_id} to {save_path}")
+            
+            self.logger.info("Successfully saved all indexes")
+            
+        except Exception as e:
+            self.logger.error(f"Error saving indexes: {str(e)}")
+            raise
+
+    def _load_all_indexes(self) -> Dict[str, bool]:
+        """Load all indexes from disk.
+        
+        The layered vector stores are loaded from the following structure:
+        vectorstore_path/
+            ├── doc/
+            │   └── doc.faiss
+            ├── doc_cc/
+            │   └── doc_cc.faiss
+            ├── chunk/
+            │   ├── doc_id1.faiss
+            │   └── doc_id2.faiss
+            └── chunk_cc/
+                ├── doc_id1.faiss
+                └── doc_id2.faiss
+                
+        Returns:
+            Dict[str, bool]: Dictionary indicating which layers were successfully loaded
+        """
+        try:
+            self.logger.debug("Starting to load all indexes")
+            
+            # Check if the base directory exists
+            if not os.path.exists(self.vectorstore_path):
+                self.logger.info(f"No existing indexes found at {self.vectorstore_path}")
+                return {layer: False for layer in self.layered_vector_stores.keys()}
+                
+            # Initialize empty vector stores
+            self.layered_vector_stores = {
+                "doc": {},
+                "chunk": {},
+                "doc_cc": None,
+                "chunk_cc": {}
+            }
+            
+            # Track which layers were loaded
+            loaded_layers = {layer: False for layer in self.layered_vector_stores.keys()}
+            
+            # Load each layer
+            for layer in self.layered_vector_stores.keys():
+                layer_path = os.path.join(self.vectorstore_path, layer)
+                
+                if not os.path.exists(layer_path):
+                    self.logger.debug(f"No index directory found for layer {layer}")
+                    continue
+                    
+                # Handle single FAISS instance layer (doc_cc)
+                if layer == "doc_cc":
+                    index_path = os.path.join(layer_path, f"{layer}.faiss")
+                    if os.path.exists(index_path):
+                        self.layered_vector_stores[layer] = FAISS.load_local(
+                            index_path,
+                            self.llm.get_embedding,
+                            allow_dangerous_deserialization=True
+                        )
+                        self.logger.debug(f"Loaded {layer} index from {index_path}")
+                        loaded_layers[layer] = True
+                
+                # Handle dictionary FAISS instance layers (doc, chunk, and chunk_cc)
+                else:
+                    # Get all .faiss files in the directory
+                    faiss_files = [f for f in os.listdir(layer_path) if f.endswith('.faiss')]
+                    if faiss_files:  # Only mark as loaded if we found some files
+                        loaded_layers[layer] = True
+                        for faiss_file in faiss_files:
+                            node_id = faiss_file[:-6]  # Remove .faiss extension
+                            index_path = os.path.join(layer_path, faiss_file)
+                            self.layered_vector_stores[layer][node_id] = FAISS.load_local(
+                                index_path,
+                                self.llm.get_embedding,
+                                allow_dangerous_deserialization=True
+                            )
+                            self.logger.debug(f"Loaded {layer} index for node {node_id} from {index_path}")
+            
+            loaded_count = sum(loaded_layers.values())
+            if loaded_count == 0:
+                self.logger.info("No indexes were loaded")
+            else:
+                self.logger.info(f"Successfully loaded {loaded_count} layers: {[layer for layer, loaded in loaded_layers.items() if loaded]}")
+            
+            return loaded_layers
+            
+        except Exception as e:
+            self.logger.error(f"Error loading indexes: {str(e)}")
+            raise
+
     def retrieve(self, query: str, top_k: Optional[int] = None) -> List[LangChainDocument]:
         """Retrieve relevant documents using SCALER's hierarchical approach."""
         pass
