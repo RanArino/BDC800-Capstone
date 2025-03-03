@@ -95,10 +95,11 @@ class ScalerRAG(BaseRAGFramework):
             for doc in gen_docs:
                 # Skip document-level processing if both doc and doc_cc are already loaded
                 if not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
-                    # LLM summary
-                    summary, sum_embed = self._doc_summary(doc)
-                    doc_summary.append(summary)
-                    doc_summary_embed.append(sum_embed)
+                    # Skip LLM summary only if docs is a single SchemaDocument
+                    if not isinstance(docs, SchemaDocument):
+                        summary, sum_embed = self._doc_summary(doc)
+                        doc_summary.append(summary)
+                        doc_summary_embed.append(sum_embed)
 
                 # Skip chunk processing if both chunk and chunk_cc are already loaded for this document
                 chunk_key = str(doc.id)
