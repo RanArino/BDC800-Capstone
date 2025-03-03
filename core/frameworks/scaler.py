@@ -177,10 +177,13 @@ class ScalerRAG(BaseRAGFramework):
         embeddings_array = np.array(embeddings, dtype=np.float32)
         
         # Conduct dimensional reduction if configured
-        if self.config.chunker.dim_reduction:
-            dim_method = self.config.chunker.dim_reduction.method
-            n_components = self.config.chunker.dim_reduction.n_components
-            embeddings_array, dim_model = run_dim_reduction(embeddings_array, dim_method, n_components=n_components)
+        if hasattr(self.config.chunker, "dim_reduction"):
+            # Run dimensional reduction
+            embeddings_array, dim_model = run_dim_reduction(
+                embeddings=embeddings_array, 
+                dim_method=self.config.chunker.dim_reduction.method, 
+                n_components=getattr(self.config.chunker.dim_reduction, "n_components", None)
+            )
             
             # Store the dimensional reduction model for later use with queries
             if layer == "doc":
@@ -189,15 +192,13 @@ class ScalerRAG(BaseRAGFramework):
                 self.dim_reduction_models["chunk"][parent_node_id] = dim_model
         
         # Conduct Clustering if configured
-        if self.config.chunker.clustering:
-            cluster_method = self.config.chunker.clustering.method
-            n_clusters = self.config.chunker.clustering.n_clusters
-            
+        if hasattr(self.config.chunker, "clustering"):
             # Run clustering
             _, centroids, clusters_to_indices = run_clustering(
                 embeddings_array,
-                method=cluster_method,
-                n_clusters=n_clusters,
+                method=self.config.chunker.clustering.method,
+                n_clusters=getattr(self.config.chunker.clustering, "n_clusters", None),
+                items_per_cluster=getattr(self.config.chunker.clustering, "items_per_cluster", None)
             )
             
             # Check if centroids is empty
