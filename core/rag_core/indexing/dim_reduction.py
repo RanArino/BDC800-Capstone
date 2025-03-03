@@ -29,6 +29,13 @@ def apply_pca(
     """
     logger.info(f"Applying PCA to reduce dimensions to {n_components}")
     
+    # Check if embeddings array is empty
+    if embeddings.size == 0:
+        logger.warning("Empty embeddings array provided to PCA. Returning empty array and default PCA model.")
+        # Return empty array and initialized PCA model
+        pca = PCA(n_components=n_components, random_state=random_state)
+        return np.array([], dtype=np.float32).reshape(0, n_components), pca
+    
     # Ensure n_components is not larger than the number of samples or features
     n_components = min(n_components, embeddings.shape[0], embeddings.shape[1])
     
@@ -62,6 +69,17 @@ def apply_umap(
         Tuple of (reduced embeddings, fitted UMAP model)
     """
     logger.info(f"Applying UMAP to reduce dimensions to {n_components}")
+    
+    # Check if embeddings array is empty
+    if embeddings.size == 0:
+        logger.warning("Empty embeddings array provided to UMAP. Returning empty array and default UMAP model.")
+        reducer = umap.UMAP(
+            n_components=n_components,
+            n_neighbors=n_neighbors,
+            min_dist=min_dist,
+            random_state=random_state
+        )
+        return np.array([], dtype=np.float32).reshape(0, n_components), reducer
     
     # Apply UMAP
     reducer = umap.UMAP(
