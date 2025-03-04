@@ -108,6 +108,8 @@ class ScalerRAG(BaseRAGFramework):
                         doc_summary.append(summary)
                         doc_summary_embed.append(sum_embed)
 
+                    self.logger.debug(f"Completed document {doc.id} summary")
+
                 # Skip chunk processing if both chunk and chunk_cc are already loaded for this document
                 chunk_key = str(doc.id)
                 # Check if this document has already been processed
@@ -123,6 +125,7 @@ class ScalerRAG(BaseRAGFramework):
                         chunks=chunks,
                         parent_node_id=doc.id
                     )
+                    self.logger.debug(f"Completed chunking for document {chunk_key}")
                 num_docs += 1
             
             # Create or update document summary vector store if we have multiple documents
@@ -135,7 +138,8 @@ class ScalerRAG(BaseRAGFramework):
                     doc_summary=doc_summary,
                     parent_node_id=None
                 )
-            
+                self.logger.debug(f"Completed document summary vector store")
+
             # Save all indexes if enabled
             if self.is_save_vectorstore:
                 self._save_all_indexes()
