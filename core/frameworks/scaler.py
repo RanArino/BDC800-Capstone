@@ -255,7 +255,7 @@ class ScalerRAG(BaseRAGFramework):
                     )
             elif layer == "chunk" and parent_node_id:
                 # Store cluster centroids for chunk layer
-                centroid_embeddings = [(f"chunk_cc-{label}", vector) for label, vector in centroids.items()]
+                centroid_embeddings = [(f"{parent_node_id}-{label}", vector) for label, vector in centroids.items()]
                 if centroid_embeddings:  # Only create if we have embeddings
                     self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
                         text_embeddings=centroid_embeddings,
