@@ -275,7 +275,14 @@ class ScalerRAG(BaseRAGFramework):
                 
                 texts_and_embeddings = []
                 metadatas = []
-                cluster_parent_node_id = parent_node_id + f"-{str(cluster)}" if parent_node_id else str(cluster)
+                
+                # Format the cluster key consistently across all layers
+                if layer == "doc":
+                    cluster_key = f"doc_cc-{str(cluster)}"
+                elif layer == "chunk" and parent_node_id:
+                    cluster_key = f"{parent_node_id}-{str(cluster)}"
+                else:
+                    raise ValueError(f"Invalid layer: {layer}")
                 
                 # Extract the embeddings and texts which are associated with the current cluster
                 for idx in embed_indices:
@@ -288,7 +295,7 @@ class ScalerRAG(BaseRAGFramework):
 
                 # Store in the appropriate layer if we have embeddings
                 if texts_and_embeddings:
-                    self.layered_vector_stores[layer][cluster_parent_node_id] = FAISS.from_embeddings(
+                    self.layered_vector_stores[layer][cluster_key] = FAISS.from_embeddings(
                         text_embeddings=texts_and_embeddings,
                         metadatas=metadatas,
                         embedding=self.llm.get_embedding
@@ -591,7 +598,7 @@ class ScalerRAG(BaseRAGFramework):
                         results[layer] = chunk_cc_results
                 
                 # Handle base layers (doc and chunk)
-            else:
+                else:
                     if layer == "doc":
                         # Get documents from doc layer using cluster IDs
                         doc_results = []
@@ -603,7 +610,6 @@ class ScalerRAG(BaseRAGFramework):
                                 )
                                 doc_results.extend(cluster_docs)
                         # Sort by score (lower is better) and take top_k
-                        # TODO: Check if this is correct
                         doc_results = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
                         results[layer] = doc_results
                         
