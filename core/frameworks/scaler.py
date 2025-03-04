@@ -476,6 +476,150 @@ class ScalerRAG(BaseRAGFramework):
             self.logger.error(f"Error loading indexes: {str(e)}")
             raise
 
-    def retrieve(self, query: str, top_k: Optional[int] = None) -> List[LangChainDocument]:
-        """Retrieve relevant documents using SCALER's hierarchical approach."""
-        pass
+    def retrieve(
+        self, 
+        query: str, 
+        top_k_per_layer: Optional[Dict[AVAILABLE_LAYERS, int]] = None, 
+        **kwargs
+    ) -> Dict[AVAILABLE_LAYERS, List[LangChainDocument]]:
+        """Retrieve relevant documents using SCALER's hierarchical approach.
+        
+        This method:
+        1. Retrieves cluster IDs from doc_cc layer
+        2. Uses cluster IDs to get documents from doc layer
+        3. Retrieves cluster IDs from chunk_cc layer
+        4. Uses cluster IDs to get chunks from chunk layer
+        
+        Args:
+            query: Query string
+            top_k_per_layer: Dictionary mapping layer names to number of documents to retrieve
+            **kwargs: Additional arguments
+            
+        Returns:
+            Dictionary mapping layer names to lists of retrieved documents
+        """
+        try:
+            self.logger.debug(f"Starting retrieval for query: {query}")
+            
+            # Use config's top_k if not specified
+            if top_k_per_layer is None:
+                config = self.retrieval_generation_config
+                top_k_per_layer = {
+                    "doc_cc": getattr(config, "top_k_doc_cc", None) or 2,
+                    "doc": getattr(config, "top_k_doc", None) or 10,
+                    "chunk_cc": getattr(config, "top_k_chunk_cc", None) or 2,
+                    "chunk": getattr(config, "top_k", None) or 10
+                }
+            
+            # Get the query embedding
+            query_embedding = self.llm.embedding.embed_query(query)
+            results = {}
+            
+            # Track cluster IDs for hierarchical retrieval
+            doc_cluster_ids = []
+            chunk_cluster_ids = {}  # Dict[doc_id, List[cluster_id]]
+            
+            for layer, top_k in top_k_per_layer.items():
+                # Skip if the vectorstore is not created
+                if not self.layered_vector_stores.get(layer, None):
+                    continue
+
+                vectorstore = self.layered_vector_stores[layer]
+                self.logger.debug(f"Processing {layer} layer")
+                
+                # Handle centroid layers (doc_cc and chunk_cc)
+                if layer.endswith("_cc"):
+                    base_layer = layer.replace("_cc", "")
+                    dim_model = None
+                    
+                    if base_layer == "doc":
+                        dim_model = self.dim_reduction_models.get("doc")
+                        search_embedding = reduce_query_embedding(query_embedding, dim_model) if dim_model else query_embedding
+                        
+                        # Get cluster IDs from doc_cc layer
+                        doc_cc_results = vectorstore.similarity_search_with_score_by_vector(
+                            search_embedding,
+                            k=top_k
+                        )
+                        # Sort by score (lower is better) and store only documents
+                        doc_cc_results = [doc for doc, _ in sorted(doc_cc_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = doc_cc_results
+                        
+                        # Store cluster IDs for doc layer retrieval
+                        doc_cluster_ids = [
+                            doc_cc_doc.page_content
+                            for doc_cc_doc in doc_cc_results
+                            if doc_cc_doc.page_content is not None
+                        ]
+                        
+                    elif base_layer == "chunk":
+                        # Get all document IDs from chunk_cc layer
+                        doc_ids = set()
+                        for doc_id in vectorstore.keys():
+                            doc_ids.add(doc_id.split('-')[0])
+                        
+                        chunk_cc_results = []
+                        # For each document, get its chunk clusters
+                        for doc_id in doc_ids:
+                            if doc_id in vectorstore:
+                                dim_model = self.dim_reduction_models["chunk"].get(doc_id)
+                                search_embedding = reduce_query_embedding(query_embedding, dim_model) if dim_model else query_embedding
+                                
+                                # Get cluster IDs from chunk_cc layer for this document
+                                doc_chunk_cc_results = vectorstore[doc_id].similarity_search_with_score_by_vector(
+                                    search_embedding,
+                                    k=top_k
+                                )
+                                # Store documents with their scores for later sorting
+                                chunk_cc_results.extend(doc_chunk_cc_results)
+                                
+                                # Store cluster IDs for chunk layer retrieval
+                                if doc_id not in chunk_cluster_ids:
+                                    chunk_cluster_ids[doc_id] = []
+                                chunk_cluster_ids[doc_id].extend([
+                                    chunk_cc_doc.page_content
+                                    for chunk_cc_doc, _ in doc_chunk_cc_results
+                                    if chunk_cc_doc.page_content is not None
+                                ])
+                        
+                        # Sort all chunk_cc results by score and take top_k
+                        chunk_cc_results = [doc for doc, _ in sorted(chunk_cc_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = chunk_cc_results
+                
+                # Handle base layers (doc and chunk)
+            else:
+                    if layer == "doc":
+                        # Get documents from doc layer using cluster IDs
+                        doc_results = []
+                        for cluster_id in doc_cluster_ids:
+                            if cluster_id in vectorstore:
+                                cluster_docs = vectorstore[cluster_id].similarity_search_with_score(
+                                    query,
+                                    k=top_k
+                                )
+                                doc_results.extend(cluster_docs)
+                        # Sort by score (lower is better) and take top_k
+                        # TODO: Check if this is correct
+                        doc_results = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = doc_results
+                        
+                    elif layer == "chunk":
+                        # Get chunks from chunk layer using cluster IDs
+                        chunk_results = []
+                        for doc_id, cluster_ids in chunk_cluster_ids.items():
+                            for cluster_key in cluster_ids:
+                                if cluster_key in vectorstore:
+                                    cluster_chunks = vectorstore[cluster_key].similarity_search_with_score(
+                                        query,
+                                        k=top_k
+                                    )
+                                    chunk_results.extend(cluster_chunks)
+                        # Sort by score (lower is better) and take top_k
+                        chunk_results = [doc for doc, _ in sorted(chunk_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = chunk_results
+            
+            return results["chunk"]
+            
+        except Exception as e:
+            self.logger.error(f"Error during retrieval: {str(e)}")
+            raise
