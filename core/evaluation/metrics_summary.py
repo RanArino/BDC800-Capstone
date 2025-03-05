@@ -8,12 +8,14 @@ for RAG system evaluation. It's designed to work with the BaseRAGFramework.run()
 and calculates metrics per QA pair while efficiently managing memory usage.
 """
 
-from typing import List, Union, Tuple, Set, Optional, Dict
+from typing import List, Union, Tuple, Set, Optional, Dict, TYPE_CHECKING
 import pandas as pd
 from collections import defaultdict
 
 from core.datasets.schema import IntraDocumentQA, InterDocumentQA
-from core.frameworks.schema import RAGResponse
+# Import RAGResponse only for type checking to avoid circular imports
+if TYPE_CHECKING:
+    from core.frameworks.schema import RAGResponse
 from core.evaluation.metrics import calculate_retrieval_metrics, calculate_generation_metrics
 from core.evaluation.schema import (
     ProfilerTimingKey,
@@ -30,7 +32,7 @@ from core.evaluation.schema import (
 
 def calculate_metrics_for_qa(
     qa: Union[IntraDocumentQA, InterDocumentQA],
-    response: RAGResponse,
+    response: "RAGResponse",
     k_values: List[int] = [1, 3, 5, 10],
     rouge_types: List[RougeType] = ['rouge1', 'rouge2', 'rougeL'],
     rouge_metric_types: List[RougeMetricType] = ['precision', 'recall', 'fmeasure']
@@ -322,7 +324,7 @@ def accumulate_and_summarize_metrics(
 
 
 def _extract_doc_ids(
-        responses: List[RAGResponse],
+        responses: List["RAGResponse"],
         qa_pairs: List[InterDocumentQA]
     ) -> Tuple[List[List[str]], List[Set[str]]]:
     """
