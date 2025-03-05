@@ -545,7 +545,8 @@ class ScalerRAG(BaseRAGFramework):
             # Track cluster IDs for hierarchical retrieval
             doc_cluster_ids = []
             chunk_cluster_ids = {}  # Dict[doc_id, List[cluster_id]]
-            
+                    
+            # Process each layer defined in top_k_per_layer to retrieve relevant documents
             for layer, top_k in top_k_per_layer.items():
                 # Skip if the vectorstore is not created
                 if not self.layered_vector_stores.get(layer, None):
@@ -574,16 +575,23 @@ class ScalerRAG(BaseRAGFramework):
                         
                         # Store cluster IDs for doc layer retrieval
                         doc_cluster_ids = [
-                            doc_cc_doc.page_content
+                            doc_cc_doc.metadata.get("vector_store_key")
                             for doc_cc_doc in doc_cc_results
-                            if doc_cc_doc.page_content is not None
+                            if doc_cc_doc.metadata.get("vector_store_key") is not None
                         ]
                         
                     elif base_layer == "chunk":
-                        # Get all document IDs from chunk_cc layer
+                        # get the document_id from the doc layer
                         doc_ids = set()
-                        for doc_id in vectorstore.keys():
-                            doc_ids.add(doc_id.split('-')[0])
+                        # if doc layer is created, get the document_id from the doc layer
+                        if self.layered_vector_stores.get('doc', None) and results.get('doc'):
+                            # get the document_id from the doc layer
+                            for doc in results['doc']:
+                                doc_ids.add(doc.metadata.get('vector_store_key'))
+                        else:
+                            # if doc layer is not created, get the document_id from the chunk_cc layer
+                            for doc_id in vectorstore.keys():
+                                doc_ids.add(doc_id.split('-')[0])
                         
                         chunk_cc_results = []
                         # For each document, get its chunk clusters
