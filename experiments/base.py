@@ -15,7 +15,7 @@ from typing import List
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.frameworks import SimpleRAG, RAGResponse
+from core.frameworks import SimpleRAG, ScalerRAG, RAGResponse
 from core.datasets import IntraDocumentQA, InterDocumentQA
 from core.logger.logger import get_logger
 from core.evaluation.metrics_summary import accumulate_and_summarize_metrics
@@ -40,9 +40,10 @@ def run_experiment(
         
         if Path(config_path).parent.name == "simple_rag":
             logger.info(f"Initializing SimpleRAG for {config_name}")
-            rag = SimpleRAG(config_name, config_path)
+            rag = SimpleRAG(config_name, config_path, True)
         elif Path(config_path).parent.name == "scaler_rag":
-            pass
+            logger.info(f"Initializing ScalerRAG for {config_name}")
+            rag = ScalerRAG(config_name, config_path, True)
         else:
             raise ValueError(f"Invalid config path: {config_path}. Must be in the simple_rag directory.")
 
@@ -139,8 +140,16 @@ if __name__ == "__main__":
         warnings.filterwarnings("ignore")
         # define config_path and config_name
         config_path = "core/configs/simple_rag/test.yaml"
-        config_name = ["TEST02_simple_rag_01"]
-        # run the experiment
+        config_name = ["TEST02_simple_rag_01", "TEST02_simple_rag_02"]
+        # run the simple_rag experiment
+        for config in config_name:
+            print(f"\n===== Starting {config} test =====")
+            run_experiment(config_path, config, llm_generation=True)
+            print(f"\n===== {config} test completed =====")
+
+        # run the scaler_rag experiment
+        config_path = "core/configs/scaler_rag/test.yaml"
+        config_name = ["TEST02_scaler_rag_01", "TEST02_scaler_rag_02"]
         for config in config_name:
             print(f"\n===== Starting {config} test =====")
             run_experiment(config_path, config, llm_generation=True)
