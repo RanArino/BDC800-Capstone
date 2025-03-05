@@ -6,36 +6,92 @@ and consistent with the given question using Gemini AI.
 """
 
 import os
-from typing import Literal
+from typing import Literal, Union, Optional
 import google.generativeai as genai
+from langchain_ollama.llms import OllamaLLM
 
-from core.evaluation.schema import SelfCheckerAnswer
+from core.evaluation.schema import SelfCheckerAnswer, SefCheckerModel
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
 
+# Configuration options - can be overridden with environment variables
+DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "phi4:14b")
+
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-# Create the model
-generation_config = {
+# Base generation configuration
+base_generation_config = {
     "temperature": 1,
     "top_p": 0.95,
     "top_k": 40,
-    "max_output_tokens": 1024,
+}
+
+# Gemini-specific configuration
+gemini_generation_config = {
+    **base_generation_config,
+    "max_output_tokens": 64,
     "response_mime_type": "text/plain",
 }
 
-model = genai.GenerativeModel(
-  model_name="gemini-2.0-flash",
-  generation_config=generation_config,
-  system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
-)
+# Ollama-specific configuration
+ollama_generation_config = {
+    **base_generation_config,
+    "num_predict": 64,  # equivalent to max_output_tokens
+}
+
+# Lazy loading model cache
+_MODEL_INSTANCES = {}
+
+def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeModel]:
+    """
+    Get or create a model instance with lazy loading and caching.
+    
+    Args:
+        model_name: Name of the model to load
+        
+    Returns:
+        The model instance
+    """
+    if model_name not in _MODEL_INSTANCES:
+        logger.info(f"Initializing {model_name} model (first use)")
+        
+        # Create the appropriate model based on model_name
+        if model_name == "phi4:14b":
+            _MODEL_INSTANCES[model_name] = OllamaLLM(
+                model="phi4:14b",
+                temperature=ollama_generation_config["temperature"],
+                top_p=ollama_generation_config["top_p"],
+                top_k=ollama_generation_config["top_k"],
+                num_predict=ollama_generation_config["num_predict"],
+                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+            )
+        elif model_name == "deepseek-r1:14b":
+            _MODEL_INSTANCES[model_name] = OllamaLLM(
+                model="deepseek-r1:14b",
+                temperature=ollama_generation_config["temperature"],
+                top_p=ollama_generation_config["top_p"],
+                top_k=ollama_generation_config["top_k"],
+                num_predict=ollama_generation_config["num_predict"],
+                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+            )
+        elif model_name == "gemini-2.0-flash":
+            _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
+                model_name="gemini-2.0-flash",
+                generation_config=gemini_generation_config,
+                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+            )
+        else:
+            raise ValueError(f"Invalid model: {model_name}")
+            
+    return _MODEL_INSTANCES[model_name]
 
 def check_llm_answer(
         qa_id: str,
         question: str, 
         ground_truth_answer: str,
-        llm_answer: str
+        llm_answer: str,
+        model: SefCheckerModel = None
     ) -> SelfCheckerAnswer:
     """
     Check if the LLM's reasoning/answer aligns with the ground truth answer.
@@ -45,15 +101,22 @@ def check_llm_answer(
         question (str): The original question
         ground_truth_answer (str): The ground truth answer
         llm_answer (str): The LLM generated answer/reasoning
+        model (str, optional): The model to use for self-checking. If None, uses the default model from environment.
         
     Returns:
         SelfCheckerAnswer: Contains evaluation result ('Yes'/'No'/'Undetermined')
                           indicating if LLM's answer aligns with ground truth
     """
+    # Use the default model if none specified
+    model_to_use = model if model is not None else DEFAULT_SELF_CHECKER_MODEL
+    
     try:
-        chat_session = model.start_chat(history=[])
-        
-        prompt = f"""
+        model_instance = get_model(model_to_use)
+    except ValueError as e:
+        logger.error(f"Invalid model: {e}")
+        return "Undetermined"
+    
+    prompt = f"""
 Question: {question}
 Answer: {ground_truth_answer}
 Reasoning: {llm_answer}
@@ -66,34 +129,49 @@ Consider:
 
 Please respond with ONLY 'Yes' if the LLM's answer is sufficiently aligned with ground truth, or 'No' if there are significant discrepancies.
 """
+    
+    try:
+        # Initialize chat session if using Gemini
+        chat_session = None
+        if isinstance(model_instance, genai.GenerativeModel):
+            chat_session = model_instance.start_chat(history=[])
+        
+        def get_response(prompt_text: str) -> str:
+            """Get response from model and normalize it"""
+            if isinstance(model_instance, genai.GenerativeModel):
+                response = chat_session.send_message(prompt_text)
+                return response.text.strip().lower()
+            else:  # OllamaLLM
+                response = model_instance.invoke(prompt_text)
+                return response.strip().lower()
+        
+        def check_response(response_text: str) -> Optional[SelfCheckerAnswer]:
+            """Check if response contains yes/no and return appropriate result"""
+            if "yes" in response_text:
+                logger.info(f"Self-checker (qa_id: {qa_id}) - Yes")
+                return "Yes"
+            elif "no" in response_text:
+                logger.info(f"Self-checker (qa_id: {qa_id}) - No")
+                return "No"
+            return None
         
         # First attempt
-        response = chat_session.send_message(prompt)
-        first_response = response.text.strip().lower()
+        first_response = get_response(prompt)
+        result = check_response(first_response)
+        if result:
+            return result
         
-        if "yes" in first_response:
-            logger.info(f"Self-checker (qa_id: {qa_id}) - Yes")
-            return "Yes"
-        elif "no" in first_response:
-            logger.info(f"Self-checker (qa_id: {qa_id}) - No")
-            return "No"
-        
-        # Second attempt - explicitly ask for Yes/No
+        # Second attempt with explicit prompt
         retry_prompt = "Please answer ONLY with 'Yes' or 'No'. Is the LLM's answer aligned with the ground truth answer?"
-        response = chat_session.send_message(retry_prompt)
-        second_response = response.text.strip().lower()
-        
-        if "yes" in second_response:
-            logger.info(f"Self-checker (qa_id: {qa_id}) - Yes")
-            return "Yes"
-        elif "no" in second_response:
-            logger.info(f"Self-checker (qa_id: {qa_id}) - No")
-            return "No"
+        second_response = get_response(retry_prompt)
+        result = check_response(second_response)
+        if result:
+            return result
         
         # If both attempts fail to get Yes/No
         logger.info(f"Self-checker (qa_id: {qa_id}) - Undetermined")
         return "Undetermined"
-    finally:
-        # Cleanup chat session
-        del chat_session
-
+        
+    except Exception as e:
+        logger.error(f"Error during self-checking: {e}")
+        return "Undetermined"
