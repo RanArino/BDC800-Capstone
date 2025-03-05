@@ -18,8 +18,9 @@ simple_rag_01_01:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval_generation:
     faiss_search: "flatl2"
-    top_k: 10
+    top_k: 5
     llm_id: llama3.1
+
 # IntraDocumentQA & Sentence Chunking
 simple_rag_01_02:
   dataset:
@@ -31,7 +32,7 @@ simple_rag_01_02:
     embedding_id: huggingface-multi-qa-mpnet
   retrieval_generation:
     faiss_search: "flatl2"
-    top_k: 10
+    top_k: 5
     llm_id: llama3.1
 
 # InterDocumentQA & Fixed Chunking
