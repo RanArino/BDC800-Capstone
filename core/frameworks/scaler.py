@@ -97,16 +97,16 @@ class ScalerRAG(BaseRAGFramework):
             self.logger.debug("Starting document indexing")
             # Summarize document and get embedding
             num_docs = 0
-            doc_summary = []
-            doc_summary_embed = []
+            doc_summary = {}  # doc id is key, summary is value
+            doc_summary_embed = {}  # doc id is key, embedding is value
             for doc in gen_docs:
                 # Skip document-level processing if both doc and doc_cc are already loaded
                 if not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
                     # Skip LLM summary only if docs is a single SchemaDocument
                     if not isinstance(docs, SchemaDocument):
                         summary, sum_embed = self._doc_summary(doc)
-                        doc_summary.append(summary)
-                        doc_summary_embed.append(sum_embed)
+                        doc_summary[doc.id] = summary  # Use doc.id as key instead of appending
+                        doc_summary_embed[doc.id] = sum_embed  # Use doc.id as key instead of appending
 
                     self.logger.debug(f"Completed document {doc.id} summary")
 
@@ -134,7 +134,7 @@ class ScalerRAG(BaseRAGFramework):
                 # This ensures proper clustering with all documents
                 self._layered_vector_store(
                     layer="doc",
-                    embeddings=doc_summary_embed,
+                    embeddings=[doc_summary_embed[doc_id] for doc_id in doc_summary.keys()], 
                     doc_summary=doc_summary,
                     parent_node_id=None
                 )
@@ -174,7 +174,7 @@ class ScalerRAG(BaseRAGFramework):
             self, 
             layer: Literal["doc", "chunk"], 
             embeddings: List[List[float]],
-            doc_summary: Optional[List[str]] = None,
+            doc_summary: Optional[Dict[PARENT_NODE_ID, str]] = None,
             chunks: Optional[List[LangChainDocument]] = None,
             parent_node_id: Optional[PARENT_NODE_ID] = None
         ):
@@ -268,6 +268,11 @@ class ScalerRAG(BaseRAGFramework):
             else:
                 raise ValueError(f"Invalid layer: {layer}")
 
+            # Get the document_id from the doc_summary dictionary keys
+            if doc_summary:
+                doc_ids = list(doc_summary.keys())
+            else:
+                doc_ids = [str(parent_node_id)]
             # Store the embeddings and chunks or summaries per cluster
             for cluster, embed_indices in clusters_to_indices.items():
                 if not embed_indices:  # Skip if no indices for this cluster
@@ -287,11 +292,11 @@ class ScalerRAG(BaseRAGFramework):
                 # Extract the embeddings and texts which are associated with the current cluster
                 for idx in embed_indices:
                     if layer == "doc":
-                        texts_and_embeddings.append((doc_summary[idx], embeddings[idx]))
-                        metadatas.append({"layer": layer, "cluster": cluster})
+                        texts_and_embeddings.append((doc_summary[doc_ids[idx]], embeddings[idx]))
+                        metadatas.append({"vector_store_key": doc_ids[idx], "doc_cc": f"doc_cc-{str(cluster)}"})
                     elif layer == "chunk":
                         texts_and_embeddings.append((chunks[idx].page_content, embeddings[idx]))
-                        metadatas.append({"layer": layer, "cluster": cluster, **chunks[idx].metadata})
+                        metadatas.append({"vector_store_key": vector_store_key, **chunks[idx].metadata})
 
                 # Store in the appropriate layer if we have embeddings
                 if texts_and_embeddings:
@@ -305,18 +310,22 @@ class ScalerRAG(BaseRAGFramework):
             texts_and_embeddings = []
             metadatas = []
             
-            for idx, embedding in enumerate(embeddings):
-                if layer == "doc":
-                    texts_and_embeddings.append((doc_summary[idx], embedding))
-                    metadatas.append({"layer": layer})
-                elif layer == "chunk":
+            # For document layer, match embeddings with doc_summary dictionary entries
+            if layer == "doc":
+                for doc_id, embedding in zip(doc_summary.keys(), embeddings):
+                    texts_and_embeddings.append((doc_summary[doc_id], embedding))
+                    metadatas.append({"layer": layer, "doc_id": doc_id})
+            # For chunk layer, use the existing approach
+            elif layer == "chunk":
+                for idx, embedding in enumerate(embeddings):
                     texts_and_embeddings.append((chunks[idx].page_content, embedding))
                     metadatas.append({"layer": layer, **chunks[idx].metadata})
             
             # Store in the appropriate layer if we have embeddings
             if texts_and_embeddings:
-                store_key = parent_node_id if parent_node_id else layer
-                self.layered_vector_stores[layer][store_key] = FAISS.from_embeddings(
+                # Ensure consistent key formatting
+                vector_store_key = str(parent_node_id) if parent_node_id else layer
+                self.layered_vector_stores[layer][vector_store_key] = FAISS.from_embeddings(
                     text_embeddings=texts_and_embeddings,
                     metadatas=metadatas,
                     embedding=self.llm.get_embedding
