@@ -97,16 +97,18 @@ class ScalerRAG(BaseRAGFramework):
             self.logger.debug("Starting document indexing")
             # Summarize document and get embedding
             num_docs = 0
-            doc_summary = []
-            doc_summary_embed = []
+            doc_summary = {}  # doc id is key, summary is value
+            doc_summary_embed = {}  # doc id is key, embedding is value
             for doc in gen_docs:
                 # Skip document-level processing if both doc and doc_cc are already loaded
                 if not (loaded_layers["doc"] and loaded_layers["doc_cc"]):
                     # Skip LLM summary only if docs is a single SchemaDocument
                     if not isinstance(docs, SchemaDocument):
                         summary, sum_embed = self._doc_summary(doc)
-                        doc_summary.append(summary)
-                        doc_summary_embed.append(sum_embed)
+                        doc_summary[doc.id] = summary  # Use doc.id as key instead of appending
+                        doc_summary_embed[doc.id] = sum_embed  # Use doc.id as key instead of appending
+
+                    self.logger.debug(f"Completed document {doc.id} summary")
 
                 # Skip chunk processing if both chunk and chunk_cc are already loaded for this document
                 chunk_key = str(doc.id)
@@ -123,6 +125,7 @@ class ScalerRAG(BaseRAGFramework):
                         chunks=chunks,
                         parent_node_id=doc.id
                     )
+                    self.logger.debug(f"Completed chunking for document {chunk_key}")
                 num_docs += 1
             
             # Create or update document summary vector store if we have multiple documents
@@ -131,11 +134,12 @@ class ScalerRAG(BaseRAGFramework):
                 # This ensures proper clustering with all documents
                 self._layered_vector_store(
                     layer="doc",
-                    embeddings=doc_summary_embed,
+                    embeddings=[doc_summary_embed[doc_id] for doc_id in doc_summary.keys()], 
                     doc_summary=doc_summary,
                     parent_node_id=None
                 )
-            
+                self.logger.debug(f"Completed document summary vector store")
+
             # Save all indexes if enabled
             if self.is_save_vectorstore:
                 self._save_all_indexes()
@@ -170,7 +174,7 @@ class ScalerRAG(BaseRAGFramework):
             self, 
             layer: Literal["doc", "chunk"], 
             embeddings: List[List[float]],
-            doc_summary: Optional[List[str]] = None,
+            doc_summary: Optional[Dict[PARENT_NODE_ID, str]] = None,
             chunks: Optional[List[LangChainDocument]] = None,
             parent_node_id: Optional[PARENT_NODE_ID] = None
         ):
@@ -248,22 +252,33 @@ class ScalerRAG(BaseRAGFramework):
             if layer == "doc":
                 # Store cluster centroids for document layer
                 centroid_embeddings = [(f"doc_cc-{label}", vector) for label, vector in centroids.items()]
+                metadata = [{"vector_store_key": f"doc_cc-{label}"} for label in centroids.keys()]
                 if centroid_embeddings:  # Only create if we have embeddings
                     self.layered_vector_stores["doc_cc"] = FAISS.from_embeddings(
                         text_embeddings=centroid_embeddings,
+                        metadatas=metadata,
                         embedding=self.llm.get_embedding
                     )
             elif layer == "chunk" and parent_node_id:
                 # Store cluster centroids for chunk layer
-                centroid_embeddings = [(f"chunk_cc-{label}", vector) for label, vector in centroids.items()]
+                # Ensure the key format is "document_id-<cluster_number>"
+                document_id = str(parent_node_id)
+                centroid_embeddings = [(f"{document_id}-{label}", vector) for label, vector in centroids.items()]
+                metadata = [{"vector_store_key": f"{document_id}-{label}"} for label in centroids.keys()]
                 if centroid_embeddings:  # Only create if we have embeddings
-                    self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
+                    self.layered_vector_stores["chunk_cc"][document_id] = FAISS.from_embeddings(
                         text_embeddings=centroid_embeddings,
+                        metadatas=metadata,
                         embedding=self.llm.get_embedding
                     )
             else:
                 raise ValueError(f"Invalid layer: {layer}")
 
+            # Get the document_id from the doc_summary dictionary keys
+            if doc_summary:
+                doc_ids = list(doc_summary.keys())
+            else:
+                doc_ids = [str(parent_node_id)]
             # Store the embeddings and chunks or summaries per cluster
             for cluster, embed_indices in clusters_to_indices.items():
                 if not embed_indices:  # Skip if no indices for this cluster
@@ -271,20 +286,28 @@ class ScalerRAG(BaseRAGFramework):
                 
                 texts_and_embeddings = []
                 metadatas = []
-                cluster_parent_node_id = parent_node_id + f"-{str(cluster)}" if parent_node_id else str(cluster)
+                
+                # Format the cluster key consistently across all layers
+                if layer == "doc":
+                    vector_store_key = f"doc_cc-{str(cluster)}"
+                elif layer == "chunk" and parent_node_id:
+                    # Ensure the key format is "parent_node_id(in this case `document_id`)-<cluster_number>"
+                    vector_store_key = f"{parent_node_id}-{str(cluster)}"
+                else:
+                    raise ValueError(f"Invalid layer: {layer}")
                 
                 # Extract the embeddings and texts which are associated with the current cluster
                 for idx in embed_indices:
                     if layer == "doc":
-                        texts_and_embeddings.append((doc_summary[idx], embeddings[idx]))
-                        metadatas.append({"layer": layer, "cluster": cluster})
+                        texts_and_embeddings.append((doc_summary[doc_ids[idx]], embeddings[idx]))
+                        metadatas.append({"vector_store_key": doc_ids[idx], "doc_cc": f"doc_cc-{str(cluster)}"})
                     elif layer == "chunk":
                         texts_and_embeddings.append((chunks[idx].page_content, embeddings[idx]))
-                        metadatas.append({"layer": layer, "cluster": cluster, **chunks[idx].metadata})
+                        metadatas.append({"vector_store_key": vector_store_key, **chunks[idx].metadata})
 
                 # Store in the appropriate layer if we have embeddings
                 if texts_and_embeddings:
-                    self.layered_vector_stores[layer][cluster_parent_node_id] = FAISS.from_embeddings(
+                    self.layered_vector_stores[layer][vector_store_key] = FAISS.from_embeddings(
                         text_embeddings=texts_and_embeddings,
                         metadatas=metadatas,
                         embedding=self.llm.get_embedding
@@ -294,18 +317,22 @@ class ScalerRAG(BaseRAGFramework):
             texts_and_embeddings = []
             metadatas = []
             
-            for idx, embedding in enumerate(embeddings):
-                if layer == "doc":
-                    texts_and_embeddings.append((doc_summary[idx], embedding))
-                    metadatas.append({"layer": layer})
-                elif layer == "chunk":
+            # For document layer, match embeddings with doc_summary dictionary entries
+            if layer == "doc":
+                for doc_id, embedding in zip(doc_summary.keys(), embeddings):
+                    texts_and_embeddings.append((doc_summary[doc_id], embedding))
+                    metadatas.append({"layer": layer, "doc_id": doc_id})
+            # For chunk layer, use the existing approach
+            elif layer == "chunk":
+                for idx, embedding in enumerate(embeddings):
                     texts_and_embeddings.append((chunks[idx].page_content, embedding))
                     metadatas.append({"layer": layer, **chunks[idx].metadata})
             
             # Store in the appropriate layer if we have embeddings
             if texts_and_embeddings:
-                store_key = parent_node_id if parent_node_id else layer
-                self.layered_vector_stores[layer][store_key] = FAISS.from_embeddings(
+                # Ensure consistent key formatting
+                vector_store_key = str(parent_node_id) if parent_node_id else layer
+                self.layered_vector_stores[layer][vector_store_key] = FAISS.from_embeddings(
                     text_embeddings=texts_and_embeddings,
                     metadatas=metadatas,
                     embedding=self.llm.get_embedding
@@ -476,6 +503,157 @@ class ScalerRAG(BaseRAGFramework):
             self.logger.error(f"Error loading indexes: {str(e)}")
             raise
 
-    def retrieve(self, query: str, top_k: Optional[int] = None) -> List[LangChainDocument]:
-        """Retrieve relevant documents using SCALER's hierarchical approach."""
-        pass
+    def retrieve(
+        self, 
+        query: str, 
+        top_k_per_layer: Optional[Dict[AVAILABLE_LAYERS, int]] = None, 
+        **kwargs
+    ) -> Dict[AVAILABLE_LAYERS, List[LangChainDocument]]:
+        """Retrieve relevant documents using SCALER's hierarchical approach.
+        
+        This method:
+        1. Retrieves cluster IDs from doc_cc layer
+        2. Uses cluster IDs to get documents from doc layer
+        3. Retrieves cluster IDs from chunk_cc layer
+        4. Uses cluster IDs to get chunks from chunk layer
+        
+        Args:
+            query: Query string
+            top_k_per_layer: Dictionary mapping layer names to number of documents to retrieve
+            **kwargs: Additional arguments
+            
+        Returns:
+            Dictionary mapping layer names to lists of retrieved documents
+        """
+        try:
+            self.logger.debug(f"Starting retrieval for query: {query}")
+            
+            # Use config's top_k if not specified
+            if top_k_per_layer is None:
+                config = self.retrieval_generation_config
+                top_k_per_layer = {
+                    "doc_cc": getattr(config, "top_k_doc_cc", None) or 2,
+                    "doc": getattr(config, "top_k_doc", None) or 10,
+                    "chunk_cc": getattr(config, "top_k_chunk_cc", None) or 2,
+                    "chunk": getattr(config, "top_k", None) or 10
+                }
+            
+            # Get the query embedding
+            query_embedding = self.llm.embedding.embed_query(query)
+            results = {}
+            
+            # Track cluster IDs for hierarchical retrieval
+            doc_cluster_ids = []
+            chunk_cluster_ids = {}  # Dict[doc_id, List[cluster_id]]
+                    
+            # Process each layer defined in top_k_per_layer to retrieve relevant documents
+            for layer, top_k in top_k_per_layer.items():
+                # Skip if the vectorstore is not created
+                if not self.layered_vector_stores.get(layer, None):
+                    continue
+
+                vectorstore = self.layered_vector_stores[layer]
+                self.logger.debug(f"Processing {layer} layer")
+                
+                # Handle centroid layers (doc_cc and chunk_cc)
+                if layer.endswith("_cc"):
+                    base_layer = layer.replace("_cc", "")
+                    dim_model = None
+                    
+                    if base_layer == "doc":
+                        dim_model = self.dim_reduction_models.get("doc")
+                        search_embedding = reduce_query_embedding(query_embedding, dim_model) if dim_model else query_embedding
+                        
+                        # Get cluster IDs from doc_cc layer
+                        doc_cc_results = vectorstore.similarity_search_with_score_by_vector(
+                            search_embedding,
+                            k=top_k
+                        )
+                        # Sort by score (lower is better) and store only documents
+                        doc_cc_results = [doc for doc, _ in sorted(doc_cc_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = doc_cc_results
+                        
+                        # Store cluster IDs for doc layer retrieval
+                        doc_cluster_ids = [
+                            doc_cc_doc.metadata.get("vector_store_key")
+                            for doc_cc_doc in doc_cc_results
+                            if doc_cc_doc.metadata.get("vector_store_key") is not None
+                        ]
+                        
+                    elif base_layer == "chunk":
+                        # get the document_id from the doc layer
+                        doc_ids = set()
+                        # if doc layer is created, get the document_id from the doc layer
+                        if self.layered_vector_stores.get('doc', None) and results.get('doc'):
+                            # get the document_id from the doc layer
+                            for doc in results['doc']:
+                                doc_ids.add(doc.metadata.get('vector_store_key'))
+                        else:
+                            # if doc layer is not created, get the document_id from the chunk_cc layer
+                            for doc_id in vectorstore.keys():
+                                doc_ids.add(doc_id.split('-')[0])
+                        
+                        chunk_cc_results = []
+                        # For each document, get its chunk clusters
+                        for doc_id in doc_ids:
+                            if doc_id in vectorstore:
+                                dim_model = self.dim_reduction_models["chunk"].get(doc_id)
+                                search_embedding = reduce_query_embedding(query_embedding, dim_model) if dim_model else query_embedding
+                                
+                                # Get cluster IDs from chunk_cc layer for this document
+                                doc_chunk_cc_results = vectorstore[doc_id].similarity_search_with_score_by_vector(
+                                    search_embedding,
+                                    k=top_k
+                                )
+                                # Store documents with their scores for later sorting
+                                chunk_cc_results.extend(doc_chunk_cc_results)
+                                
+                                # Store cluster IDs for chunk layer retrieval
+                                if doc_id not in chunk_cluster_ids:
+                                    chunk_cluster_ids[doc_id] = []
+                                chunk_cluster_ids[doc_id].extend([
+                                    chunk_cc_doc.page_content
+                                    for chunk_cc_doc, _ in doc_chunk_cc_results
+                                    if chunk_cc_doc.page_content is not None
+                                ])
+                        
+                        # Sort all chunk_cc results by score and take top_k
+                        chunk_cc_results = [doc for doc, _ in sorted(chunk_cc_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = chunk_cc_results
+                
+                # Handle base layers (doc and chunk)
+                else:
+                    if layer == "doc":
+                        # Get documents from doc layer using cluster IDs
+                        doc_results = []
+                        for cluster_id in doc_cluster_ids:
+                            if cluster_id in vectorstore:
+                                cluster_docs = vectorstore[cluster_id].similarity_search_with_score(
+                                    query,
+                                    k=top_k
+                                )
+                                doc_results.extend(cluster_docs)
+                        # Sort by score (lower is better) and take top_k
+                        doc_results = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = doc_results
+                        
+                    elif layer == "chunk":
+                        # Get chunks from chunk layer using cluster IDs
+                        chunk_results = []
+                        for doc_id, cluster_ids in chunk_cluster_ids.items():
+                            for cluster_key in cluster_ids:
+                                if cluster_key in vectorstore:
+                                    cluster_chunks = vectorstore[cluster_key].similarity_search_with_score(
+                                        query,
+                                        k=top_k
+                                    )
+                                    chunk_results.extend(cluster_chunks)
+                        # Sort by score (lower is better) and take top_k
+                        chunk_results = [doc for doc, _ in sorted(chunk_results, key=lambda x: x[1])][:top_k]
+                        results[layer] = chunk_results
+            
+            return results["chunk"]
+            
+        except Exception as e:
+            self.logger.error(f"Error during retrieval: {str(e)}")
+            raise
