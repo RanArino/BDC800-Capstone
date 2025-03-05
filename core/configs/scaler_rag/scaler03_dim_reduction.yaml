@@ -1,0 +1,82 @@
+# core/configs/scaler_rag/scaler03_dim_reduction.yaml
+
+""" 
+Compare the performance of dimensionality reduction for RAG.
+"""
+
+# IntraDocumentQA & no dimensionality reduction
+scaler_rag_03_01:
+  dataset:
+    name: qasper
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: llama3.1
+
+# InterDocumentQA & no dimensionality reduction
+scaler_rag_03_02:
+  dataset:
+    name: frames
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+
+# # IntraDocumentQA & PCA dimensionality reduction -> same as scaler_rag_01_02
+# scaler_rag_03_03:
+#   dataset: 
+#     name: qasper
+#   chunker:
+#     mode: sentence
+#     size: 100
+#     overlap: 0.2
+#     embedding_id: huggingface-multi-qa-mpnet
+#     clustering:
+#       method: "kmeans"
+#       items_per_cluster: 15
+#     dim_reduction:
+#       method: "pca"
+#       n_components: 15
+#   retrieval_generation:
+#     faiss_search: "flatl2"
+#     top_k: 5
+#     llm_id: llama3.1
+
+
+# InterDocumentQA & PCA dimensionality reduction -> same as scaler_rag_01_04
+# scaler_rag_03_04:
+#   dataset:
+#     name: frames
+#   chunker:
+#     mode: sentence
+#     size: 100
+#     overlap: 0.2
+#     embedding_id: huggingface-multi-qa-mpnet
+#     clustering:
+#       method: "kmeans"
+#       items_per_cluster: 15
+#     dim_reduction:
+#       method: "pca"
+#       n_components: 15
+#   retrieval_generation:
+#     faiss_search: "flatl2"
+#     top_k: 10
+#     llm_id: llama3.1
+
