@@ -252,17 +252,23 @@ class ScalerRAG(BaseRAGFramework):
             if layer == "doc":
                 # Store cluster centroids for document layer
                 centroid_embeddings = [(f"doc_cc-{label}", vector) for label, vector in centroids.items()]
+                metadata = [{"vector_store_key": f"doc_cc-{label}"} for label in centroids.keys()]
                 if centroid_embeddings:  # Only create if we have embeddings
                     self.layered_vector_stores["doc_cc"] = FAISS.from_embeddings(
                         text_embeddings=centroid_embeddings,
+                        metadatas=metadata,
                         embedding=self.llm.get_embedding
                     )
             elif layer == "chunk" and parent_node_id:
                 # Store cluster centroids for chunk layer
-                centroid_embeddings = [(f"{parent_node_id}-{label}", vector) for label, vector in centroids.items()]
+                # Ensure the key format is "document_id-<cluster_number>"
+                document_id = str(parent_node_id)
+                centroid_embeddings = [(f"{document_id}-{label}", vector) for label, vector in centroids.items()]
+                metadata = [{"vector_store_key": f"{document_id}-{label}"} for label in centroids.keys()]
                 if centroid_embeddings:  # Only create if we have embeddings
-                    self.layered_vector_stores["chunk_cc"][parent_node_id] = FAISS.from_embeddings(
+                    self.layered_vector_stores["chunk_cc"][document_id] = FAISS.from_embeddings(
                         text_embeddings=centroid_embeddings,
+                        metadatas=metadata,
                         embedding=self.llm.get_embedding
                     )
             else:
@@ -283,9 +289,10 @@ class ScalerRAG(BaseRAGFramework):
                 
                 # Format the cluster key consistently across all layers
                 if layer == "doc":
-                    cluster_key = f"doc_cc-{str(cluster)}"
+                    vector_store_key = f"doc_cc-{str(cluster)}"
                 elif layer == "chunk" and parent_node_id:
-                    cluster_key = f"{parent_node_id}-{str(cluster)}"
+                    # Ensure the key format is "parent_node_id(in this case `document_id`)-<cluster_number>"
+                    vector_store_key = f"{parent_node_id}-{str(cluster)}"
                 else:
                     raise ValueError(f"Invalid layer: {layer}")
                 
@@ -300,7 +307,7 @@ class ScalerRAG(BaseRAGFramework):
 
                 # Store in the appropriate layer if we have embeddings
                 if texts_and_embeddings:
-                    self.layered_vector_stores[layer][cluster_key] = FAISS.from_embeddings(
+                    self.layered_vector_stores[layer][vector_store_key] = FAISS.from_embeddings(
                         text_embeddings=texts_and_embeddings,
                         metadatas=metadatas,
                         embedding=self.llm.get_embedding
