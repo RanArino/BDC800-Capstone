@@ -11,6 +11,7 @@ RougeType = Literal['rouge1', 'rouge2', 'rougeL']
 RougeMetricType = Literal['precision', 'recall', 'fmeasure']
 
 SelfCheckerAnswer = Literal["Yes", "No", "Undetermined"]
+SefCheckerModel = Literal['phi4:14b', 'deepseek-r1:14b', 'gemini-2.0-flash']
 
 ProfilerTimingKey: TypeAlias = str
 RankCutOff: TypeAlias = str
