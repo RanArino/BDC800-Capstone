@@ -77,6 +77,9 @@ class ScalerRAG(BaseRAGFramework):
         Args:
             documents: List of documents to index
         """
+        # Update vectorstore path after setting document ID
+        self.vectorstore_path = self._define_vectorstore_path(docs)
+        
         # Try to load existing indexes first
         try:
             loaded_layers = self._load_all_indexes()

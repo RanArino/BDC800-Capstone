@@ -26,7 +26,11 @@ class SimpleRAG(BaseRAGFramework):
         Profiling:
             - index.chunking: Time taken for chunking documents and related operations
             - index.vectorstore: Time taken for embedding documents and creating the vector store
-        """
+        """        
+        # Update vectorstore path after setting document ID
+        self.vectorstore_path = self._define_vectorstore_path(docs)
+        
+        # Create document generator
         gen_docs = self._ensure_document_generator(docs)
         
         # Index documents
