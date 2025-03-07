@@ -32,13 +32,14 @@ class BaseRAGFramework(ABC):
         self.config_name = config_name
         self.config_path = config_path
         self.is_save_vectorstore = is_save_vectorstore
+        self._single_document_id = None  # Initialize single document ID tracker
 
         self.config: RAGConfig = self._load_config()
-        self.vectorstore_path: str = self._define_vectorstore_path()
         self.profiler = Profiler(reset_on_init=True)
         self.progress_tracker = ProgressTracker(self.logger)
 
         # Initialize variables that are defined in index() method
+        self.vectorstore_path: str = None
         self.dataset: BaseDataset = None
         self.vector_store: FAISS = None
 
@@ -247,9 +248,10 @@ Answer:"""
         self.logger.info("Configuration loaded successfully")
         return RAGConfig(**config[self.config_name])
 
-    def _define_vectorstore_path(self) -> str:
+    def _define_vectorstore_path(self, docs: Union[SchemaDocument, Generator[SchemaDocument, None, None], Iterable[SchemaDocument]]) -> str:
         """Generate a structured path for vector store."""
         self.logger.debug("Generating vectorstore path")
+
         # base path
         base_path = get_project_root() / "core/vectorstore"
         # Format: config_name-dataset-indextype-YYYYMMDD (i.e., simple_rag_01-qasper-fixed100T(20%)-flatl2)
@@ -261,8 +263,14 @@ Answer:"""
         faiss_search = self.retrieval_generation_config.faiss_search
         # Get dataset name
         filename = f"{self.config_name}-{dataset_name}-{chunk_mode}{chunk_size}T({chunk_overlap}%)-{faiss_search}"
-        full_path = f"{base_path}/{filename}"
-        self.logger.info("Generated vectorstore path: %s", full_path)
+
+        # If we have a single document ID stored, append it to the filename
+        if isinstance(docs, SchemaDocument):
+            full_path = f"{base_path}/{filename}-{docs.id}"
+        else:
+            full_path = f"{base_path}/{filename}"
+
+        self.logger.info("Defined Vectorstore path: %s", full_path)
         return full_path
 
     def _load_index(self, index_path: str):
@@ -274,7 +282,7 @@ Answer:"""
            allow_dangerous_deserialization=True
        )
         # self.vector_store = FAISS.load_local(index_path, self.llm.get_embedding)
-        self.logger.info("Vector store loaded successfully")
+        self.logger.info("Vector store loaded successfully from %s", index_path)
 
     def _load_intra_docs_and_qas(
         self,
