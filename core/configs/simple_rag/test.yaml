@@ -2,7 +2,7 @@
 TEST02_simple_rag_01:
   dataset: 
     name: qasper
-    number_of_docs: 30
+    number_of_docs: 50
   chunker:
     mode: fixed
     size: 100
@@ -16,7 +16,7 @@ TEST02_simple_rag_01:
 TEST02_simple_rag_02:
   dataset:
     name: multihoprag
-    number_of_qas: 50
+    number_of_qas: 100
   chunker:
     mode: fixed
     size: 100

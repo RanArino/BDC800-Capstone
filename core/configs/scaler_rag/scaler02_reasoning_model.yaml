@@ -1,0 +1,93 @@
+# core/configs/scaler_rag/scaler02_reasoning_model.yaml
+
+""" 
+Compare the performance of different LLMs for RAG.
+- whether the reasoning model is better than the normal model
+- whether the large model is better than the small model
+
+Tested on IntraDocumentQA (Qasper) and InterDocumentQA (Frames).
+"""
+
+# Reasoning Model
+#  IntraDocumentQA (Qasper)
+scaler_rag_02_01:
+  dataset:
+    name: qasper
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 15 
+    dim_reduction:
+      method: "pca"
+      n_components: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: deepseek-r1-8b
+
+# InterDocumentQA (Frames)
+scaler_rag_02_02:
+  dataset:
+    name: frames
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 15
+    dim_reduction:
+      method: "pca"
+      n_components: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: deepseek-r1-8b
+
+
+
+# Normal Model
+#  IntraDocumentQA (Qasper) -> same as scaler_rag_01_02
+# scaler_rag_02_03:
+#   dataset: 
+#     name: qasper
+#   chunker:
+#     mode: sentence
+#     size: 100
+#     overlap: 0.2
+#     embedding_id: huggingface-multi-qa-mpnet
+#     clustering:
+#       method: "kmeans"  
+#       items_per_cluster: 15
+#     dim_reduction:
+#       method: "pca"
+#       n_components: 15
+#   retrieval_generation:
+#     faiss_search: "flatl2"
+#     top_k: 5
+#     llm_id: llama3.1
+
+#  InterDocumentQA (Frames) -> same as scaler_rag_01_04
+# scaler_rag_02_04:
+#   dataset: 
+#     name: frames
+#   chunker:
+#     mode: sentence
+#     size: 100
+#     overlap: 0.2
+#     embedding_id: huggingface-multi-qa-mpnet
+#     clustering:
+#       method: "kmeans"
+#       items_per_cluster: 15
+#     dim_reduction:
+#       method: "pca"
+#       n_components: 15
+#   retrieval_generation:
+#     faiss_search: "flatl2"
+#     top_k: 10
+#     llm_id: llama3.1

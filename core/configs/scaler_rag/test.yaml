@@ -1,8 +1,91 @@
+# Experiment test
+TEST02_scaler_rag_01:
+  dataset: 
+    name: qasper
+    number_of_docs: 50
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 10
+    dim_reduction:
+      method: "pca"
+      n_components: 10
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+TEST02_scaler_rag_02:
+  dataset:
+    name: multihoprag
+    number_of_qas: 100
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 10
+    dim_reduction:
+      method: "pca"
+      n_components: 10
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+TEST02_scaler_rag_03:
+  dataset:
+    name: narrativeqa
+    number_of_docs: 10
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 10
+    dim_reduction:
+      method: "pca"
+      n_components: 10
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+TEST02_scaler_rag_04:
+  dataset:
+    name: frames
+    number_of_qas: 50
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+      items_per_cluster: 10
+    dim_reduction:
+      method: "pca"
+      n_components: 10
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+
+
 # Simple RAG test
 TEST_scaler_rag_qasper:
   dataset: 
     name: qasper
-    number_of_docs: 3
+    number_of_docs: 1
     selection_mode: sequential
   chunker:
     mode: fixed
@@ -23,7 +106,7 @@ TEST_scaler_rag_qasper:
 TEST_scaler_rag_multihoprag:
   dataset:
     name: multihoprag
-    number_of_qas: 15
+    number_of_qas: 5
     selection_mode: sequential
   summarizer:
     llm_id: llama3.2:1b
@@ -36,10 +119,10 @@ TEST_scaler_rag_multihoprag:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      items_per_cluster: 15
+      n_clusters: 3
     dim_reduction:
       method: "pca"
-      n_components: 50
+      n_components: 10
   retrieval_generation:
     faiss_search: "flatl2"
     top_k: 5
