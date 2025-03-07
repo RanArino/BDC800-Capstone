@@ -29,7 +29,7 @@ def qasper_test():
     try:
         # Initialize RAG
         logger.info("Initializing SimpleRAG")
-        simple_rag = SimpleRAG("TEST_simple_rag_qasper")
+        simple_rag = SimpleRAG("TEST_simple_rag_qasper", is_save_vectorstore=True)
         gen_docs, gen_qas = simple_rag.load_dataset()
         
         # Initialize accumulators for metrics
