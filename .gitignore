@@ -19,6 +19,7 @@ experiments/metrics/
 experiments/responses/
 
 # our notes
+docs/proposal.md
 notes/
 ToDo
 .cursor/
