@@ -1,4 +1,3 @@
-
 # test/llm_controller.py
 
 """
@@ -17,7 +16,7 @@ from core.rag_core.llm.controller import LLMController
 
 if __name__ == "__main__":
     # Sample configuration for testing
-    llm_model = "llama3.1"
+    llm_model = "deepseek-r1-8b"
     embedding_model = "huggingface-multi-qa-mpnet"
 
     # Initialize LLMController with the sample config
@@ -39,3 +38,14 @@ if __name__ == "__main__":
     prompt = "What are the benefits of using renewable energy? Tell me one line answer."
     generated_text = llm_controller.generate_text(prompt)
     print(f"Generated Text: {generated_text}")
+    
+    # Test <think></think> tag removal directly
+    print("\nTesting <think></think> tag removal:")
+    test_text = "<think>Let me think about renewable energy benefits...</think>\nRenewable energy reduces carbon emissions, provides energy independence, and creates sustainable jobs.\n<think>I should also mention cost savings.</think>"
+    print(f"Original text with <think> tags:\n{test_text}")
+    
+    # Use the regex directly to test tag removal
+    import re
+    cleaned_text = re.sub(r'<think>.*?</think>', '', test_text, flags=re.DOTALL)
+    cleaned_text = re.sub(r'\n\s*\n', '\n\n', cleaned_text)
+    print(f"\nCleaned text:\n{cleaned_text.strip()}")
