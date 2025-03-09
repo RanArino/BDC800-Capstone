@@ -1,11 +1,9 @@
 # core/configs/rag_sentence_chunk.yaml
 
-""" 
-Compare the performance of sentence chunking for RAG.
-- whether the sentence chunking is better than the fixed chunking
-
-Tested for both IntraDocumentQA (Qasper) and InterDocumentQA (Frames).
-"""
+# Compare the performance of sentence chunking for RAG.
+# - whether the sentence chunking is better than the fixed chunking
+#
+# Tested for both IntraDocumentQA (Qasper) and InterDocumentQA (Frames).
 
 # IntraDocumentQA & Fixed Chunking
 simple_rag_01_01:

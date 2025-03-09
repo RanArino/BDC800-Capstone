@@ -1,12 +1,10 @@
 # core/configs/rag_reasoning_model.yaml
 
-""" 
-Compare the performance of different LLMs for RAG.
-- whether the reasoning model is better than the normal model
-- whether the large model is better than the small model
-
-Tested on IntraDocumentQA (qasper) & InterDocumentQA (Frames).
-"""
+# Compare the performance of different LLMs for RAG.
+# - whether the reasoning model is better than the normal model
+# - whether the large model is better than the small model
+#
+# Tested on IntraDocumentQA (qasper) & InterDocumentQA (Frames).
 
 #  IntraDocumentQA & Llama3.1 (8B) -> same as simple_rag_01_02
 
