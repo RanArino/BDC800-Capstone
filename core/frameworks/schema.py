@@ -45,7 +45,7 @@ class ClusteringConfig(BaseModel):
 
 class ChunkerConfig(BaseModel):
     """Configuration for the text chunking component."""
-    mode: Literal["fixed"] = Field(..., description="Chunking mode (currently only fixed is supported)")
+    mode: Literal["fixed", "sentence"] = Field(..., description="Chunking mode (fixed or sentence-based chunking)")
     size: PositiveInt = Field(..., description="Size of each chunk in tokens or characters")
     overlap: float = Field(
         ..., 
