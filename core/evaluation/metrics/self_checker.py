@@ -18,7 +18,18 @@ logger = get_logger(__name__)
 # Configuration options - can be overridden with environment variables
 DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "phi4:14b")
 
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+# Flag to track if Gemini is available
+GEMINI_AVAILABLE = False
+
+# Try to configure Gemini if API key is available
+try:
+    if "GEMINI_API_KEY" in os.environ:
+        genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+        GEMINI_AVAILABLE = True
+    else:
+        logger.warning("GEMINI_API_KEY not found in environment variables. Gemini models will not be available.")
+except Exception as e:
+    logger.warning(f"Failed to configure Gemini: {e}. Gemini models will not be available.")
 
 # Base generation configuration
 base_generation_config = {
@@ -43,7 +54,7 @@ ollama_generation_config = {
 # Lazy loading model cache
 _MODEL_INSTANCES = {}
 
-def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeModel]:
+def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeModel, None]:
     """
     Get or create a model instance with lazy loading and caching.
     
@@ -51,7 +62,7 @@ def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeM
         model_name: Name of the model to load
         
     Returns:
-        The model instance
+        The model instance or None if the model is not available
     """
     if model_name not in _MODEL_INSTANCES:
         logger.info(f"Initializing {model_name} model (first use)")
@@ -76,6 +87,9 @@ def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeM
                 system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
             )
         elif model_name == "gemini-2.0-flash":
+            if not GEMINI_AVAILABLE:
+                logger.warning(f"Cannot initialize {model_name}: Gemini is not available")
+                return None
             _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
                 model_name="gemini-2.0-flash",
                 generation_config=gemini_generation_config,
@@ -84,7 +98,7 @@ def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeM
         else:
             raise ValueError(f"Invalid model: {model_name}")
             
-    return _MODEL_INSTANCES[model_name]
+    return _MODEL_INSTANCES.get(model_name)
 
 def check_llm_answer(
         qa_id: str,
@@ -112,6 +126,9 @@ def check_llm_answer(
     
     try:
         model_instance = get_model(model_to_use)
+        if model_instance is None:
+            logger.warning(f"Self-checker (qa_id: {qa_id}) - Model {model_to_use} not available, skipping check")
+            return "Undetermined"
     except ValueError as e:
         logger.error(f"Invalid model: {e}")
         return "Undetermined"
