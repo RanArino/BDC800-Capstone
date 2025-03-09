@@ -1,0 +1,53 @@
+# core/configs/scaler_v1_rag/comparison.yaml
+
+# vs scaler_rag_01_03 at scaler_rag/scaler01_sentence_chunk.yaml
+scaler_v1_rag_01_01:
+  dataset:
+    name: frames
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 512
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+# vs scaler_rag_01_04 at scaler_rag/scaler01_sentence_chunk.yaml
+scaler_v1_rag_01_02:
+  dataset:
+    name: frames
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 512
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+  
+# vs scaler_rag_02_02 at scaler_rag/scaler02_reasoning_model.yaml
+scaler_v1_rag_01_03:
+  dataset:
+    name: frames
+  summarizer:
+    llm_id: deepseek-r1-8b
+    output_tokens: 512
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: deepseek-r1-8b

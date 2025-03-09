@@ -52,6 +52,14 @@ def run_scaler_rag_dim_reduction():
         run_experiment(config_path, config)
         print(f"\n===== {config} test completed =====")
 
+def run_scaler_v1_rag_comparison():
+    config_path = "core/configs/scaler_v1_rag/comparison.yaml"
+    config_names = ["scaler_v1_rag_01_01", "scaler_v1_rag_01_02", "scaler_v1_rag_01_03"]
+    # run the scaler_v1_rag experiment
+    for config in config_names:
+        print(f"\n===== Starting {config} test =====")
+        run_experiment(config_path, config)
+        print(f"\n===== {config} test completed =====")
 
 if __name__ == "__main__":
     # run experiments
@@ -60,3 +68,4 @@ if __name__ == "__main__":
     # run_scaler_rag_sentences()
     # run_scaler_rag_reasoning()
     # run_scaler_rag_dim_reduction()
+    # run_scaler_v1_rag_comparison()
