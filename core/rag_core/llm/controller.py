@@ -6,6 +6,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 import yaml
 from typing import Dict
+import re
 
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -28,8 +29,15 @@ class LLMController:
             raw_config = yaml.safe_load(f)
             
         # Parse into typed dictionaries
-        self.llm_config = LLMConfig (**raw_config["llms"].get(llm_id))
-        self.embedding_config = EmbeddingConfig (**raw_config["embeddings"].get(embedding_id))
+        llm_config_data = raw_config["llms"].get(llm_id)
+        if llm_config_data is None:
+            raise ValueError(f"LLM model '{llm_id}' not found in configuration. Available models: {list(raw_config['llms'].keys())}")
+        self.llm_config = LLMConfig(**llm_config_data)
+        
+        embedding_config_data = raw_config["embeddings"].get(embedding_id)
+        if embedding_config_data is None:
+            raise ValueError(f"Embedding model '{embedding_id}' not found in configuration. Available models: {list(raw_config['embeddings'].keys())}")
+        self.embedding_config = EmbeddingConfig(**embedding_config_data)
 
         # Initialize models
         self.llm = self._init_llm_models()
@@ -100,6 +108,16 @@ class LLMController:
             prompt: Input text prompt
             
         Returns:
-            Generated text response
+            Generated text response with <think></think> tags removed
         """
-        return self.llm.invoke(prompt)
+        # Get raw response from LLM
+        # Use the recommended invoke method instead of the deprecated __call__ method
+        raw_response = self.llm.invoke(prompt)
+        
+        # Remove <think></think> tags and their content
+        cleaned_response = re.sub(r'<think>.*?</think>', '', raw_response, flags=re.DOTALL)
+        
+        # Remove any empty lines that might result from the removal
+        cleaned_response = re.sub(r'\n\s*\n', '\n\n', cleaned_response)
+        
+        return cleaned_response.strip()
