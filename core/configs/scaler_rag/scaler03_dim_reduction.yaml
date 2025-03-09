@@ -1,8 +1,6 @@
 # core/configs/scaler_rag/scaler03_dim_reduction.yaml
 
-""" 
-Compare the performance of dimensionality reduction for RAG.
-"""
+# Compare the performance of dimensionality reduction for RAG.
 
 # IntraDocumentQA & no dimensionality reduction
 scaler_rag_03_01:

@@ -1,12 +1,10 @@
 # core/configs/scaler_rag/scaler02_reasoning_model.yaml
 
-""" 
-Compare the performance of different LLMs for RAG.
-- whether the reasoning model is better than the normal model
-- whether the large model is better than the small model
-
-Tested on IntraDocumentQA (Qasper) and InterDocumentQA (Frames).
-"""
+# Compare the performance of different LLMs for RAG.
+# - whether the reasoning model is better than the normal model
+# - whether the large model is better than the small model
+#
+# Tested on IntraDocumentQA (Qasper) and InterDocumentQA (Frames).
 
 # Reasoning Model
 #  IntraDocumentQA (Qasper)
