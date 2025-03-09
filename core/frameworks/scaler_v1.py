@@ -328,7 +328,7 @@ class ScalerV1RAG(BaseRAGFramework):
 
                 # if vectorsore is a single FAISS instance, use similarity_search_with_score
                 if isinstance(vectorstore, FAISS):
-                    results[layer] = vectorstore.similarity_search_by_vector(
+                    results[layer] = vectorstore.similarity_search_with_score_by_vector(
                         query_embedding,
                         k=top_k
                     )
@@ -338,14 +338,14 @@ class ScalerV1RAG(BaseRAGFramework):
                     # Initialize the results for the current layer
                     layer_results = []
                     # get the parent node ides from the previous layer
-                    parent_node_ids = [doc.metadata.get("node_id") for doc in results[previous_layer]]
+                    parent_node_ids = [doc.metadata.get("node_id") for doc, _ in results[previous_layer]]
                     for node_id in parent_node_ids:
-                        layer_results.extend(vectorstore[node_id].similarity_search_by_vector(
+                        layer_results.extend(vectorstore[node_id].similarity_search_with_score_by_vector(
                             query_embedding,
                             k=top_k
                         ))
                     # Take top_k - no need to sort since similarity_search_by_vector already returns sorted results
-                    results[layer] = layer_results[:top_k]
+                    results[layer] = [doc for doc, _ in sorted(layer_results, key=lambda x: x[1])][:top_k]
                 
                 # update the previous layer name
                 previous_layer = layer
