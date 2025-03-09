@@ -81,7 +81,7 @@ class FAISSIVFCustom(FAISS):
         
         # Return the FAISS instance
         return cls(
-            embedding.embed_query,
+            embedding,
             index,
             docstore,
             index_to_docstore_id,
