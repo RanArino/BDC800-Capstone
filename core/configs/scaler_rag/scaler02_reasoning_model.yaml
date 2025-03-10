@@ -11,6 +11,7 @@
 scaler_rag_02_01:
   dataset:
     name: qasper
+    number_of_docs: 200
   chunker:
     mode: sentence
     size: 100
@@ -31,6 +32,7 @@ scaler_rag_02_01:
 scaler_rag_02_02:
   dataset:
     name: frames
+    number_of_qas: 400
   chunker:
     mode: sentence
     size: 100
@@ -54,6 +56,7 @@ scaler_rag_02_02:
 # scaler_rag_02_03:
 #   dataset: 
 #     name: qasper
+#     number_of_docs: 200
 #   chunker:
 #     mode: sentence
 #     size: 100
@@ -74,6 +77,7 @@ scaler_rag_02_02:
 # scaler_rag_02_04:
 #   dataset: 
 #     name: frames
+#     number_of_qas: 400
 #   chunker:
 #     mode: sentence
 #     size: 100

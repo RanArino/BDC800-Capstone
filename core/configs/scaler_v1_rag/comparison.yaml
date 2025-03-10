@@ -4,6 +4,7 @@
 scaler_v1_rag_01_01:
   dataset:
     name: frames
+    number_of_qas: 400
   summarizer:
     llm_id: llama3.2:1b
     output_tokens: 512
@@ -21,6 +22,7 @@ scaler_v1_rag_01_01:
 scaler_v1_rag_01_02:
   dataset:
     name: frames
+    number_of_qas: 400
   summarizer:
     llm_id: llama3.2:1b
     output_tokens: 512
@@ -39,6 +41,7 @@ scaler_v1_rag_01_02:
 scaler_v1_rag_01_03:
   dataset:
     name: frames
+    number_of_qas: 400
   summarizer:
     llm_id: deepseek-r1-8b
     output_tokens: 512
