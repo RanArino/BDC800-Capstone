@@ -166,3 +166,165 @@ def visualize_generation_metrics(
     plt.suptitle(title, fontsize=20, y=1.02)
     plt.tight_layout()
     plt.show()
+
+def create_retrieval_metrics_df(data_path, model_name):
+    """
+    Create a DataFrame from the retrieval metrics JSON file.
+    
+    Args:
+        data_path (str): Path to the JSON file containing retrieval metrics data
+        model_name (str): Name of the model for the data
+        
+    Returns:
+        pd.DataFrame: DataFrame containing the retrieval metrics
+    """
+    # Load JSON data
+    with open(data_path, 'r') as f:
+        data_dict = json.load(f)
+    
+    metrics_data = []
+    
+    # Process MAP (Mean Average Precision)
+    if 'map' in data_dict['retrieval']:
+        map_data = data_dict['retrieval']['map']
+        for k, k_data in map_data.items():
+            metrics_data.append({
+                'model': model_name,
+                'metric_group': 'map',
+                'metric_type': f'k={k}',
+                'value': k_data['mean'],
+                'q1': k_data['q1'],
+                'q3': k_data['q3']
+            })
+    
+    # Process MRR (Mean Reciprocal Rank)
+    if 'mrr' in data_dict['retrieval']:
+        mrr_data = data_dict['retrieval']['mrr']
+        for k, k_data in mrr_data.items():
+            metrics_data.append({
+                'model': model_name,
+                'metric_group': 'mrr',
+                'metric_type': f'k={k}',
+                'value': k_data['mean'],
+                'q1': k_data['q1'],
+                'q3': k_data['q3']
+            })
+    
+    # Process Hit Rate
+    if 'hit' in data_dict['retrieval']:
+        hit_data = data_dict['retrieval']['hit']
+        for k, k_data in hit_data.items():
+            metrics_data.append({
+                'model': model_name,
+                'metric_group': 'hit',
+                'metric_type': f'k={k}',
+                'value': k_data['mean'],
+                'q1': k_data['q1'],
+                'q3': k_data['q3']
+            })
+    
+    return pd.DataFrame(metrics_data)
+
+def visualize_retrieval_metrics(
+        data_dicts, 
+        model_names, 
+        title='Retrieval Performance Comparison',
+        figsize=(20, 6),
+        ):
+    """
+    Visualize retrieval metrics from multiple model results.
+    
+    Args:
+        data_dicts (list): List of dictionaries containing metrics data
+        model_names (list): List of model names corresponding to each dictionary
+        title (str): Title for the visualization
+        figsize (tuple): Figure size (width, height)
+    """
+    # Create DataFrames for all models
+    dfs = []
+    for data_dict, model_name in zip(data_dicts, model_names):
+        df = create_retrieval_metrics_df(data_dict, model_name)
+        dfs.append(df)
+    
+    # Combine all dataframes
+    df = pd.concat(dfs)
+    
+    # Get unique metric groups
+    metric_groups = df['metric_group'].unique()
+    
+    # Create figure and subplots
+    fig, axes = plt.subplots(1, len(metric_groups), figsize=figsize)
+    
+    # Handle case where there's only one subplot
+    if len(metric_groups) == 1:
+        axes = np.array([axes])
+    
+    # Plot each metric group
+    for ax, metric_group in zip(axes, metric_groups):
+        # Filter data for this metric group and create a copy
+        group_df = df[df['metric_group'] == metric_group].copy()
+        
+        # Extract k values from metric_type using raw string for regex
+        group_df.loc[:, 'k'] = group_df['metric_type'].str.extract(r'k=(\d+)').astype(int)
+        
+        # Create line plot with markers for each model
+        for model in model_names:
+            model_data = group_df[group_df['model'] == model]
+            
+            # Plot main line
+            line = ax.plot(model_data['k'], model_data['value'], 
+                          marker='o', label=model, linewidth=2, markersize=8)
+            
+            # Calculate label positions based on model index
+            model_idx = model_names.index(model)
+            is_first_model = model_idx == 0
+            
+            # Select key points to label (k=1, k=3, k=5, k=10)
+            key_points = [(k, v) for k, v in zip(model_data['k'], model_data['value']) 
+                         if k in [1, 3, 5, 10]]
+            
+            for k, v in key_points:
+                # For first model, place labels above
+                # For second model, place labels below when values are close
+                if is_first_model:
+                    offset_y = 15
+                    va = 'bottom'
+                else:
+                    # Check if there's a value from first model at this k
+                    other_model_data = group_df[
+                        (group_df['model'] == model_names[0]) & 
+                        (group_df['k'] == k)
+                    ]
+                    if not other_model_data.empty:
+                        other_value = other_model_data.iloc[0]['value']
+                        # If values are close, place label below
+                        if abs(v - other_value) < 0.05:
+                            offset_y = -15
+                            va = 'top'
+                        else:
+                            offset_y = 15
+                            va = 'bottom'
+                    else:
+                        offset_y = 15
+                        va = 'bottom'
+                
+                ax.annotate(
+                    f'{v:.3f}',
+                    (k, v),
+                    textcoords="offset points",
+                    xytext=(0, offset_y),
+                    ha='center',
+                    va=va
+                )
+        
+        ax.set_title(f'{metric_group} at K', fontsize=16, pad=10)
+        ax.set_xlabel('K', fontsize=12)
+        ax.set_ylabel('Score', fontsize=12)
+        ax.grid(True, linestyle='--', alpha=0.7)
+        ax.set_xticks([1, 3, 5, 10])
+        ax.set_ylim(0, 1.1)  # Set y-axis limit from 0 to 1.1 to accommodate labels
+        ax.legend(title='')
+
+    plt.suptitle(title, fontsize=20, y=1.02)
+    plt.tight_layout()
+    plt.show()
