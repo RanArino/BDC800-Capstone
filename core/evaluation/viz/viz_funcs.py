@@ -5,8 +5,9 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import json
+from typing import List, Tuple
 
-def create_generation_metrics_df(data_path, model_name):
+def create_generation_metrics_df(data_path: str, model_name: str):
     """
     Create a DataFrame from the metrics JSON file.
     
@@ -69,17 +70,17 @@ def create_generation_metrics_df(data_path, model_name):
     return pd.DataFrame(metrics_data)
 
 def visualize_generation_metrics(
-        data_dicts, 
-        model_names, 
-        title='RAG Performance Comparison',
-        show_errors=True,
-        figsize=(24, 15),
+        data_paths: List[str], 
+        model_names: List[str], 
+        title: str = 'RAG Performance Comparison',
+        show_errors: bool = True,
+        figsize: Tuple[int] = (24, 15),
         ):
     """
     Visualize RAG generation metrics from multiple model results.
     
     Args:
-        data_dicts (list): List of dictionaries containing metrics data
+        data_pathss (list): List of dictionaries containing metrics data
         model_names (list): List of model names corresponding to each dictionary
         title (str): Title for the visualization
         figsize (tuple): Figure size (width, height)
@@ -87,8 +88,8 @@ def visualize_generation_metrics(
     """
     # Create DataFrames for all models
     dfs = []
-    for data_dict, model_name in zip(data_dicts, model_names):
-        df = create_generation_metrics_df(data_dict, model_name)
+    for data_path, model_name in zip(data_paths, model_names):
+        df = create_generation_metrics_df(data_path, model_name)
         dfs.append(df)
     
     # Combine all dataframes
