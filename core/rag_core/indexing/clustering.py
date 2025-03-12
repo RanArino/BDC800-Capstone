@@ -133,8 +133,22 @@ def run_clustering(
     
     # Special case for single sample
     if len(embeddings_array) <= 1:
-        logger.warning("Only one sample available, clustering not possible. Returning None.")
-        return None
+        logger.info("Only one sample available. Creating a single cluster.")
+        if method.lower() == "kmeans":
+            # Create a KMeans instance with 1 cluster
+            kmeans = KMeans(n_clusters=1, random_state=kwargs.get("random_state", 42), n_init=10)
+            # For a single sample, we need to manually set the attributes
+            kmeans.cluster_centers_ = np.array([embeddings_array[0]])
+            kmeans.labels_ = np.array([0])
+            logger.info("Created KMeans with 1 cluster for single sample")
+            return kmeans
+        elif method.lower() == "gmm":
+            # Create a GMM instance with 1 component
+            gmm = GaussianMixture(n_components=1, random_state=kwargs.get("random_state", 42))
+            # For a single sample, we need to manually set the attributes
+            gmm.means_ = np.array([embeddings_array[0]])
+            logger.info("Created GMM with 1 component for single sample")
+            return gmm
     
     # Apply clustering based on method
     if method.lower() == "kmeans":
