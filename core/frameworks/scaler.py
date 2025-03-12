@@ -218,9 +218,9 @@ class ScalerRAG(BaseRAGFramework):
                 items_per_cluster=getattr(self.config.chunker.clustering, "items_per_cluster", None)
             )
             
-            # Skip if no model returned
+            # Skip if no model returned (this should no longer happen with our changes to clustering.py)
             if clustering_model is None:
-                self.logger.warning(f"No clustering model returned for layer {layer}. Skipping vector store creation.")
+                self.logger.warning(f"No clustering model returned for layer {layer}. This should not happen with the updated clustering code.")
                 return
                 
             # Store the clustering model for later use
