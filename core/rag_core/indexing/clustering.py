@@ -85,16 +85,16 @@ def gmm_clustering(
     return labels, centroids, clusters
 
 def run_clustering(
-    embeddings: List[List[float]],
+    embeddings_array: np.ndarray,
     method: str = "kmeans",
     n_clusters: Optional[int] = None,
-    items_per_cluster: int = 15,
+    items_per_cluster: Optional[int] = None,
     **kwargs
 ) -> Union[KMeans, GaussianMixture]:
     """Run clustering on embeddings.
     
     Args:
-        embeddings: List of embedding vectors
+        embeddings: numpy.ndarray whose shape is (num of embeddings, num of dimensions)
         method: Clustering method ("kmeans" or "gmm")
         n_clusters: Number of clusters (if None, will be estimated)
         items_per_cluster: Target number of items per cluster (used if n_clusters is None).
@@ -107,19 +107,32 @@ def run_clustering(
         - KMeans: with attributes labels_, cluster_centers_
         - GaussianMixture: with methods predict() and attribute means_
     """
-    # Convert embeddings to numpy array if not already
-    embeddings_array = np.array(embeddings, dtype=np.float32)
-    
     # Check if embeddings array is empty
     if embeddings_array.size == 0:
         logger.warning("Empty embeddings array provided to clustering. Returning None.")
         return None
     
+    # default cluster numbers
+    if not n_clusters and not items_per_cluster:
+        if len(embeddings_array) < 50:
+            n_clusters = 5
+        else:
+            n_clusters = 10
+        logger.info(f"{n_clusters} clusters for {len(embeddings_array)} items")
+
     # Estimate number of clusters if not provided
-    if n_clusters is None:
+    if not n_clusters and items_per_cluster:
         # Calculate based on desired items per cluster (as a guideline)
-        n_clusters = max(2, min(len(embeddings) // items_per_cluster, 20))
-        logger.info(f"Estimated {n_clusters} clusters for {len(embeddings)} items (target guideline: ~{items_per_cluster} items/cluster)")
+        n_clusters = max(2, min(len(embeddings_array) // items_per_cluster, 10))
+        logger.info(f"Estimated {n_clusters} clusters for {len(embeddings_array)} items (target guideline: ~{items_per_cluster} items/cluster)")
+    
+    # Check if we have enough samples for the requested number of clusters
+    if len(embeddings_array) < n_clusters:
+        logger.warning(f"Not enough samples ({len(embeddings_array)}) for requested clusters ({n_clusters}). Reducing clusters to match sample count.")
+        if len(embeddings_array) <= 1:
+            logger.warning("Only one sample available, clustering not possible. Returning None.")
+            return None
+        n_clusters = len(embeddings_array)
     
     # Apply clustering based on method
     if method.lower() == "kmeans":
