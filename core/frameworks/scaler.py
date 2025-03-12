@@ -572,14 +572,12 @@ class ScalerRAG(BaseRAGFramework):
                             search_embedding,
                             k=top_k
                         )
-                        # Sort by score (lower is better) and store only documents
-                        doc_cc_results = [doc for doc, _ in sorted(doc_cc_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = doc_cc_results
-                        
+                        # Extract only Langchain Document
+                        results[layer] = [doc for doc, _ in sorted(doc_cc_results, key=lambda x: x[1])]
                         # Store cluster IDs for doc layer retrieval
                         doc_cluster_ids = [
                             doc_cc_doc.metadata.get("vector_store_key")
-                            for doc_cc_doc in doc_cc_results
+                            for doc_cc_doc in results[layer]
                             if doc_cc_doc.metadata.get("vector_store_key") is not None
                         ]
                         
@@ -621,8 +619,7 @@ class ScalerRAG(BaseRAGFramework):
                                 ])
                         
                         # Sort all chunk_cc results by score and take top_k
-                        chunk_cc_results = [doc for doc, _ in sorted(chunk_cc_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = chunk_cc_results
+                        results[layer] = [doc for doc, _ in sorted(chunk_cc_results, key=lambda x: x[1])][:top_k]
                 
                 # Handle base layers (doc and chunk)
                 else:
@@ -637,8 +634,7 @@ class ScalerRAG(BaseRAGFramework):
                                 )
                                 doc_results.extend(cluster_docs)
                         # Sort by score (lower is better) and take top_k
-                        doc_results = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = doc_results
+                        results[layer] = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
                         
                     elif layer == "chunk":
                         # Get chunks from chunk layer using cluster IDs
@@ -652,8 +648,7 @@ class ScalerRAG(BaseRAGFramework):
                                     )
                                     chunk_results.extend(cluster_chunks)
                         # Sort by score (lower is better) and take top_k
-                        chunk_results = [doc for doc, _ in sorted(chunk_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = chunk_results
+                        results[layer] = [doc for doc, _ in sorted(chunk_results, key=lambda x: x[1])][:top_k]
             
             return results["chunk"]
             
