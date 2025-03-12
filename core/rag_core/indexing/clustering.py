@@ -114,7 +114,9 @@ def run_clustering(
     
     # default cluster numbers
     if not n_clusters and not items_per_cluster:
-        if len(embeddings_array) < 50:
+        if len(embeddings_array) < 10:
+            n_clusters = 1
+        elif len(embeddings_array) < 50:
             n_clusters = 5
         else:
             n_clusters = 10
@@ -123,16 +125,16 @@ def run_clustering(
     # Estimate number of clusters if not provided
     if not n_clusters and items_per_cluster:
         # Calculate based on desired items per cluster (as a guideline)
-        n_clusters = max(2, min(len(embeddings_array) // items_per_cluster, 10))
+        if len(embeddings_array) < 10:
+            n_clusters = 1
+        else:
+            n_clusters = max(2, min(len(embeddings_array) // items_per_cluster, 10))
         logger.info(f"Estimated {n_clusters} clusters for {len(embeddings_array)} items (target guideline: ~{items_per_cluster} items/cluster)")
     
-    # Check if we have enough samples for the requested number of clusters
-    if len(embeddings_array) < n_clusters:
-        logger.warning(f"Not enough samples ({len(embeddings_array)}) for requested clusters ({n_clusters}). Reducing clusters to match sample count.")
-        if len(embeddings_array) <= 1:
-            logger.warning("Only one sample available, clustering not possible. Returning None.")
-            return None
-        n_clusters = len(embeddings_array)
+    # Special case for single sample
+    if len(embeddings_array) <= 1:
+        logger.warning("Only one sample available, clustering not possible. Returning None.")
+        return None
     
     # Apply clustering based on method
     if method.lower() == "kmeans":
