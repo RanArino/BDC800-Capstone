@@ -10,10 +10,9 @@ TEST02_scaler_rag_01:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      items_per_cluster: 10
     dim_reduction:
       method: "pca"
-      n_components: 10
+      n_components: 15
   retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
@@ -22,7 +21,7 @@ TEST02_scaler_rag_01:
 TEST02_scaler_rag_02:
   dataset:
     name: multihoprag
-    number_of_qas: 100
+    number_of_qas: 50
   chunker:
     mode: fixed
     size: 100
@@ -30,7 +29,6 @@ TEST02_scaler_rag_02:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      items_per_cluster: 10
     dim_reduction:
       method: "pca"
       n_components: 10
@@ -50,7 +48,6 @@ TEST02_scaler_rag_03:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      items_per_cluster: 10
     dim_reduction:
       method: "pca"
       n_components: 10
@@ -70,7 +67,6 @@ TEST02_scaler_rag_04:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      items_per_cluster: 10
     dim_reduction:
       method: "pca"
       n_components: 10
@@ -119,7 +115,7 @@ TEST_scaler_rag_multihoprag:
     embedding_id: huggingface-multi-qa-mpnet
     clustering:
       method: "kmeans"
-      n_clusters: 3
+      n_clusters: 5
     dim_reduction:
       method: "pca"
       n_components: 10
