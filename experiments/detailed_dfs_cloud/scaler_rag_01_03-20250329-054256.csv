@@ -1,0 +1,1008 @@
+qa_id,query,ground_truth,llm_answer,rouge1_p,rouge1_r,rouge1_f,rouge2_p,rouge2_r,rouge2_f,rougeL_p,rougeL_r,rougeL_f,bleu,cosine_sim,self_checker,map@1,map@3,map@5,map@10,mrr@1,mrr@3,mrr@5,mrr@10,hit@1,hit@3,hit@5,hit@10,llm_eval@1,llm_eval@3,llm_eval@5,llm_eval@10
+q0,"If my future wife has the same first name as the 15th first lady of the United States' mother and her surname is the same as the second assassinated president's mother's maiden name, what is my future wife's name? ",Jane Ballou,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07625697553157806,No,1.0,1.0,1.0,0.8083333333333333,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q1,"Imagine there is a building called Bronte tower whose height in feet is the same number as the dewey decimal classification for the Charlotte Bronte book that was published in 1847. Where would this building rank among tallest buildings in New York City, as of August 2024?",37th,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04307479411363602,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q2,How many years earlier would Punxsutawney Phil have to be canonically alive to have made a Groundhog Day prediction in the same state as the US capitol?,87,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10485992580652237,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q3,"As of August 1, 2024, which country were holders of the FIFA World Cup the last time the UEFA Champions League was won by a club from London?",France,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10855454951524734,No,1.0,1.0,0.9166666666666666,0.7726190476190476,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q4,What is the name of the vocalist from the first band to make it in the top 200 under the record label that produced the third studio album for Dismal Euphony?,Jens Kidman,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08827012032270432,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q5,"According to the 2000 United States census, what was the 2000 population of the birth city of the only 21st-century mayor of Austin, Texas who also served as mayor in the 1990s? Round your answer to the nearest thousand.",506000,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15836332738399506,No,0.0,0.0,0.325,0.3595238095238095,0.0,0.0,0.25,0.25,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q6,I have an element in mind and would like you to identify the person it was named after. Here's a clue: The element's atomic number is 9 higher than that of an element discovered by the scientist who discovered Zirconium in the same year.,Mendelevium is named after Dmitri Mendeleev.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06870636427700047,0.08415304869413376,No,1.0,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q7,"As of Aug 3, 2024, the artist who released the album ""Father of Asahd"" went to the same high school as an Olympic diver. How many Olympic teams did this diver participate on?",2,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.24587008357048035,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q8,A general motors vehicle is named after the largest ward in the country of Monaco.  How many people had walked on the moon as of the first model year of the vehicle? Note: the model year is not the same as the year the model was first produced.,4,"Twelve.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.31659996509552,No,0.0,0.3333333333333333,0.41666666666666663,0.4634920634920635,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q9,"The Pope born Pietro Barbo ended a long-running war two years after his papacy began, which famous conflict, immortalized in tapestry took place 400 years earlier?",The Battle of Hastings.,"The answer is not found in the context.
+",0.125,0.25,0.16666666666666666,0.0,0.0,0.0,0.125,0.25,0.16666666666666666,0.05669791110976001,0.09320664405822754,No,0.0,0.0,0.25,0.25,0.0,0.0,0.25,0.25,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q10,"An Australian artist, born the same year as artist Janet Cumbrae Stewart and fellow member of the Melbourne Society of Women Painters and Sculptors, had her painting featured on the cover of Women's World Magazine in 1923. What is the name of the painting?",Reve d'Or,"Reve d'Or
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0000001192092896,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q11,"As of July 1, 2024, what is the parent company of the current record label of the singer of Edge of Seventeen?",Warner Music Group,"Warner Bros. Records
+",0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,0.0,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.1597357760615681,0.8005046248435974,No,1.0,0.8333333333333333,0.7555555555555555,0.7469246031746032,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q12,The Basibasy mine is located in Madagascar. This mine is abundant in a specific chemical element that was discovered for the first time in 1791. The person who discovered this element was born on what is now known as a major US holiday - what holiday is this?,Christmas,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-0.0028352364897727966,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q13,"One of Barbara Kingsolver's best known novels is about an American missionary family which moves to Africa. At the time, the country they move to was a Belgian colony. Which year did it become independent?",1960,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0992431640625,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q14,Which football player got 15 or more assists in La Liga during the 2010-2011 season and also played for Arsenal at one point in his career?,This was Mesut Ozil.,"Özil
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.37285488843917847,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q15,In Slovakia there is a well known Film Festival called the Bratistlava International Film Festival. What city/ town was the film editor for the Grand Prix winner of 2003 born in?,Roudnice nad Labem,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.21528694033622742,No,1.0,1.0,1.0,0.9444444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q16,"On March 7th, 2012, the director James Cameron explored a very deep underseas trench.  As of August 3, 2024, how many times would the tallest building in San Francisco fit end to end from the bottom of the New Britain Trench to the surface of the ocean? The answer should be a rounded-off whole number.   ",28,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11902331560850143,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q17,"In August of 2024, what is the first name of the mayor of the U.S. state capital city who attended the same university as at least one U.S. president and whose city is home to an outgoing or former full member of the Big 12 Conference",Leirion,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.060249000787734985,No,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q18,"How many years after the founding of the 50th most populous US city, based on 2023 estimate population data, did Frank Fox receive UK Patent (1344259)?","98 Years (Arlington, TX & Rubik's Cube)","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07863880693912506,No,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q19,"As of August 4, 2024, in what state was the first secretary of the latest United States federal executive department born?",Pennsylvania,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06529533118009567,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q20,"As of August 1 2024, what is the most recently described genus of Colosteidae?","Deltaherpeton, first described in 2010","The answer is not found in the context.
+",0.125,0.2,0.15384615384615385,0.0,0.0,0.0,0.125,0.2,0.15384615384615385,0.04767707020457095,0.08572733402252197,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q21,Małgorzata Rożniecka is a model who won the title of Miss International. What is the difference in title years from when she won and the pageant winner who was murdered by her stalker?,10 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07874764502048492,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q22,"According to the 1990 United States census, what was the total population of the cities in Oklahoma that had at least 100,000 residents according to the 2020 United States census?",950135,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15212367475032806,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q23,"What was the political party of the person who advocated for the type of government used in Chikhali, Latur district to become the foundation of India's political system?",Indian National Congress,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17333775758743286,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q24,"Giorgio Rognoni was an Italian professional footballer who played as a midfielder. 10 years after his death who was the midfielder who played in Milan that was born in Besana in Brianza,?",Demetrio Albertini,"Alessandro Albertini
+",0.5,0.5,0.5,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.7956110835075378,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q25,What was the age difference between Mike Tyson and Tyson Fury on the respective days on which they lost their first ever fights? Represent the figure in years only.,12 years.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.08526941388845444,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q26,"Using the Pruett rule, out of all of the blue moons that occurred between the beginning of World War I and the end of World War II, how many of them occurred on the 31st of the month?",9,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10101841390132904,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q27,What number would Tommy Lawton have worn playing for Chelsea FC?,9,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08294788002967834,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q28,"If you subtract the year that William McCrary ""Billy"" Ray II was born from the year Obama was first sworn in as President to the United States and multiply it by the number of administrative regions in France as of January 1, 2024, what number would you get?",828,"Answer not found in context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1386283040046692,No,1.0,0.8333333333333333,0.8333333333333333,0.6190476190476191,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q29,"If Princess Diana had been born three years earlier, who would have been Prime Minister when she was ten? ",Harold Wilson,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10298343747854233,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q30,"As of August 1, 2024, what is the population of the writer of the ""Culdcept Saga""'s birthplace? Write the answer to the nearest million, in characters.",Two million.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.11503364890813828,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q31,What is the middle name of the U.S. president who died on the same day of the year as Virginia Woolf?,David,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.013646489009261131,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q32,"As of 2010, if you added the number of times Brazil had won the World Cup to the amount of times the Chicago Bulls had won the NBA Championship and multiplied this number by the amount of times the Dallas Cowboys had won the Super Bowl, what number are you left with?",55,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11123065650463104,No,1.0,1.0,0.75,0.5973544973544973,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q33,How old would the founder of the publishing company of the magazine that serialized the manga series Raw Hero have been the year the magazine ended publication?,145,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08638244867324829,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q34,The oldest extant football team in Italy plays in a stadium.   The stadium is named after a person.   Who was the emperor of China when that person was 5 years old?,Guangxu,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03670535981655121,No,1.0,1.0,0.95,0.883531746031746,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q35,"Of the four main characters on Seinfeld, which actor is the oldest?",Michael Richards,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02932320535182953,No,1.0,1.0,1.0,0.9526289682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q36,"How old was Harvard University, when the person whom the longest river in British Columbia is named after, was born?  The river in question only flows within the confines of British Columbia and does not enter any other province or territory.  ",140 years old.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.1124403104186058,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q37,"On the same day that the The Mercedes-Benz W222 arrived at dealerships, a star of the sit-com Modern Family was wed. Who did the star marry?",Justin Mikita,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0942753329873085,No,1.0,1.0,1.0,0.9526289682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q38,Which species from the genus mulona are both found in the same country?,Mulona barnesi and mulona schausi,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13682210445404053,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q39,"As of July 1, 2024, if I wanted to give my daughter the middle name of the American woman who is the most decorated female in the history of American gymnastics as her first name and the full first name of the American woman who holds the world record in the 800-meter freestyle as her middle name, what would I name my daughter? ",Arianne Kathleen,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10545803606510162,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q40,I am thinking of a Ancient Roman City.  The city was destroyed by volcanic eruption.  The eruption occurred in the year 79 AD.  The volcano was a stratovolcano.    Where was the session held where it was decided that the city would be named a UNESCO world heritage site?,Naples,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07067984342575073,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q41,What Formula One car was driven in 1994 by the nephew of a racing driver from Italy who drove a Ferrari 312T and shares a last name with a common cocktail drink?,Minardi M194,"Minardi M194
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,0.9617346938775511,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q42,"As of August 1, 2024, who is the president of the team that inspired the original name of the Washington Commanders?",Derek Schiller,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08299379050731659,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q43,"As of 2023, how many more employees does the company alphabetically first by ticker symbol in the S&P500 have than the company alphabetically 2nd to last by ticker symbol in the S&P500?","8,350","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09478819370269775,No,1.0,1.0,1.0,0.8928571428571428,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q44,"I am moving to the G40 postcode area - what train stations are nearby, as of 2024?",Bridgeton Railway Station and Dalmarnock Railway Station.,"The provided text does not list train stations *nearby* G40.  It only mentions train lines and stations in various locations surrounding the G postcode area, but not specific stations near G40.
+",0.0967741935483871,0.42857142857142855,0.15789473684210525,0.0,0.0,0.0,0.0967741935483871,0.42857142857142855,0.15789473684210525,0.012193311110766474,0.47765958309173584,No,1.0,1.0,0.8875,0.8069444444444445,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q45,How old was Stephen Baldwin when Hailey and Justin got married?,52,"52
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,0.9765432098765432,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q46,"As of August 1, 2024, what is the largest city of the 9th largest country by land area in Europe?",The largest city of the 9th largest country in Europe is Warsaw.,"Answer not found in the context.
+",0.3333333333333333,0.16666666666666666,0.2222222222222222,0.0,0.0,0.0,0.16666666666666666,0.08333333333333333,0.1111111111111111,0.03667862829704212,0.005179415922611952,No,1.0,1.0,1.0,0.9472222222222222,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q47,What was the running time of the first cartoon in the series that inspired the name of the Looney Tunes franchise?,5 minutes and 31 seconds,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09782537817955017,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q48,"The state, whose motto was adopted March 26, 1928, has 0.94% of the population in 2024 speaking a language that is native to which country?",Philippines,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1290673017501831,No,1.0,1.0,0.8666666666666667,0.75,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q49,"As of 2024, at the time of his birth, what was the middle name of the U.S. president who won Alaska, graduated from Yale University, and had a son named Michael?",Lynch,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08799256384372711,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q50,"The first white man to visit the indigenous people who were forced on a reserve during the Klondike Gold Rush, worked for a company who officially stopped selling what in 2023?",Animal Fur Products,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06720085442066193,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q51,"What state is the home of the losing team of the World Series three years before ""Old Shufflefoot"" managed his team to victory? ",Illinois,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10530951619148254,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q52,Was the person who served as president of the Scottish National Party from 1987 to 2005 alive when the party was founded?,Yes,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12109046429395676,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q53,"In series six of Downton Abbey, Lord Merton is diagnosed with a terminal condition. A deficiency in which vitamin causes this condition?",Vitamin B12,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1993888020515442,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q54,How many letters long is the title of the first movie composed by the composer of the first American Godzilla movie?,17,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1424909234046936,No,1.0,1.0,1.0,0.7666666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q55,"The author of the book ""A Good Woman""'s author was married to a man in 2008, who resigned from the board of HP due to the actions taken by the board's chair. What types of cancer did the chair survive?",Breast and skin,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10752931982278824,No,1.0,1.0,1.0,0.8968253968253969,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q56,"Benjamin Waterhouse Hawkins was commissioned to sculpt a series of life-size dinosaurs between 1852-54.  In this location, one species only had its head and back built with the rest of its body submerged underwater because they didn't know what it looked like then.  Where is this display located in 2024, which dinosaur species was this, and what did the rest of its body look like after all? ","Crystal Palace Park.  The dinosaur is Mosasaurus, it had a streamlined body, an elongated tail ending with a downturn supporting a two-lobed fin, and two pairs of flippers. ","Crystal Palace Park, London.  Mosasaurus.  The rest of the body was unseen and undefined, submerged in the lake.
+",0.4444444444444444,0.27586206896551724,0.3404255319148936,0.11764705882352941,0.07142857142857142,0.08888888888888889,0.3333333333333333,0.20689655172413793,0.2553191489361702,0.06210756273018908,0.7063016295433044,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q57,The Assistant to the Regional Manager on The Office TV show (US version) has a farm. You can obtain what food colorant from the crop he grows?,Betanin,"Anthocyanins.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.23508813977241516,No,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q58,How many Pokemon World Championships occurred in the contiguous United States during the presidency of Barack Obama?,"- Five Pokemon World Championships took place in the contiguous United States during Barack Obama's presidency - The championships tournaments were  2009 (San Diego, California), 2011 (San Diego, California),  2014 (Washington, D.C.), 2015 (Boston, Massachusetts) and 2016 (San Francisco, California)","The answer is not found in the context.
+",0.375,0.075,0.12499999999999999,0.14285714285714285,0.02564102564102564,0.043478260869565216,0.25,0.05,0.08333333333333334,0.00035102661637589243,-0.0019253883510828018,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q59,"Put these historical events in chronological order, starting with the earliest: The Beatles play Ed Sullivan, the fall of the Berlin Wall, The Great Depression, Atlanta Summer Games, World War I. ","World War I, The Great Depression, The Beatles play Ed Sullivan, the fall of the Berlin Wall, Atlanta Summer Games. ","The Great Depression, World War I, The Beatles play Ed Sullivan, Atlanta Summer Games, fall of the Berlin Wall.
+",1.0,0.95,0.9743589743589743,0.8333333333333334,0.7894736842105263,0.8108108108108109,0.6842105263157895,0.65,0.6666666666666667,0.690276611768276,0.987138032913208,No,1.0,1.0,0.9166666666666666,0.7996031746031746,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q60,This individual won a Best Director Award at the 33rd Japan Academy Prize ceremony and is known for having directed a film that briefly surpassed the Godfather as the highest-grossing film in Japan for a short time. Which film was longer - The Godfather or his film - and by how many minutes?,The Godfather (1972) was longer than Submersion in Japan (1973) by 32 minutes.,"The answer is not found in the context.
+",0.25,0.15384615384615385,0.1904761904761905,0.0,0.0,0.0,0.25,0.15384615384615385,0.1904761904761905,0.02308316689352168,0.035882219672203064,No,1.0,1.0,0.8875,0.8782627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q61,The manga 'Sailor Moon' was authored by a woman. What manga did her husband win the Shogakukan Manga Award for authoring?,YuYu Hakusho,"YuYu Hakusho
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q62,Where did the daughter of the winner of the first US presidential election to occur after the official end of WWII  attend university?,George Washington University,"George Washington University
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,0.9166666666666666,0.8541666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q63,"In the style of wrestling performed by former Greek wrestler Mikhail Theodoropoulos, who won the inaugural olympic medal?",Carl Schuhmann.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.19340366125106812,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q64,What is the difference in elevation between the respective peaks of Eggstock (Uri Alps) and Eggstock (Schwyzer Alps) in Switzerland? Convert the final figure to centimetres and round up to the nearest 1000.,"110,000cm.","1,100,000 cm
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.7974957227706909,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q65,"How many films had the actress who played Trudi Frazer in ""Once Upon a Time in Hollywood"" acted in before?",3,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1523340791463852,No,0.0,0.5833333333333333,0.5888888888888889,0.6844246031746032,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q66,The founder of the production company at which Tim Allsop and Stewart Williams met received a bachelor's degree from a college in the state of New York. In what year was this college's sibling institution founded?,1701,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13125596940517426,No,1.0,1.0,1.0,0.625,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q67,Which player scored more than 15 goals in Eredevisie during the 21-22 season and had previously played for Auxerre?,Sébastien Haller scored 21 goals that season and previously played for Auxerre.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03056960239296902,0.014088260009884834,No,0.0,0.5833333333333333,0.6388888888888888,0.5791666666666666,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q68,"The latest game, as of August 4, 2024, from the creator of Kirby won an award at The Game Awards. What won Game of the Year the following year?",The Last of Us Part II,"Answer not found in the context.
+",0.16666666666666666,0.16666666666666666,0.16666666666666666,0.0,0.0,0.0,0.16666666666666666,0.16666666666666666,0.16666666666666666,0.0,0.06278775632381439,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q69,By how many years does the inception of the party to which former Finnish MP Lea Rakel Hiltunen last belonged predate the foundation of the Parliament of Finland itself?,7 years.,"1899 - 1919 = 74 years
+",0.25,0.5,0.3333333333333333,0.0,0.0,0.0,0.25,0.5,0.3333333333333333,0.08116697886877475,0.5282400846481323,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q70,"According to the population data in their respective Wikipedia articles in August 2024, what is the difference between the population of Seattle, WA, and Portland, OR, according to the data from 2020?","84,512","102,575
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.8518790602684021,No,1.0,1.0,1.0,0.9282627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q71,"What was the Enhanced Fujita Scale rating of the 2011 tornado that hit the hometown of the band who had a controversial interview with Bryan Odell on June 3, 2012?  ","EF5- Joplin, Missouri","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1868387758731842,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q72,Which MP standing as the leader of a major party in the 2019 United Kingdom General Election was also an MP for Henley?,Boris Johnson was leader of the Conservative Party and a former MP for Henley.,"Not found in the context.
+",0.2,0.07142857142857142,0.10526315789473682,0.0,0.0,0.0,0.2,0.07142857142857142,0.10526315789473682,0.021537493400170523,0.1306576132774353,No,1.0,0.8333333333333333,0.8041666666666667,0.8260204081632653,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q73,Who was the author of the novel whose film adaptation lead singer Mark Arm took the name of his band from?,Raymond Friday Locke,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.061078302562236786,No,1.0,1.0,0.95,0.9266666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q74,"As of August 3, 2024, how much taller was the tsunami wave of the most powerful earthquake in North America than the most powerful earthquake ever recorded in Japan?",26.5 meters of 87 feet,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.23829644918441772,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q75,"How old would the 1975 winner of the Lenore Marshall Poetry Prize have been if they were still alive on the date when Rupi Kaur released her book titled, ""Milk and Honey""?",90,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09297774732112885,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q76,A united states island that is only 90 miles away from Cuba has been the home of several famous people. In what year did the famous author who owns a book store there first start writing?,1959,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06610669940710068,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0
+q77,"According to the 2011 census, what is total population of the cities of the birthplaces of author Clive Barker, Prince William, and Sir Malcolm Stanley Bradbury? Round to the nearest 100,000. ","11,300,000","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12173129618167877,No,1.0,1.0,0.95,0.8722222222222222,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q78,"Of the two wonders of the ancient world that were statues, how much shorter was the taller of the two compared to the tallest statue in Japan as of 2024?",222 ft,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02200077660381794,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q79,"The actor known for playing Kenny ""Shammy"" Shamberg in Magnum P.I. was born how days before the Apollo 11 moon landing?",844 days.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.07483228296041489,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q80,"As of January 1, 2024, what was the warmest decade, since the 17th century, around the ocean that surrounds Litke Deep?",The warmest decade for the Arctic Ocean since the 17th century was during the period of 1995–2005.,"The period of 1995–2005 was the warmest decade in the Arctic since at least the 17th century.  The text does not specify the ocean surrounding Litke Deep.
+",0.5714285714285714,0.8888888888888888,0.6956521739130435,0.3333333333333333,0.5294117647058824,0.409090909090909,0.35714285714285715,0.5555555555555556,0.43478260869565216,0.11209528410149082,0.8156245946884155,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q81,"Which of the bridges in Halifax, Nova Scotia is longer, and by how much? The MacKay, or the MacDonald? ",The MacDonald Bridge (1300 metres) is 100 metres longer than the MacKay (1200 metres).,"The context states the MacKay Bridge is 0.9 m (2,427 ft) long.  No length is given for the Macdonald Bridge.  Answer not found in context.
+",0.2222222222222222,0.42857142857142855,0.29268292682926833,0.11538461538461539,0.23076923076923078,0.15384615384615388,0.14814814814814814,0.2857142857142857,0.1951219512195122,0.03511476270817333,0.8695055842399597,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q82,Which section of IPSC Australia Inc. is larger than Honshu and smaller than Sumatra by area?,Victoria and Tasmania,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12554195523262024,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q83,"As of August 1, 2024, are there any cities in England that are more populated than Philadelphia, and which cities are they?","Yes, London","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12311471253633499,No,1.0,1.0,0.7,0.7051587301587301,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q84,Which event predates the other: the amalgamation of the Province of Betanzos with Mondonedo or the completion of a cathedral marking the destination of a prominent Spanish Catholic pilgrimage in the same province? Provide the year of the earlier event.,The completion of Santiago de Compostela Cathedral in 1211.,"Answer not found in the context.
+",0.3333333333333333,0.2222222222222222,0.26666666666666666,0.0,0.0,0.0,0.16666666666666666,0.1111111111111111,0.13333333333333333,0.05087641220727392,0.04196608439087868,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q85,"How many films with titles including the letter ""g"" did the director of ""Sword of the Valiant"" direct after the release of said film, but before the year 2000?",1,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13674989342689514,No,1.0,1.0,0.75,0.6,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q86,What medal did the woman who tied for 19th in the 2011 Pan American Games women's individual bowling event win as part of a women's bowling doubles team in the 2017 World Games?,Bronze medalist,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.072720006108284,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q87,Did the entomologist who first described lesticus purpurascens come from the same country as the entomologist who first described the subfamily of that species?,"Yes, Stefano Ludovico Straneo and Franco Andrea Bonelli are both Italian","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-0.009911950677633286,No,1.0,1.0,1.0,0.5694444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q88,"If you were to combine two words, the first of which has a species called Polytrichum piliferum, and the second which has a breed type called Fleckvieh, you'd get the name of what countries capital city?",Russia,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.19571183621883392,No,1.0,1.0,1.0,0.9666666666666667,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q89,What was the birthday of the man who was mayor of New York City the year Snoopy debuted in the Macy's Thanksgiving Day Parade?,"November 24, 1921","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10513951629400253,No,1.0,1.0,1.0,0.9626543209876544,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q90,What is the average distance for the left field line in MLB stadiums with a retractable roof as of August 2024? Round to the nearest whole number.,331 feet,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13388623297214508,No,1.0,1.0,1.0,0.8385912698412699,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q91,"As of August 3, 2024, which rabbi worked for both Reform Congregation Keneseth Israel in Philadelphia and Congregation Beth Israel in West Hartford, Connecticut?",Abraham J. Feldman worked for both congregations serving as an interim associate rabbi at the Reform Congregation Keneseth Israel and the leader of the Congregation Beth Israel.,"The answer is not found in the context.
+",0.25,0.07407407407407407,0.11428571428571428,0.0,0.0,0.0,0.25,0.07407407407407407,0.11428571428571428,0.006144240547775459,-0.016184119507670403,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q92,Where was the Winter Olympics held the year that the girl who was Wheaties first official spokeswoman turned 20 years old?,"Calgary, Alberta, Canada","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1937549114227295,No,0.0,0.0,0.2,0.2,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q93,How many of Hitler's three couriers of his last will and other political documents died after 1980?,1,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17235848307609558,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q94,The inventor of the first true pinhole camera was also the first to correctly explain what theory?,The Theory of Vision,"Ibn al-Haytham.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11136219650506973,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q95,"As of August 2024, the Atlanta Braves beat the Houston Astros the last time they won the World Series. How many years before this did Jackie Robinson join the Brooklyn Dodgers?",74 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11037710309028625,No,0.0,0.0,0.25,0.25,0.0,0.0,0.25,0.25,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q96,In which of the three Intertidal zones would you most likely find the Septifer bilocularis?,Low Intertidal Zone,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.049274131655693054,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q97,"In the Eurovision Song Contest 2024, one country scored a combined total (jury and televoting results) of 268 - as did another country in the contest the year before. Which countries are they?",Italy and Norway,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13255156576633453,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q98,"The quarterback who was selected first overall in the 1998 NFL draft, won the Superbowl with 2 different teams, both named after what type of animal?",A horse,"Peyton Manning
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1588618904352188,No,1.0,1.0,1.0,0.6666666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q99,"As of 1st August 2024, How much younger is the current youngest US House Representative than the American folk hero who died at the Alamo when they were elected to the US House of Representatives?",14 years younger,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04934025555849075,No,1.0,0.8333333333333333,0.8041666666666667,0.8412257495590829,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q100,"Who was older, the guitar player for the Dugites from 1982-1983 or the lead singer of The Sports?",Andrew Pendlebury,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07407194375991821,No,1.0,1.0,1.0,0.7271825396825397,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q101,"In the first movie that Emma Stone won an Academy Award for Best Actress in, did her costar win an Academy Award for Best Actor?","Ryan Gosling was nominated for an Academy Award for Best Actor in La La Land, but didn't win.","Not found in the context.
+",0.2,0.05263157894736842,0.08333333333333333,0.0,0.0,0.0,0.2,0.05263157894736842,0.08333333333333333,0.009360156047447131,-0.026133567094802856,No,1.0,0.8333333333333333,0.8333333333333333,0.6489417989417989,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q102,"As of August 4, 2024, what is the first initial and surname of the cricketer who became the top-rated test batsman in the 2020s, is the fastest player of their country to 6 1000 run milestones in tests, and became their country's all-time leading run scorer in tests in the same year?",K. Williamson,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.15879538655281067,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q103,"As of 2024, what percentage of Afroasiatic language speakers speak Central Atlas Tamazight?",0.49%,"7.4%
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.8621668815612793,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q104," ""The Terminator"" was released on October 26th exactly how many years after the famous gunfight at the O.K. Corral occurred?",103,"103 years.
+",0.5,1.0,0.6666666666666666,0.0,0.0,0.0,0.5,1.0,0.6666666666666666,0.0,0.32816600799560547,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q105,"If an Ixodes scapularis tick in its nymph stage feeds on a host in the Spring, how many seasons later is it most likely to transmit Lyme disease if it becomes an adult in the same year?",Two seasons.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.030793694779276848,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q106,What percentage of his total league appearances did footballer Derek Smith (born 1946) make with the team whose original name is shared by a bird impressionist born in the nineteenth century? Give your answer to two decimal places.,95.35%,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15961208939552307,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q107,Was the founder of the bank that was established 42 years before the National Banking Act was expanded to include the Territory of Hawai'i still alive when it acquired Pioneer Federal Savings Bank?,No,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17448490858078003,No,1.0,1.0,1.0,0.959375,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q108,"If you take the height of the Eiffel Tower in metres, add the number of arrondissements in Paris and subtract the street number of the official residence of the French prime minister, is the final answer a prime number?",Yes,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1511552631855011,No,1.0,1.0,1.0,0.8917233560090703,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q109,"Of the 3 largest canary islands, which has the hottest mean temperature in July as of 2024? ",Tenerife,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03818538412451744,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q110,"As of 1st August 2024, Are the actors who play Summer and Luke in the OC in anything else together?","Yes, Nashville series 5. ","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.05506591498851776,No,1.0,0.8333333333333333,0.8055555555555556,0.7291666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q111,How many years was the first vessel Stephen Etnier commanded constructed after the novel that first inspired him to pursue painting was published?,7,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10749386996030807,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q112,"As of the financial year ending July 31st 2023, what was the size of the endowment at the university attended by rugby player Fred McLeod?",£559.8 million,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08703914284706116,No,1.0,1.0,1.0,0.9325396825396826,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q113,What medal was the captain of The RMS Titanic awarded by King Edward VII?,The Transport Medal,"Transport Medal
+",1.0,0.6666666666666666,0.8,1.0,0.5,0.6666666666666666,1.0,0.6666666666666666,0.8,0.0,0.9658306241035461,Yes,1.0,1.0,1.0,0.9129251700680272,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q114,What painting was stolen from The Louvre exactly 56 years before the birth of activist and songwriter Serj Tankian?,The Mona Lisa,"The answer is not found in the context.
+",0.125,0.3333333333333333,0.18181818181818182,0.0,0.0,0.0,0.125,0.3333333333333333,0.18181818181818182,0.04767707020457095,0.07217800617218018,No,0.0,0.5,0.5,0.375,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q115,"As of August 1, 2024, which player who scored more than 10 goals in the 2022 Argentine Premier League season also played for Elche in Spain?",Franco Cristaldo scored more than 10 goals that year and also played for Elche.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02447822402834545,-0.006217672023922205,No,1.0,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q116,"As of 2024, how many of the Star Wars actors whose first or last names are 'Jack' have starred in more than 2 Star wars movies?",2,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.24587008357048035,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q117,"I am thinking of a province that has the smallest land area in it's particular country, but also has the the 10th largest population.  This country has 10 provinces.  This province joined the country in 1873.  What is the scientific name of the provincial flower?",Cypripedium Acaule,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04310397803783417,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q118,"As of 1st January 2023, If I am 7 years younger than the eldest granddaughter of the female monarch with the longest reign in confirmed history was at the time of the monarch's death, how old am I?",34,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12212401628494263,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q119,The Office is an American mockumentary sitcom television series that first aired in 2005. Who won the Academy Award for Best Director the same year that the show had its series finale?,Ang Lee won the award for best director for Life of Pi.,"The answer is not found in the context.
+",0.125,0.08333333333333333,0.1,0.0,0.0,0.0,0.125,0.08333333333333333,0.1,0.036353588668522965,0.04073264077305794,No,1.0,1.0,0.8875,0.8782627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q120,"In square KM, how much bigger is the total area of La Casita-Garciasville, Texas compared to that of the independent state that was recognised in the 1929 Lateran Treaty?",10.81,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09688901156187057,No,1.0,0.8333333333333333,0.8333333333333333,0.7222222222222222,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q121,"Which fast food restaurant opened first, McDonald's, Wendy's or In-and-Out?",McDonald's in 1940,"McDonald's
+",1.0,0.5,0.6666666666666666,1.0,0.3333333333333333,0.5,1.0,0.5,0.6666666666666666,0.0,0.705936074256897,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q122,How much wider in centimeters is the painting that inspired a Stephen Sondheim musical than the 10th most expensive painting ever sold?,211.2 cm,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12185618281364441,No,1.0,1.0,0.9166666666666666,0.9166666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q123,"What is the birthplace and hometown of the winning goal scorer of the 2010 Vancouver Olympics, Men's Ice Hockey event?",Halifax,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09049653261899948,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q124,Who won the World series the year Happy Days premiered?,The Oakland Athletics,"The context does not contain the answer to which team won the World Series in 1974.
+",0.0625,0.3333333333333333,0.10526315789473684,0.0,0.0,0.0,0.0625,0.3333333333333333,0.10526315789473684,0.022869567780619007,0.3791031539440155,No,1.0,1.0,1.0,0.5695767195767196,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q125,How many days after the United States release of the record holder for largest sweep at the 2004 Oscars was the death of that movie's cinematographer?,4149 days,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07026953995227814,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q126,"In the Belgian capital, there is a street named after King Leopold II's oldest daughter which is lined with chestnut trees and is the home to many embassies. What is the capital of the country whose embassy is found at number 425?",Zagreb,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07729372382164001,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q127,I'm thinking of a man whose first name is Hart. He acted in a miniseries (based on a historical novel about WW2 with three words in its title) by an author who also wrote a book about a kid with the last name of Bookbinder.,Hart Bochner,"Hart Matthew Bochner
+",0.6666666666666666,1.0,0.8,0.0,0.0,0.0,0.6666666666666666,1.0,0.8,0.0,0.901395320892334,Yes,1.0,1.0,0.75,0.6428571428571428,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q128,Name the teams in alphabetical order that every AL MVP from Texas Rangers retired from as of August 2024.,"Cleveland Indians, New York Yankees, Texas Rangers, Toronto Blue Jays","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00489334249868989,No,1.0,1.0,1.0,0.8611111111111112,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q129,What films did Big Hit Music's 7-member boy group release in the year that the company's 5-member boy group first debuted?,Love Yourself in Seoul (2019) and Bring the Soul: The Movie (2019),"Not found in the context.
+",0.4,0.16666666666666666,0.23529411764705882,0.0,0.0,0.0,0.4,0.16666666666666666,0.23529411764705882,0.015432288372498519,0.09023819118738174,No,1.0,1.0,1.0,0.9282627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q130,What year was the University that gave Taylor Swift an honorary doctorate founded?,1831 (New York University),"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1686687171459198,No,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0
+q131,What is the etymology of the name of the province to the east of the province in which Hazrati Sultan District is located?,"The Dari name 'Baghlan' comes from the Bactrian 'Bagolango', meaning 'image-temple'","The answer is not found in the context.
+",0.25,0.16666666666666666,0.2,0.0,0.0,0.0,0.25,0.16666666666666666,0.2,0.04062582855427254,0.07120046764612198,No,1.0,1.0,0.9166666666666666,0.7688492063492063,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q132,"Consider the number of months lapsing between the major earthquake that caused widespread destruction around the Bay of Naples in 62 CE to the eruption of Mount Vesuvius in 79 CE which buried Pompeii in ash.  If Mount Vesuvius were to have erupted once whenever that number of months came to pass between its 79 CE eruption and the date on which ""Pompeii"" by Bastille was officially released, how many times would the volcano have erupted between those two events?",109 times,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.049247726798057556,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q133,"Multiple the number of Tony's won by the guest host of SNL 12/6/1997 by the number of Oscar nominations received by the 2023 film directed by Greta Gerwig. Then divide this number by the number of Grammy's won by the band behind the 1979 album ""Tusk"".",12,"Answer not found in context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12079170346260071,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q134,"On March 3rd during the year of Mariah Carey's birth, a famous space launch occurred and the mission lasted for how many days?",10 days,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05771026387810707,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q135,What is the Chinese name for the bodhisattva that the Sensoji temple is dedicated to?,Guanyin,"Guanyin
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q136,Which president of the United States is represented by the sum of the ordinal numbers of the presidencies of the four men depicted on Mount Rushmore?,Joe Biden,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.19040144979953766,No,0.0,0.5,0.5,0.41666666666666663,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q137,"If we consider their inception being the date of declared independence, how many years older is the US than Mexico?",45 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10196109116077423,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q138,The manager of the Schenectady Blue Jays in 1953 also played Major League Baseball for which teams?,"Skeeter Newsome  - Philadelphia Athletics, Boston Red Sox, and Philadelphia Phillies","Cleveland Indians
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.49411025643348694,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q139,"What is the name of the play written in May 2016 by a playwright who won the MacArthur Fellowship the same year as the poet who wrote ""Postcolonial Love Poem""?",Skeleton Crew,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.073770672082901,No,1.0,1.0,1.0,0.8210884353741497,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q140,What is the birth date of the person picked right after Lee Vaughn in the 1997 NFL draft?,"August 24, 1974","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05947069451212883,No,1.0,1.0,1.0,0.9317956349206349,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q141,"Suppose Egon Sendler's book ""Les mystères du Christ: Icônes de la liturgie"" was written in the same year as the birth of Nemanja Markovic. How old would the book be when the New Hampshire state election results for the Democratic party were 53.9% and 125,822 votes?",51 years.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.09909509122371674,No,0.0,0.0,0.2,0.26666666666666666,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q142,"As of August 5, 2024, what is the name of the federal law that was found to be violated by the company that Brian Bergstein is employed by?",The Sherman Antitrust Act,"Not found in the context.
+",0.2,0.25,0.22222222222222224,0.0,0.0,0.0,0.2,0.25,0.22222222222222224,0.0,0.18343904614448547,No,0.0,0.5833333333333333,0.6791666666666667,0.6916666666666667,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q143,How many more votes did the Conservatives receive in the Highlands and Islands region in the 2021 Scottish Parliamentary Elections than in 2016?,"16,086","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17075811326503754,No,1.0,1.0,0.95,0.9093537414965986,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q144,What lake in Isreal supports a population of the state bird of the Indian state Haryana?,The Sea of Galilee,"The answer is not found in the context.
+",0.125,0.25,0.16666666666666666,0.0,0.0,0.0,0.125,0.25,0.16666666666666666,0.04767707020457095,0.10621233284473419,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q145,"As of August 3, 2024, what is the sum of the birth years of every tennis player to both represent the country that tennis was first played and complete a Grand Slam.",5980,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04879472404718399,No,0.0,0.0,0.2,0.28888888888888886,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q146,Rosie Ruiz was disqualified from the Boston Marathon. The subsequent winner placed in what position of the 1988 Grandma's Marathon?,Jacqueline Gareau placed first in the 1988 Grandma's Marathon.,"The answer is not found in the context.
+",0.25,0.2,0.22222222222222224,0.14285714285714285,0.1111111111111111,0.125,0.25,0.2,0.22222222222222224,0.09442944296079733,0.039358146488666534,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q147,"On Nov 15, 2017 a painting was sold for US $450 million setting a new record for the most expensive painting ever sold at public auction. What year was the auction house where this purchase took place founded?",1766,"1766
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,0.8333333333333333,0.7555555555555555,0.719047619047619,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q148,"A disease that had millions of dollars raised for on April 20, 1992, was first recognized by the Center for Disease Control and Prevention (CDC) in what year?",1981,"1981
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q149,"As of July 1, 2023, what is the total number of letters in the names of the capital cities of the 5 most populated countries in the world?",43,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15570682287216187,No,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q150,"Where was the rapper behind the song ""Hind's Hall"" born? ","Seattle, Washington","Seattle, Washington
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0000001192092896,Yes,0.0,0.5833333333333333,0.6388888888888888,0.6458333333333333,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q151,"Based on the information available on Wikipedia on August 4, 2024 at 2:42 AM Greenwich Mean Time,  which of the following areas, Minamidaitōjima, Nuapada district, or Vostochnaya Niva has the highest population and how many more citizens does it contain than the other two provided cities?","The Nuapada district contains 608,269 more people than the other two areas combined.","Nuapada district, with a population of 610,382.  The provided text does not contain information on the population of Vostochnaya Niva.
+",0.23809523809523808,0.35714285714285715,0.2857142857142857,0.05,0.07692307692307693,0.060606060606060615,0.19047619047619047,0.2857142857142857,0.22857142857142854,0.04141141330484801,0.6712608337402344,No,0.0,0.0,0.2,0.30277777777777776,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,1.0
+q152,What are the first three letters of the capital city of the country where Shakespeare's longest play is set?,Cop,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1087660938501358,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q153,How many of Ron Hutchinson's teams won League Championships while he was on them?,"Of the six hockey teams that Hutchinson played on during his career, two, the Flin Flon Bombers and the Vancouver Canucks, took home League Championships during his time on the roster. ","Not found in the context.
+",0.2,0.03225806451612903,0.05555555555555555,0.0,0.0,0.0,0.2,0.03225806451612903,0.05555555555555555,0.0007683283962741759,-0.04607653617858887,No,1.0,1.0,1.0,0.7916666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q154,What Pink Floyd album came out the year Pablo Picasso died?,Dark Side of the Moon,"The answer is not found in the context.
+",0.125,0.2,0.15384615384615385,0.0,0.0,0.0,0.125,0.2,0.15384615384615385,0.04767707020457095,0.06180441379547119,No,1.0,1.0,0.95,0.883531746031746,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q155,"As of August 1 2024, what books has the author of the Harry Potter series written under an alias?","The Cuckoo's Calling, The Silkworm, Career of Evil, Lethal White, Troubled Blood, The Ink Black Heart, The Running Grave ","The answer is not found in the context.
+",0.25,0.1,0.14285714285714288,0.0,0.0,0.0,0.25,0.1,0.14285714285714288,0.008058059704122307,-0.034368086606264114,No,1.0,1.0,1.0,0.9821428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q156,What football team did Travis Kelce play for the year Taylor Swift's VMA acceptance speech was interrupted by Kanye West?,The University of Cincinnati Bearcats,"The answer is not found in the context.
+",0.125,0.2,0.15384615384615385,0.0,0.0,0.0,0.125,0.2,0.15384615384615385,0.04767707020457095,0.04886748641729355,No,1.0,1.0,1.0,0.9765432098765432,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q157,What horror movie remake did the director who was the first to attempt and failed to make Brokeback Mountian into a film direct in the 90's?,Psycho,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05116817355155945,No,0.0,0.3333333333333333,0.3333333333333333,0.3380952380952381,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q158,"As of 2024, how many total Academy award nominations has the the man who won the Academy award for best actor one year before 1999 received?",12,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11060941219329834,No,0.0,0.0,0.0,0.19642857142857142,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q159,"What is the difference between the fastest recorded swimming speed of a fish, and the fastest record for swimming the 50m freestyle in the 2020 Tokyo Olympics in meters per second?",34.30 m/s,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17971554398536682,No,1.0,0.8333333333333333,0.8055555555555556,0.8055555555555556,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q160,How many years separate the birth of Alexander Graham Bell and the birth of Charles Dickens?,35,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1548433005809784,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q161,Stamatios Krimigis was named after an asteroid by the IAU. The observing site that found this asteroid is part of a large observatory known for discovering a planet. What is the difference in years between the discovery of this asteroid and the discovery of the planet?,49 years,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07906807959079742,No,1.0,1.0,1.0,0.9484126984126984,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q162,What two buildings can be said to have introduced the onset of the architectural style of Big Ben in London?,Dromore Cathedral and The Great Hall of Lambeth Palace,"The Palace of Westminster and Abbotsford.
+",0.6666666666666666,0.4444444444444444,0.5333333333333333,0.0,0.0,0.0,0.3333333333333333,0.2222222222222222,0.26666666666666666,0.06979367151952678,0.5539887547492981,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q163,How many years after Ghengis Khan died did World War II begin?,712 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08963409066200256,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q164,"Among the singers in the 1985 version of ""That's What Friends Are For,"" which one was born in the Peach State?",Gladys Knight,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12401266396045685,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q165,On what station did the television show that started in 1993 and had a star who shared a name with the third wife of King Henry VIII first run?,CBS,"PBS
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4497717022895813,No,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q166,"As of January 1, 2024, are any members of Vampire Weekend  Capricorn? If no, what are their signs? ","No. Ezra Koenig is Aries, Chris Baio is Scorpio, and Chris Tomson is Pisces.","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.013643394208905164,-0.07345513999462128,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q167,"Who is married to the actor who plays Imdad Khan in the film version of The Wonderful Story of Henry Sugar, as of August 1, 2024 ?",Daniela Lavender,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08050767332315445,No,1.0,1.0,0.8875,0.8734126984126984,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q168,"What is the difference in mean flow rate (in cubic feet per second) between the River Avon at Great Somerford and its tributary, the River Marden?",75.5 cubic ft/s,"117.3 cu ft/s
+",0.4,0.4,0.4000000000000001,0.25,0.25,0.25,0.4,0.4,0.4000000000000001,0.39763536438352537,0.7854775190353394,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q169,"I am thinking of a country. A former member of Swedish Parliament during 2002 – 2006 was born there. English is the official language but many other languages are spoken there. The Trans–West African Coastal Highway passes through this country. In June 2020, Democratic Party leaders in the United States caused controversy by wearing stoles made of cloth from this country. ",Ghana,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15481656789779663,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q170,"Which film, based loosely on the story of Frederick 'Fritz' Niland, won the Golden Globe for best drama at the 56th Golden Globes in 1999?","Saving Private Ryan was loosely based on the story of Frederick 'Fritz' Niland, and won the Golden Globe for best drama at the 56th Golden Globes in 1999.","The answer is not found in the context.
+",0.375,0.10714285714285714,0.16666666666666666,0.0,0.0,0.0,0.25,0.07142857142857142,0.11111111111111112,0.006084656731780005,-0.004913894925266504,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q171,Which player scored 20 goals in the English Premier League in the 2006-2007 season and won 'Chelsea Players Player of the Year' award in 2007?,Didier Drogba scored 20 goals in the the 2006-2007 English Premier League season and won the  'Chelsea Players Player of the Year' award in 2007.,"Drogba.
+",1.0,0.038461538461538464,0.07407407407407407,0.0,0.0,0.0,1.0,0.038461538461538464,0.07407407407407407,0.0,0.49288514256477356,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q172,"Which Northern Irish footballer who started in the 90s played for 9 English clubs, 8 of which were FA Cup winners?",Keith Gillespie,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08159204572439194,No,1.0,1.0,0.75,0.5973544973544973,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q173,"In roman numerals, how many nations competed in the Olympic Games where the most gold medals was won by an athlete at a single Olympic Games, as of 1st July 2024?",CCIV,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11920410394668579,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q174,"Which jetliner first flown on June 12th, 1994 is also widely used, as of August 3, 2024, by an airline using the ICE system for entertainment on board?","The Boeing 777 was first flown on the 12th of June, 1994 and is widely used by Emirates, which uses the ICE system on board.","The answer is not found in the context.
+",0.375,0.12,0.18181818181818182,0.0,0.0,0.0,0.375,0.12,0.18181818181818182,0.008165459919346113,0.04268467426300049,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q175,"If Andrew Fluegelman's suggested donation for his freeware program were paid at a rate of 1 per every day, how much money would he have made during his fast?","$1,225","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.046280160546302795,No,1.0,1.0,1.0,0.6111111111111112,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q176,"For the year 2020, what was the difference in total fertility rate (TFR) for East Timor and Japan?",1.92,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09184504300355911,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q177,"As of August 1, 2024, if you add together the age of Ana Ollo Hualde and the age of the country of Israel what number do you get when you subtract 35 from your answer?",100 (59 + 76) - 35,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.19105635583400726,No,0.0,0.5,0.5,0.5,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q178,"I'm trying to show my daughter some of the movies I grew up with. There's one a really want to show her but I can't remember the name of it. I remember that the male lead also played Fred in a live action Scooby Doo movie and the main girl was in this crazy anti-drug commercial in the 90s where she used a pan to destroy a bunch of things in a kitchen and said ""This is your brain on drugs..."". The movie is about a guy who makes a bet with his friend that he can turn an unpopular girl into prom queen. Can you tell me the name of the film?",*She's All That*,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.085851289331913,No,1.0,0.8333333333333333,0.8041666666666667,0.8338789682539682,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q179,"Which major city in Europe can be reached from New York City, if you use the total distance calculated through GPA coordinates (give or take 18 miles) from West Quoddy Light in Maine to Cape Sarichef Light in Alaska?","Prague, Czech Republic","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0918404832482338,No,1.0,1.0,0.8666666666666667,0.7928571428571428,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q180,When did the actress with multiple sclerosis who starred in the comedy about killing her husband receive a star on the Hollywood Walk of Fame?,"November 14, 2022","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10285039246082306,No,0.0,0.0,0.2,0.2611111111111111,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q181,What is so distinctive about the label design of an Australian record label which was purchased in 1960 by another record label which produced the debut album for The Clash?,The octagonal shape,"The Coronet label, a principal house label of ARC, was recognizable by its octagonal label.
+",0.13333333333333333,0.6666666666666666,0.2222222222222222,0.0,0.0,0.0,0.13333333333333333,0.6666666666666666,0.2222222222222222,0.0255404966647159,0.4080662131309509,Yes,1.0,1.0,1.0,0.9861111111111112,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q182,"Concerning the 2007 book by Sofi Oksanen, the novel was described as ""not shrink from depicting rape, torture or murder."" In what year was the publication that quoted this founded?",1872,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11292675137519836,No,1.0,1.0,1.0,0.9240362811791383,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q183,"How many months, rounded to the nearest whole number, did it take to construct the tallest building in the world as of January 1, 2024?",69,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05347667261958122,No,0.0,0.3333333333333333,0.3666666666666667,0.36944444444444446,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q184,"Which player that scored more than 20 goals in the 2020-2021 Bundesliga season went on to play for a Red Bull owned club, as of August 1, 2024?",Andre Silva went on to play for RB Leipzig.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04167251645138561,0.08577326685190201,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q185,What actor who starred in the People's Choice Award for Favorite Comedic Movie 1993 later became a U.S. President?,"The actor who starred in the People's Choice Award for Favorite Comedic Movie in 1993 who later became the 45th President of the United States, Donald Trump. ","Not found in the context.
+",0.4,0.07142857142857142,0.12121212121212122,0.25,0.037037037037037035,0.06451612903225806,0.4,0.07142857142857142,0.12121212121212122,0.003887198135791755,0.04525697976350784,No,0.0,0.5,0.5,0.5,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q186,"If you divide the number of Papuan tribes in the Sarmi and Keerom Regencies of Papua province in Indonesia as of 2024 by the number of indigenous tribes in Brazil whose names, as they are typically written, begin with letters W, X, Y, or Z as of 2024, what is the answer to the fifth decimal place, rounding up?",1.82143,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10932514071464539,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q187,What member of the 1992 Unified Olympic women's gymnastics team scored a 9.975 in the qualifier for floor and competed under three different flags in her Olympic career?,Svetlana Boginskaya,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09122922271490097,No,0.0,0.0,0.2,0.2111111111111111,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q188,"In the country where Haribomo is located, what is the largest ethnic group as of August 3, 2024?",Harimbo is located in Mali where the Bambara are the largest ethnic group.,"Not found in the context.
+",0.4,0.15384615384615385,0.2222222222222222,0.0,0.0,0.0,0.4,0.15384615384615385,0.2222222222222222,0.028157908010020886,0.1187189370393753,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q189,What was the first elected position of the official that was in the office before Steven C. Johnson became the 42nd Kansas State Treasurer?,Wichita School Board member,"State Representative.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4450988471508026,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q190,As of 1st june 2024 Which Jonas brother has a wife who narrated a nature documentary released under the Disneynature label?,Nick,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10937705636024475,No,1.0,1.0,1.0,0.9682539682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q191,"I'm thinking of a famous house, can you tell me which one from these clues?  * The author of a philosophical work whose frontispiece was designed by Abraham Bosse spent time here. * The son of Francis Talbot and Mary Dacre used this house as a royal jail.  ",Chatsworth House,"Chatsworth
+",1.0,0.5,0.6666666666666666,0.0,0.0,0.0,1.0,0.5,0.6666666666666666,0.0,0.7694939970970154,Yes,0.0,0.0,0.25,0.29166666666666663,0.0,0.0,0.25,0.25,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q192,"Out of all of the sovereign states with U.N. membership as of January 1, 2024, that recognize Abkhazia as a sovereign state, how many of them have active volcanoes?","3, Russia, Nicaragua, and Syria.","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.18073667585849762,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q193,Do the timelines in the stories of Nier: Automata and Nier Replicant intersect?,"No, they do not intersect.","Not found in the context.
+",0.2,0.2,0.20000000000000004,0.0,0.0,0.0,0.2,0.2,0.20000000000000004,0.06870636427700047,0.07023067027330399,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q194,"As of August 3, 2024, what is the capital of the 7th largest country in Asia?",The capital of the 7th largest country in Asia is Ulaanbaatar,"The answer is not found in the context.
+",0.5,0.36363636363636365,0.4210526315789474,0.0,0.0,0.0,0.25,0.18181818181818182,0.2105263157894737,0.053990167242108145,0.12758824229240417,No,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q195,"As of August 3, 2024, what is the biggest religion in the country who has the best democracy in 2023, according to the democracy index?",The Evangelical Lutheran Church of Norway,"Answer not found in the context.
+",0.16666666666666666,0.16666666666666666,0.16666666666666666,0.0,0.0,0.0,0.16666666666666666,0.16666666666666666,0.16666666666666666,0.0,0.1137695461511612,No,1.0,1.0,1.0,0.959375,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q196,"Ben Darwin, former Australian rugby union footballer, graduated from the Australian Institute of Sport (AIS). How many years after Darwin's birth was the headquarters for the AIS opened? Ignore the month either event occurred.",5,"5 years
+",0.5,1.0,0.6666666666666666,0.0,0.0,0.0,0.5,1.0,0.6666666666666666,0.0,0.4793702960014343,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q197,"What city does the band whose song spent the most weeks at No. 1 on the Billboard Hot Rock & Alternative Songs chart as of August 1, 2024 originate from?","Las Vegas, Nevada","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12877345085144043,No,0.0,0.0,0.0,0.3179563492063492,0.0,0.0,0.0,0.16666666666666666,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q198,Why didn't Harvard have calculus classes when it first opened?,Calculus was not invented yet.,"The answer is not found in the context.
+",0.125,0.2,0.15384615384615385,0.0,0.0,0.0,0.125,0.2,0.15384615384615385,0.05669791110976001,0.20842675864696503,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q199,Which Lord of Montpellier had a child named Tortoseta?,William VIII of Montpellier,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08244960010051727,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q200,"As of August 3rd 2024, how many Emmy Award nominations does the main cast member that was introduced in Season 2 of It's Always Sunny in Philadelphia have?",5,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15007124841213226,No,0.0,0.3333333333333333,0.47777777777777775,0.46944444444444444,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q201,What is the atomic number in roman numerals for the element that has the same symbol as the first two letters of the 23rd most populous city (as of 2024) of the country represented between Italy and China at the World Showcase in Epcot?,LXXIX,"Answer not found in context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07676297426223755,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q202,"The National Peace Corps Association was founded in 1979 by a United States politician. This founder then appointed the very first director of the Peace Corps, his brother-in-law. What is the first name of this director?",Robert,"Robert
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q203,"As of August 3, 2024, what is the hometown of the captain of the team that won the Stanley Cup three years before 2017?","Manhattan Beach,  CA","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07983812689781189,No,0.0,0.0,0.0,0.19642857142857142,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q204,"Tell me the names of the two famous people I'm thinking of by using the following clues:  They both have the initials M.T. Both were known by nicknames that included the word ""Iron"" One became the world champion in his sport while the other was her country's political leader",Mike Tyson and Margaret Thatcher,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04942382127046585,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q205,"If we added the sum of all ages as of 2010 (assuming they were still alive) of the inventors of the cotton gin, vacuum pump, and commercial toilet paper (ignoring the month) and then subtracted the ages of the inventors of the safety pin and the sewing machine what number would we have?",622,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1987716257572174,No,1.0,1.0,0.95,0.883531746031746,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q206,"What are the combined ages of the Guildford 4 at the time of their trial, divided by the number of the Birmingham 6 who were originally from the capital of Northern Ireland? Round it and provide the answer in binary.",10001,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06219516694545746,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q207,Who was the King of Siam during the 6th deadliest single-day terrorist attack in U.S. history?,King Prajadhipok,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09403245151042938,No,1.0,0.8333333333333333,0.7555555555555555,0.7295238095238095,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q208,"Roberto Álamo starred in a film with Inma Cuesta, I think it was released in 2021 but I can't remember the name.  What was the movie called and who did he play?",El páramo / The Wasteland.  He played Salvador.,"Answer not found in the context.
+",0.16666666666666666,0.125,0.14285714285714288,0.0,0.0,0.0,0.16666666666666666,0.125,0.14285714285714288,0.042781792646066956,0.07669468224048615,No,1.0,1.0,1.0,0.9166666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q209,"What was the age difference, in years, between the seventh former President of Murray State University and the comic book artist who worked on *Superman & Bugs Bunny* and *New Guardians* when the comic book artist graduated from college?",7 years,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05025463178753853,No,0.0,0.3333333333333333,0.3333333333333333,0.3988095238095238,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q210,"Of the top 3 women's WTA singles ranking as of 29th July 2024, which has a father who was an ice hockey player?",Aryna Sablenka,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05058712512254715,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q211,How many times could Usain Bolt span the length of a standard Olympic-sized swimming pool if Tom Daley was standing on his head? Please answer to a whole Usain or Tom without exceeding the length of the pool.,13,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13683253526687622,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q212,Who was Prime Minister when Will Young won Pop Idol?,Tony Blair,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12335905432701111,No,1.0,1.0,0.75,0.6111111111111112,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q213,"I'm thinking of a diving duck, the largest found in North America, that breeds in the Prairie Pothole Region. This duck, smothered in blackcurrant sauce, was once described by Edith Wharton as an ""especially luxurious dinner"" which was served in New York City in the 1870s. Which duck am I thinking of?",The canvasback.,"Canvasback
+",1.0,0.5,0.6666666666666666,0.0,0.0,0.0,1.0,0.5,0.6666666666666666,0.0,0.8842950463294983,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q214,"I'm thinking of an Actor that won an Oscar for Best Supporting Actor two years after being nominated for the same award, but not winning.  The same year that the actor won the Oscar, the Actor also won a BAFTA in the same category and for the same film.  The Actor also won a Tony award in 1974.  ",Christopher Plummer,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0406554713845253,No,1.0,1.0,1.0,0.975,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q215,"In the George Eliot novel described by Virginia Woolf as ""one of the few English novels written for grown-up people"", one of the main characters shares a first name with a former prime minister of Burkino Faso who went on the join the board of a Canadian mining company. What forename do they share?",Tertius,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03553061932325363,No,1.0,1.0,0.95,0.9093537414965986,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q216,What is the population of the town (as of December 2020) that holds the Mountain Cheese Olympics?,5793,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.21235567331314087,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q217,How old would James Logan have been when the estate of his descendent donated Neshaminy State Park land to the Commonwealth of Pennsylvania?,282 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.104072704911232,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q218,Is the time between Oasis's first album and 2024 shorter or longer than between Oasis's first album and The Beatles' last album?,Longer.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.017321309074759483,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q219,Ysaires Restituyo was a volleyball player known for playing in the NORCECA Beach Volleyball Circuit. How much older was her partner in 2007 than her partner in 2009?,2 years,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1254379153251648,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q220,"Demi Moore shares a birthday with which costar from the movies ""Margin Call"" and ""Deconstructing Harry""?",Stanley Tucci,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.058331385254859924,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q221,If the Great North Run took place on York's Medieval Walls how many circuits of them would the athletes run? Round to the nearest tenth of a circuit.,6.2 circuits.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.17456912994384766,No,1.0,1.0,0.8666666666666667,0.7885912698412698,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q222,What was the 2021 population of the birthplace of the leader of the party that won the 1869 Newfoundland general election?,"9,162 was the population of Shaftesbury (the birthplace of Charles Fox Bennett) in the 2021 census.","The answer is not found in the context.
+",0.375,0.17647058823529413,0.24,0.14285714285714285,0.0625,0.08695652173913043,0.375,0.17647058823529413,0.24,0.03473865070654871,0.07606562972068787,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q223,"After Meat Loaf legally changed his name due to a commercial, what was the first new brand launched by the company to whom the commercial belonged?",Dockers,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.057031888514757156,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q224,"I'm a concert venue in Washington, D.C. Blink-182 played here on their tour the same year Brazil won their fifth FIFA World Cup. What was my name in 2010?",Verizon Center,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06981267035007477,No,1.0,1.0,0.8875,0.8240079365079365,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q225,Which prime minister has been in office between 2017 and 2022 and also shares their middle name with a former monarch of Scotland.,Theresa (Mary) May,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1287689357995987,No,0.0,0.0,0.25,0.2777777777777778,0.0,0.0,0.25,0.25,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q226,"Who were the first two women who won the Nobel Prize, in any category, who were also mothers?",Marie Curie and Grazia Deledda,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11319340020418167,No,1.0,1.0,1.0,0.9765432098765432,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q227,"Of the non-Americans who have won the Phoenix Open as of 2024, who was the youngest at the time of his win?",Hideki Matsuyama,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06620143353939056,No,1.0,1.0,0.95,0.9060405643738977,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q228,"The US Naval ship that sunk in Havana Harbor on February 15, 1898, is named for a state that was admitted to the Union while what woman was serving as First Lady?",Elizabeth Monroe,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10839461535215378,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q229,"As of the 2023 Major League Baseball season, who is the only player in the top 15 lists of career home runs, career runs batted in, and career hits, who was also named (in 2007) the all-time Gold Glove team?",Willie Mays,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09084329009056091,No,1.0,0.8333333333333333,0.8333333333333333,0.6716269841269841,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q230,Who had the best career batting average out of every player to hit a home run in the 2002 World Series matchup between the Anaheim Angeles and San Francisco Giants?,Barry Bonds with a .298 lifetime batting average.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.042781792646066956,0.015892788767814636,No,1.0,1.0,1.0,0.9379251700680272,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q231,"Out of all of the feature-length theatrical films that John Carpenter directed before 2015, which has the longest running time?",Starman (1984),"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06436983495950699,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q232,How much taller (in centimetres) is Mark O'Halloran (ex West Tigers rugby league player) than the London Broncos' player with the heritage number 341?,11cm,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10336510837078094,No,1.0,1.0,1.0,0.9626543209876544,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q233,"This founder of the Academy of Science, St. Louis became established as a botonist for a monograph he did in 1842. What is the scientic name for plant featured in that monograph?",Cuscuta,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04851065203547478,No,1.0,1.0,1.0,0.975,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q234,"Which American actress, born the same year Denzel Washington won his first Best Actor in a Leading Role Academy Award, had a supporting role in the second season of the Netflix series ""You""?",Jenna Ortega,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17437899112701416,No,1.0,1.0,0.8875,0.8069444444444445,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q235,"What is the birthday of the man who produced the pop song named after one of the largest bird in the Procellariiformes species, off the 2024 album The Tortured Poets Department?","Aaron Dessner was born April 23, 1976.","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.049351578415363785,0.00029667376657016575,No,0.0,0.3333333333333333,0.3333333333333333,0.26666666666666666,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q236,What Jeep model shares its name with the Secret Service codename for a 21st-century US president?,Renegade,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1577087640762329,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q237,Who was the Prime Minister of Canada in the year that the 1965 winner of the Best New Artist Grammy Award made their first appearance on US television?,Lester Pearson,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12127725780010223,No,1.0,1.0,0.8875,0.8734126984126984,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q238,"Part of the dynamic duo who broke a record set by Mickey Lolich and Bill Freehan in 1975 for most starts together, this MLB pitcher's battery mate ranked first all-time among catchers in putouts as of 2022. In what year did he (the pitcher)  make his Grand Ole Opry debut?",2024,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07199690490961075,No,0.0,0.5833333333333333,0.6791666666666667,0.7166666666666667,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q239,How much time passed between the release of the blockchain platform founded by the individual who resides in the town of the same name as the James Buchanan House and the release of the prior blockchain platform co-founded by the same individual?,"Wheatland, also known as the James Buchanan House, is the same name as the town in Wyoming where Charles Hoskinson resides.  Charles Hoskinson cofounded Ethereum and founded Cardano.  Cardano was released in 2017; Ethereum was released in 2015.  Two years elapsed between the two platforms' releases.","Answer not found in the context.
+",0.5,0.06521739130434782,0.11538461538461539,0.0,0.0,0.0,0.5,0.06521739130434782,0.11538461538461539,0.0001209846665577439,0.0672391951084137,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q240,Who was the character in the roster of the Marvel vs. Capcom entry that was ported to the PlayStation 4 in 2016 that represented a video game franchise that has zombies as main antagonists and is the player character of a game released in 1999?,Jill Valentine,"Frank West
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10190412402153015,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q241,"The screenwriter of the film, which received nominations for Best Screenplay and Best Actor in a Motion Picture - Drama at the 1995 Golden Globes, attended which Michigan university?",Grand Valley State University,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07471216470003128,No,0.0,0.5,0.5,0.35,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q242,NASA launched an Apollo mission a year after the Stonewall Riots. How many collective children did the astronauts onboard that mission have?,8,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14249323308467865,No,0.0,0.0,0.0,0.125,0.0,0.0,0.0,0.125,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q243,A United States women's national soccer team player scored her first career international goal during the semi-final match of the 2015 FIFA Women's World Cup. This same player scored her second goal the next year. Tell me the difference in attendance between these two games.,"43,518","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1592361479997635,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q244,"Who is the Formula One driver who won their first Driver's Championship in the 46th season, what team did they race for that year, and how many years after that team's first race was it?","Nigel Mansell, Williams Grand Prix Engineering, 15 years","Nigel Mansell, Williams-Renault, the answer is not found in the context.
+",0.25,0.375,0.3,0.18181818181818182,0.2857142857142857,0.2222222222222222,0.25,0.375,0.3,0.11359354890271162,0.718017041683197,No,1.0,1.0,0.95,0.8956845238095238,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q245,"There is only one existing lighthouse with attached living quarters in the ninth-largest US state by area, as of August 1, 2024. This lighthouse is located on the north side of a bay named for which tribe?",The Yaquina Tribe,"Yaquina.
+",1.0,0.3333333333333333,0.5,0.0,0.0,0.0,1.0,0.3333333333333333,0.5,0.0,0.7338759303092957,Yes,1.0,1.0,1.0,0.8611111111111112,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q246,"Consider the following three people:  1. Edmund, who turned 10 on the day of the Battle of Hastings 2. Edward, who turned 12 on the day that Guy Fawkes was executed 3. Eddie, who turned 14 on the day of the London 2012 Summer Olympics opening ceremony  Who would be oldest: Edmund on the day King Henry I of England died, Edward on the day of the Battle of Naseby, or Eddie on the day Liz Truss announced her resignation as Conservative Party leader?",Edmund,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09696877002716064,No,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,0.1111111111111111,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q247,What was the final league position of the football team found in the city where José Loiola won his first World Championship gold medal for the season which began in that same year when he won gold?,15th,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.025531116873025894,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q248,"Which is bigger based on their maximum average lengths multiplied by their number of legs: an elephant beetle, a brown rhinoceros beetle, or a bee hummingbird?",Elephant beetle,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.035920400172472,No,1.0,1.0,1.0,0.9526289682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q249,"What is the name of the Japanese man who protested the U.S.'s involvement in the Iraq War, and who has also been awarded multiple times the same award that ""Shrek"" won in 2002, beating ""Jimmy Neutron: Boy Genius""?",Hayao Miyazaki,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.013505974784493446,No,1.0,1.0,1.0,0.925,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q250,The Sikh empire's capital at the time of the Battle of Sobraon came under the rule of the British Crown in what year?,1858,"1846
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5105257630348206,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q251,"I remember reading a book in elementary school that I LOVED and I want to read it to my daughter. The problem is I can't remember the title. I know that when I first read it, it had recently won a Caldecott Medal. I have another memory from around the same time period of watching the Sydney Summer Olympics. All I remember about the plot is that it was based on a true story and set in the winter time. Can you help me remember the title?",Snowflake Bentley,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.009910846129059792,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q252,What is the name of the town or city of birth of the player who won the men's singles at the US Open on the year after Venus & Serena Williams played each other for the 8th time as pros?,"Omaha, Nebraska","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15031668543815613,No,1.0,1.0,0.8666666666666667,0.737037037037037,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q253,Which fast food chain did the sponsor of the Women's 2018 Volleyball Thailand League acquire rights to in 1987?,Kentucky Fried Chicken,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12068577855825424,No,1.0,1.0,1.0,0.875,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q254,How many calories are in 7 oz. of the fruit given as a present in the musical that won Best Revival of a Musical at the 52nd Annual Tony Awards?,100 calories,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06642144918441772,No,1.0,1.0,1.0,0.9325396825396826,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q255,"In the second album of a synthpop-rock band from the county seat city of Utah County, which song has a length of under 3 minutes, not counting any bonus tracks?",Everybody Talks,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06123441085219383,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q256,"The name of which supernova remnant nebula spelled backwards (not including the word ""nubula"") is a homonym for a large sailing ship?","Crab Nebula (""barc"" is a homonym for ""barque"")","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08768759667873383,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q257,What award did the arachnologist who discovered several species of pseudoscorpions endemic to Australia receive in 2013? The species he discovered in 1987 belong to the Garypidae family and the Synsphyronus genus.,The Bonnet Award by the International Society of Arachnology,"The Bonnet Award.
+",1.0,0.3333333333333333,0.5,1.0,0.25,0.4,1.0,0.3333333333333333,0.5,0.17035677145427364,0.8442720174789429,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q258,"As of August 2, 2024, what is the title of the most viewed episode in the second most viewed season of the TV show that Zooey Deschanel stars in as a character named ""Jess Day""?","The most viewed episode of the second season (second most viewed) is its first episode, ""Re-Launch"". ","The answer is not found in the context.
+",0.375,0.17647058823529413,0.24,0.0,0.0,0.0,0.25,0.11764705882352941,0.15999999999999998,0.015904144245777987,-0.05383029207587242,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q259,American author Joan Didion's second fiction novel has a film adaptation. The director of this film is the uncle of a famous pop singer This pop singer once famously sang a song with lyrics describing a combustible-containing device. This song received nominations for Best Pop Solo Performance and Record of the Year at the 54th Annual Grammy Awards. This song was inspired by another book. What is the name of the song and the book that inspired it?,"Firework by Katy Perry was inspired by ""On the Road"" by Jack Kerouac ","The answer is not found in the context.
+",0.125,0.07692307692307693,0.09523809523809525,0.0,0.0,0.0,0.125,0.07692307692307693,0.09523809523809525,0.02447822402834545,0.07058161497116089,No,1.0,1.0,0.7,0.6,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q260,"Canadian politician Keir Clark attended a now defunct university college, which shut its doors in 1969. Who served as the first President of its successor institution?",Ronald James Baker,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11526045203208923,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q261,"As of August 2024, who was president of the United States the last time The Beach Boys topped the chart on the Billboard Hot 100?",Ronald Reagan,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1023748591542244,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q262,"As of August 1, 2024, which NFL players were both league MVP and Super Bowl MVP in the same season?","Bart Starr (66), Terry Bradshaw (78), Joe Montana (89), Emmit Smith (93), Steve Young (94), Kurt Warner (99), and Patrick Mahomes (22).","Bart Starr, Terry Bradshaw, Mark Moseley, Lawrence Taylor, Joe Montana, Emmitt Smith, Steve Young, Kurt Warner, Patrick Mahomes.
+",0.7222222222222222,0.5909090909090909,0.65,0.35294117647058826,0.2857142857142857,0.31578947368421056,0.7222222222222222,0.5909090909090909,0.65,0.09705841933049494,0.7855103015899658,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q263,Who was the wife of the founder of the city where the 2023 Tour De France started?,Violant of Castile,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15157704055309296,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q264,What was the military rank of the employer of the astronomer who discovered the globular cluster of stars called NGC 6441?,Major General was the rank of Thomas Brisbane.,"The answer is not found in the context.
+",0.125,0.125,0.125,0.0,0.0,0.0,0.125,0.125,0.125,0.05669791110976001,0.061663780361413956,No,1.0,0.8333333333333333,0.7555555555555555,0.7469246031746032,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q265,"What is the average height of Mount Everest, Mount Thor, Mount Denali and The Matterhorn?",17382 ft.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.14636723697185516,No,1.0,1.0,1.0,0.9821428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q266,"How old was the famous composer who taught at the Ospedale della Pietà and was known as ""The Red Priest"" when his first opera premiered? ","Antonio Vivaldi was 35 when his first opera, Ottone in villa, premiered. ","The answer is not found in the context.
+",0.125,0.08333333333333333,0.1,0.0,0.0,0.0,0.125,0.08333333333333333,0.1,0.029109678177138977,0.015317872166633606,No,1.0,1.0,1.0,0.9282627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q267,"Twenty-three years after the deadliest battle in the US Civil War, who served as governor in the state in which this battle was fought?",Robert E Pattison,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12311907112598419,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q268,Which president featured on a U.S. coin in 1972 served the longest as President of the United States of America?,Franklin Delano Roosevelt (12 years).,"Franklin D. Roosevelt
+",0.6666666666666666,0.4,0.5,0.0,0.0,0.0,0.6666666666666666,0.4,0.5,0.0773371258316514,0.6724043488502502,Yes,0.0,0.5833333333333333,0.6791666666666667,0.6683333333333333,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q269,"Tiny Tina's Wonderlands' developer released a game 10 years prior to Tiny Tina's Wonderlands' release, this game was released on PC and Consoles. What is the name of the central antagonist of that game?",Handsome Jack.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.16366881132125854,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q270,"In 2023, Beavers are known to be the second-largest living rodents. The largest extant rodent species are natively most prevalent in a single continent. What is the largest country in this continent?",Brazil.,"Brazil
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.8768956661224365,Yes,1.0,1.0,0.8875,0.7916666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q271,Which family duo both made an appearance at the 2017 Billboard Music Awards and starred together on a Disney Channel Original Series?,Miley Cyrus and Billy Ray Cyrus,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03419594094157219,No,0.0,0.0,0.0,0.1625,0.0,0.0,0.0,0.125,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q272,"Two seasons after Demar Derozan was traded to the San Antonio Spurs, who was the leading scorer for the fifth place team in the Western Conference?",Luka Dončić,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08197333663702011,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q273,What William Wyler movie debuted the same year that the chairman for the 1982–83 Wolverhampton Wanderers season was born?,Jezebel,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09388799220323563,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q274,"How many more letters does the name of the city that the director of ""Whiplash"" (2014) was born in have compared the name of the city in which the film first premiered?",2,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.24587008357048035,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q275,The Brihadeeswarar Temple was built by an Indian emperor. The emperor’s only sister‘s husband is a king of another Dynasty. Name the Dynasty and state how many known kings ruled within that Dynasty.,Bana Kingdom. 10 Kings.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.057402923703193665,No,1.0,1.0,1.0,0.9317956349206349,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q276,"Of the 'Big Four' of Thrash Metal, whose debut full-length was released first?",Metallica,"Metallica
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q277,What is the date of the movie directed by Gordon Douglas that featured an American decathlete who was a part of the 1984 Summer Olympic Torch Relay and first African American to light the cauldron?,"April 2, 1961","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06355781108140945,No,1.0,1.0,1.0,0.9626543209876544,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q278,A 1986 song by Peter Gabriel shares the name with a tool. What is the name of the tool and how does it look?,"Sledgehammer: A tool with a large, flat, often metal head, attached to a long handle.","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.014044464769840424,-0.056772101670503616,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q279,How old was the author of Dragon Ball when the manga was first released?,29,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0946323573589325,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q280,I'm thinking of a dam. Here are some clues:  -It had two official names in its history. -Construction was ordered to begin by the husband of the President of The Girl Scouts of the USA in 1936. ,Hoover Dam (briefly known as Boulder Dam),"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04650261625647545,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q281,I am the narrator character in the final novel written by the recipient of the 1963 Hugo Award for Best Novel. Who am I?,Angel Archer.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.09530968219041824,No,0.0,0.5,0.5,0.5,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q282,Who developed the first effective vaccine against the disease that killed the father of a famous Hungarian composer born in 1811?,Almroth Edward Wright,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1332799792289734,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q283,"What was the last prose book written by the poet who referred to Wyndham Lewis as ""that lonely old volcano of the Right.""?",Forewords and Afterwords (1973),"Forewords and Afterwords (1973)
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0000000000000004,1.0,Yes,1.0,0.8333333333333333,0.8333333333333333,0.6587301587301587,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q284,What was the age difference between the inventor of Barbie and the inventor of Hot Wheels?,6 months and 26 days.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.10336460173130035,No,1.0,1.0,0.95,0.8375,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q285,This deceased American singer and songwriter who's song about censorship was nominated for a Grammy Award (for Best Hard Rock Performance) in the same year that was designated as International Space Year by the United Nations. How many letters are in his name?,11 (Layne Staley),"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07975379377603531,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q286,"In 2020, the Italian curling team won the Moscow Classic annual bonspiel. One of the members of that four-person team was not born in Italy. As of August 1, 2024, what are the colors of the national flag of their country of origin?","Red and White (Switzerland, Joël Retornaz)","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1254957616329193,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q287,When was the song Cold Blow and the Rainy Night featured on a daily list of folk songs recorded by Jon Boden?,"February 5, 2011","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10454155504703522,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q288,What album by the band named 'The Band' was released on the same day as the Nuclear Non-Proliferation Treaty was opened for signature?,Music from Big Pink,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04207409918308258,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q289,"In the year the first UK winner of Big Brother was born, who was the Prime Minister?",Sir Edward Heath,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11869983375072479,No,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q290,"The lead actress of the television show The Good Place who played protagonist Eleanor Shellstop, is married to a man who has been in many TV series and Films in his career. What was the name of the character he provided the voice for in a 2021 animated movie? ",Ruben,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10947678983211517,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q291,Andy Warhol made the painting Marilyn Diptych from a publicity photo of Marilyn Monroe for a film. What was the name of Monroe's character in that film?,Rose Loomis,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10540615022182465,No,1.0,1.0,1.0,0.8095238095238095,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q292,"Out of every team that has won at least one official global Valorant tournament, which team has also won at least one League of Legends World Championship and at least one CS:GO Major Championship as of 2024? ",Fnatic,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10049606114625931,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q293,How old was the New-York born comic book writer who created the character Catwoman when he died?,83,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09798737615346909,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q294,"How long did Steve Jobs live, percentage wise, compared to the average lifespan of a person in the United States in 1984? Round each number to the nearest whole integer before calculating your answer. Then round your answer the nearest hundredth. ",75.68%,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17297202348709106,No,1.0,1.0,0.7,0.7260912698412698,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q295,What Indian Empire was overrun by Huns 24 years after conventionally accepted date of the fall of the Western Roman Empire?,Gupta Empire,"The Gupta Empire.
+",0.6666666666666666,1.0,0.8,0.5,1.0,0.6666666666666666,0.6666666666666666,1.0,0.8,0.31947155212313627,0.8473608493804932,Yes,1.0,1.0,0.95,0.9060405643738977,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q296,Which album by the band Paramore came out after the death of Michael Jackson and before the death of Amy Winehouse?,Brand New Eyes,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-0.039823051542043686,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q297,What song topped Billboard magazine's Top 30 chart in the same year that the first documented case of a person being hit and surviving a meteorite occurred?,Little Things Mean a Lot by Kitty Kallen,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.027114449068903923,No,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q298,How much bigger was Ford Motor Company's market share of US Sales the year Matthew McConaughey won his first MTV Movie Award than the year Zac Efron won his?,10.30%,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14615459740161896,No,1.0,1.0,1.0,0.8928571428571428,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q299,"At the time of their publication, who was the editor of the magazine that published the two short stories that first developed the World Urslula LeGuinn would use for the first of the two books Harold Bloom would later call her masterpieces?","Cele Goldsmith (or Cele Goldsmith Lalli, once she married)","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.037803664803504944,No,1.0,1.0,1.0,0.7142857142857143,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q300,Who lit the Olympic cauldron in the Summer Games immediately following the release of Van Halen's sixth studio album?,"Rafer Johnson lit the Olympic cauldron for the 1984 Summer Olympics, which began July 28, 1984, six months after the release of 1984 (stylized in Roman numerals as MCMLXXXIV), Van Halen's sixth studio album.","Rafer Johnson
+",1.0,0.05714285714285714,0.1081081081081081,1.0,0.029411764705882353,0.05714285714285715,1.0,0.05714285714285714,0.1081081081081081,0.0,0.14436660706996918,Yes,1.0,1.0,1.0,0.9282627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q301,"By mass, what is the largest species out of the closest living relatives to manatees and dugongs?",African bush elephant (Loxodonta africana),"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13977497816085815,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q302,"At the time of the END of the 2016 French Open, what was the head-to-head between the Men's World No. 1 at that time, and the runner-up of that year's Australian Open in the Men's Singles category?",Novak Djokovic 24-10 Andy Murray,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.014890678226947784,No,1.0,1.0,1.0,0.9626543209876544,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q303,"How many more full seasons already existed of the longest running cartoon television series ever in the United States of all time than seasons of ""X-Men: The Animated Series"" when Barack Obama was elected president of the United States. Show me your reasoning using a mathematical equation. Write out your answer in words, but give me the mathematical equation in numerical form. ",Fourteen  19 - 5 = 14,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13287970423698425,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q304,What year was the person born who was Prime Minister of The United Kingdom during the year that the first African American ran for president of the United States?,1792,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05907291918992996,No,1.0,1.0,0.8666666666666667,0.7928571428571428,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q305,What is the shortest possible abbreviation in the United States for the  last to be discovered of the three antileprosy drugs on the World Health Organization's List of Essential Medicines?,R,"Clofazimine
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06827428191900253,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q306,What is the 7th track on the 3rd album released by the band formed in 1981 and fronted by Jordan Luck?,As I Love You,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09308000653982162,No,1.0,1.0,1.0,0.9166666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q307,This athlete was the first man to run the 100 metres in under 10 seconds at an Olympic Games. Which NFL team was he drafted by?,Miami Dolphins (Jim Hines),"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10165894776582718,No,1.0,1.0,1.0,0.9682539682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q308,Which member of the Wu-Tang Clan was born on Staten Island?,Ghostface Killah,"Ghostface Killah
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q309,"The New Zealand author of the children's book ""Bobby the Littlest War Hero"" won a Queen's Service Medal how many years before it was renamed the King's Service Medal?",Glyn Harper won the medal 12 years before it was renamed.,"The answer is not found in the context.
+",0.125,0.09090909090909091,0.10526315789473685,0.0,0.0,0.0,0.125,0.09090909090909091,0.10526315789473685,0.04062582855427254,0.05503862723708153,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q310,"I'm thinking of a sport that a University in the midwest USA won the championship for in 1974. The University suffered a defeat in football in 2005, losing to the University where the 18th honourary citizen of Beijing obtained his Bachelor's degree. What is the sport I'm thinking of?",Cross country,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.16021943092346191,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q311,"Who was elected the United States President in the same year that a ship, which was named after the snake that some argue killed Cleopatra, wrecked after the United Kingdom captured it from France?",Andrew Jackson,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12680268287658691,No,0.0,0.0,0.2,0.2,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q312,What major historical event began 171 years before the first European Nations' Cup in the country that hosted the tournament?,The French Revolution,"The French Revolution.
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.5946035575013604,0.9226261973381042,Yes,1.0,1.0,1.0,0.5694444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q313,"For how long was the ""Father of the National Parks"", the first president to declare a national park, and the president who declared the most national parks all alive at the same time?","26 years, 8 months, and 26 days.","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04167251645138561,0.05295085906982422,No,1.0,1.0,1.0,0.5654761904761905,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q314,"Using data from the year 2020, if you were to combine the permanent human populations of Aukland Island, Rose Island, and Budelli Island, how many total people would you have?",1,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12480798363685608,No,1.0,0.8333333333333333,0.8055555555555556,0.7470238095238095,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q315,"I'm thinking of a famous zoologist who is alumni of Upsala University and is credited with formally describing the African Gray parrot. He published his first edition of a certain book with a Latin title in the Netherlands, in 1735, while attending the university. This book contained his system of classifying animals, and it was key to the book's title. What is the modern-day term for the classification system he famously wrote about?",Binomial nomenclature,"Linnaean taxonomy
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3329935669898987,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q316,"How many copies of Coit Tower would have to be stacked on top of the Willis Tower in order to exceed the height of the Chicago Spire, had it been completed? Give your answer as the lowest possible whole number of Coit Towers.",3,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1601250022649765,No,0.0,0.5833333333333333,0.6791666666666667,0.7142857142857143,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q317,"The man who owned The Washington Post in 1932 broke the trust established by his father to gain control of the paper, only to run into the ground, lose it, and get committed to a psychiatric hospital where he died. How many days after his death did the man who purchased it in 1933 die?",6563 days,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07951889932155609,No,1.0,1.0,0.95,0.9093537414965986,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q318,How tall does the flower get on the very first orchid David L. Jones (botanist) described and published in his career?,20–30 millimetres (0.8–1 in),"Not found in the context.
+",0.2,0.14285714285714285,0.16666666666666666,0.0,0.0,0.0,0.2,0.14285714285714285,0.16666666666666666,0.08116697886877475,0.06353116780519485,No,1.0,1.0,0.7,0.6361111111111111,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q319,"The founder of the new religious movement Thelema once attempted to summit the third highest mountain in the world, but failed. How many years did it take before this feat was successfully accomplished? ",50,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12207265198230743,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q320,Human activity by employees of a certain company caused Lake Peigneur in Louisiana to become completely drained of water. How many years passed between the founding of that company and Lake Peigneur's collapse? Convert this number to Roman numerals.,LXXVIII,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13221344351768494,No,1.0,1.0,0.95,0.86,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q321,"Emory Kristof, the photographer who helped find the Titanic's wreckage, shares an alma mater with a co-creator of Seinfeld. How many years separate their births?",5 years,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05056364834308624,No,1.0,1.0,1.0,0.7777777777777778,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q322,Who manufactured the kits Tomáš Pekhart wore in 2008 in his senior career?,Puma and Umbro,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05988859385251999,No,1.0,1.0,0.7,0.6916666666666667,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q323,"How many years before Starbucks introduced juice-blended Frappuccinos, was the company that is accredited for inventing the Frappuccino, founded?",31 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09919904917478561,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q324,"Which Nobel laureates in Physics between 1901 and 1920 made contributions to quantum theory, and what were their specific contributions? List the laureates and their respective contributions.","Several Nobel laureates in Physics between 1901 and 1920 made significant contributions to quantum theory. Here are the laureates and their specific contributions:  1. **Max Planck (1918)** - Planck is considered the father of quantum theory. He introduced the idea of energy quanta and derived Planck's radiation law, which describes the electromagnetic radiation emitted by a black body in thermal equilibrium.     2. **Albert Einstein (1921)** - Although awarded the Nobel Prize in 1921, Einstein made crucial contributions to quantum theory with his explanation of the photoelectric effect, which demonstrated the particle nature of light.  3. **Niels Bohr (1922)** - Bohr received his Nobel Prize for his contributions to our understanding of atomic structure and radiation. His Bohr model of the atom incorporated quantum theory and explained how electrons could have stable orbits.  4. **Johannes Stark (1919)** - Stark was awarded the Nobel Prize for his discovery of the Doppler effect in canal rays and the splitting of spectral lines in electric fields (the Stark effect), both phenomena that provided insights into atomic structure and quantum mechanics.  5. **James Franck and Gustav Hertz (1925)** - Franck and Hertz's Nobel Prize was awarded for their experiments on electron impacts in atoms, which confirmed quantum energy levels within atoms.","The provided text states that Max Planck received the 1918 Nobel Prize in Physics for his discovery of energy quanta, which is a fundamental contribution to quantum theory.  It also mentions that J.J. Thomson (1906) showed electrons are particles, and his son, George Paget Thomson (1937), showed they also have wave properties, but these contributions are not explicitly to *quantum* theory.  No other Nobel laureates in physics between 1901 and 1920 are specifically linked to quantum theory contributions within the provided excerpt.
+",0.5903614457831325,0.2413793103448276,0.34265734265734266,0.25609756097560976,0.10396039603960396,0.14788732394366197,0.2891566265060241,0.11822660098522167,0.16783216783216784,0.02945275585464759,0.8942703008651733,No,1.0,1.0,1.0,0.8392857142857143,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q325,Which Labour MP served for Bury North while Chukka Umunna was the MP for Streatham?,James Frith,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12097526341676712,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q326,How much older was the songwriter of 'The Twist' when he wrote it than Chubby Checker was when he recorded the song?,12 years,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07658591866493225,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q327,"As of August 4, 2024, what other idol groups, that are not NCT-related, is the only Canadian NCT member connected to?",SuperM,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06952661275863647,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q328,"Of the top two most watched television season finales (as of June 2024), which finale ran the longest in length and by how much? ",The MASH finale ran for 52 minutes longer than the Cheers finale.,"The context states that the M*A*S*H finale was 98 minutes long, and the Cheers finale was re-broadcast in a 90 minute format.  Therefore, the M*A*S*H finale was 8 minutes longer.
+",0.1891891891891892,0.5833333333333334,0.28571428571428575,0.08333333333333333,0.2727272727272727,0.1276595744680851,0.16216216216216217,0.5,0.2448979591836735,0.04183814706059412,0.7658816576004028,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q329,What compass direction (of the 4 cardinal and 4 ordinal directions) is the capital city of the state which houses the Jackson Hole Mountain Resort in relation to the centre of the state?,Southeast,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09741120040416718,No,1.0,1.0,1.0,0.9704861111111112,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q330,"How many years older is the police force that covers the City of London, than the political party that came 4th in the 2019 European Parliament election in Lombardy? Write the number of years in binary",10101110,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.16956911981105804,No,0.0,0.5833333333333333,0.6388888888888888,0.5976190476190476,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q331,"Lauryn Hill has one older brother named Malaney. The year he was born, a famous baseball player who played his final season with the Philadelphia Athletics died in March. That player was elected to the Baseball Hall of Fame. 6 years later after his election, the only person to be inducted to the Baseball Hall of Fame had how many total career wins? ",365,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10376287996768951,No,0.0,0.0,0.2,0.2611111111111111,0.0,0.0,0.2,0.2,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q332,What is an animal that is distantly related to the capybara and has the densest fur of all land-dwelling mammals?,Chinchilla,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06618595123291016,No,1.0,0.8333333333333333,0.7555555555555555,0.6533333333333333,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q333,Who was the United States President when Chile won their first Copa America?,Barack Obama,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14184536039829254,No,1.0,0.8333333333333333,0.8333333333333333,0.6805555555555556,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q334,"Which female athlete achieved a ""world's best"" and a ""world record""  for the marathon during Tony Blair's second term as British Prime Minister.",Paula Radcliffe,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08862563222646713,No,0.0,0.5,0.5,0.5,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q335,"Who were the key members of the original lineup of the rock band Queen, and what were their primary roles in the band?  Which original member of Queen was also in a band named Smile and what year did that band begin and end?","The original lineup of Queen consisted of Freddie Mercury (lead vocals, piano), Brian May (guitar, vocals), Roger Taylor (drums, vocals), and John Deacon (bass guitar).    Smile was an English rock band formed in London in 1968 with Brian May and Tim Staffell.  It ended in 1970 when Staffell left to join another band, Humpy Bong.","Freddie Mercury (lead vocals, piano), Brian May (guitar, vocals), Roger Taylor (drums, vocals), and John Deacon (bass).
+
+Brian May and Roger Taylor.  Smile began in 1968 and disbanded in 1970.
+",0.8333333333333334,0.45454545454545453,0.5882352941176471,0.6896551724137931,0.37037037037037035,0.48192771084337355,0.7666666666666667,0.41818181818181815,0.5411764705882354,0.4141346253994729,0.8325768709182739,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q336,"In the town where the most successful American Ace of World War 2 to survive that war was born, there is a college. What was the name and percentage of the largest demographic of full and part time students attending that college in 2020?","Black/African American, 80%.","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.056930253302784645,0.13400770723819733,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q337,What geographical commonality do the person who first described Apriona brunneomarginata and painter Wolfgang Hutter share?,They were both born in Vienna.,"The answer is not found in the context.
+",0.125,0.16666666666666666,0.14285714285714288,0.0,0.0,0.0,0.125,0.16666666666666666,0.14285714285714288,0.05669791110976001,0.08166991919279099,No,1.0,1.0,0.8666666666666667,0.775,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q338,What is population in 1968 of the city that hosted the olympic games in which Lucy Steele competed?,"15,739","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15737882256507874,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q339,There's a comedy club on Sunset in West Hollywood that opened in 1972. One of its founders opened for one of Elvis' comeback performances. Where was this founder's first wife born?,"Marinette, Wisconsin","Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15926191210746765,No,1.0,1.0,1.0,0.9821428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q340,"As of August 3, 2024, which band was nominated three times for the Grammy Award for Best Metal Performance and also headlined the Opus Stage at Download Festival 2023?",Ghost,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03596445545554161,No,1.0,1.0,0.95,0.86,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q341,"Spryo the Dragon released a sequel just a year after it came out. In the same year Spryo's sequel came out, what popular skateboarding based game hit shelves? ",Tony Hawk's Pro Skater,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10413295775651932,No,1.0,1.0,0.95,0.825925925925926,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q342,Who was the president of Kenya when Uduak Amimo took a break from her talk show and the media to pursue her interest in coaching and social impact projects?,Uhuru Kenyatta,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1045718863606453,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q343,Which month had the third-lowest mean daily minimum temperature (recorded from 1876–1905) in the Japanese city which in 1720 was estimated to be the largest in the world?,December.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.05759220942854881,No,1.0,1.0,0.8875,0.827437641723356,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q344,Which political leader of the countries where the Potsdam agreement and the Wellington Convention were signed was older on the 1st of July 1905?,Richard Seddon,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12474486976861954,No,1.0,1.0,1.0,0.9293650793650794,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q345,"In the year that the film 'Moana' was released, who was the hitting coach of the team that lost the MLB World Series? ",Ty Van Burkleo,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08862454444169998,No,0.0,0.5,0.5,0.5,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q346,What sea borders the Irish County where the author of the short story Foster was born?,The Irish Sea,"St George's Channel
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.27030280232429504,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q347,How many times in total did the Argentina women's field hockey team and the Uruguay women's field hockey team enter the Pan American Games and the Olympic Games from 2000 to 2020?,15,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11321552842855453,No,1.0,1.0,1.0,0.8263888888888888,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q348,"If you add up the birth years of Emma Watson, Daniel Radcliffe and Rupert Grint, what is the sum?",5967,"5886
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.7364155650138855,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q349,The Eastern Shawnee Tribe of Oklahoma owns and operates the Indigo Sky Casino. Their tribal headquarters are located in a suburb of the metropolitan area of a historic 2011 tornado that killed 158 people. What is the name of the metropolitan area?,"Joplin, Missouri metropolitan area","Oklahoma City
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.28600192070007324,No,1.0,1.0,1.0,0.9415178571428572,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q350,How many years apart was the founding of Snell & Wilmer from the birth of the man who got 3rd place at the 1954 Masters golf tournament?,16 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0772567167878151,No,1.0,1.0,1.0,0.8333333333333334,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q351,Which other astronaut flew the same type of aircraft during the Korean War as the first man to step on the moon?,John Glenn,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10012941062450409,No,0.0,0.5833333333333333,0.6791666666666667,0.6683333333333333,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q352,How many days did it take for World War 2 to end after the death of Alois Burgstaller?,136 days,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06536956876516342,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q353,Adolf Hitler was born exactly 110 years before which US mass shooting?,Columbine,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-0.017543016001582146,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q354,How old was the 31st President of the United States when the second nuclear weapon ever used in warfare was dropped?,70 years old,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06435389816761017,No,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q355,What is the total number of pages in the first two first-edition books in the Emperyan Series by Rebecca Yarros?,1135,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14236390590667725,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q356,"As of August 3, 2024, excluding white, what colour features on the flag of the city that houses the racecourse where Danon The Kid made his racing debut?",Red,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15438024699687958,No,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q357,What was the first skyscraper built in this player's hometown before he became the 160th pick of the 1980's NFL Draft?,The Life & Casualty Tower,"The answer is not found in the context.
+",0.125,0.25,0.16666666666666666,0.0,0.0,0.0,0.125,0.25,0.16666666666666666,0.04767707020457095,0.1023811399936676,No,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q358,"Regarding the award that the man who created the initial sketch for the Eiffel Tower received, how many of the award models have hanging devices that are in the shape of a crown?",Eight,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10146297514438629,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q359,"Excluding blue, what other colour appears on the 2004 flag of the region in which Alastair Galbraith's home city is situated?",Yellow,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0668535828590393,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q360,"When the San Francisco 49ers and San Diego Chargers met in Super Bowl XXIX, what was the #1 film at the box office in the U.S.? ",Legends of the Fall,"The answer is not found in the context.
+",0.125,0.25,0.16666666666666666,0.0,0.0,0.0,0.125,0.25,0.16666666666666666,0.04767707020457095,0.011138824746012688,No,1.0,1.0,1.0,0.9765432098765432,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q361,What was the difference in original sale price between Tom Thomson’s “Northern River” and “Northern Lake”,The difference in price was $250.,"The answer is not found in the context.
+",0.25,0.3333333333333333,0.28571428571428575,0.0,0.0,0.0,0.25,0.3333333333333333,0.28571428571428575,0.06274655310994741,0.08602898567914963,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q362,What NBA team was founded three years before the Apollo 11 crew landed on the moon?,The Chicago Bulls,"The Portland Trail Blazers.
+",0.25,0.3333333333333333,0.28571428571428575,0.0,0.0,0.0,0.25,0.3333333333333333,0.28571428571428575,0.10682175159905853,0.7574831247329712,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q363,How many more career home runs did the MLB player who had the highest slugging percentage in 1954 have than the player who was the the first African American to play in Major League Baseball?,519,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05613381043076515,No,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q364,What are the coordinates for the beach outside the UK that shares its name to a Welsh town that is home to the Great Orme?,34°0′37″S 18°20′34″E,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06186899542808533,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q365,"I'm thinking of the Weird Al Yankovic parody of American Pie, what Weird Al album did it first appear on?",Running with Scissors,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08535092324018478,No,1.0,1.0,1.0,0.625,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q366,What year was the band leader of the group who originally performed the song sampled in Kayne West's song Power born?,1946,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09815084934234619,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q367,Frank Jevons was the 9th Master of Hatfield College. His death came how many years after the death of his predecessor in the same role?,5 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08528275787830353,No,1.0,1.0,1.0,0.8857142857142857,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q368,"Renowned Abstract Expressionist painter Clyfford Still graduated from college in 1933. As of August 1, 2024, what other alumnus from that university was nominated for a Pulitzer Prize?",Don Magnuson,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.22674834728240967,No,1.0,0.8333333333333333,0.8333333333333333,0.6845238095238095,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q369,"What is the the sum of the ages of the men who were executed by firing squad in Kilmainham Gaol, on the 12th of May, during the same year as the Battle of the Somme, when the died?",80,"33
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.30515873432159424,No,1.0,0.8333333333333333,0.8055555555555556,0.7470238095238095,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q370,"When the maker of the third-party console title ""ActRaiser"", merged with the makers of the console title ""Chrono Trigger"", what percentage of the company did the makers of ""ActRaiser"" make up?",20% of the company.,"The answer is not found in the context.
+",0.125,0.25,0.16666666666666666,0.0,0.0,0.0,0.125,0.25,0.16666666666666666,0.05669791110976001,0.2032569944858551,No,1.0,1.0,1.0,0.9617346938775511,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q371,"How many years apart were the start of the Haitian and French revolutions , how many years longer did the Haitian Revolution last than the French Revolution, and how old were their respective leaders when each revolution began?",The French Revolution began 2 years before the Haitian Revolution.  The Haitian Revolution lasted 2 years longer.  Louis XVI was 34 years old when the French Revolution began and 36 when the Haitian Revolution began.,"Start of Haitian Revolution: 1791
+Start of French Revolution: not stated
+Length of Haitian Revolution: 13 years (1791-1804)
+Length of French Revolution: not stated
+Age of Haitian Revolution leaders: not stated
+Age of French Revolution leaders: not stated
+",0.28205128205128205,0.3142857142857143,0.29729729729729726,0.13157894736842105,0.14705882352941177,0.13888888888888887,0.23076923076923078,0.2571428571428571,0.24324324324324323,0.034832994839072595,0.7732271552085876,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q372,Are mulberries more related to raspberries or cannabis?,Cannabis,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14069302380084991,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q373,"There is a speech-sound disorder, not caused by a structural abnormality, for which one symptom is rearranging sounds of a word. The term for the disorder was first defined in 1908 by a German neuroscientist with the first name Hugo. Why was the Nobel Peace Prize given to an American the same year Hugo died?",For his crucial role in bringing about the Dawes Plan.,"The answer is not found in the context.
+",0.25,0.2,0.22222222222222224,0.0,0.0,0.0,0.25,0.2,0.22222222222222224,0.050243511979240846,0.12642613053321838,No,1.0,1.0,1.0,0.7321428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q374,"How old was Russian vodka tycoon Yuri Shefler when Serene, the yacht he commissioned, was delivered to him?",43,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1294601410627365,No,1.0,1.0,1.0,0.9821428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q375,Who won the World Series the same year that Andy Roddick won his only Grand Slam title in 2003?,The Florida Marlins,"The answer is not found in the context.
+",0.125,0.3333333333333333,0.18181818181818182,0.0,0.0,0.0,0.125,0.3333333333333333,0.18181818181818182,0.04767707020457095,0.08261095732450485,No,0.0,0.3333333333333333,0.47777777777777775,0.49777777777777776,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q376,What was the name of the work written by Louis Pierre Vieillot published two years after he described the great blue turao as Musophaga cristata?,Ornithologie,"Analyse d'une nouvelle Ornithologie Elémentaire
+",0.14285714285714285,1.0,0.25,0.0,0.0,0.0,0.14285714285714285,1.0,0.25,0.10682175159905853,0.73452228307724,Yes,1.0,1.0,0.95,0.906795634920635,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q377,What military awards were received by the General originally scheduled to lead Operation Torch before Lieutenant General Dwight D. Eisenhower was given command of the operation?,"Joseph Stilwell was originally scheduled to lead Operation Torch before Lieutenant General Dwight D. Eisenhower was given command of the operation. Stillwell received a Distinguished Service Cross, two Army Distinguished Service Medals, a Legion of Merit award, and a Bronze Star during his military career.","The answer is not found in the context.
+",0.125,0.022222222222222223,0.03773584905660377,0.0,0.0,0.0,0.125,0.022222222222222223,0.03773584905660377,0.0005331623536597432,0.05585959181189537,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0
+q378,"From United States Former President Bill Clinton through Former President Donald Trump, which president in this time period has published the greatest number of books as of August 1, 2024? Please exclude from that count any books you find that are authored by someone else about a particular former president. ",Former President Bill Clinton has published seven books through 2024.,"Donald Trump
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2894381880760193,No,0.0,0.3333333333333333,0.41666666666666663,0.4523809523809524,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q379,What US president was born in the same year that the Treaty of Resht was signed?,George Washington,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06369629502296448,No,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.1,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q380,Which horse won the Kentucky Derby during the same calendar year in which John Hinckley Jr. attempted to assassinate U.S. President Ronald Reagan?,Pleasant Colony,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0696239247918129,No,1.0,1.0,0.95,0.8972222222222223,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q381,Milton Friedman won the Nobel Prize for Economics in 1976. What was the name of the Nobel Peace Prize winning wife of the economist who won the Nobel Prize for Economics two years before Friedman did?,Alva Myrdal,"Alva Myrdal
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0000001192092896,Yes,1.0,1.0,1.0,0.9765432098765432,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q382,"When Justin Trudeau was elected as Prime Minister of Canada, who was the current Prime Minister of France?",Manuel Valls,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0947805643081665,No,1.0,1.0,0.7,0.7260912698412698,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q383,This town was the original location of the tallest Christmas Tree displayed at the Rockefeller Center. This was also home to the author of a famous children's book series. What is the name of this series?,Doctor Dolittle,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12418057024478912,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q384,"Houston, Texas had dozens of airports as of January 1, 2024. Find the three-letter IATA code of the airport in which the longest runway was exactly 7000 feet long, and rearrange those letters to match that of another airport at that time.  Here are your hints: The last letter of the re-arranged code is ""J"". The new airport was located in China.   With this information, what was the IATA code of this airport?",LNJ,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15905097126960754,No,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,0.14285714285714285,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q385,How many years earlier did Wimbledon start compared to the birthdate of the winner of the 2019 tournament.,110 years,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0824725553393364,No,1.0,1.0,1.0,0.8111111111111111,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q386,The starship USS Enterprise has a registry number containing the founding year of what Ivy League university?,Yale University,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09594249725341797,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q387,What two cities hosted the Summer Olympic Games between when the television shows featuring characters Olivia Benson and Meredith Grey started airing?,"Sydney, Australia, and Athens, Greece","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1129378005862236,No,1.0,1.0,1.0,0.8857142857142857,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q388,Who had their twenty-first number one hit on the US Billboard Hot Country Songs chart the same week Carly Rae Jepsen hit #39 on the Australia ARIA Top 50 Singles chart?,Kenny Chesney,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.059429388493299484,No,1.0,1.0,1.0,0.8111111111111111,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q389,What was the word that featured the least in the longest recorded quotation by the chimpanzee named after the recipient of the 2011 Sydney Peace Prize?   ,You,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1614493578672409,No,1.0,0.8333333333333333,0.8055555555555556,0.7470238095238095,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q390,What song was #1 on Billboard's Hot 100 for the most days during the Cuban Missile Crisis?,Monster Mash' by Bobby 'Boris' Pickett & the Crypt-Kickers,"The answer is not found in the context.
+",0.125,0.1111111111111111,0.11764705882352941,0.0,0.0,0.0,0.125,0.1111111111111111,0.11764705882352941,0.04767707020457095,0.0628168061375618,No,1.0,1.0,1.0,0.9626543209876544,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q391,Which ancient archaeoastronomical site in the U.K. is also associated with the summer solstice during which time light illuminates a quartz-rich stone in the chamber.,Bryn Celli Ddu,"Bryn Celli Ddu
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,0.0,0.5833333333333333,0.6791666666666667,0.682936507936508,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q392,What is the price difference of an iPhone (8GB) from when it was first released compared to the price of the iPhone X when it was released?,$400,"$900
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9182594418525696,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q393,What's the star sign of the author of A Court of Thorns and Roses?,Pisces,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-0.04873008280992508,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q394,"What was the average launch mass of Apollo 11, Apollo 12, and Apollo 13 in kilograms, rounded to the nearest integer?","The average launch mass in kilograms rounded to the nearest integer of Apollo 11, Apollo 12, and Apollo 13 is 47,906 kilograms.","2,940,000 kg
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4536742568016052,No,1.0,1.0,1.0,0.8444444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q395,What was the second starring role of the actress who won an Oscar for portraying union activist Cyrstal Lee Sutton?,The Flying Nun,"Not found in the context.
+",0.2,0.3333333333333333,0.25,0.0,0.0,0.0,0.2,0.3333333333333333,0.25,0.0,0.13735707104206085,No,1.0,1.0,1.0,0.9444444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q396,"What is the scientific name of an amphibian that is listed as endangered by the Canadian government (as of 2024), and its only population in Canada occurs on an island which is the southernmost inhabited part of Canada?",Ambystoma texanum,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1224503293633461,No,1.0,0.8333333333333333,0.8055555555555556,0.7607709750566893,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q397,What were the names of the parents of the first overall pick in the 2007 NHL entry draft?,Donna and Patrick were the names of Patrick Kane's parents.,"The answer is not found in the context.
+",0.125,0.09090909090909091,0.10526315789473685,0.0,0.0,0.0,0.125,0.09090909090909091,0.10526315789473685,0.045400138092837265,-0.02857341431081295,No,1.0,1.0,1.0,0.9821428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q398,"Of the counties that Wisconsin Highway 34 runs through, what is the seat of the most populous county based on 2020 census data? ",Wausau,"Stevens Point
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1046212688088417,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q399,Emma Lazarus's most famous poem inspired the founding of an order of nursing nuns.  What disease does this order specialize in treating?,Cancer,"Incurable cancer.
+",0.5,1.0,0.6666666666666666,0.0,0.0,0.0,0.5,1.0,0.6666666666666666,0.0,0.6361464858055115,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q400,How many times did the victor of the Immortal Game of 1851 lose a chess match to an American-born opponent?,2,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2223912626504898,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q401,"How many years were between the publication of a book considered 'one of the seminal works of fiction of the 20th century', and the Japanese release of the retail version of the game ""Resident Evil: Revelations 2"" for the PS3, of which the author of the 20th century book was a great inspiration for the plot?",100,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09107456356287003,No,1.0,1.0,0.9166666666666666,0.7944444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q402,The actress who played Aunt Rose in A Brooklyn State of Mind (1997) also starred in a mafia movie where she sang a popular Sicilian song. How many years later did her version of the song occur after the earliest recording?,45 years,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10196109116077423,No,1.0,1.0,1.0,0.9761904761904762,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q403,"Put in chronological order the Major League Baseball seasons in which Barry Bonds, Tony Gwynn, and Benny Kauff hit for a .370 batting average.","1914, 1987, 2002 ","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.17436009645462036,No,0.0,0.5833333333333333,0.6791666666666667,0.7295918367346939,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q404,What famous film maker once provided editorial assistance for a 90s documentary on Mongolian-Tuvan throat singing before directing a series of superhero movies?,Christopher Nolan,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.050031695514917374,No,1.0,1.0,0.7,0.7,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q405,"How many of the first 8 Harry Potter films based on the original 7 books were released in years when a United States presidential election took place, and what movies were they?","One of the original 8 Harry Potter films based on the original 7 books coincided with a U.S. presidential election, and the film was Harry Potter and the Prisoner of Azkaban.","Answer not found in the context.
+",0.16666666666666666,0.03125,0.05263157894736842,0.0,0.0,0.0,0.16666666666666666,0.03125,0.05263157894736842,0.0012400028617357858,-0.029032856225967407,No,1.0,1.0,1.0,0.9444444444444444,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q406,In which year did the 4th Sheriff of Yorkshire to be part of the House of Plantagenet die?,1190,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08126573264598846,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q407,How many more medals did France win in the 2008 Summer Olympics than in the 2004 Summer Olympics?,10,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11775638163089752,No,1.0,0.8333333333333333,0.8041666666666667,0.7801587301587302,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q408,"How many colours are on the flag of the country whose capital is the southernmost by latitude out of all landlocked countries, as of 2024? What are the names of these colours?","4 - blue, white, green, black","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10730572789907455,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q409,"This 90s rock musical depiction of La bohème, had this music, lyrics and story written by a talent who passed the day before their Off-Broadway preview performance. Aside from Broadway, what was the name of his Netflix success? ","Tick, Tick... Boom!","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.1515377014875412,No,1.0,1.0,1.0,0.9472222222222222,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q410,"What German-born Author had books published in 1995, 1999, & 2005 detailing their studies and activism with what Tang's animal mascot of the time?",Birutė Galdikas,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08734245598316193,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q411,This author won the Popular Fiction Book of the Year award in 2009 at the Irish Book Awards. What is their astrological sign?,Virgo,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.030014242976903915,No,0.0,0.3333333333333333,0.41666666666666663,0.41547619047619044,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q412,What is the name of the 2nd track on the album by Corinne Bailey Rae that came out 10 years before her album The Heart Speaks in Whispers?,Enchantment,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09991335868835449,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q413,Which of the following albums came out on a date closest to the date that Nancy Kerrigan was assaulted? What about which album was closest to the date of Harding's plea deal? Awake by Dream Theater Inside Out by Fates Warning Promised Land by Queensryche Dreamspace by Stratovarius,Dreamspace' by Stratovarius.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06567274736060395,0.009453178383409977,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q414,Which U.S. National Park was the first to be established after the Portland Trail Blazers won their only playoff series with LaMarcus Aldridge on the team?,Gateway Arch National Park,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.031549617648124695,No,0.0,0.0,0.0,0.20833333333333331,0.0,0.0,0.0,0.16666666666666666,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q415,"As of August 3rd, 2024, which Moose Jaw Warrior with a retired number was born on May 29, 1967?",Mike Keane,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.059145238250494,No,1.0,1.0,1.0,0.7916666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q416,"As of July 2024, which protagonist of a 'shonen jump' series shares a name with a station on a West Japan Railway Company regional line?",Light Yagami,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.008232842199504375,No,1.0,1.0,1.0,0.8385912698412699,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q417,"What's the fifth song on the fifth album of the pop singer who was parodied in the fifth song on ""Weird Al"" Yankovic's fifth album?",Keep Walking,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11053173243999481,No,1.0,1.0,1.0,0.9626543209876544,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q418,I'm thinking of a painting. It was done by the same man who painted The Anti-Slavery Society Convention in the 1840's. The painting is about an election. Can you tell me the name of it?,Mock Election,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.053306564688682556,No,1.0,1.0,1.0,0.7392857142857143,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q419,In what year was the former South Korean prime minister who is from the same clan as the oldest member of the band BTS born?,1948,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13566052913665771,No,0.0,0.5,0.5333333333333333,0.5819444444444444,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q420,What is the birth year of the American President who once pet the cat who was buried at the Hagia Sofia in 2020?,1961,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06026974692940712,No,0.0,0.5,0.5,0.43333333333333335,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q421,"There was a popular movie that came out in 2016 starring Emma Stone and Ryan Gosling, tell me where the director of this movie was born. ","Providence, Rhode Island","The context does not contain the director's place of birth.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.19585701823234558,No,1.0,1.0,0.7,0.666156462585034,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q422,By what amount was the budget of Peter Jackson's King Kong higher than the budget of John Guillermin's version of King Kong?,$183 million,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09110338985919952,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q423,"What was the age difference at their deaths (in years) between Edgar Allan Poe and his rival, Rufus Wilmot Griswold, multiplied by 100?",200,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11477291584014893,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q424,How old was the vice president to the fifth US president when he died?,50,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12207265198230743,No,1.0,0.8333333333333333,0.8333333333333333,0.6805555555555556,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q425,Who was the manager for the MLB World Series winning team the year that another team broke the record for the longest consecutive winning streak in a regular season? Base your answer on the following:  -- The team who broke the record did so in the 2010s ,A. J. Hinch,"Dusty Baker
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3043903410434723,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q426,What award was won in 2003 by the Swiss architecture firm that designed Roche Tower?,The Stirling Prize.,"The answer is not found in the context.
+",0.125,0.3333333333333333,0.18181818181818182,0.0,0.0,0.0,0.125,0.3333333333333333,0.18181818181818182,0.05669791110976001,0.10286208242177963,No,1.0,1.0,1.0,0.8333333333333334,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q427,How many New Zealanders have won Australian Idol during seasons 1 to 8?,1,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13674989342689514,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q428,Who was the mayor of France's 25th President's hometown when they were first elected President?,Brigitte Fouré,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0400543287396431,No,1.0,0.8333333333333333,0.8055555555555556,0.7708333333333333,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q429,"Of the Jason Statham movies that came out the year Dennis Hopper died, which could he have lived to see the premiere of?",13,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10289319604635239,No,1.0,1.0,1.0,0.9129251700680272,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q430,Whose memoir was co-written with the author of Pill Head: The Secret Life of a Painkiller Addict and published post-humously 2 years after her death?,Edith Windsor,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09548037499189377,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q431,"What day of the year do John of Lancaster (Duke of Bedford), Fritz Koenig (German Sculptor), Edith Windsor (LGBT Activist), and Ulf Merbold (German Physicist and Astronaut) all have in common? ",They are all born on June 20.,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.056930253302784645,0.07480436563491821,No,1.0,0.8333333333333333,0.7555555555555555,0.6916666666666667,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q432,"In 2024's version of the world, which country was the birthplace of the Emperor who reigned from the year 363 to 364 over the Empire that the Goths played a major part in collapsing?",Serbia,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12726019322872162,No,1.0,1.0,1.0,0.9055555555555556,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q433,"Who was Prime Minister in Australia at the same time that Norman Gunston released ""Salute to ABBA""?",Malcolm Fraser,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1395455002784729,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q434,Which one was longer and by how much? James Cameron's film Titanic (1997) or the actual sinking of the Titanic in 1912?,"James Cameron's film Titanic was longer than the actual sinking Titanic, with a running time of 195 minutes, 35 minutes longer than the actual sinking of the Titanic in 1912.","The provided text states that Titanic (1997) was a three-hour film.  It does not state the duration of the actual sinking.  Answer not found in the context.
+",0.39285714285714285,0.3548387096774194,0.3728813559322034,0.1111111111111111,0.1,0.10526315789473685,0.2857142857142857,0.25806451612903225,0.2711864406779661,0.0654996067445251,0.7984805703163147,No,0.0,0.5833333333333333,0.6791666666666667,0.7083900226757369,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q435,"I'm thinking of the  screenplay, co-wrote by the same author as Lonesome Dove, that won an Oscar for Best Adapted Screenplay 20 years after Lonesome Dove won the Pulitzer Prize. What was the name of the screenplay? ",Brokeback Mountain,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08786679059267044,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q436,What was the founding name of the company that ran the coal mining camp in the city where baseball great Willie Mays was born?,Sewanee Furnace Company,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1776278167963028,No,1.0,0.8333333333333333,0.7555555555555555,0.6787301587301587,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q437,"Which original Saturday Night Live cast member's daughter, tied with Hannah Waddingham for the Best Supporting Actress in a Streaming Series, Comedy award at the 1st Hollywood Critics Association TV Awards in 2021?",Laraine Newman,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07095669209957123,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q438,Who was the youngest climber to podium at the first year climbing was in the olympics?,Alberto Ginés López (18 at the time).,"Not found in the context.
+",0.2,0.1111111111111111,0.14285714285714285,0.0,0.0,0.0,0.2,0.1111111111111111,0.14285714285714285,0.049557253064055715,0.1334044337272644,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q439,"As of January 1st, 2024, how many buildings in New York City were 750ft or taller the last time Halley's Comet came close to Earth?",12,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12552718818187714,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q440,What novel by Ernest Hemingway won a Pulitzer prize for fiction that was subsequently overturned twelve years before the same author won again?,For Whom the Bell Tolls by Ernest Hemingway,"The answer is not found in the context.
+",0.125,0.125,0.125,0.0,0.0,0.0,0.125,0.125,0.125,0.04767707020457095,0.10499703139066696,No,1.0,1.0,0.9166666666666666,0.9166666666666666,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q441,Who was the successor of the Egyptian Pharaoh that was in power when the Treasury of Atreus was completed?,Merneptah,"Merneptah
+",1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,0.8666666666666667,0.7885912698412698,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q442,"What is the age difference between the youngest and oldest person, in the 20th Century, to win two Nobel Prizes?",20 years.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.0633435845375061,No,1.0,1.0,0.8875,0.8555555555555556,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q443,What season of The Challenge was airing when Bridgeton premiered?,"Season 36, Double Agents","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.007258253172039986,No,1.0,1.0,1.0,0.9055555555555556,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q444,"How many of Mark Calaway's consecutive Wrestlemania wins occurred in matches that were longer than the final match result in the same year's competition, not including years where Calaway was part of the final result?",Five,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1191755160689354,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q445,What number do you get when you add up the numbers in the postcode of the hospital John Lennon was born in?,14,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09441494196653366,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q446,Which set director born in 1936 won the Academy Award for Best Production Design during the 71st Academy Awards?,Jill Quertier,"Jill Quertier
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,0.875,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q447,"The star of the TV show ""The Bear"" had his breakout role on a Showtime show. The actress who played his older sister on that Showtime show released an album in 2007. The label who released her album released their first album 27 years previous. From their first album, what number did the title track reach on the Billboard Hot 100?",Number 3,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1960347443819046,No,1.0,1.0,1.0,0.959375,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q448,"When Taylor Swift first released her studio album ""1989,"" how many studio albums had Katy Perry already released? ",4,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14814138412475586,No,1.0,1.0,1.0,0.8111111111111111,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0
+q449,Who lived longer one of the Bronte sisters or Jane Austen?,Jane Austen,"Charlotte Brontë lived longer.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.453047513961792,No,0.0,0.5833333333333333,0.6791666666666667,0.6433333333333333,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q450,Who was the head coach of the team that won the Superbowl the year that the show Law & Order: SVU was released?,Mike Shanahan,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05604347959160805,No,0.0,0.0,0.0,0.16666666666666666,0.0,0.0,0.0,0.16666666666666666,0.0,0.0,0.0,1.0,0.0,1.0,1.0,1.0
+q451,"How many times taller is the 7th highest mountain the world than Novake, Poljčane in Slovenia? Round your answer to one decimal place. ",31.5,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.19191239774227142,No,0.0,0.3333333333333333,0.47777777777777775,0.5311111111111111,0.0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q452,The Wisconsin Butter Fire led to dams being built to protect a lake that was the site of the plane crash death of which famous musician?,Otis Redding,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0786127820611,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q453,What is the English meaning of the name of the smaller of the two constellations which resides in the middle of the Summer Triangle?,Arrow.,"Little fox
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.16103561222553253,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q454,"During the year that Serbia became an independent republic after separation from Montenegro, who won the Nobel Prize for Literature?",Orhan Pamuk,"Orhan Pamuk
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,0.9526289682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q455,How many years older is the the library where Galileo's middle finger was first exhibited than the first public library to be lit using electric lightbulbs?,222,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10850677639245987,No,1.0,1.0,1.0,0.8857142857142857,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q456,"If the person who played the joker in ""The Dark Knight"" (2008) had children, how old will they be on the films 50th anniversary? ","Heath Ledger had one daughter named Matilda Ledger who was born on October 28, 2005. Since the film was released on the 18th of July in 2008, Matilda will be 52 on the films 50th anniversary.","Answer not found in the context.
+",0.3333333333333333,0.05555555555555555,0.09523809523809525,0.0,0.0,0.0,0.3333333333333333,0.05555555555555555,0.09523809523809525,0.0007749563243177948,-0.007638922892510891,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q457,What was David Fincher's most recently released feature film when Britney Spears' first feature film was released in the U.S.?,Fight Club.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.11663641780614853,No,1.0,0.8333333333333333,0.7555555555555555,0.7393424036281179,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q458,What was the last album the Grateful Dead released prior to the death of Doors vocalist Jim Morrison?,American Beauty,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08185338973999023,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q459,David Fincher has two movies in the 90's that have numbers in the title. What is the number in the title of David Fincher's later-released movie multiplied by the ratio of the sum of all of the molars in an aardvark over the number of adult teeth in a dog?,13/3 or 4.333... (infinitely repeating decimal),"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03056960239296902,0.0792982429265976,No,1.0,1.0,1.0,0.5262896825396826,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q460,The band Franz Ferdinand is named after Archduke Franz Ferdinand of Austria and a racehorse that the band watched win a race. How many years before the assassination of Archduke Franz Ferdinand was that race established?,The Northumberland Plate horse race was established 81 years before the assassination of Archduke Franz Ferdinand,"Not found in the context.
+",0.2,0.0625,0.09523809523809523,0.0,0.0,0.0,0.2,0.0625,0.09523809523809523,0.015330462064343475,0.014445402659475803,No,1.0,1.0,1.0,0.9472222222222222,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q461,"Which university did the actor who has appeared in the most movies in the American pie film series (including spinoffs, as of 2020) deliver a commencement address at in 2012?","Dalhousie University, in Halifax, Nova Scotia","The answer is not found in the context.
+",0.125,0.16666666666666666,0.14285714285714288,0.0,0.0,0.0,0.125,0.16666666666666666,0.14285714285714288,0.04767707020457095,0.0766092836856842,No,1.0,1.0,1.0,0.9765432098765432,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q462,"Since the turn of the 21st century, there has only been one year in which the Pulitzer Prize for Fiction has not been awarded. Among the finalists that year, one novel was published posthumously. The author of this posthumous publication is best known for a different novel published 15 years prior. The opening lines of this book later inspired a song by a band. The name of this band can be determined with the following calculation: find the age of the author on January 1 of the year the latter book was published, add four, and subtract the sum from the year this author was a Pulitzer Prize finalist. The name of this band was inspired by yet another book. What is the name of this book and its author?",On the Road by Jack Kerouac,"Not found in the context.
+",0.2,0.16666666666666666,0.1818181818181818,0.0,0.0,0.0,0.2,0.16666666666666666,0.1818181818181818,0.08116697886877475,0.12953904271125793,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q463,How old was Akira Toriyama when Pokemon Diamond and Pearl was released in America?,Akira Toriyama was 52.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.15095961093902588,No,1.0,1.0,1.0,0.9526289682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q464,"As of 2020, what was the population of the city where Dippin' Dots were founded?","27,137","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.157002255320549,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q465,How old were the founders of the firm that designed the Empire State Building when construction on the building began?,Richmond Shreve was 52 years old and William Lamb was 46 years old.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.027354882120611313,0.1226038783788681,No,1.0,1.0,1.0,0.9415178571428572,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q466,"In 2015, Emmanuel Lubezki was cinematographer for a film that was directed by the man who also directed the 2014 film Birdman. What is that film?",The Revenant,"The Revenant
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q467,A puzzle released in the 1970's gained popularity and inspired the establishment of an international speed competition. What was the average time of all winners of this competition between 2005 and 2015 rounded to the nearest 100th?,10.45,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12247727811336517,No,1.0,1.0,1.0,0.9478458049886621,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q468,Who was the British Prime Minister in the year that the Glastonbury Festival was launched?,"Edward Heath, September 1970","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09217587858438492,No,1.0,0.8333333333333333,0.8333333333333333,0.6527777777777778,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q469,"Which South Korean Cross-country skier had the highest rank at the Olympics in the Men's 15 km, among South Korean skiers only, between 2002 and 2006?",Park Byeong-ju,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1652061492204666,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q470,Which country did tennis' first Golden Slam winner represent when they achieved it?,West Germany,"West Germany
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0000001192092896,Yes,0.0,0.5,0.5,0.46825396825396826,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q471,Which two MLB teams played in the World Series just weeks after the O.J. Simpson murder trial had ended?,Atlanta Braves and Cleveland Indians,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.015616632997989655,No,0.0,0.0,0.0,0.125,0.0,0.0,0.0,0.125,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0
+q472,Who was the Vice Admiral in charge of the Carrier Division the Japanese carrier Hiyō was in when she was sunk?,Vice Admiral Kakuji Kakuta,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09127543866634369,No,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+q473,"In January of 2024, how many colleges were in the district in which the William C. Davis Science building can be found?",Alamo Colleges District has 5 schools.,"Five
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05059386417269707,Yes,0.0,0.5833333333333333,0.5833333333333333,0.5138888888888888,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q474,Can you add one minute to the time of the title track from the album released by Ray Charles in the year before Phil Quartararo took over as president of its record label?,"5:08 (""Strong Love Affair"" has an individual track time of 4:08)","Answer not found in context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06373216956853867,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q475,"As of 2020, who is the longest-serving president of the university where Hannah Arendt is buried? ",Leon Botstein,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08911652117967606,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q476,What was state of the schools regarding integration in the hometown of Miller Williams when he began his master's degree in Zoology?,They were segregated until 1955. Miller Williams began working on his master's in 1952.,"The answer is not found in the context.
+",0.125,0.06666666666666667,0.08695652173913045,0.0,0.0,0.0,0.125,0.06666666666666667,0.08695652173913045,0.02604848453271721,0.10856036096811295,No,0.0,0.5,0.45,0.425,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q477,"Do zebra, giraffe or hippos wean the earliest?",Giraffe,"Zebras.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.45771291851997375,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q478,How many years were there between Heath Ledger's birth and the first successful use of a special human extraction technology that appeared in a Batman movie that Ledger starred in?,21 years.,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08116697886877475,0.1007067859172821,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q479,How many feature films had James Cameron directed by the time Barack Obama was inaugurated as President of the United States?,Seven.,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04767707020457095,0.11965431272983551,No,0.0,0.5,0.5,0.46825396825396826,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q480,Who was the president of the USA the year that the European Convention on Human Rights came into effect?,Dwight D Eisenhower,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13077110052108765,No,1.0,1.0,1.0,0.9282627865961199,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q481,"As of 1st November 2023, Which two South African drivers took part in the Formula One the year in which a micro-nation claimed territory off the coast of Suffolk, England? ",Dave Charlton and Luki Botha,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07662390917539597,No,0.0,0.0,0.0,0.1736111111111111,0.0,0.0,0.0,0.125,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0
+q482,How old was the first minister of the Ministry of Digital Affairs in Poland when Andrzej Halicki became minister?,"The first minister of the Ministry of Digital Affairs in Poland Anna Streżyńska was 47 years old when Andrzej Halicki became minister in 2014. Anna Streżyńska was born on May 11th, 1967.","The answer is not found in the context.
+",0.375,0.08333333333333333,0.13636363636363638,0.0,0.0,0.0,0.25,0.05555555555555555,0.0909090909090909,0.003751423152077919,0.10791901499032974,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q483,"Looking at the Best Actor and Best Actress categories for the 2023 Academy Awards, how many children did all of the winners and nominees have combined as of August 1, 2024?",13,"Not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.10554593056440353,No,0.0,0.0,0.325,0.3595238095238095,0.0,0.0,0.25,0.25,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
+q484,Shakshouka and menemen are considered similar dishes. What two main ingredients do they have in common?,Egg and tomato.,"Eggs and a tomato-based sauce.
+",0.5,1.0,0.6666666666666666,0.2,0.5,0.28571428571428575,0.5,1.0,0.6666666666666666,0.09652434877402244,0.8163811564445496,Yes,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0
+q485,What is the title of the song that had the second highest record sales recorded on the Discography of American Historical Recordings in the same year that Fred J. Rath was elected mayor of Utica?,Blue Yodel No. 1 (T for Texas),"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.042781792646066956,0.04105973243713379,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q486,"Give me the difference in time, measured in hours not days, between the first solo woman to thru-hike the Appalachian Trail and the fastest recorded solo woman to walk the Appalachian Trail before 2012.",2128 hours,"216 hours.
+",0.5,0.5,0.5,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.7882854342460632,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q487,"If Mr. Rogers were still alive, how old would he have been when the movie ""A Beautiful Day in the Neighborhood"", featuring Tom Hanks came out in the U.S.?","Fred McFeely Rogers would have been 91 years old when ""A Beautiful Day in the Neighborhood"" was released in the U.S.","77
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13007234036922455,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q488,Who became the prime minister of Canada in the same year that Jonathan Tremblay's re-election bid as representative for the electoral district of Montmorency—Charlevoix—Haute-Côte-Nord ended in defeat?,Justin Trudeau,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09638972580432892,No,1.0,1.0,1.0,0.75,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q489,How many days after Peter Tosh died did Bunny Wailer pass away?,"12,226 days","The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05381022021174431,No,1.0,1.0,1.0,0.9888888888888889,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q490,How old was Lucy Lawless when season six of Xena: Warrior Princess first aired?,32,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08469745516777039,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q491,"Taylor Swift's debut single is named after another famous country singer. As of August 1, 2024, when is his wife's birthday?","September 21, 1967","Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05718441680073738,No,0.0,0.5,0.5333333333333333,0.5968253968253968,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q492,What is the name of the rock climber/businessman who co-founded the environmental group that the co-founder of Netflix joined?,Yvon Chouinard,"Yvon Chouinard
+",1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,Yes,1.0,1.0,1.0,0.9526289682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
+q493,"Meghan Markle's veil, worn at her 2018 wedding to Prince Harry, featured a flower for each Common Wealth country. What colour is the flower that was used to represent New Zealand?",Yellow,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11742440611124039,No,1.0,1.0,1.0,0.9682539682539683,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q494,How many years did it take after the FIFA ban was lifted for someone to wear a hijab in the World Cup?,11 years,"5 years
+",0.5,0.5,0.5,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.7283964157104492,No,1.0,1.0,0.95,0.8634920634920635,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q495,"What is the name of the lead role of the play that Harry C. Bradley's second wife was in, in 1906?",Lord Fancourt Babberly,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.081863172352314,No,1.0,1.0,0.8666666666666667,0.7634920634920634,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q496,"In the largest Northern City in California, the widow of a firearms magnate built a infamous mansion that became a tourist attraction only nine months after her death in the early 1900s. The mansion is not only a magnet for ghost hunters and horror story writers, but also architecture enthusiasts as the owner of the house spent 22 years constructing and adding on additional rooms and stairways and features to the already intricate mansion. The house at one point had 500 rooms, 10,000 windows, 47 fireplaces, and 6 kitchens. What exact date was this structure added to the U.S. National Register of Historic Places?","August 7, 1974","1981
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.29019513726234436,No,0.0,0.5833333333333333,0.6791666666666667,0.7856701940035273,0.0,0.5,0.5,0.5,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q497,"Fossils of the extinct sea snail, Alvania belgica, were originally found in a European country. What is the capital of that country?",City of Brussels,"Brussels
+",1.0,0.3333333333333333,0.5,0.0,0.0,0.0,1.0,0.3333333333333333,0.5,0.0,0.845032274723053,Yes,1.0,0.8333333333333333,0.8333333333333333,0.8333333333333333,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+q498,How many more points did Michael Jordan average in his sophomore season (regular season) in the NBA than the first black NBA player averaged during his career (regular season)? Show me a math equation to justify your answer.,14.3 PPG  22.7 - 8.4 = 14.3,"Answer not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1826101690530777,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0
+q499,"What is the title of the book, written by Stephanie Meyer, in her vampire book series that was published in the same year that the first Black president of the United States was elected?",Breaking Dawn,"The answer is not found in the context.
+",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.07267541438341141,No,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,1.0,1.0
