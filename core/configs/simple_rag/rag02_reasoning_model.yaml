@@ -6,7 +6,7 @@
 #
 # Tested on IntraDocumentQA (qasper) & InterDocumentQA (Frames).
 
-#  IntraDocumentQA & phi4 (14B) -> same as simple_rag_01_02
+#  IntraDocumentQA & phi4 (14B)
 simple_rag_02_01:
   dataset: 
     name: qasper
