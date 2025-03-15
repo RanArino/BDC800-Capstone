@@ -17,6 +17,7 @@ core/datasets/data/**/qas_test.json
 experiments/detailed_dfs/
 experiments/metrics/
 experiments/responses/
+experiments/**.txt
 
 # our notes
 docs/proposal.md
