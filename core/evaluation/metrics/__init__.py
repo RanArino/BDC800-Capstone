@@ -6,10 +6,12 @@ Metrics module for evaluating RAG system performance.
 
 from .generation import (calculate_generation_metrics)
 from .retrieval import (calculate_retrieval_metrics)
-from .self_checker import (check_llm_answer)
+from .self_checker import (check_llm_answer, check_retrieval_chunks)
 
 
 __all__ = [
     'calculate_generation_metrics',
     'calculate_retrieval_metrics',
+    'check_llm_answer',
+    'check_retrieval_chunks',
 ] 
