@@ -48,9 +48,10 @@ class GenerationEval(BaseModel):
     self_checker_accuracy: Optional[float] = None  # For summary stats only
     
 class RetrievalEval(BaseModel):
-    map: Dict[RankCutOff, Union[float, StatValue]]
-    mrr: Dict[RankCutOff, Union[float, StatValue]]
-    hit: Dict[RankCutOff, Union[float, StatValue]]
+    map: Optional[Dict[RankCutOff, Union[float, StatValue]]] = None
+    mrr: Optional[Dict[RankCutOff, Union[float, StatValue]]] = None
+    hit: Optional[Dict[RankCutOff, Union[float, StatValue]]] = None
+    llm_eval: Dict[RankCutOff, float] = None
 
 class MetricsSummary(BaseModel):
     qa_id: str
