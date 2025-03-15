@@ -236,9 +236,33 @@ class ScalerRAG(BaseRAGFramework):
                 centroids = {i: clustering_model.cluster_centers_[i] for i in range(len(clustering_model.cluster_centers_))}
             else:
                 # GMM
-                labels = clustering_model.predict(embeddings_array).tolist()
-                centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
-                
+                try:
+                    labels = clustering_model.predict(embeddings_array).tolist()
+                    centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
+                except AttributeError as e:
+                    # Check if the model is missing required attributes and try to initialize them
+                    if not hasattr(clustering_model, 'precisions_cholesky_'):
+                        self.logger.warning(f"GMM model missing required attributes: {str(e)}. Attempting to initialize.")
+                        n_features = embeddings_array.shape[1]
+                        n_components = len(clustering_model.means_) if hasattr(clustering_model, 'means_') else 1
+                        
+                        # Initialize missing attributes
+                        if not hasattr(clustering_model, 'weights_'):
+                            clustering_model.weights_ = np.ones(n_components) / n_components
+                        if not hasattr(clustering_model, 'covariances_'):
+                            clustering_model.covariances_ = np.array([np.eye(n_features) for _ in range(n_components)])
+                        if not hasattr(clustering_model, 'precisions_'):
+                            clustering_model.precisions_ = np.array([np.eye(n_features) for _ in range(n_components)])
+                        clustering_model.precisions_cholesky_ = np.array([np.linalg.cholesky(np.eye(n_features)) for _ in range(n_components)])
+                        
+                        # Try prediction again
+                        labels = clustering_model.predict(embeddings_array).tolist()
+                        centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
+                    else:
+                        # If it's not a missing attribute issue, re-raise the error
+                        self.logger.error(f"Unexpected error with GMM model: {str(e)}")
+                        raise
+            
             # Create mapping from cluster to indices
             clusters_to_indices = {}
             for i, label in enumerate(labels):
