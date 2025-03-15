@@ -4,11 +4,13 @@ from .schema import RAGConfig, DatasetConfig, ChunkerConfig, RetrievalGeneration
 from .simple import SimpleRAG
 from .scaler import ScalerRAG
 from .scaler_v1 import ScalerV1RAG
+from .scaler_v2 import ScalerV2RAG
 
-all = [
+__all__ = [
     "SimpleRAG",
     "ScalerRAG",
     "ScalerV1RAG",
+    "ScalerV2RAG",
     "RAGConfig",
     "DatasetConfig",
     "ChunkerConfig",
