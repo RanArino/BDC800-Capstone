@@ -147,6 +147,13 @@ def run_clustering(
             gmm = GaussianMixture(n_components=1, random_state=kwargs.get("random_state", 42))
             # For a single sample, we need to manually set the attributes
             gmm.means_ = np.array([embeddings_array[0]])
+            # Initialize other required attributes to avoid 'precisions_cholesky_' error
+            n_features = embeddings_array.shape[1]
+            gmm.weights_ = np.array([1.0])
+            gmm.covariances_ = np.array([np.eye(n_features)])
+            gmm.precisions_ = np.array([np.eye(n_features)])
+            gmm.precisions_cholesky_ = np.array([np.linalg.cholesky(np.eye(n_features))])
+
             logger.info("Created GMM with 1 component for single sample")
             return gmm
     
@@ -175,24 +182,44 @@ def run_clustering(
             
     elif method.lower() == "gmm":
         # For GMM
-        gmm = GaussianMixture(
-            n_components=n_clusters,
-            random_state=kwargs.get("random_state", 42)
-        )
-        gmm.fit(embeddings_array)
-        
-        # Log cluster sizes
-        labels = gmm.predict(embeddings_array)
-        clusters = {}
-        for i, label in enumerate(labels):
-            if label not in clusters:
-                clusters[label] = []
-            clusters[label].append(i)
-        
-        cluster_sizes = {cluster_id: len(indices) for cluster_id, indices in clusters.items()}
-        logger.info(f"GMM cluster sizes: {cluster_sizes}")
-        
-        return gmm
+        try:
+            gmm = GaussianMixture(
+                n_components=n_clusters,
+                random_state=kwargs.get("random_state", 42),
+                # Add regularization to avoid numerical issues
+                reg_covar=1e-5,
+                # Increase max iterations for better convergence
+                max_iter=200
+            )
+            gmm.fit(embeddings_array)
+            
+            # Verify that the model has been properly initialized
+            if not hasattr(gmm, 'precisions_cholesky_'):
+                logger.warning("GMM model missing precisions_cholesky_ attribute. Initializing manually.")
+                n_features = embeddings_array.shape[1]
+                if not hasattr(gmm, 'weights_'):
+                    gmm.weights_ = np.ones(n_clusters) / n_clusters
+                if not hasattr(gmm, 'covariances_'):
+                    gmm.covariances_ = np.array([np.eye(n_features) for _ in range(n_clusters)])
+                if not hasattr(gmm, 'precisions_'):
+                    gmm.precisions_ = np.array([np.eye(n_features) for _ in range(n_clusters)])
+                gmm.precisions_cholesky_ = np.array([np.linalg.cholesky(np.eye(n_features)) for _ in range(n_clusters)])
+            
+            # Log cluster sizes
+            labels = gmm.predict(embeddings_array)
+            clusters = {}
+            for i, label in enumerate(labels):
+                if label not in clusters:
+                    clusters[label] = []
+                clusters[label].append(i)
+            
+            cluster_sizes = {cluster_id: len(indices) for cluster_id, indices in clusters.items()}
+            logger.info(f"GMM cluster sizes: {cluster_sizes}")
+            
+            return gmm
+        except Exception as e:
+            logger.error(f"Error in GMM clustering: {str(e)}")
+            raise
             
     else:
         raise ValueError(f"Unsupported clustering method: {method}")

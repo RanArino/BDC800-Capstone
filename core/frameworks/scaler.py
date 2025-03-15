@@ -218,9 +218,9 @@ class ScalerRAG(BaseRAGFramework):
                 items_per_cluster=getattr(self.config.chunker.clustering, "items_per_cluster", None)
             )
             
-            # Skip if no model returned
+            # Skip if no model returned (this should no longer happen with our changes to clustering.py)
             if clustering_model is None:
-                self.logger.warning(f"No clustering model returned for layer {layer}. Skipping vector store creation.")
+                self.logger.warning(f"No clustering model returned for layer {layer}. This should not happen with the updated clustering code.")
                 return
                 
             # Store the clustering model for later use
@@ -236,9 +236,33 @@ class ScalerRAG(BaseRAGFramework):
                 centroids = {i: clustering_model.cluster_centers_[i] for i in range(len(clustering_model.cluster_centers_))}
             else:
                 # GMM
-                labels = clustering_model.predict(embeddings_array).tolist()
-                centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
-                
+                try:
+                    labels = clustering_model.predict(embeddings_array).tolist()
+                    centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
+                except AttributeError as e:
+                    # Check if the model is missing required attributes and try to initialize them
+                    if not hasattr(clustering_model, 'precisions_cholesky_'):
+                        self.logger.warning(f"GMM model missing required attributes: {str(e)}. Attempting to initialize.")
+                        n_features = embeddings_array.shape[1]
+                        n_components = len(clustering_model.means_) if hasattr(clustering_model, 'means_') else 1
+                        
+                        # Initialize missing attributes
+                        if not hasattr(clustering_model, 'weights_'):
+                            clustering_model.weights_ = np.ones(n_components) / n_components
+                        if not hasattr(clustering_model, 'covariances_'):
+                            clustering_model.covariances_ = np.array([np.eye(n_features) for _ in range(n_components)])
+                        if not hasattr(clustering_model, 'precisions_'):
+                            clustering_model.precisions_ = np.array([np.eye(n_features) for _ in range(n_components)])
+                        clustering_model.precisions_cholesky_ = np.array([np.linalg.cholesky(np.eye(n_features)) for _ in range(n_components)])
+                        
+                        # Try prediction again
+                        labels = clustering_model.predict(embeddings_array).tolist()
+                        centroids = {i: clustering_model.means_[i] for i in range(len(clustering_model.means_))}
+                    else:
+                        # If it's not a missing attribute issue, re-raise the error
+                        self.logger.error(f"Unexpected error with GMM model: {str(e)}")
+                        raise
+            
             # Create mapping from cluster to indices
             clusters_to_indices = {}
             for i, label in enumerate(labels):
@@ -572,14 +596,12 @@ class ScalerRAG(BaseRAGFramework):
                             search_embedding,
                             k=top_k
                         )
-                        # Sort by score (lower is better) and store only documents
-                        doc_cc_results = [doc for doc, _ in sorted(doc_cc_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = doc_cc_results
-                        
+                        # Extract only Langchain Document
+                        results[layer] = [doc for doc, _ in sorted(doc_cc_results, key=lambda x: x[1])]
                         # Store cluster IDs for doc layer retrieval
                         doc_cluster_ids = [
                             doc_cc_doc.metadata.get("vector_store_key")
-                            for doc_cc_doc in doc_cc_results
+                            for doc_cc_doc in results[layer]
                             if doc_cc_doc.metadata.get("vector_store_key") is not None
                         ]
                         
@@ -621,8 +643,7 @@ class ScalerRAG(BaseRAGFramework):
                                 ])
                         
                         # Sort all chunk_cc results by score and take top_k
-                        chunk_cc_results = [doc for doc, _ in sorted(chunk_cc_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = chunk_cc_results
+                        results[layer] = [doc for doc, _ in sorted(chunk_cc_results, key=lambda x: x[1])][:top_k]
                 
                 # Handle base layers (doc and chunk)
                 else:
@@ -637,8 +658,7 @@ class ScalerRAG(BaseRAGFramework):
                                 )
                                 doc_results.extend(cluster_docs)
                         # Sort by score (lower is better) and take top_k
-                        doc_results = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = doc_results
+                        results[layer] = [doc for doc, _ in sorted(doc_results, key=lambda x: x[1])][:top_k]
                         
                     elif layer == "chunk":
                         # Get chunks from chunk layer using cluster IDs
@@ -652,8 +672,7 @@ class ScalerRAG(BaseRAGFramework):
                                     )
                                     chunk_results.extend(cluster_chunks)
                         # Sort by score (lower is better) and take top_k
-                        chunk_results = [doc for doc, _ in sorted(chunk_results, key=lambda x: x[1])][:top_k]
-                        results[layer] = chunk_results
+                        results[layer] = [doc for doc, _ in sorted(chunk_results, key=lambda x: x[1])][:top_k]
             
             return results["chunk"]
             

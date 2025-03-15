@@ -40,13 +40,13 @@ def run_experiment(
         
         if Path(config_path).parent.name == "simple_rag":
             logger.info(f"Initializing SimpleRAG for {config_name}")
-            rag = SimpleRAG(config_name, config_path, True)
+            rag = SimpleRAG(config_name, config_path, False)
         elif Path(config_path).parent.name == "scaler_rag":
             logger.info(f"Initializing ScalerRAG for {config_name}")
-            rag = ScalerRAG(config_name, config_path, True)
+            rag = ScalerRAG(config_name, config_path, False)
         elif Path(config_path).parent.name == "scaler_v1_rag":
             logger.info(f"Initializing ScalerV1RAG for {config_name}")
-            rag = ScalerV1RAG(config_name, config_path, True)
+            rag = ScalerV1RAG(config_name, config_path, False)
         else:
             raise ValueError(f"Invalid config path: {config_path}. Must be in the simple_rag directory.")
 
