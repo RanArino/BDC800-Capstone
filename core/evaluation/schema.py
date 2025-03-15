@@ -51,7 +51,7 @@ class RetrievalEval(BaseModel):
     map: Optional[Dict[RankCutOff, Union[float, StatValue]]] = None
     mrr: Optional[Dict[RankCutOff, Union[float, StatValue]]] = None
     hit: Optional[Dict[RankCutOff, Union[float, StatValue]]] = None
-    llm_eval: Dict[RankCutOff, float] = None
+    llm_eval: Dict[RankCutOff, SelfCheckerAnswer] = None
 
 class MetricsSummary(BaseModel):
     qa_id: str
