@@ -153,6 +153,7 @@ def run_clustering(
             gmm.covariances_ = np.array([np.eye(n_features)])
             gmm.precisions_ = np.array([np.eye(n_features)])
             gmm.precisions_cholesky_ = np.array([np.linalg.cholesky(np.eye(n_features))])
+
             logger.info("Created GMM with 1 component for single sample")
             return gmm
     
