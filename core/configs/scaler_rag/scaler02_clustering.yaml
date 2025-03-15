@@ -1,4 +1,4 @@
-# core/configs/scaler_rag/scaler02_gmm.yaml
+# core/configs/scaler_rag/scaler02_clustering.yaml
 
 # Compare the performance of different LLMs for RAG.
 # - whether the gmm is better than the normal model
