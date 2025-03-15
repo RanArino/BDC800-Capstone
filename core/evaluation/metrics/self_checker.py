@@ -6,9 +6,10 @@ and consistent with the given question using Gemini AI.
 """
 
 import os
-from typing import Literal, Union, Optional
+from typing import Literal, Union, Optional, List
 import google.generativeai as genai
 from langchain_ollama.llms import OllamaLLM
+from langchain_core.documents import Document
 
 from core.evaluation.schema import SelfCheckerAnswer, SefCheckerModel
 from core.logger.logger import get_logger
@@ -191,4 +192,149 @@ Please respond with ONLY 'Yes' if the LLM's answer is sufficiently aligned with 
         
     except Exception as e:
         logger.error(f"Error during self-checking: {e}")
+        return "Undetermined"
+
+def check_retrieval_chunks(
+        qa_id: str,
+        question: str,
+        ground_truth_answer: str,
+        retrieval_chunks: List[Document],
+        top_k: Union[int, List[int]] = None,
+        model: SefCheckerModel = None
+    ) -> Union[SelfCheckerAnswer, dict[int, SelfCheckerAnswer]]:
+    """
+    Check if the retrieved chunks provide enough information to answer the question.
+    
+    Args:
+        qa_id (str): The unique identifier for the QA pair
+        question (str): The original question
+        ground_truth_answer (str): The ground truth answer
+        retrieval_chunks (List[Document]): The retrieved Langchain Documents
+        top_k (Union[int, List[int]], optional): Number(s) of top chunks to evaluate.
+                                               Can be a single integer or a list of integers.
+                                               If None, uses all chunks.
+        model (str, optional): The model to use for self-checking. If None, uses the default model.
+        
+    Returns:
+        Union[SelfCheckerAnswer, dict[int, SelfCheckerAnswer]]: 
+            If top_k is an integer or None: Contains evaluation result ('Yes'/'No'/'Undetermined')
+            If top_k is a list: Dictionary mapping each top_k value to its evaluation result
+    """
+    # Use the default model if none specified
+    model_to_use = model if model is not None else DEFAULT_SELF_CHECKER_MODEL
+    
+    try:
+        model_instance = get_model(model_to_use)
+    except ValueError as e:
+        logger.error(f"Invalid model: {e}")
+        if isinstance(top_k, list):
+            return {k: "Undetermined" for k in top_k}
+        return "Undetermined"
+    
+    # Handle the case where top_k is a list
+    if isinstance(top_k, list):
+        results = {}
+        for k in top_k:
+            logger.info(f"Evaluating retrieval with top_{k} chunks for qa_id: {qa_id}")
+            result = _evaluate_chunks(
+                qa_id=qa_id,
+                question=question,
+                ground_truth_answer=ground_truth_answer,
+                retrieval_chunks=retrieval_chunks[:k],
+                model_instance=model_instance
+            )
+            results[k] = result
+        return results
+    
+    # Handle the case where top_k is an integer or None
+    chunks_to_evaluate = retrieval_chunks[:top_k] if top_k is not None else retrieval_chunks
+    return _evaluate_chunks(
+        qa_id=qa_id,
+        question=question,
+        ground_truth_answer=ground_truth_answer,
+        retrieval_chunks=chunks_to_evaluate,
+        model_instance=model_instance
+    )
+
+def _evaluate_chunks(
+        qa_id: str,
+        question: str,
+        ground_truth_answer: str,
+        retrieval_chunks: List[Document],
+        model_instance: Union[OllamaLLM, genai.GenerativeModel]
+    ) -> SelfCheckerAnswer:
+    """
+    Helper function to evaluate a specific set of chunks.
+    
+    Args:
+        qa_id (str): The unique identifier for the QA pair
+        question (str): The original question
+        ground_truth_answer (str): The ground truth answer
+        retrieval_chunks (List[Document]): The chunks to evaluate
+        model_instance: The model instance to use for evaluation
+        
+    Returns:
+        SelfCheckerAnswer: Contains evaluation result ('Yes'/'No'/'Undetermined')
+    """
+    # Format chunks for the prompt
+    formatted_chunks = ""
+    for i, chunk in enumerate(retrieval_chunks):
+        formatted_chunks += f"Chunk {i+1}:\n{chunk.page_content}\n\n"
+    
+    prompt = f"""
+Question: {question}
+Ground Truth Answer: {ground_truth_answer}
+
+Retrieved Information:
+{formatted_chunks}
+
+Evaluate if the retrieved chunks provide enough information to answer the question accurately.
+
+Please respond with ONLY 'Yes' if the retrieved chunks provide sufficient information to answer the question accurately, or 'No' if critical information is missing.
+"""
+    
+    try:
+        # Initialize chat session if using Gemini
+        chat_session = None
+        if isinstance(model_instance, genai.GenerativeModel):
+            chat_session = model_instance.start_chat(history=[])
+        
+        def get_response(prompt_text: str) -> str:
+            """Get response from model and normalize it"""
+            if isinstance(model_instance, genai.GenerativeModel):
+                response = chat_session.send_message(prompt_text)
+                return response.text.strip().lower()
+            else:  # OllamaLLM
+                response = model_instance.invoke(prompt_text)
+                return response.strip().lower()
+        
+        def check_response(response_text: str) -> Optional[SelfCheckerAnswer]:
+            """Check if response contains yes/no and return appropriate result"""
+            if "yes" in response_text:
+                logger.info(f"Retrieval-checker (qa_id: {qa_id}, chunks: {len(retrieval_chunks)}) - Yes")
+                return "Yes"
+            elif "no" in response_text:
+                logger.info(f"Retrieval-checker (qa_id: {qa_id}, chunks: {len(retrieval_chunks)}) - No")
+                return "No"
+            return None
+        
+        # First attempt
+        first_response = get_response(prompt)
+        result = check_response(first_response)
+        if result:
+            return result
+        
+        # Second attempt with explicit prompt
+        retry_prompt = "Please answer ONLY with 'Yes' or 'No'. Do the retrieved chunks provide enough information to answer the question accurately?"
+        second_response = get_response(retry_prompt)
+        result = check_response(second_response)
+        if result:
+            return result
+        
+        # If both attempts fail to get Yes/No
+        logger.info(f"Retrieval-checker (qa_id: {qa_id}, chunks: {len(retrieval_chunks)}) - Undetermined")
+        return "Undetermined"
+        
+    except Exception as e:
+        logger.error(f"Error during retrieval checking: {e}")
         return "Undetermined"
