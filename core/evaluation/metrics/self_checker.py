@@ -235,6 +235,10 @@ def check_retrieval_chunks(
     if isinstance(top_k, list):
         results = {}
         for k in top_k:
+            # Skip if k is more than the number of the received chunks
+            if k > len(retrieval_chunks):
+                continue
+
             logger.info(f"Evaluating retrieval with top_{k} chunks for qa_id: {qa_id}")
             result = _evaluate_chunks(
                 qa_id=qa_id,
