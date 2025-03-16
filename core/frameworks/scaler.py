@@ -130,6 +130,8 @@ class ScalerRAG(BaseRAGFramework):
                     )
                     self.logger.debug(f"Completed chunking for document {chunk_key}")
                 num_docs += 1
+                if num_docs % 100 == 0 and num_docs > 0:
+                    self.logger.info(f"Completed {num_docs} documents")
             
             # Create or update document summary vector store if we have multiple documents
             if num_docs > 1 and doc_summary and doc_summary_embed:
@@ -157,10 +159,26 @@ class ScalerRAG(BaseRAGFramework):
         """
         Summarize document and get embedding
         """
+        # Check if summary already exists in the summaries file
+        summaries_file = f"experiments/{self.dataset_config.name}_summary.txt"
+        if os.path.exists(summaries_file):
+            with open(summaries_file, 'r') as f:
+                for line in f:
+                    doc_id, summary = line.split(' ', 1)
+                    if doc_id == doc.id:
+                        self.logger.debug(f"Summary for document {doc.id} found in summaries file")
+                        return summary.replace('\n', ' '), self.llm.embedding.embed_documents([summary.replace('\n', ' ')])[0]
+
+        # If not found, generate summary and store it
         with self.profiler.track("index.doc_summary"):
             summary = run_doc_summary(doc.content)
-
+        
+        # Remove newlines from the summary
+        summary = summary.replace('\n', ' ')
+            
         embedding = self.llm.embedding.embed_documents([summary])
+        with open(summaries_file, 'a') as f:
+            f.write(f"{doc.id} {summary}\n")
         return summary, embedding[0]
 
     def _doc_chunking(self, doc: SchemaDocument) -> Tuple[List[LangChainDocument], List[List[float]]]:

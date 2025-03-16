@@ -126,11 +126,26 @@ class ScalerV1RAG(BaseRAGFramework):
         """
         Summarize document and get embedding
         """
+        # Check if summary already exists in the summaries file
+        summaries_file = f"experiments/{self.dataset_config.name}_summary.txt"
+        if os.path.exists(summaries_file):
+            with open(summaries_file, 'r') as f:
+                for line in f:
+                    doc_id, summary = line.split(' ', 1)
+                    if doc_id == doc.id:
+                        self.logger.debug(f"Summary for document {doc.id} found in summaries file")
+                        return summary.replace('\n', ' '), self.llm.embedding.embed_documents([summary.replace('\n', ' ')])[0]
+
+        # If not found, generate summary and store it
         with self.profiler.track("index.doc_summary"):
             summary = run_doc_summary(doc.content)
-
-        # Get embeddings
-        embedding = self.llm.embedding.embed_documents([summary])        
+        
+        # Remove newlines from the summary
+        summary = summary.replace('\n', ' ')
+            
+        embedding = self.llm.embedding.embed_documents([summary])
+        with open(summaries_file, 'a') as f:
+            f.write(f"{doc.id} {summary}\n")
         return summary, embedding[0]
         
     def _doc_chunking(self, doc: SchemaDocument) -> Tuple[List[LangChainDocument], List[List[float]]]:
