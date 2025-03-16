@@ -72,8 +72,14 @@ def test_accumulate_and_summarize_metrics(mode: Literal["intra", "inter"] = "int
     with open(metrics_file, 'r') as f:
         metrics_list = [MetricsSummary(**metrics) for metrics in json.load(f)]
     
+    # Define profiler metrics (dummy values)
+    profiler_metrics = {
+        "test_case_1": {"duration": 0.123, "memory": {"total_mb": 50}},
+        "test_case_2": {"duration": 0.456, "memory": {"total_mb": 75}},
+        "test_case_3": {"duration": 0.789, "memory": {"total_mb": 100}},
+    }
     # Accumulate and summarize metrics
-    summary_stats, detailed_metrics = accumulate_and_summarize_metrics(metrics_list, return_detailed=True)
+    summary_stats, detailed_metrics = accumulate_and_summarize_metrics(metrics_list, profiler_metrics)
     
     # Save summary to JSON file
     output_dir = Path("test/output_data")
