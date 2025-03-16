@@ -211,13 +211,16 @@ def check_retrieval_chunks(
     except ValueError as e:
         logger.error(f"Invalid model: {e}")
         if isinstance(top_k, list):
-            return {k: "Undetermined" for k in top_k}
-        return "Undetermined"
+            return {k: 0.0 for k in top_k}  # Return 0.0 (No) for all k values
+        return 0.0  # Return 0.0 (No)
     
     # Handle the case where top_k is a list
     if isinstance(top_k, list):
         results = {}
-        for k in top_k:
+        # Sort top_k to evaluate smaller values first
+        sorted_k_values = sorted(top_k)
+        
+        for k in sorted_k_values:
             # Skip if k is more than the number of the received chunks
             if k > len(retrieval_chunks):
                 continue
@@ -226,12 +229,12 @@ def check_retrieval_chunks(
             # automatically assign "Yes" for all larger k values
             smaller_k_with_yes = next((
                 smaller_k for smaller_k in results 
-                if smaller_k < k and results[smaller_k] == "Yes"
+                if smaller_k < k and results[smaller_k] == 1.0
             ), None)
             
             if smaller_k_with_yes is not None:
                 logger.debug(f"Auto-assigning 'Yes' for top_{k} chunks for qa_id: {qa_id} (based on top_{smaller_k_with_yes} result)")
-                results[k] = "Yes"
+                results[k] = 1.0
                 continue
 
             logger.info(f"Evaluating retrieval with top_{k} chunks for qa_id: {qa_id}")
@@ -261,7 +264,7 @@ def _evaluate_chunks(
         ground_truth_answer: str,
         retrieval_chunks: List[Document],
         model_instance: Union[OllamaLLM, genai.GenerativeModel]
-    ) -> SelfCheckerAnswer:
+    ) -> float:
     """
     Helper function to evaluate a specific set of chunks.
     
@@ -273,7 +276,7 @@ def _evaluate_chunks(
         model_instance: The model instance to use for evaluation
         
     Returns:
-        SelfCheckerAnswer: Contains evaluation result ('Yes'/'No'/'Undetermined')
+        float: 1.0 for "Yes", 0.0 for "No" or "Undetermined"
     """
     # Format chunks for the prompt
     formatted_chunks = ""
@@ -307,33 +310,33 @@ Please respond with ONLY 'Yes' if the retrieved chunks provide sufficient inform
                 response = model_instance.invoke(prompt_text)
                 return response.strip().lower()
         
-        def check_response(response_text: str) -> Optional[SelfCheckerAnswer]:
+        def check_response(response_text: str) -> Optional[float]:
             """Check if response contains yes/no and return appropriate result"""
             if "yes" in response_text:
                 logger.info(f"Retrieval-checker (qa_id: {qa_id}, chunks: {len(retrieval_chunks)}) - Yes")
-                return "Yes"
+                return 1.0
             elif "no" in response_text:
                 logger.info(f"Retrieval-checker (qa_id: {qa_id}, chunks: {len(retrieval_chunks)}) - No")
-                return "No"
+                return 0.0
             return None
         
         # First attempt
         first_response = get_response(prompt)
         result = check_response(first_response)
-        if result:
+        if result is not None:
             return result
         
         # Second attempt with explicit prompt
         retry_prompt = "Please answer ONLY with 'Yes' or 'No'. Do the retrieved chunks provide enough information to answer the question accurately?"
         second_response = get_response(retry_prompt)
         result = check_response(second_response)
-        if result:
+        if result is not None:
             return result
         
         # If both attempts fail to get Yes/No
         logger.info(f"Retrieval-checker (qa_id: {qa_id}, chunks: {len(retrieval_chunks)}) - Undetermined")
-        return "Undetermined"
+        return 0.0  # Return 0.0 for "Undetermined"
         
     except Exception as e:
         logger.error(f"Error during retrieval checking: {e}")
-        return "Undetermined"
+        return 0.0  # Return 0.0 for "Undetermined"
