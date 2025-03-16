@@ -6,32 +6,51 @@ Metrics for evaluating retrieval performance in RAG systems.
 - MRR@K: Mean Reciprocal Rank@K
 - Hit@K: Hit Rate@K
 """
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Set, Tuple, Union, Optional
 from statistics import mean
+from langchain_core.documents import Document
 
-from core.evaluation.schema import RankCutOff
+from .self_checker import check_retrieval_chunks
+from core.evaluation.schema import RankCutOff, SelfCheckerAnswer
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
 
 # ===== Main functions =====
 def calculate_retrieval_metrics(
-    retrieved_docs_list: List[List[str]],
-    relevant_docs_list: List[Set[str]],
-    k_values: List[int]
+    qa_id: str,
+    question: str,
+    ground_truth_answer: str,
+    retrieval_chunks: List[Document],
+    relevant_doc_ids: Set[str],
+    k_values: List[int] = [1, 3, 5, 10],
+    llm_eval_enabled: bool = False,
+    llm_model: Optional[str] = None
 ) -> Tuple[Dict[str, Dict[RankCutOff, float]], List[Dict[str, Dict[RankCutOff, float]]]]:
     """
     Calculate all retrieval metrics for multiple k values.
     
     Args:
-        retrieved_docs_list: List of retrieved document IDs for each query
-        relevant_docs_list: List of relevant document IDs for each query
+        qa_id: Unique identifier for the QA pair
+        question: The original question
+        ground_truth_answer: The ground truth answer
+        retrieval_chunks: List of retrieved Langchain Documents
+        relevant_doc_ids: Set of relevant document IDs
         k_values: List of k values to calculate metrics for
+        llm_eval_enabled: Whether to evaluate retrieval quality using LLM
+        llm_model: The model to use for LLM-based evaluation
     
     Returns:
         Tuple of (aggregated metrics, list of individual metrics per query)
     """
     try:
+        # Extract document IDs from retrieval chunks
+        retrieved_doc_ids = [doc.metadata.get('document_id', '') for doc in retrieval_chunks]
+        
+        # Create lists for compatibility with existing functions
+        retrieved_docs_list = [retrieved_doc_ids]
+        relevant_docs_list = [relevant_doc_ids]
+        
         map_scores, map_individual = calculate_map_at_k(retrieved_docs_list, relevant_docs_list, k_values)
         mrr_scores, mrr_individual = calculate_mrr_at_k(retrieved_docs_list, relevant_docs_list, k_values)
         hit_scores, hit_individual = calculate_hit_at_k(retrieved_docs_list, relevant_docs_list, k_values)
@@ -41,6 +60,33 @@ def calculate_retrieval_metrics(
             'mrr': mrr_scores,
             'hit': hit_scores
         }
+        
+        # Add LLM-based retrieval evaluation if enabled
+        if llm_eval_enabled:
+            logger.info(f"Evaluating retrieval quality with LLM for qa_id: {qa_id}")
+            try:
+                llm_eval_results = check_retrieval_chunks(
+                    qa_id=qa_id,
+                    question=question,
+                    ground_truth_answer=ground_truth_answer,
+                    retrieval_chunks=retrieval_chunks,
+                    top_k=k_values,
+                    model=llm_model
+                )
+                
+                # Convert results to the expected format
+                if isinstance(llm_eval_results, dict):
+                    # Convert int keys to string keys to match other metrics
+                    llm_eval_formatted = {str(k): v for k, v in llm_eval_results.items()}
+                else:
+                    # If a single result is returned, apply it to all k values
+                    llm_eval_formatted = {str(k): llm_eval_results for k in k_values}
+                
+                aggregated_metrics['llm_eval'] = llm_eval_formatted
+                logger.debug(f"LLM evaluation results: {llm_eval_formatted}")
+            except Exception as e:
+                logger.error(f"Error during LLM retrieval evaluation: {e}")
+                aggregated_metrics['llm_eval'] = {str(k): "Undetermined" for k in k_values}
         
         individual_metrics = [
             {'map': map_i, 'mrr': mrr_i, 'hit': hit_i}
@@ -55,7 +101,10 @@ def calculate_retrieval_metrics(
             'mrr': empty_scores,
             'hit': empty_scores
         }
-        individual_metrics = [aggregated_metrics.copy() for _ in range(len(retrieved_docs_list))]
+        if llm_eval_enabled:
+            aggregated_metrics['llm_eval'] = {str(k): "Undetermined" for k in k_values}
+        
+        individual_metrics = [{'map': empty_scores, 'mrr': empty_scores, 'hit': empty_scores}]
     
     return aggregated_metrics, individual_metrics
 

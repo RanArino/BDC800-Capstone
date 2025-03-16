@@ -16,7 +16,11 @@ from core.datasets.schema import IntraDocumentQA, InterDocumentQA
 # Import RAGResponse only for type checking to avoid circular imports
 if TYPE_CHECKING:
     from core.frameworks.schema import RAGResponse
-from core.evaluation.metrics import calculate_retrieval_metrics, calculate_generation_metrics
+from core.evaluation.metrics import (
+    calculate_retrieval_metrics, 
+    calculate_generation_metrics, 
+    check_retrieval_chunks
+)
 from core.evaluation.schema import (
     ProfilerTimingKey,
     RougeType,
@@ -35,7 +39,9 @@ def calculate_metrics_for_qa(
     response: "RAGResponse",
     k_values: List[int] = [1, 3, 5, 10],
     rouge_types: List[RougeType] = ['rouge1', 'rouge2', 'rougeL'],
-    rouge_metric_types: List[RougeMetricType] = ['precision', 'recall', 'fmeasure']
+    rouge_metric_types: List[RougeMetricType] = ['precision', 'recall', 'fmeasure'],
+    llm_eval_enabled: bool = True,
+    llm_model: str = 'phi4:14b'
 ) -> MetricsSummary:
     """
     Computes retrieval and generation metrics for a QA pair and its RAG response.
@@ -46,6 +52,8 @@ def calculate_metrics_for_qa(
         k_values: k values for retrieval metrics.
         rouge_types: ROUGE metrics to calculate.
         rouge_metric_types: ROUGE metrics to return.
+        llm_eval_enabled: Whether to evaluate retrieval quality using LLM.
+        llm_model: The model to use for LLM-based evaluation.
 
     Returns:
         MetricsSummary object with calculated metrics.
@@ -64,21 +72,58 @@ def calculate_metrics_for_qa(
         'llm_answer': generated_text
     }
 
-    # Calculate retrieval metrics if qa is an InterDocumentQA
-    if isinstance(qa, InterDocumentQA):
-        # Extract document IDs
-        retrieved_docs_list, relevant_docs_list = _extract_doc_ids(
-            responses=[response],
-            qa_pairs=[qa]
-        )
-        # NOTE: this experiment passes a single QA pair, so both returns are the same.
-        retrieval_metrics, _ = calculate_retrieval_metrics(
-            retrieved_docs_list=retrieved_docs_list,
-            relevant_docs_list=relevant_docs_list,
-            k_values=k_values
-        )
-        metrics['retrieval'] = retrieval_metrics
-    
+    # Calculate retrieval metrics if context is available
+    if response.context:
+        # For InterDocumentQA, we have document IDs for traditional metrics
+        if isinstance(qa, InterDocumentQA):
+            # Get the set of relevant document IDs from the QA pair
+            relevant_doc_ids = set(qa.document_ids)
+            
+            # Calculate retrieval metrics
+            retrieval_metrics, _ = calculate_retrieval_metrics(
+                qa_id=qa.id,
+                question=query,
+                ground_truth_answer=ground_truth_answer,
+                retrieval_chunks=response.context,
+                relevant_doc_ids=relevant_doc_ids,
+                k_values=k_values,
+                llm_eval_enabled=llm_eval_enabled,
+                llm_model=llm_model
+            )
+            metrics['retrieval'] = retrieval_metrics
+        
+        # For IntraDocumentQA, we only do LLM-based evaluation
+        elif isinstance(qa, IntraDocumentQA) and llm_eval_enabled:
+            # Use check_retrieval_chunks directly for efficiency
+            llm_eval_results = check_retrieval_chunks(
+                qa_id=qa.id,
+                question=query,
+                ground_truth_answer=ground_truth_answer,
+                retrieval_chunks=response.context,
+                top_k=k_values,
+                model=llm_model
+            )
+            
+            # Create a retrieval metrics dictionary with only llm_eval
+            # Convert int keys to string keys if needed
+            if isinstance(llm_eval_results, dict):
+                llm_eval_formatted = {str(k): v for k, v in llm_eval_results.items()}
+            else:
+                # If a single result is returned, apply it to all k values
+                llm_eval_formatted = {str(k): llm_eval_results for k in k_values}
+            
+            # Create empty metrics for MAP, MRR, Hit
+            empty_scores = {str(k): 0.0 for k in k_values}
+            
+            retrieval_metrics = {
+                'map': empty_scores,
+                'mrr': empty_scores,
+                'hit': empty_scores,
+                'llm_eval': llm_eval_formatted
+            }
+            
+            metrics['retrieval'] = retrieval_metrics
+  
     # Calculate generation metrics
     if generated_text:
         generation_metrics = calculate_generation_metrics(
@@ -113,6 +158,7 @@ def accumulate_and_summarize_metrics(
     generation_metrics = defaultdict(lambda: defaultdict(list))
     retrieval_metrics = defaultdict(lambda: defaultdict(list))
     self_checker_results = []
+    llm_retrieval_results = defaultdict(list)
     
     # Create separate lists for single-value metrics
     bleu_values = []
@@ -147,19 +193,24 @@ def accumulate_and_summarize_metrics(
         # Process retrieval metrics if available
         if metrics.retrieval:
             # Handle MAP metrics
-            if metrics.retrieval.map:
+            if hasattr(metrics.retrieval, 'map') and metrics.retrieval.map:
                 for k, value in metrics.retrieval.map.items():
                     retrieval_metrics['map'][k].append(value)
             
             # Handle MRR metrics
-            if metrics.retrieval.mrr:
+            if hasattr(metrics.retrieval, 'mrr') and metrics.retrieval.mrr:
                 for k, value in metrics.retrieval.mrr.items():
                     retrieval_metrics['mrr'][k].append(value)
             
             # Handle Hit metrics
-            if metrics.retrieval.hit:
+            if hasattr(metrics.retrieval, 'hit') and metrics.retrieval.hit:
                 for k, value in metrics.retrieval.hit.items():
                     retrieval_metrics['hit'][k].append(value)
+                    
+            # Handle LLM-based retrieval evaluation
+            if hasattr(metrics.retrieval, 'llm_eval') and metrics.retrieval.llm_eval:
+                for k, result in metrics.retrieval.llm_eval.items():
+                    llm_retrieval_results[str(k)].append(result)
     
     # Build generation stats
     generation_stats = None
@@ -225,10 +276,11 @@ def accumulate_and_summarize_metrics(
     
     # Build retrieval stats
     retrieval_stats = None
-    if retrieval_metrics:
+    if retrieval_metrics or llm_retrieval_results:
         map_stats = {}
         mrr_stats = {}
         hit_stats = {}
+        llm_eval_stats = {}
         
         if 'map' in retrieval_metrics:
             for k, values in retrieval_metrics['map'].items():
@@ -242,12 +294,22 @@ def accumulate_and_summarize_metrics(
             for k, values in retrieval_metrics['hit'].items():
                 hit_stats[k] = _create_stat_value(values)
         
-        if map_stats and mrr_stats and hit_stats:
-            retrieval_stats = RetrievalEval(
-                map=map_stats,
-                mrr=mrr_stats,
-                hit=hit_stats
-            )
+        # Calculate LLM-based retrieval evaluation stats
+        if llm_retrieval_results:
+            for k, results in llm_retrieval_results.items():
+                # Calculate the average of float values directly
+                # Since the values are now 1.0 (Yes), 0.0 (No), or 0.5 (Undetermined)
+                if results:
+                    llm_eval_stats[k] = sum(results) / len(results)
+                else:
+                    llm_eval_stats[k] = 0.0
+        
+        retrieval_stats = RetrievalEval(
+            map=map_stats,
+            mrr=mrr_stats,
+            hit=hit_stats,
+            llm_eval=llm_eval_stats if llm_eval_stats else None
+        )
     
     # Extract profiler metrics if provided
     processing_time = {}
@@ -315,43 +377,17 @@ def accumulate_and_summarize_metrics(
             if metrics.retrieval.hit:
                 for k, value in metrics.retrieval.hit.items():
                     flat_dict[f"hit@{k}"] = value
+                    
+            # Add LLM-based retrieval evaluation
+            if hasattr(metrics.retrieval, 'llm_eval') and metrics.retrieval.llm_eval:
+                for k, value in metrics.retrieval.llm_eval.items():
+                    flat_dict[f"llm_eval@{k}"] = value
         
         flat_metrics.append(flat_dict)
     
     detailed_df = pd.DataFrame(flat_metrics)
     
     return summary_stats, detailed_df
-
-
-def _extract_doc_ids(
-        responses: List["RAGResponse"],
-        qa_pairs: List[InterDocumentQA]
-    ) -> Tuple[List[List[str]], List[Set[str]]]:
-    """
-    Extract retrieved and relevant document IDs from RAG responses and QA pairs.
-    
-    Args:
-        responses: List of RAG response objects
-        qa_pairs: List of QA pair objects with ground truth
-        
-    Returns:
-        Tuple of (retrieved document IDs list, relevant document IDs list)
-    """
-    retrieved_docs_list = []
-    relevant_docs_list = []
-    
-    for response, qa in zip(responses, qa_pairs):
-        # Extract retrieved documents (assuming they're ordered by relevance)
-        retrieved = [
-            doc.metadata['document_id'] for doc in response.context
-        ]
-        retrieved_docs_list.append(retrieved)
-        
-        # Extract relevant documents from ground truth QA
-        relevant = set(qa.document_ids)
-        relevant_docs_list.append(relevant)
-    
-    return retrieved_docs_list, relevant_docs_list
 
 def _create_stat_value(values):
     """
