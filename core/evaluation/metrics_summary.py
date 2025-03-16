@@ -297,8 +297,12 @@ def accumulate_and_summarize_metrics(
         # Calculate LLM-based retrieval evaluation stats
         if llm_retrieval_results:
             for k, results in llm_retrieval_results.items():
-                yes_count = sum(1 for result in results if result == "Yes")
-                llm_eval_stats[k] = yes_count / len(results) if results else 0.0
+                # Calculate the average of float values directly
+                # Since the values are now 1.0 (Yes), 0.0 (No), or 0.5 (Undetermined)
+                if results:
+                    llm_eval_stats[k] = sum(results) / len(results)
+                else:
+                    llm_eval_stats[k] = 0.0
         
         retrieval_stats = RetrievalEval(
             map=map_stats,
