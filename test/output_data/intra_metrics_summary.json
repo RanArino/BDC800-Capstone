@@ -1,0 +1,366 @@
+[
+  {
+    "qa_id": "q0",
+    "query": "What is the seed lexicon?",
+    "ground_truth": "a vocabulary of positive and negative predicates that helps determine the polarity score of an event",
+    "llm_answer": "The seed lexicon consists of 15 positive words and 15 negative words. It is used to assign polarity scores (+1 for positive events and -1 for negative events) to extracted events based on whether their predicates are in the seed lexicon and do not involve complex phenomena like negation.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.1836734693877551,
+        "recall": 0.5625,
+        "fmeasure": 0.27692307692307694
+      },
+      "rouge2": {
+        "precision": 0.020833333333333332,
+        "recall": 0.06666666666666667,
+        "fmeasure": 0.031746031746031744
+      },
+      "rougeL": {
+        "precision": 0.14285714285714285,
+        "recall": 0.4375,
+        "fmeasure": 0.2153846153846154
+      },
+      "bleu": 0.010956421443241472,
+      "cosine_sim": 0.651644766330719,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q1",
+    "query": "What are the results?",
+    "ground_truth": "Using all data to train: AL -- BiGRU achieved 0.843 accuracy, AL -- BERT achieved 0.863 accuracy, AL+CA+CO -- BiGRU achieved 0.866 accuracy, AL+CA+CO -- BERT achieved 0.835, accuracy, ACP -- BiGRU achieved 0.919 accuracy, ACP -- BERT achived 0.933, accuracy, ACP+AL+CA+CO -- BiGRU achieved 0.917 accuracy, ACP+AL+CA+CO -- BERT achieved 0.913 accuracy. \nUsing a subset to train: BERT achieved 0.876 accuracy using ACP (6K), BERT achieved 0.886 accuracy using ACP (6K) + AL, BiGRU achieved 0.830 accuracy using ACP (6K), BiGRU achieved 0.879 accuracy using ACP (6K) + AL + CA + CO.",
+    "llm_answer": "The results are shown in Table TABREF23 (accuracy) and the text does not specify what these results are exactly, but based on the context, it appears to be accuracy values for different models and baselines.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.08571428571428572,
+        "recall": 0.028846153846153848,
+        "fmeasure": 0.04316546762589928
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.08571428571428572,
+        "recall": 0.028846153846153848,
+        "fmeasure": 0.04316546762589928
+      },
+      "bleu": 0.0013333020376430865,
+      "cosine_sim": 0.2711792290210724,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      }
+    }
+  },
+  {
+    "qa_id": "q2",
+    "query": "How are relations used to propagate polarity?",
+    "ground_truth": "based on the relation between events, the suggested polarity of one event can determine the possible polarity of the other event ",
+    "llm_answer": "According to the context, discourse relations (specifically Cause and Concession) are used to efficiently propagate polarity from seed predicates. If the predicate of an extracted event is in the seed lexicon, its corresponding polarity score can be assigned to it. For events that do not have a matching predicate in the seed lexicon, their polarities are assumed to be reversed if they are connected by a Concession relation.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.16176470588235295,
+        "recall": 0.5238095238095238,
+        "fmeasure": 0.24719101123595508
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.11764705882352941,
+        "recall": 0.38095238095238093,
+        "fmeasure": 0.17977528089887637
+      },
+      "bleu": 0.008833706365998324,
+      "cosine_sim": 0.5127675533294678,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q3",
+    "query": "How big is the Japanese data?",
+    "ground_truth": "7000000 pairs of events were extracted from the Japanese Web corpus, 529850 pairs of events were extracted from the ACP corpus",
+    "llm_answer": "The context does not mention a specific \"Japanese data\" but rather mentions the use of Japanese BERT models pretrained with 100 million sentences from Japanese Wikipedia, and also uses Japanese websites for dataset extraction. The vocabulary size was 32,000 or 100,000 depending on the model being described.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.12244897959183673,
+        "recall": 0.2857142857142857,
+        "fmeasure": 0.1714285714285714
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.10204081632653061,
+        "recall": 0.23809523809523808,
+        "fmeasure": 0.14285714285714285
+      },
+      "bleu": 0.010959933475393717,
+      "cosine_sim": 0.4642361104488373,
+      "self_checker": "No",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q4",
+    "query": "How big are improvements of supervszed learning results trained on smalled labeled data enhanced with proposed approach copared to basic approach?",
+    "ground_truth": "3%",
+    "llm_answer": "The question is a bit convoluted, but I'll try to provide an answer based on the context.\n\nAccording to the text, when the models were trained on a small dataset (6,000 events) of labeled data (ACP), and enhanced with additional unlabeled data (AL+CA+CO), the results show that the proposed approach (discourse relation-based label propagation) is effective. However, it does not explicitly mention the size of the improvements.\n\nBut we can infer from the text that the performance gaps between the supervised models (ACP) and their semi-supervised counterparts (ACP+AL+CA+CO) were less than 7%. This suggests that the proposed approach made a significant improvement on the results trained on small labeled data, but the exact magnitude of the improvements is not specified.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "bleu": 0.0023184451980916686,
+      "cosine_sim": 0.046845197677612305,
+      "self_checker": "No",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      }
+    }
+  },
+  {
+    "qa_id": "q5",
+    "query": "How does their model learn using mostly raw data?",
+    "ground_truth": "by exploiting discourse relations to propagate polarity from seed predicates to final sentiment polarity",
+    "llm_answer": "The model learns by using semi-supervised learning, where it uses a combination of labeled and unlabeled data (ACP Corpus for labeled data and AL+CA+CO datasets for unlabeled data) to automatically learn complex phenomena through label propagation. Additionally, the model is pre-trained with a seed lexicon that provides polarity scores for positive and negative events, allowing the model to start learning from the raw data and gradually refine its understanding of complex phenomena.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.09210526315789473,
+        "recall": 0.5,
+        "fmeasure": 0.15555555555555556
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.06578947368421052,
+        "recall": 0.35714285714285715,
+        "fmeasure": 0.1111111111111111
+      },
+      "bleu": 0.006790098610370757,
+      "cosine_sim": 0.30861735343933105,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q6",
+    "query": "How big is seed lexicon used for training?",
+    "ground_truth": "30 words",
+    "llm_answer": "According to the context, the seed lexicon consisted of 15 positive words and 15 negative words.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0625,
+        "recall": 0.5,
+        "fmeasure": 0.1111111111111111
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0625,
+        "recall": 0.5,
+        "fmeasure": 0.1111111111111111
+      },
+      "bleu": 0.021476912089159056,
+      "cosine_sim": 0.36031097173690796,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 1.0
+      }
+    }
+  }
+]

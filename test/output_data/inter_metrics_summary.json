@@ -1,0 +1,522 @@
+[
+  {
+    "qa_id": "q0",
+    "query": "Who is the individual associated with the cryptocurrency industry facing a criminal trial on fraud and conspiracy charges, as reported by both The Verge and TechCrunch, and is accused by prosecutors of committing fraud for personal gain?",
+    "ground_truth": "Sam Bankman-Fried",
+    "llm_answer": "Sam Bankman-Fried.",
+    "generation": {
+      "rouge1": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "rouge2": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "rougeL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.8931499719619751,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 0.0,
+        "3": 0.5833333333333333,
+        "5": 0.6791666666666667,
+        "10": 0.6791666666666667
+      },
+      "mrr": {
+        "1": 0.0,
+        "3": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "hit": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q1",
+    "query": "Which individual is implicated in both inflating the value of a Manhattan apartment to a figure not yet achieved in New York City's real estate history, according to 'Fortune', and is also accused of adjusting this apartment's valuation to compensate for a loss in another asset's worth, as reported by 'The Age'?",
+    "ground_truth": "Donald Trump",
+    "llm_answer": "Donald Trump. \n\nAccording to the provided context, it was mentioned that Trump increased the value of the apartment from $US200 million to $US327 million between 2014 and 2015, which is a discrepancy considered fraud by Judge Arthur Engoron in his ruling. The prosecution argues this increase was likely used to mask a drop in the value of another one of his properties.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.03225806451612903,
+        "recall": 1.0,
+        "fmeasure": 0.0625
+      },
+      "rouge2": {
+        "precision": 0.01639344262295082,
+        "recall": 1.0,
+        "fmeasure": 0.03225806451612903
+      },
+      "rougeL": {
+        "precision": 0.03225806451612903,
+        "recall": 1.0,
+        "fmeasure": 0.0625
+      },
+      "bleu": 0.0104770934294166,
+      "cosine_sim": 0.3198394477367401,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      }
+    }
+  },
+  {
+    "qa_id": "q2",
+    "query": "Who is the figure associated with generative AI technology whose departure from OpenAI was considered shocking according to Fortune, and is also the subject of a prevailing theory suggesting a lack of full truthfulness with the board as reported by TechCrunch?",
+    "ground_truth": "Sam Altman",
+    "llm_answer": "Based on the provided context, Sam Altman is the figure associated with generative AI technology whose departure from OpenAI was considered shocking. However, it does not specifically mention TechCrunch reporting a lack of full truthfulness with the board regarding his departure.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.04878048780487805,
+        "recall": 1.0,
+        "fmeasure": 0.09302325581395349
+      },
+      "rouge2": {
+        "precision": 0.025,
+        "recall": 1.0,
+        "fmeasure": 0.04878048780487806
+      },
+      "rougeL": {
+        "precision": 0.04878048780487805,
+        "recall": 1.0,
+        "fmeasure": 0.09302325581395349
+      },
+      "bleu": 0.016260701149017866,
+      "cosine_sim": 0.6556400656700134,
+      "self_checker": "No",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 0.8333333333333333,
+        "5": 0.8041666666666667,
+        "10": 0.8041666666666667
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q3",
+    "query": "Do the TechCrunch article on software companies and the Hacker News article on The Epoch Times both report an increase in revenue related to payment and subscription models, respectively?",
+    "ground_truth": "Yes",
+    "llm_answer": "Yes, that's correct. \n\nThe TechCrunch article mentions a \"better provider\" of payment services, suggesting that there is an increasing demand for more efficient payment options among businesses, leading to an increase in revenue.\n\nThe Hacker News article on The Epoch Times reports a significant increase in subscription revenue, from nearly $7 million in 2019 to $76 million in 2021.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.016666666666666666,
+        "recall": 1.0,
+        "fmeasure": 0.03278688524590164
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.016666666666666666,
+        "recall": 1.0,
+        "fmeasure": 0.03278688524590164
+      },
+      "bleu": 0.005162051047489141,
+      "cosine_sim": 0.2009308934211731,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 0.8875,
+        "10": 0.8875
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q4",
+    "query": "Which online betting platform provides a welcome bonus of up to $1000 in bonus bets for new customers' first losses, runs NBA betting promotions, and is anticipated to extend the same sign-up offer to new users in Vermont, as reported by both CBSSports.com and Sporting News?",
+    "ground_truth": "Caesars Sportsbook",
+    "llm_answer": "Unfortunately, the answer cannot be determined based on the provided context. The text mentions several online sportsbooks that will likely launch in Vermont, including BetMGM, which offers a welcome bonus of up to $1,500 paid back in Bonus Bets should new users lose their first wager, but it does not mention any platform providing a specific sign-up offer for up to $1000 in bonus bets.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.014925373134328358,
+        "recall": 0.5,
+        "fmeasure": 0.02898550724637681
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.014925373134328358,
+        "recall": 0.5,
+        "fmeasure": 0.02898550724637681
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.26812493801116943,
+      "self_checker": "No",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      }
+    }
+  },
+  {
+    "qa_id": "q5",
+    "query": "Who is the individual alleged to have built a thriving crypto exchange on falsehoods and is accused by the prosecution of committing fraud for personal gain, as reported by both Fortune and TechCrunch?",
+    "ground_truth": "Sam Bankman-Fried",
+    "llm_answer": "Sam Bankman-Fried, the former CEO of FTX.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.375,
+        "recall": 1.0,
+        "fmeasure": 0.5454545454545454
+      },
+      "rouge2": {
+        "precision": 0.2857142857142857,
+        "recall": 1.0,
+        "fmeasure": 0.4444444444444445
+      },
+      "rougeL": {
+        "precision": 0.375,
+        "recall": 1.0,
+        "fmeasure": 0.5454545454545454
+      },
+      "bleu": 0.09535414040914189,
+      "cosine_sim": 0.5942320823669434,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 0.8333333333333333,
+        "5": 0.8055555555555556,
+        "10": 0.8055555555555556
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q6",
+    "query": "Does the TechCrunch article on Twitch's subscription revenue split policy indicate a different monetization strategy compared to the TechCrunch article on Beeper's plans for Beeper Mini subscriptions?",
+    "ground_truth": "Yes",
+    "llm_answer": "No, the two articles do not indicate a different monetization strategy. The first article discusses Twitch's subscription revenue split policy and how it has affected its community, while the second article discusses Beeper's decision to make Beeper Mini free due to \"chaotic\" circumstances, but also mentions that they plan to look at turning on subscriptions again when things stabilize. There is no indication of a different monetization strategy being proposed by Beeper compared to Twitch.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.05648934841156006,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  },
+  {
+    "qa_id": "q7",
+    "query": "Does 'The New York Times' article attribute the success of the Buffalo Bills' defense to the contributions of Jordan Poyer, while the 'Sporting News' article suggests that the Baltimore Ravens' defense needs to improve before their game against the Cincinnati Bengals?",
+    "ground_truth": "Yes",
+    "llm_answer": "There is no information in the provided context about an article from \"The New York Times\" or a comparison with an article from \"Sporting News\". The text appears to be from a single source, possibly an NFL Network article, discussing Jordan Poyer's contributions to the Buffalo Bills' defense. \n\nHowever, according to the text, former Bills defensive coordinator Les Frazier attributes the success of their defense in part to Jordan Poyer enabling his team to be at its best through his versatility, sacrifice, toughness, and communication.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.050583623349666595,
+      "self_checker": "No",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      }
+    }
+  },
+  {
+    "qa_id": "q8",
+    "query": "What is the name of the organization discussed in TechCrunch articles that, despite its financial instability, is recognized for creating ChatGPT, which is both a priority and a platform for ongoing innovations, and is planning to enhance its capabilities with the release of GPT-4 and associated APIs?",
+    "ground_truth": "OpenAI",
+    "llm_answer": "The answer is OpenAI.",
+    "generation": {
+      "rouge1": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "fmeasure": 0.4
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "fmeasure": 0.4
+      },
+      "bleu": 0.10682175159905853,
+      "cosine_sim": 0.7009341716766357,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 0.95,
+        "10": 0.95
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      }
+    }
+  },
+  {
+    "qa_id": "q9",
+    "query": "Which company, as reported by both TechCrunch and The Verge, has spent billions to maintain its default search engine status on various platforms and is also accused of harming news publishers\u2019 revenue through its business practices?",
+    "ground_truth": "Google",
+    "llm_answer": "Google.",
+    "generation": {
+      "rouge1": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "rouge2": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "fmeasure": 0.0
+      },
+      "rougeL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fmeasure": 1.0
+      },
+      "bleu": 0.0,
+      "cosine_sim": 0.7872848510742188,
+      "self_checker": "Yes",
+      "self_checker_accuracy": null
+    },
+    "retrieval": {
+      "map": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mrr": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "hit": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "llm_eval": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0
+      }
+    }
+  }
+]
