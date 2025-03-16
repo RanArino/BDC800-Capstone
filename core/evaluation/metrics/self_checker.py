@@ -239,6 +239,18 @@ def check_retrieval_chunks(
             if k > len(retrieval_chunks):
                 continue
 
+            # If we already have a "Yes" result for a smaller k,
+            # automatically assign "Yes" for all larger k values
+            smaller_k_with_yes = next((
+                smaller_k for smaller_k in results 
+                if smaller_k < k and results[smaller_k] == "Yes"
+            ), None)
+            
+            if smaller_k_with_yes is not None:
+                logger.debug(f"Auto-assigning 'Yes' for top_{k} chunks for qa_id: {qa_id} (based on top_{smaller_k_with_yes} result)")
+                results[k] = "Yes"
+                continue
+
             logger.info(f"Evaluating retrieval with top_{k} chunks for qa_id: {qa_id}")
             result = _evaluate_chunks(
                 qa_id=qa_id,
