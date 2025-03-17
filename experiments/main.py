@@ -45,7 +45,7 @@ def run_scaler_rag_dim_reduction():
     config_path = "core/configs/scaler_rag/scaler03_dim_reduction.yaml"
     # "scaler_rag_03_03" is the same setting as "scaler_rag_01_02"
     # "scaler_rag_03_04" is the same setting as "scaler_rag_01_04"
-    config_names = ["scaler_rag_03_01", "scaler_rag_03_02"]
+    config_names = ["scaler_rag_03_01", "scaler_rag_03_02", "scaler_rag_03_03", "scaler_rag_03_04"]
     # run the scaler_rag experiment
     for config in config_names:
         print(f"\n===== Starting {config} test =====")
@@ -63,9 +63,9 @@ def run_scaler_v1_rag_comparison():
 
 if __name__ == "__main__":
     # run experiments
-    run_simple_rag_sentences()
+    # run_simple_rag_sentences()
     # run_simple_rag_reasoning()
     # run_scaler_rag_sentences()
     # run_scaler_rag_reasoning()
-    # run_scaler_rag_dim_reduction()
+    run_scaler_rag_dim_reduction()
     # run_scaler_v1_rag_comparison()
