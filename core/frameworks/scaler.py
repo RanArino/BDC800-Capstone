@@ -209,7 +209,7 @@ class ScalerRAG(BaseRAGFramework):
         embeddings_array = np.array(embeddings, dtype=np.float32)
         
         # Conduct dimensional reduction if configured
-        if hasattr(self.config.chunker, "dim_reduction"):
+        if hasattr(self.config.chunker, "dim_reduction") and self.config.chunker.dim_reduction:
             # Run dimensional reduction
             dim_model = run_dim_reduction(
                 embeddings=embeddings_array, 
