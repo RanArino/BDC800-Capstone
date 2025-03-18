@@ -116,9 +116,6 @@ def calculate_metrics_for_qa(
             empty_scores = {str(k): 0.0 for k in k_values}
             
             retrieval_metrics = {
-                'map': empty_scores,
-                'mrr': empty_scores,
-                'hit': empty_scores,
                 'llm_eval': llm_eval_formatted
             }
             
