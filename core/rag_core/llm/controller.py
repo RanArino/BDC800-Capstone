@@ -16,6 +16,8 @@ import google.generativeai as genai
 from core.utils.path import get_project_root
 from .schema import LLMConfig, EmbeddingConfig
 
+SYSTEM_PROMPT  = """You are an AI assistant. Your task is to answer questions based *solely* on the provided context. Be factual and concise. Do not add information or explanations not explicitly found in the text."""
+
 class LLMController:
     """Controller class for managing both LLM and embedding models"""
     
