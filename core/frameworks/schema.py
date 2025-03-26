@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, PositiveInt
 from langchain_core.documents import Document
 
 # Available Models & Algorithms
-AVAILABLE_LLM_ID = Literal["llama3.2:1b", "llama3.2:3b", "llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14b"]
+AVAILABLE_LLM_ID = Literal["llama3.2:1b", "llama3.2:3b", "llama3.1", "phi4", "deepseek-r1-8b", "deepseek-r1-14b", "gemini-1.5-flash-8b"]
 AVAILABLE_EMBEDDING_ID = Literal["huggingface-multi-qa-mpnet", "google-gecko"]
 AVAILABLE_FAISS_SEARCH = Literal["flatl2", "ivf", "hnsw"]
 AVAILABLE_DIM_REDUCTION = Literal["pca", "umap"]
