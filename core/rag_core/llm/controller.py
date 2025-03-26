@@ -11,9 +11,12 @@ import re
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_ollama.llms import OllamaLLM
+import google.generativeai as genai
 
 from core.utils.path import get_project_root
 from .schema import LLMConfig, EmbeddingConfig
+
+SYSTEM_PROMPT  = """You are an AI assistant. Your task is to answer questions based *solely* on the provided context. Be factual and concise. Do not add information or explanations not explicitly found in the text."""
 
 class LLMController:
     """Controller class for managing both LLM and embedding models"""
@@ -43,7 +46,7 @@ class LLMController:
         self.llm = self._init_llm_models()
         self.embedding = self._init_embedding_models(embedding_id)
 
-    def _init_llm_models(self) -> OllamaLLM:
+    def _init_llm_models(self) -> OllamaLLM | genai.GenerativeModel:
         """Get the model config for a given model name
         
         Args:
@@ -52,7 +55,12 @@ class LLMController:
         Returns:
             Model config
         """
-        return OllamaLLM(model=self.llm_config.model_name)
+        if self.llm_config.model_name.startswith("gemini"):
+            genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+            return genai.GenerativeModel(model_name="gemini-1.5-flash-8b")
+
+        else:
+            return OllamaLLM(model=self.llm_config.model_name, system_instruction=SYSTEM_PROMPT)
     
     def _init_embedding_models(self, model_id: str) -> HuggingFaceEmbeddings | GoogleGenerativeAIEmbeddings:
         """Get the model config for a given model name
@@ -110,14 +118,17 @@ class LLMController:
         Returns:
             Generated text response with <think></think> tags removed
         """
-        # Get raw response from LLM
-        # Use the recommended invoke method instead of the deprecated __call__ method
-        raw_response = self.llm.invoke(prompt)
-        
-        # Remove <think></think> tags and their content
-        cleaned_response = re.sub(r'<think>.*?</think>', '', raw_response, flags=re.DOTALL)
-        
-        # Remove any empty lines that might result from the removal
-        cleaned_response = re.sub(r'\n\s*\n', '\n\n', cleaned_response)
-        
-        return cleaned_response.strip()
+        if isinstance(self.llm, genai.GenerativeModel):
+            chat_session = self.llm.start_chat(history=[])
+            return chat_session.send_message(prompt).text
+        else:
+            # Get raw response from LLM
+            raw_response = self.llm.invoke(prompt)
+            
+            # Remove <think></think> tags and their content
+            cleaned_response = re.sub(r'<think>.*?</think>', '', raw_response, flags=re.DOTALL)
+            
+            # Remove any empty lines that might result from the removal
+            cleaned_response = re.sub(r'\n\s*\n', '\n\n', cleaned_response)
+            
+            return cleaned_response.strip()

@@ -21,4 +21,7 @@ llms:
   deepseek-r1-14b: 
     model_name: "deepseek-r1:14b"
     provider: "ollama"
+  gemini-1.5-flash-8b:
+    model_name: "gemini-1.5-flash-8b"
+    provider: "google"
 

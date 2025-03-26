@@ -11,7 +11,7 @@ import google.generativeai as genai
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.documents import Document
 
-from core.evaluation.schema import SelfCheckerAnswer, SefCheckerModel
+from core.evaluation.schema import SelfCheckerAnswer, SelfCheckerModel
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
@@ -21,6 +21,9 @@ DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "phi4:
 
 # Flag to track if Gemini is available
 GEMINI_AVAILABLE = False
+
+# Systen prompt
+SYSTEM_PROMPT = """You are an AI evaluator. Your task is to determine if the 'Generated Answer' is factually correct and consistent with the 'Ground Truth Answer' for the given 'Question'. Respond ONLY with "Yes" or "No". Do not provide explanations or any other text."""
 
 # Try to configure Gemini if API key is available
 try:
@@ -55,7 +58,7 @@ ollama_generation_config = {
 # Lazy loading model cache
 _MODEL_INSTANCES = {}
 
-def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeModel, None]:
+def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM, genai.GenerativeModel, None]:
     """
     Get or create a model instance with lazy loading and caching.
     
@@ -76,7 +79,7 @@ def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeM
                 top_p=ollama_generation_config["top_p"],
                 top_k=ollama_generation_config["top_k"],
                 num_predict=ollama_generation_config["num_predict"],
-                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+                system_instruction=SYSTEM_PROMPT,
             )
         elif model_name == "deepseek-r1:14b":
             _MODEL_INSTANCES[model_name] = OllamaLLM(
@@ -85,7 +88,7 @@ def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeM
                 top_p=ollama_generation_config["top_p"],
                 top_k=ollama_generation_config["top_k"],
                 num_predict=ollama_generation_config["num_predict"],
-                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+                system_instruction=SYSTEM_PROMPT,
             )
         elif model_name == "gemini-2.0-flash":
             if not GEMINI_AVAILABLE:
@@ -94,7 +97,7 @@ def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeM
             _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
                 model_name="gemini-2.0-flash",
                 generation_config=gemini_generation_config,
-                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+                system_instruction=SYSTEM_PROMPT,
             )
         else:
             raise ValueError(f"Invalid model: {model_name}")
@@ -106,7 +109,7 @@ def check_llm_answer(
         question: str, 
         ground_truth_answer: str,
         llm_answer: str,
-        model: SefCheckerModel = None
+        model: SelfCheckerModel = None
     ) -> SelfCheckerAnswer:
     """
     Check if the LLM's reasoning/answer aligns with the ground truth answer.
@@ -135,17 +138,14 @@ def check_llm_answer(
         return "Undetermined"
     
     prompt = f"""
-Question: {question}
-Answer: {ground_truth_answer}
-Reasoning: {llm_answer}
+Question:
+{question}
 
-Evaluate if the LLM's answer captures the key information and meaning from the ground truth answer.
-Consider:
-1. Factual accuracy compared to ground truth
-2. Key concepts coverage
-3. No contradictions with ground truth
+Ground Truth Answer: 
+{ground_truth_answer}
 
-Please respond with ONLY 'Yes' if the LLM's answer is sufficiently aligned with ground truth, or 'No' if there are significant discrepancies.
+Generated Answer: 
+{llm_answer}
 """
     
     try:
@@ -200,7 +200,7 @@ def check_retrieval_chunks(
         ground_truth_answer: str,
         retrieval_chunks: List[Document],
         top_k: Union[int, List[int]] = None,
-        model: SefCheckerModel = None
+        model: SelfCheckerModel = None
     ) -> Union[SelfCheckerAnswer, dict[int, SelfCheckerAnswer]]:
     """
     Check if the retrieved chunks provide enough information to answer the question.
