@@ -43,7 +43,7 @@ class LLMController:
         self.llm = self._init_llm_models()
         self.embedding = self._init_embedding_models(embedding_id)
 
-    def _init_llm_models(self) -> OllamaLLM:
+    def _init_llm_models(self) -> OllamaLLM | genai.GenerativeModel:
         """Get the model config for a given model name
         
         Args:
