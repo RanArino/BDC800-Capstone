@@ -11,7 +11,7 @@ import google.generativeai as genai
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.documents import Document
 
-from core.evaluation.schema import SelfCheckerAnswer, SefCheckerModel
+from core.evaluation.schema import SelfCheckerAnswer, SelfCheckerModel
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
@@ -21,6 +21,9 @@ DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "phi4:
 
 # Flag to track if Gemini is available
 GEMINI_AVAILABLE = False
+
+# Systen prompt
+SYSTEM_PROMPT = """You are an AI evaluator. Your task is to determine if the 'Generated Answer' is factually correct and consistent with the 'Ground Truth Answer' for the given 'Question'. Respond ONLY with "Yes" or "No". Do not provide explanations or any other text."""
 
 # Try to configure Gemini if API key is available
 try:
@@ -76,7 +79,7 @@ def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM,
                 top_p=ollama_generation_config["top_p"],
                 top_k=ollama_generation_config["top_k"],
                 num_predict=ollama_generation_config["num_predict"],
-                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+                system_instruction=SYSTEM_PROMPT,
             )
         elif model_name == "deepseek-r1:14b":
             _MODEL_INSTANCES[model_name] = OllamaLLM(
@@ -85,7 +88,7 @@ def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM,
                 top_p=ollama_generation_config["top_p"],
                 top_k=ollama_generation_config["top_k"],
                 num_predict=ollama_generation_config["num_predict"],
-                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+                system_instruction=SYSTEM_PROMPT,
             )
         elif model_name == "gemini-2.0-flash":
             if not GEMINI_AVAILABLE:
@@ -94,7 +97,7 @@ def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM,
             _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
                 model_name="gemini-2.0-flash",
                 generation_config=gemini_generation_config,
-                system_instruction="Given the following question, answer, and reasoning, determine if the reasoning for the answer is logically valid and consistent with question and the answer.\\",
+                system_instruction=SYSTEM_PROMPT,
             )
         else:
             raise ValueError(f"Invalid model: {model_name}")
@@ -135,17 +138,14 @@ def check_llm_answer(
         return "Undetermined"
     
     prompt = f"""
-Question: {question}
-Answer: {ground_truth_answer}
-Reasoning: {llm_answer}
+Question:
+{question}
 
-Evaluate if the LLM's answer captures the key information and meaning from the ground truth answer.
-Consider:
-1. Factual accuracy compared to ground truth
-2. Key concepts coverage
-3. No contradictions with ground truth
+Ground Truth Answer: 
+{ground_truth_answer}
 
-Please respond with ONLY 'Yes' if the LLM's answer is sufficiently aligned with ground truth, or 'No' if there are significant discrepancies.
+Generated Answer: 
+{llm_answer}
 """
     
     try:
