@@ -55,7 +55,7 @@ ollama_generation_config = {
 # Lazy loading model cache
 _MODEL_INSTANCES = {}
 
-def get_model(model_name: SefCheckerModel) -> Union[OllamaLLM, genai.GenerativeModel, None]:
+def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM, genai.GenerativeModel, None]:
     """
     Get or create a model instance with lazy loading and caching.
     
@@ -106,7 +106,7 @@ def check_llm_answer(
         question: str, 
         ground_truth_answer: str,
         llm_answer: str,
-        model: SefCheckerModel = None
+        model: SelfCheckerModel = None
     ) -> SelfCheckerAnswer:
     """
     Check if the LLM's reasoning/answer aligns with the ground truth answer.
@@ -200,7 +200,7 @@ def check_retrieval_chunks(
         ground_truth_answer: str,
         retrieval_chunks: List[Document],
         top_k: Union[int, List[int]] = None,
-        model: SefCheckerModel = None
+        model: SelfCheckerModel = None
     ) -> Union[SelfCheckerAnswer, dict[int, SelfCheckerAnswer]]:
     """
     Check if the retrieved chunks provide enough information to answer the question.
