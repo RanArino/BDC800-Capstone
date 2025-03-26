@@ -207,14 +207,13 @@ class BaseRAGFramework(ABC):
             self.logger.debug(f"Created context from {len(retrieved_docs)} documents")
             
             # Generate prompt
-            prompt = f"""Based on the following context, please answer the question.
-            
-Context:
+            prompt = f"""Context:
 {context}
 
-Question: {query}
+Question:
+{query}
 
-Answer:"""
+Based *strictly* on the provided context, answer the question directly and concisely. If the context does not contain the information to answer the question, state that the answer is not found in the context."""
             
             # Generate answer using LLM
             self.logger.debug("Generating answer using LLM")
