@@ -14,9 +14,9 @@ core/datasets/data/**/qas.json
 core/datasets/data/**/documents_test.json
 core/datasets/data/**/qas_test.json
 ## under experiments/
-experiments/detailed_dfs/
-experiments/metrics/
-experiments/responses/
+experiments/detailed_dfs**/
+experiments/metrics**/
+experiments/responses**/
 experiments/**.txt
 
 # our notes
