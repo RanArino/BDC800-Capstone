@@ -11,7 +11,7 @@ from statistics import mean
 from langchain_core.documents import Document
 
 from .self_checker import check_retrieval_chunks
-from core.evaluation.schema import RankCutOff, SelfCheckerAnswer
+from core.evaluation.schema import RankCutOff, SelfCheckerModel
 from core.logger.logger import get_logger
 
 logger = get_logger(__name__)
@@ -25,7 +25,7 @@ def calculate_retrieval_metrics(
     relevant_doc_ids: Set[str],
     k_values: List[int] = [1, 3, 5, 10],
     llm_eval_enabled: bool = False,
-    llm_model: Optional[str] = None
+    llm_model: Optional[SelfCheckerModel] = None
 ) -> Tuple[Dict[str, Dict[RankCutOff, float]], List[Dict[str, Dict[RankCutOff, float]]]]:
     """
     Calculate all retrieval metrics for multiple k values.

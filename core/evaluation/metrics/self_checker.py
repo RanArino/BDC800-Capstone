@@ -200,7 +200,7 @@ def check_retrieval_chunks(
         ground_truth_answer: str,
         retrieval_chunks: List[Document],
         top_k: Union[int, List[int]] = None,
-        model: SelfCheckerModel = None
+        model: Optional[SelfCheckerModel] = None
     ) -> Union[SelfCheckerAnswer, dict[int, SelfCheckerAnswer]]:
     """
     Check if the retrieved chunks provide enough information to answer the question.
