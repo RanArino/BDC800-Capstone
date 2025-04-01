@@ -1,13 +1,24 @@
 # core/configs/rag_reasoning_model.yaml
 
-# Compare the performance of different LLMs for RAG.
-# - whether the reasoning model (deepseek-r1-8b) is better than the normal model
-# - whether the large model (phi4-14b) is better than the small model (llama3.1-8b)
-#
-# Tested on IntraDocumentQA (qasper) & InterDocumentQA (Frames).
+# Compare the performance of different local LLMs for RAG.
+
+# IntraDocumentQA & llama3.1 (8b)
+simple_rag_02_01:
+  dataset:
+    name: qasper
+    number_of_docs: 200
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: llama3.1
 
 #  IntraDocumentQA & phi4 (14B)
-simple_rag_02_01:
+simple_rag_02_02:
   dataset: 
     name: qasper
     number_of_docs: 200
@@ -22,7 +33,7 @@ simple_rag_02_01:
     llm_id: phi4
 
 # IntraDocumentQA & DeepSeek-R1-8B
-simple_rag_02_02:
+simple_rag_02_03:
   dataset:
     name: qasper
     number_of_docs: 200
@@ -36,8 +47,23 @@ simple_rag_02_02:
     top_k: 5
     llm_id: deepseek-r1-8b
 
+# InterDocumentQA & llama3.1
+simple_rag_02_04:
+  dataset:
+    name: frames
+    number_of_qas: 400
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
 # InterDocumentQA & phi4 (14b)
-simple_rag_02_03:
+simple_rag_02_05:
   dataset:
     name: frames
     number_of_qas: 400
@@ -52,7 +78,7 @@ simple_rag_02_03:
     llm_id: phi4
 
 # InterDocumentQA & DeepSeek-R1-8B
-simple_rag_02_04:
+simple_rag_02_06:
   dataset:
     name: frames
     number_of_qas: 400
@@ -65,3 +91,4 @@ simple_rag_02_04:
     faiss_search: "flatl2"
     top_k: 10
     llm_id: deepseek-r1-8b
+
