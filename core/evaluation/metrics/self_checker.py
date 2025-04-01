@@ -8,6 +8,8 @@ and consistent with the given question using Gemini AI.
 import os
 from typing import Literal, Union, Optional, List
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.documents import Document
 
@@ -17,7 +19,7 @@ from core.logger.logger import get_logger
 logger = get_logger(__name__)
 
 # Configuration options - can be overridden with environment variables
-DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "phi4:14b")
+DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "gemini-2.0-flash")
 
 # Flag to track if Gemini is available
 GEMINI_AVAILABLE = False
@@ -94,10 +96,17 @@ def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM,
             if not GEMINI_AVAILABLE:
                 logger.warning(f"Cannot initialize {model_name}: Gemini is not available")
                 return None
+            safety_settings = {
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
+            }
             _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
                 model_name="gemini-2.0-flash",
                 generation_config=gemini_generation_config,
                 system_instruction=SYSTEM_PROMPT,
+                safety_settings=safety_settings
             )
         else:
             raise ValueError(f"Invalid model: {model_name}")
@@ -109,7 +118,7 @@ def check_llm_answer(
         question: str, 
         ground_truth_answer: str,
         llm_answer: str,
-        model: SelfCheckerModel = None
+        model: Optional[SelfCheckerModel] = None
     ) -> SelfCheckerAnswer:
     """
     Check if the LLM's reasoning/answer aligns with the ground truth answer.
@@ -156,12 +165,18 @@ Generated Answer:
         
         def get_response(prompt_text: str) -> str:
             """Get response from model and normalize it"""
-            if isinstance(model_instance, genai.GenerativeModel):
-                response = chat_session.send_message(prompt_text)
-                return response.text.strip().lower()
-            else:  # OllamaLLM
-                response = model_instance.invoke(prompt_text)
-                return response.strip().lower()
+            try:
+                if isinstance(model_instance, genai.GenerativeModel):
+                    response = chat_session.send_message(prompt_text)
+                    return response.text.strip().lower()
+                else:  # OllamaLLM
+                    response = model_instance.invoke(prompt_text)
+                    return response.strip().lower()
+            except Exception as e:
+                if "BLOCKLIST" in str(e):
+                    logger.warning(f"BLOCKLIST error encountered in self-checker (qa_id: {qa_id}), skipping check")
+                    return "no"  # Default to "no" for safety
+                raise
         
         def check_response(response_text: str) -> Optional[SelfCheckerAnswer]:
             """Check if response contains yes/no and return appropriate result"""
@@ -200,7 +215,7 @@ def check_retrieval_chunks(
         ground_truth_answer: str,
         retrieval_chunks: List[Document],
         top_k: Union[int, List[int]] = None,
-        model: SelfCheckerModel = None
+        model: Optional[SelfCheckerModel] = None
     ) -> Union[SelfCheckerAnswer, dict[int, SelfCheckerAnswer]]:
     """
     Check if the retrieved chunks provide enough information to answer the question.
@@ -320,12 +335,18 @@ Please respond with ONLY 'Yes' if the retrieved chunks provide sufficient inform
         
         def get_response(prompt_text: str) -> str:
             """Get response from model and normalize it"""
-            if isinstance(model_instance, genai.GenerativeModel):
-                response = chat_session.send_message(prompt_text)
-                return response.text.strip().lower()
-            else:  # OllamaLLM
-                response = model_instance.invoke(prompt_text)
-                return response.strip().lower()
+            try:
+                if isinstance(model_instance, genai.GenerativeModel):
+                    response = chat_session.send_message(prompt_text)
+                    return response.text.strip().lower()
+                else:  # OllamaLLM
+                    response = model_instance.invoke(prompt_text)
+                    return response.strip().lower()
+            except Exception as e:
+                if "BLOCKLIST" in str(e):
+                    logger.warning(f"BLOCKLIST error encountered in retrieval-checker (qa_id: {qa_id}), skipping check")
+                    return "no"  # Default to "no" for safety
+                raise
         
         def check_response(response_text: str) -> Optional[float]:
             """Check if response contains yes/no and return appropriate result"""

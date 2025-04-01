@@ -3,7 +3,7 @@
 from pydantic import BaseModel, Field
 from typing import Literal
 
-AVAILABLE_LLMS = Literal["llama3.1:8b", "phi4:14b", "deepseek-r1:8b", "deepseek-r1:14b"]
+AVAILABLE_LLMS = Literal["llama3.1:8b", "phi4:14b", "deepseek-r1:8b", "deepseek-r1:14b", "gemini-1.5-flash-8b"]
 AVAILABLE_EMBEDDINGS = Literal["sentence-transformers/multi-qa-mpnet-base-cos-v1", "text-embedding-005"]
 AVAILABLE_PROVIDERS = Literal["ollama", "huggingface", "google"]
 

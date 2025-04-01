@@ -12,6 +12,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_ollama.llms import OllamaLLM
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 from core.utils.path import get_project_root
 from .schema import LLMConfig, EmbeddingConfig
@@ -57,7 +58,17 @@ class LLMController:
         """
         if self.llm_config.model_name.startswith("gemini"):
             genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-            return genai.GenerativeModel(model_name="gemini-1.5-flash-8b")
+            safety_settings = {
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
+            }
+            return genai.GenerativeModel(
+                model_name="gemini-1.5-flash-8b",
+                safety_settings=safety_settings,
+                system_instruction=SYSTEM_PROMPT
+                )
 
         else:
             return OllamaLLM(model=self.llm_config.model_name, system_instruction=SYSTEM_PROMPT)
@@ -119,8 +130,14 @@ class LLMController:
             Generated text response with <think></think> tags removed
         """
         if isinstance(self.llm, genai.GenerativeModel):
-            chat_session = self.llm.start_chat(history=[])
-            return chat_session.send_message(prompt).text
+            try:
+                chat_session = self.llm.start_chat(history=[])
+                return chat_session.send_message(prompt).text
+            except Exception as e:
+                # If BLOCKLIST error occurs, return empty string or appropriate fallback
+                if "BLOCKLIST" in str(e):
+                    return ""  # or return appropriate fallback message
+                raise  # re-raise other exceptions
         else:
             # Get raw response from LLM
             raw_response = self.llm.invoke(prompt)

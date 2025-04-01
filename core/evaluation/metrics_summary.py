@@ -13,6 +13,8 @@ import pandas as pd
 from collections import defaultdict
 
 from core.datasets.schema import IntraDocumentQA, InterDocumentQA
+from core.evaluation.schema import SelfCheckerModel
+
 # Import RAGResponse only for type checking to avoid circular imports
 if TYPE_CHECKING:
     from core.frameworks.schema import RAGResponse
@@ -41,7 +43,7 @@ def calculate_metrics_for_qa(
     rouge_types: List[RougeType] = ['rouge1', 'rouge2', 'rougeL'],
     rouge_metric_types: List[RougeMetricType] = ['precision', 'recall', 'fmeasure'],
     llm_eval_enabled: bool = True,
-    llm_model: str = 'phi4:14b'
+    llm_model: Optional[SelfCheckerModel] = None
 ) -> MetricsSummary:
     """
     Computes retrieval and generation metrics for a QA pair and its RAG response.

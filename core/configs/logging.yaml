@@ -79,7 +79,7 @@ loggers:
     propagate: false
 
   core.frameworks:
-    level: INFO
+    level: WARNING
     handlers: [console, frameworks_file]
     propagate: false
 
