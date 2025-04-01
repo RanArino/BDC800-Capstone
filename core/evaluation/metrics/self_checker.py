@@ -97,10 +97,10 @@ def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM,
                 logger.warning(f"Cannot initialize {model_name}: Gemini is not available")
                 return None
             safety_settings = {
-                HarmCategory.HARM_CATEGORY_HARASSMENT: "BLOCK_NONE",
-                HarmCategory.HARM_CATEGORY_HATE_SPEECH: "BLOCK_NONE",
-                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: "BLOCK_NONE",
-                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: "BLOCK_NONE"
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
             }
             _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
                 model_name="gemini-2.0-flash",
@@ -165,12 +165,18 @@ Generated Answer:
         
         def get_response(prompt_text: str) -> str:
             """Get response from model and normalize it"""
-            if isinstance(model_instance, genai.GenerativeModel):
-                response = chat_session.send_message(prompt_text)
-                return response.text.strip().lower()
-            else:  # OllamaLLM
-                response = model_instance.invoke(prompt_text)
-                return response.strip().lower()
+            try:
+                if isinstance(model_instance, genai.GenerativeModel):
+                    response = chat_session.send_message(prompt_text)
+                    return response.text.strip().lower()
+                else:  # OllamaLLM
+                    response = model_instance.invoke(prompt_text)
+                    return response.strip().lower()
+            except Exception as e:
+                if "BLOCKLIST" in str(e):
+                    logger.warning(f"BLOCKLIST error encountered in self-checker (qa_id: {qa_id}), skipping check")
+                    return "no"  # Default to "no" for safety
+                raise
         
         def check_response(response_text: str) -> Optional[SelfCheckerAnswer]:
             """Check if response contains yes/no and return appropriate result"""
@@ -329,12 +335,18 @@ Please respond with ONLY 'Yes' if the retrieved chunks provide sufficient inform
         
         def get_response(prompt_text: str) -> str:
             """Get response from model and normalize it"""
-            if isinstance(model_instance, genai.GenerativeModel):
-                response = chat_session.send_message(prompt_text)
-                return response.text.strip().lower()
-            else:  # OllamaLLM
-                response = model_instance.invoke(prompt_text)
-                return response.strip().lower()
+            try:
+                if isinstance(model_instance, genai.GenerativeModel):
+                    response = chat_session.send_message(prompt_text)
+                    return response.text.strip().lower()
+                else:  # OllamaLLM
+                    response = model_instance.invoke(prompt_text)
+                    return response.strip().lower()
+            except Exception as e:
+                if "BLOCKLIST" in str(e):
+                    logger.warning(f"BLOCKLIST error encountered in retrieval-checker (qa_id: {qa_id}), skipping check")
+                    return "no"  # Default to "no" for safety
+                raise
         
         def check_response(response_text: str) -> Optional[float]:
             """Check if response contains yes/no and return appropriate result"""

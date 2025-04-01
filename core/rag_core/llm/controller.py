@@ -59,10 +59,10 @@ class LLMController:
         if self.llm_config.model_name.startswith("gemini"):
             genai.configure(api_key=os.environ["GEMINI_API_KEY"])
             safety_settings = {
-                HarmCategory.HARM_CATEGORY_HARASSMENT: "BLOCK_NONE",
-                HarmCategory.HARM_CATEGORY_HATE_SPEECH: "BLOCK_NONE",
-                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: "BLOCK_NONE",
-                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: "BLOCK_NONE"
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
             }
             return genai.GenerativeModel(
                 model_name="gemini-1.5-flash-8b",
@@ -130,8 +130,14 @@ class LLMController:
             Generated text response with <think></think> tags removed
         """
         if isinstance(self.llm, genai.GenerativeModel):
-            chat_session = self.llm.start_chat(history=[])
-            return chat_session.send_message(prompt).text
+            try:
+                chat_session = self.llm.start_chat(history=[])
+                return chat_session.send_message(prompt).text
+            except Exception as e:
+                # If BLOCKLIST error occurs, return empty string or appropriate fallback
+                if "BLOCKLIST" in str(e):
+                    return ""  # or return appropriate fallback message
+                raise  # re-raise other exceptions
         else:
             # Get raw response from LLM
             raw_response = self.llm.invoke(prompt)
