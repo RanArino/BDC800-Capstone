@@ -9,7 +9,6 @@
 scaler_rag_01_01:
   dataset: 
     name: qasper
-    number_of_docs: 200
   chunker:
     mode: fixed
     size: 100
@@ -23,13 +22,12 @@ scaler_rag_01_01:
   retrieval_generation:
     faiss_search: "flatl2"
     top_k: 5
-    llm_id: llama3.1
+    llm_id: gemini-1.5-flash-8b
 
 # IntraDocumentQA & Sentence Chunking
 scaler_rag_01_02:
   dataset:
     name: qasper
-    number_of_docs: 200
   chunker:
     mode: sentence
     size: 100
@@ -43,13 +41,17 @@ scaler_rag_01_02:
   retrieval_generation:
     faiss_search: "flatl2"
     top_k: 5
-    llm_id: llama3.1
+    llm_id: gemini-1.5-flash-8b
 
 # InterDocumentQA & Fixed Chunking
 scaler_rag_01_03:
   dataset:
     name: frames
-    number_of_qas: 400
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
   chunker:
     mode: fixed
     size: 100
@@ -63,13 +65,17 @@ scaler_rag_01_03:
   retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
-    llm_id: llama3.1
+    llm_id: gemini-1.5-flash-8b
 
 # InterDocumentQA & Sentence Chunking
 scaler_rag_01_04:
   dataset:
     name: frames
-    number_of_qas: 400
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
   chunker:
     mode: sentence
     size: 100
@@ -83,4 +89,42 @@ scaler_rag_01_04:
   retrieval_generation:
     faiss_search: "flatl2"
     top_k: 10
-    llm_id: llama3.1
+    llm_id: gemini-1.5-flash-8b
+
+# IntraDocumentQA(NarrativeQA) & Sentence Chunking
+scaler_rag_01_05:
+  dataset:
+    name: narrativeqa
+    number_of_docs: 100
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: gemini-1.5-flash-8b
+
+# InterDocumentQA(MultiHopRAG) & Sentence Chunking
+scaler_rag_01_06:
+  dataset:
+    name: multihoprag
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: gemini-1.5-flash-8b
