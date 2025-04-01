@@ -8,6 +8,8 @@ and consistent with the given question using Gemini AI.
 import os
 from typing import Literal, Union, Optional, List
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.documents import Document
 
@@ -17,7 +19,7 @@ from core.logger.logger import get_logger
 logger = get_logger(__name__)
 
 # Configuration options - can be overridden with environment variables
-DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "phi4:14b")
+DEFAULT_SELF_CHECKER_MODEL = os.environ.get("DEFAULT_SELF_CHECKER_MODEL", "gemini-2.0-flash")
 
 # Flag to track if Gemini is available
 GEMINI_AVAILABLE = False
@@ -94,10 +96,17 @@ def get_model(model_name: Optional[SelfCheckerModel] = None) -> Union[OllamaLLM,
             if not GEMINI_AVAILABLE:
                 logger.warning(f"Cannot initialize {model_name}: Gemini is not available")
                 return None
+            safety_settings = {
+                HarmCategory.HARM_CATEGORY_HARASSMENT: "BLOCK_NONE",
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: "BLOCK_NONE",
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: "BLOCK_NONE",
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: "BLOCK_NONE"
+            }
             _MODEL_INSTANCES[model_name] = genai.GenerativeModel(
                 model_name="gemini-2.0-flash",
                 generation_config=gemini_generation_config,
                 system_instruction=SYSTEM_PROMPT,
+                safety_settings=safety_settings
             )
         else:
             raise ValueError(f"Invalid model: {model_name}")
@@ -109,7 +118,7 @@ def check_llm_answer(
         question: str, 
         ground_truth_answer: str,
         llm_answer: str,
-        model: SelfCheckerModel = None
+        model: Optional[SelfCheckerModel] = None
     ) -> SelfCheckerAnswer:
     """
     Check if the LLM's reasoning/answer aligns with the ground truth answer.

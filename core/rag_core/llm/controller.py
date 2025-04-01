@@ -12,6 +12,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_ollama.llms import OllamaLLM
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 from core.utils.path import get_project_root
 from .schema import LLMConfig, EmbeddingConfig
@@ -57,7 +58,17 @@ class LLMController:
         """
         if self.llm_config.model_name.startswith("gemini"):
             genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-            return genai.GenerativeModel(model_name="gemini-1.5-flash-8b")
+            safety_settings = {
+                HarmCategory.HARM_CATEGORY_HARASSMENT: "BLOCK_NONE",
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: "BLOCK_NONE",
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: "BLOCK_NONE",
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: "BLOCK_NONE"
+            }
+            return genai.GenerativeModel(
+                model_name="gemini-1.5-flash-8b",
+                safety_settings=safety_settings,
+                system_instruction=SYSTEM_PROMPT
+                )
 
         else:
             return OllamaLLM(model=self.llm_config.model_name, system_instruction=SYSTEM_PROMPT)
