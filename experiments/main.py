@@ -1,5 +1,10 @@
 # experiments/main.py
 
+"""
+Run the RAG framework experiment.
+Check the model configuraiton on `core/configs`
+"""
+
 from experiments.base import run_experiment
 
 def run_simple_rag_sentences():
@@ -63,9 +68,9 @@ def run_scaler_v1_rag_comparison():
 
 if __name__ == "__main__":
     # run experiments
-    # run_simple_rag_sentences()
+    run_simple_rag_sentences()
     # run_simple_rag_reasoning()
     # run_scaler_rag_sentences()
     # run_scaler_rag_reasoning()
-    run_scaler_rag_dim_reduction()
+    # run_scaler_rag_dim_reduction()
     # run_scaler_v1_rag_comparison()
