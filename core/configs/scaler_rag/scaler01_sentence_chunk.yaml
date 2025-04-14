@@ -50,7 +50,7 @@ scaler_rag_01_03:
     number_of_qas: 500
   summarizer:
     llm_id: llama3.2:1b
-    output_tokens: 256
+    output_tokens: 512
     embedding_id: huggingface-multi-qa-mpnet
   chunker:
     mode: fixed
@@ -74,7 +74,7 @@ scaler_rag_01_04:
     number_of_qas: 500
   summarizer:
     llm_id: llama3.2:1b
-    output_tokens: 256
+    output_tokens: 512
     embedding_id: huggingface-multi-qa-mpnet
   chunker:
     mode: sentence
@@ -115,7 +115,7 @@ scaler_rag_01_06:
     number_of_qas: 500
   summarizer:
     llm_id: llama3.2:1b
-    output_tokens: 256
+    output_tokens: 512
     embedding_id: huggingface-multi-qa-mpnet
   chunker:
     mode: sentence
