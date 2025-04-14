@@ -153,7 +153,8 @@ class BaseRAGFramework(ABC):
                 # Calculate metrics
                 metrics = calculate_metrics_for_qa(
                     qa=qa,
-                    response=response
+                    response=response,
+                    llm_model='gemini-2.0-flash'
                 )
                 metrics_list.append(metrics)
                 responses.append(response)
