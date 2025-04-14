@@ -1,0 +1,75 @@
+# core/configs/scaler_v1_rag/test.yaml
+
+# Experiment test
+TEST02_scaler_v2_rag_01:
+  dataset:
+    name: multihoprag
+    number_of_qas: 50
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+    dim_reduction:
+      method: "pca"
+      n_components: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+TEST02_scaler_v2_rag_02:
+  dataset:
+    name: frames
+    number_of_qas: 50
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "gmm"
+    dim_reduction:
+      method: "pca"
+      n_components: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: llama3.1
+
+
+
+# Simple RAG test
+TEST_scaler_v2_rag_frames:
+  dataset:
+    name: frames
+    number_of_qas: 10
+    selection_mode: sequential
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: fixed
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "gmm"
+    dim_reduction:
+      method: "pca"
+      n_components: 15
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 5
+    llm_id: llama3.1
