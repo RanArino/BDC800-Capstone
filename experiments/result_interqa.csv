@@ -1,0 +1,8 @@
+experiment,retrieval/query,rouge1_recall,rouge2_recall,rougeL_recall,cosine_similarity,self_check_gen,self_check_ret@1,self_check_ret@3,self_check_ret@5,self_check_ret@10
+Simple RAG (Inter-Docs-Fixed-Llama3.1),0.1921,0.4192,0.1792,0.398,0.2908,0.2275,0.08,0.175,0.265,0.3225
+Simple RAG (Inter-Docs-Sent-Llama3.1),0.2699,0.4245,0.2038,0.4031,0.2925,0.23,0.1,0.265,0.32,0.4325
+Simple RAG (Inter-Docs-Sent-Phi4),0.5396,0.5556,0.2742,0.5298,0.3056,0.4125,-,-,-,-
+Simple RAG (Inter-Docs-Sent-DeepSeekR1),0.1482,0.4351,0.1984,0.4152,0.312,0.295,-,-,-,-
+Scaler RAG (Inter-Docs-Fixed-Kmean-PCA),0.6706,0.3776,0.1623,0.3563,0.2789,0.255,0.0625,0.1475,0.1775,0.23
+Scaler RAG (Inter-Docs-Sent-Kmean-PCA),0.7823,0.3942,0.1939,0.3729,0.2793,0.24,0.0875,0.2075,0.29,0.35
+Scaler RAG (Inter-Docs-Sent-GMM-PCA),0.5997,0.4066,0.1767,0.3863,0.2836,0.2625,0.105,0.2325,0.2775,0.355

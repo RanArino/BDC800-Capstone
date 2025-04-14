@@ -2,6 +2,7 @@
 
 # test files
 test.ipynb
+update_llm_eval.py
 
 # locally generated files 
 ## vector stores

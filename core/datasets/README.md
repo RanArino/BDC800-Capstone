@@ -10,7 +10,7 @@ These datasets focus on retrieving information from within a single document con
 
 #### NarrativeQA (Kocisky et al., 2017)
 - **Description**: Question-answering dataset based on Wikipedia articles
-- **Structure**:
+- **Structure**
   - `documents.csv`: Contains Wikipedia article links
   - `qas.csv`: Question-answer pairs with document references
 - **Dataset Size**: 46,765 QA pairs
@@ -47,7 +47,17 @@ These datasets require retrieving and synthesizing information across multiple d
   - Includes prompts, answers, and Wikipedia reference links
 - **Source**: [FRAMES Benchmark on HuggingFace](https://huggingface.co/datasets/google/frames-benchmark)
 
-### References
+## Code Structure
+
+This directory contains the core Python code for loading, processing, and interacting with the datasets described above.
+
+- **`base.py`**: Defines the abstract base class (`BaseDataset`) that all specific dataset implementations inherit from. This ensures a consistent interface across different datasets.
+- **`schema.py`**: Contains data classes (`Document`, `Query`, `Answer`, etc.) used to structure the data loaded from the datasets.
+- **`__init__.py`**: Registers available dataset implementations and provides factory functions (e.g., `load_dataset`) for easy instantiation.
+- **`data/`**: This subdirectory is intended to store the actual dataset files (like CSVs, JSONs) or scripts to download them. _(Note: Actual data files are typically large and might be excluded from the repository; refer to specific dataset documentation for download instructions)._
+- **`test.ipynb`**: A Jupyter notebook containing examples and tests for using the dataset loaders and verifying their functionality.
+
+## References
 - Dasigi, P., Lo, K., Beltagy, I., Cohan, A., Smith, N. A., & Gardner, M. (2021). A dataset of information-seeking questions and answers anchored in research papers. In K. Toutanova, A. Rumshisky, L. Zettlemoyer, D. Hakkani-Tur, I. Beltagy, S. Bethard, R. Cotterell, T. Chakraborty, & Y. Zhou (Eds.), Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (pp. 4599–4610). Association for Computational Linguistics. https://doi.org/10.18653/v1/2021.naacl-main.365
 - Kočiský, T., Schwarz, J., Blunsom, P., Dyer, C., Hermann, K. M., Melis, G., & Grefenstette, E. (2018). The narrativeqa reading comprehension challenge. Transactions of the Association for Computational Linguistics, 6, 317-328.
 - Krishna, S., Krishna, K., Mohananey, A., Schwarcz, S., Stambler, A., Upadhyay, S., & Faruqui, M. (2024). Fact, fetch, and reason: A unified evaluation of retrieval-augmented generation. arXiv preprint arXiv:2409.12941.
