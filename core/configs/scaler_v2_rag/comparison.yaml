@@ -1,0 +1,85 @@
+# core/configs/scaler_v2_rag/comparison.yaml
+# Current setting is no dimensional reductions
+
+
+scaler_v2_rag_01_01:
+  dataset:
+    name: frames
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: gemini-1.5-flash-8b
+
+scaler_v2_rag_01_02:
+  dataset:
+    name: frames
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "gmm"
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: gemini-1.5-flash-8b
+
+scaler_v2_rag_01_03:
+  dataset:
+    name: multihoprag
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "kmeans"
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: gemini-1.5-flash-8b
+
+scaler_v2_rag_01_04:
+  dataset:
+    name: multihoprag
+    number_of_qas: 500
+  summarizer:
+    llm_id: llama3.2:1b
+    output_tokens: 256
+    embedding_id: huggingface-multi-qa-mpnet
+  chunker:
+    mode: sentence
+    size: 100
+    overlap: 0.2
+    embedding_id: huggingface-multi-qa-mpnet
+    clustering:
+      method: "gmm"
+  retrieval_generation:
+    faiss_search: "flatl2"
+    top_k: 10
+    llm_id: gemini-1.5-flash-8b
+
+  
