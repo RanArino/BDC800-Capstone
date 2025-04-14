@@ -127,19 +127,36 @@ class LLMController:
             prompt: Input text prompt
             
         Returns:
-            Generated text response with <think></think> tags removed
+            Generated text response, a specific message if skipped due to recitation,
+            or an empty string for other block reasons.
         """
         if isinstance(self.llm, genai.GenerativeModel):
             try:
                 chat_session = self.llm.start_chat(history=[])
-                return chat_session.send_message(prompt).text
+                response = chat_session.send_message(prompt)
+                # Check for recitation finish reason *after* successful message sending
+                # The exception might not always be raised, sometimes it's in the response object
+                if response.candidates and response.candidates[0].finish_reason == 'RECITATION':
+                     return "The answer is not found in the context.\n"
+                return response.text
             except Exception as e:
-                # If BLOCKLIST error occurs, return empty string or appropriate fallback
-                if "BLOCKLIST" in str(e):
-                    return ""  # or return appropriate fallback message
-                raise  # re-raise other exceptions
+                # Check if the exception message indicates a RECITATION block
+                # This covers cases where the API call itself fails due to recitation
+                if hasattr(e, 'finish_reason') and e.finish_reason == 'RECITATION':
+                     return "The answer is not found in the context.\n"
+                # A more robust check for recitation in the exception string if the above attribute doesn't exist
+                elif "finish_reason: RECITATION" in str(e): 
+                    return "The answer is not found in the context.\n"
+                # Check for other block reasons like safety or blocklist (optional handling)
+                # Covers cases where the API might raise exceptions for other blocks
+                elif "finish_reason:" in str(e) or "block_reason:" in str(e): 
+                    # Return empty string for other types of blocks (like safety)
+                    return "The answer is not found in the context.\n" 
+                else:
+                    # Re-raise unexpected exceptions
+                    raise 
         else:
-            # Get raw response from LLM
+            # Get raw response from Ollama LLM
             raw_response = self.llm.invoke(prompt)
             
             # Remove <think></think> tags and their content
