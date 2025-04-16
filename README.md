@@ -98,8 +98,8 @@ Experiments are defined by YAML configuration files located in `core/configs/`.
 -   **Files**: Each file (e.g., `rag01_sentence_chunk.yaml`) groups related experiment variations.
 -   **Sections**: Inside each file, distinct configurations (e.g., `simple_rag_01_01`, `simple_rag_01_02`) define specific parameters like:
     -   `dataset_name`: Which dataset to use (from `core/datasets`).
-    -   `llm_model_name`: The generator LLM (e.g., `ollama/llama3.1`, `phi4`).
-    -   `embedding_model_name`: The embedding model (e.g., `ollama/nomic-embed-text`).
+    -   `llm_model_name`: The generator LLM (e.g., `llama3.1`, `phi4`).
+    -   `embedding_model_name`: The embedding model (`huggingface-multi-qa-mpnet`).
     -   `retriever_k`: Number of documents to retrieve.
     -   Chunking parameters (`chunk_size`, `chunk_overlap`).
     -   Framework-specific settings are set on `core/frameworks/schema.py`; check this file to see which value can be set.
@@ -135,10 +135,8 @@ Check more detailed structure on `docs/folder_struct.md`
 │   ├── datasets/          # Dataset loading and processing modules
 │   ├── evaluation/        # Evaluation metrics, summarization, and visualization
 │   ├── frameworks/        # RAG framework implementations (Simple, Scaler)
-│   ├── generators/        # (Likely) Interfaces to generator LLMs
 │   ├── logger/            # Logging setup
 │   ├── rag_core/          # Foundational components (chunking, LLM interaction)
-│   ├── retrievers/        # (Likely) Retrieval strategy implementations
 │   └── utils/             # Utility functions (e.g., profiler)
 ├── experiments/           # Experiment execution scripts and results
 │   ├── main.py            # Main script to run experiment batches
