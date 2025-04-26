@@ -8,6 +8,13 @@ This repository contains the code and resources for the "BDC800 - Capstone Proje
 - [Nipun Ravindu Fernando Warnakulasuriya](https://github.com/Nipunfdo-git)
 - [Umer Aftab](https://github.com/uaftab101-git)
 
+## 📄 Project Resources  
+<a href="submission/Poster.pdf"><img src="submission/Poster.png" width="800"></a>
+
+- **[Link to Paper](submission/Paper.pdf)**: Read the final project paper.
+- **[Link to Presentation](submission/Presentation.pdf)**: Watch the project presentation.
+
+
 ## 🚀 Getting Started: Running Your Own RAG Experiments
 
 This guide will walk you through setting up the project environment and running the RAG experiments included in this repository.
