@@ -38,6 +38,9 @@ python -m venv .venv
 # Activate virtual environment
 .\.venv\Scripts\activate
 
+#Installing packages
+.venv\Scripts\python.exe -m pip install 'package' 
+
 # Install dependencies
 pip install -r requirements.txt
 ```
